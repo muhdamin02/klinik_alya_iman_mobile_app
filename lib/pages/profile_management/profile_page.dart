@@ -11,85 +11,92 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Page',
-            style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem(
-                  value: 'profile',
-                  child: ListTile(
-                    leading: Icon(Icons.list),
-                    title: Text('Profiles'),
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'history',
-                  child: ListTile(
-                    leading: Icon(Icons.list),
-                    title: Text('Appointment History'),
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'logout',
-                  child: ListTile(
-                    leading: Icon(Icons.logout),
-                    title: Text('Logout'),
-                  ),
-                ),
-              ];
-            },
-            onSelected: (value) {
-              if (value == 'profile') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListProfile(
-                      userId: profile.user_id,
-                    ),
-                  ),
-                );
-              } else if (value == 'history') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListAppointment(
-                      userId: profile.user_id,
-                      profile: profile,
-                    ),
-                  ),
-                );
-              } else if (value == 'logout') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Login(),
-                  ),
-                );
-              }
-            },
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent the user from navigating back
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title:
+              const Text('Profile Page', style: TextStyle(color: Colors.white)),
+          iconTheme: const IconThemeData(
+            color: Colors.white,
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Name: ${profile.f_name} ${profile.l_name}',
-                style: const TextStyle(fontSize: 20)),
-            Text('Date of Birth: ${profile.dob}',
-                style: const TextStyle(fontSize: 16)),
-            Text('Gender: ${profile.gender}',
-                style: const TextStyle(fontSize: 16))
-            // Add more details as needed
+          automaticallyImplyLeading: false,
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem(
+                    value: 'profile',
+                    child: ListTile(
+                      leading: Icon(Icons.list),
+                      title: Text('Profiles'),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'history',
+                    child: ListTile(
+                      leading: Icon(Icons.list),
+                      title: Text('Appointment History'),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: ListTile(
+                      leading: Icon(Icons.logout),
+                      title: Text('Logout'),
+                    ),
+                  ),
+                ];
+              },
+              onSelected: (value) {
+                if (value == 'profile') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListProfile(
+                        userId: profile.user_id,
+                      ),
+                    ),
+                  );
+                } else if (value == 'history') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListAppointment(
+                        userId: profile.user_id,
+                        profile: profile,
+                      ),
+                    ),
+                  );
+                } else if (value == 'logout') {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+                }
+              },
+            ),
           ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Name: ${profile.f_name} ${profile.l_name}',
+                  style: const TextStyle(fontSize: 20)),
+              Text('Date of Birth: ${profile.dob}',
+                  style: const TextStyle(fontSize: 16)),
+              Text('Gender: ${profile.gender}',
+                  style: const TextStyle(fontSize: 16))
+              // Add more details as needed
+            ],
+          ),
         ),
       ),
     );

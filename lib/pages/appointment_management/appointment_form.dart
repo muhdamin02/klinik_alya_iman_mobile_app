@@ -27,7 +27,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
       TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
 
   // ----------------------------------------------------------------------
   // Date Picker
