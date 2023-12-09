@@ -1,3 +1,4 @@
+import 'package:klinik_alya_iman_mobile_app/models/user.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/home.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/practitioner_pages/practitioner_home.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/startup/register.dart';
@@ -31,68 +32,49 @@ class _LoginState extends State<Login> {
       final password = _passwordController.text;
 
       // Call your authentication service to validate login credentials
-      _authService.login(username, password).then((success) {
+      _authService.login(username, password).then((success) async {
         if (success) {
-          _getUserID(username).then((id) {
-            // Store the user_id in the userId variable
-            setState(() {
-              userId = id;
-            });
+          List<Map<String, dynamic>> userData = await getUserData(username);
 
-            _getUserFName(username).then((fname) {
-              // Store the user_id in the userId variable
-              setState(() {
-                userFName = fname;
-              });
+          for (Map<String, dynamic> user in userData) {
+            userId = user['user_id'];
+            userFName = user['f_name'];
+            userLName = user['l_name'];
+            userEmail = user['email'];
+            userRole = user['role'];
+          }
 
-              _getUserLName(username).then((lname) {
-                // Store the user_id in the userId variable
-                setState(() {
-                  userLName = lname;
-                });
+          final user = User(
+            user_id: userId,
+            f_name: userFName ?? '',
+            l_name: userLName ?? '',
+            username: username,
+            password: password,
+            email: userEmail ?? '',
+            role: userRole ?? '',
+          );
 
-                _getUserEmail(username).then((email) {
-                  // Store the user_id in the userId variable
-                  setState(() {
-                    userEmail = email;
-                  });
-
-                  _getUserRole(username).then((role) {
-                    // Store the user_id in the userId variable
-                    setState(() {
-                      userRole = role;
-                    });
-
-                    if (userRole == 'practitioner') {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PractitionerHome(
-                            userId: userId!,
-                            userFName: userFName!,
-                            userLName: userLName!,
-                            userEmail: userEmail!,
-                          ),
-                        ),
-                      );
-                    } else if (role == 'patient') {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Home(
-                            userId: userId!,
-                            userFName: userFName!,
-                            userLName: userLName!,
-                            userEmail: userEmail!,
-                          ),
-                        ),
-                      );
-                    }
-                  });
-                });
-              });
-            });
-          });
+          if (userRole == 'practitioner') {
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PractitionerHome(
+                  user: user,
+                ),
+              ),
+            );
+          } else if (userRole == 'patient') {
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Home(
+                  user: user,
+                ),
+              ),
+            );
+          }
         } else {
           // Login failed, display error message
           showDialog(
@@ -217,6 +199,24 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
+// ----------------------------------------------------------------------
+// get user data
+
+Future<List<Map<String, dynamic>>> getUserData(String username) async {
+  final db = await DatabaseService().database;
+
+  // Fetch all columns for the user with the given username
+  final List<Map<String, dynamic>> result = await db.query(
+    'user',
+    where: 'username = ?',
+    whereArgs: [username],
+  );
+
+  return result;
+}
+
+// ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 // get user id

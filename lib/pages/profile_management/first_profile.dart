@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/models/user.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/create_profile.dart';
 
 class FirstProfile extends StatelessWidget {
-  final int userId;
-  final String userFName, userLName, userEmail;
+  final User user;
 
-  const FirstProfile(
-      {Key? key,
-      required this.userId,
-      required this.userFName,
-      required this.userLName,
-      required this.userEmail})
-      : super(key: key);
+  const FirstProfile({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +26,9 @@ class FirstProfile extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => CreateProfile(
-                      userId: userId,
-                      userFName: userFName,
-                      userLName: userLName,
+                      userId: user.user_id ?? 0,
+                      userFName: user.f_name,
+                      userLName: user.l_name,
                     ),
                   ),
                 );

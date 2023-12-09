@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/models/user.dart';
 
 class PractitionerHome extends StatelessWidget {
-  final int userId;
-  final String userFName;
-  final String userLName;
-  final String userEmail;
+  final User user;
 
   const PractitionerHome({
     Key? key,
-    required this.userId,
-    required this.userFName,
-    required this.userLName,
-    required this.userEmail,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -25,11 +20,11 @@ class PractitionerHome extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Welcome, $userFName $userLName!',
+            Text('Welcome, ${user.f_name} ${user.l_name}!',
                 style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 16.0),
-            Text('User ID: $userId', style: const TextStyle(fontSize: 16)),
-            Text('Email: $userEmail', style: const TextStyle(fontSize: 16)),
+            Text('User ID: ${user.user_id}', style: const TextStyle(fontSize: 16)),
+            Text('Email: ${user.email}', style: const TextStyle(fontSize: 16)),
             // Add more details specific to practitioners
           ],
         ),
