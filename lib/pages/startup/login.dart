@@ -1,4 +1,5 @@
 import 'package:klinik_alya_iman_mobile_app/pages/home.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/practitioner_pages/practitioner_home.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/startup/register.dart';
 import 'package:klinik_alya_iman_mobile_app/services/auth_service.dart';
 
@@ -14,7 +15,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int? userId;
-  String? userFName, userLName, userEmail;
+  String? userFName, userLName, userEmail, userRole;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -56,18 +57,38 @@ class _LoginState extends State<Login> {
                     userEmail = email;
                   });
 
-                  // Pass the arguments individually when navigating
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Home(
-                        userId: userId!,
-                        userFName: userFName!,
-                        userLName: userLName!,
-                        userEmail: userEmail!,
-                      ),
-                    ),
-                  );
+                  _getUserRole(username).then((role) {
+                    // Store the user_id in the userId variable
+                    setState(() {
+                      userRole = role;
+                    });
+
+                    if (userRole == 'practitioner') {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerHome(
+                            userId: userId!,
+                            userFName: userFName!,
+                            userLName: userLName!,
+                            userEmail: userEmail!,
+                          ),
+                        ),
+                      );
+                    } else if (role == 'patient') {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(
+                            userId: userId!,
+                            userFName: userFName!,
+                            userLName: userLName!,
+                            userEmail: userEmail!,
+                          ),
+                        ),
+                      );
+                    }
+                  });
                 });
               });
             });
@@ -278,6 +299,28 @@ Future<String?> _getUserEmail(String username) async {
 
   if (result.isNotEmpty) {
     return result.first['email'] as String?;
+  }
+
+  return null;
+}
+
+// ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+// get user role
+
+Future<String?> _getUserRole(String username) async {
+  final db = await DatabaseService().database;
+  final List<Map<String, dynamic>> result = await db.query(
+    'user',
+    columns: ['role'],
+    where: 'username = ?',
+    whereArgs: [username],
+    limit: 1,
+  );
+
+  if (result.isNotEmpty) {
+    return result.first['role'] as String?;
   }
 
   return null;

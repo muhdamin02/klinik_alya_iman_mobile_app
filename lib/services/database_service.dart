@@ -43,7 +43,7 @@ class DatabaseService {
   Future<void> _onCreate(Database db, int version) async {
     // user table
     await db.execute(
-      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL)',
+      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL, role TEXT NOT NULL)',
     );
 
     // profile table
@@ -54,6 +54,18 @@ class DatabaseService {
     // appointment table
     await db.execute(
       'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER, profile_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
+    );
+
+    await db.execute(
+      'INSERT INTO user (f_name, l_name, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)',
+      [
+        'Muhammad Shahid',
+        'Shamsul Anuar',
+        'abualyain',
+        'abualyain',
+        'abualyain@example.com',
+        'practitioner'
+      ],
     );
   }
 

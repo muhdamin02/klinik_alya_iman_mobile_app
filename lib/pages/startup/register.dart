@@ -89,6 +89,7 @@ class _RegisterState extends State<Register> {
         username: username,
         password: password,
         email: email,
+        role: 'patient',
       ),
     );
 
