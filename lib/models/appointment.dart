@@ -1,0 +1,38 @@
+// ignore_for_file: non_constant_identifier_names
+import 'dart:convert';
+
+class Appointment {
+  final int? appointment_id;
+  final String appointment_date;
+  final int user_id;
+  
+  Appointment({
+    this.appointment_id,
+    required this.appointment_date,
+    required this.user_id,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'appointment_id': appointment_id,
+      'appointment_date': appointment_date,
+      'user_id': user_id,
+    };
+  }
+
+  factory Appointment.fromMap(Map<String, dynamic> map) {
+    return Appointment(
+      appointment_id: map['appointment_id']?.toInt() ?? 0,
+      appointment_date: map['appointment_date'] ?? '',
+      user_id: map['user_id']?.toInt() ?? 0,
+    );
+  }
+  
+  String toJson() => json.encode(toMap());
+  factory Appointment.fromJson(String source) => Appointment.fromMap(json.decode(source));
+  // Implement toString to make it easier to see information about each appointment when using the print statement.
+  @override
+  String toString() {
+    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, user_id: $user_id)';
+  }
+}

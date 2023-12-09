@@ -1,0 +1,81 @@
+import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Klinik Alya Iman',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: const MaterialColor(
+            0xFF32a3cb,
+            <int, Color>{
+              50: Color(0xFF32a3cb),
+              100: Color(0xFF32a3cb),
+              200: Color(0xFF32a3cb),
+              300: Color(0xFF32a3cb),
+              400: Color(0xFF32a3cb),
+              500: Color(0xFF32a3cb),
+              600: Color(0xFF32a3cb),
+              700: Color(0xFF32a3cb),
+              800: Color(0xFF32a3cb),
+              900: Color(0xFF32a3cb),
+            },
+          ),
+        ).copyWith(
+          primary: const Color(0xFF32a3cb),
+          secondary: const Color(0xFF32a3cb),
+        ),
+        textTheme: const TextTheme(
+          // booking history details text
+          bodyMedium: TextStyle(
+            fontFamily: 'Coolvetica',
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
+          ),
+
+          // validator texts
+          bodySmall: TextStyle(
+            fontFamily: 'Coolvetica',
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+          ),
+
+          // submit and update button
+          labelLarge: TextStyle(
+            fontFamily: 'Coolvetica',
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
+          ),
+
+          // appbar
+          titleLarge: TextStyle(
+            fontFamily: 'Coolvetica',
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),
+
+          // placeholder text in textfields, checkbox tiles, dropdown options
+          titleMedium: TextStyle(
+            fontFamily: 'Coolvetica',
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ),
+      home: const Login(),
+    );
+  }
+}

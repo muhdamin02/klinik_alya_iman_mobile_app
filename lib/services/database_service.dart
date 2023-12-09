@@ -1,0 +1,194 @@
+import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
+import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
+import 'package:klinik_alya_iman_mobile_app/models/user.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+class DatabaseService {
+  Future<void> initialize() async {
+    _database = await _initDatabase();
+  }
+
+  // Singleton pattern
+  static final DatabaseService _databaseService = DatabaseService._internal();
+  factory DatabaseService() => _databaseService;
+  DatabaseService._internal();
+  static Database? _database;
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    // Initialize the DB first time it is accessed
+    _database = await _initDatabase();
+    return _database!;
+  }
+
+  Future<Database> _initDatabase() async {
+    final databasePath = await getDatabasesPath();
+    // Set the path to the database. Note: Using the `join` function from the
+    // `path` package is best practice to ensure the path is correctly
+    // constructed for each platform.
+    final path = join(databasePath, 'klinikalyaiman.db');
+    // Set the version. This executes the onCreate function and provides a
+    // path to perform database upgrades and downgrades.
+    return await openDatabase(
+      path,
+      onCreate: _onCreate,
+      version: 1,
+      onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
+    );
+  }
+
+  // When the database is first created, create a table to store user
+  // and a table to store appointment.
+  Future<void> _onCreate(Database db, int version) async {
+    // user table
+    await db.execute(
+      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL)',
+    );
+
+    // profile table
+    await db.execute(
+      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+    );
+
+    // assignment table
+    await db.execute(
+      'CREATE TABLE appointment(appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+    );
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// USER DATABASE ///////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Insert
+  Future<void> insertUser(User user) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'user',
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // check if username exists
+  Future<bool> checkUsernameExists(String username) async {
+    final db = await _databaseService.database;
+    final count = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM user WHERE username = ?',
+      [username],
+    ));
+    return count != null && count > 0;
+  }
+
+  // Check if email exists
+  Future<bool> checkEmailExists(String email) async {
+    final db = await _databaseService.database;
+    final count = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM user WHERE email = ?',
+      [email],
+    ));
+    return count != null && count > 0;
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// PROFILE DATABASE ////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Insert
+  Future<void> insertProfile(Profile profile) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'profile',
+      profile.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Retrieve
+  Future<List<Profile>> profile(int id) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'profile',
+      where: 'user_id = ?',
+      whereArgs: [id],
+    );
+    return List.generate(maps.length, (index) => Profile.fromMap(maps[index]));
+  }
+
+  // Update
+  Future<void> updateProfile(Profile profile) async {
+    final db = await _databaseService.database;
+    await db.update('profile', profile.toMap(),
+        where: 'profile_id = ?', whereArgs: [profile.profile_id]);
+  }
+
+  // Delete
+  Future<void> deleteProfile(int id) async {
+    final db = await _databaseService.database;
+    await db.delete('profile', where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Retrieve Profile Count
+  Future<int> getProfileCount(int userId) async {
+    final db = await _databaseService.database;
+    final profileCount = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM profile WHERE user_id = ?',
+      [userId],
+    ));
+
+    return profileCount ?? 0;
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// APPOINTMENT DATABASE ////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Insert
+  Future<void> insertAppointment(Appointment appointment) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'appointment',
+      appointment.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Retrieve
+  Future<List<Appointment>> appointment(int id) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'user_id = ?',
+      whereArgs: [id],
+    );
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Update
+  Future<void> updateAppointment(Appointment appointment) async {
+    final db = await _databaseService.database;
+    await db.update('appointment', appointment.toMap(),
+        where: 'appointment_id = ?', whereArgs: [appointment.appointment_id]);
+  }
+
+  // Delete
+  Future<void> deleteAppointment(int id) async {
+    final db = await _databaseService.database;
+    await db
+        .delete('appointment', where: 'appointment_id = ?', whereArgs: [id]);
+  }
+}
