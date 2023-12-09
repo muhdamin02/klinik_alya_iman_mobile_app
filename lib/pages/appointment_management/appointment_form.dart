@@ -1,4 +1,5 @@
 import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
+import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/list_appointment.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/list_profile.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
@@ -7,14 +8,12 @@ import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
 
 class AppointmentForm extends StatefulWidget {
   final int userId;
-  final String userFName, userLName, userEmail;
+  final Profile profile;
 
   const AppointmentForm(
       {Key? key,
       required this.userId,
-      required this.userFName,
-      required this.userLName,
-      required this.userEmail})
+      required this.profile})
       : super(key: key);
 
   @override
@@ -29,9 +28,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-
-  // List<bool> _selectedFlowerTypes = List.filled(5, false);
-  // String? _selectedArrangement;
 
   // ----------------------------------------------------------------------
   // Date Picker
@@ -65,6 +61,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
       final appointment = Appointment(
         appointment_date: appointmentDate,
         user_id: widget.userId,
+        profile_id: widget.profile.profile_id,
       );
 
       // ----------------------------------------------------------------------
@@ -93,6 +90,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                     MaterialPageRoute(
                       builder: (context) => ListAppointment(
                         userId: widget.userId,
+                        profile: widget.profile,
                       ),
                     ),
                   );
@@ -192,6 +190,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   MaterialPageRoute(
                     builder: (context) => ListAppointment(
                       userId: widget.userId,
+                      profile: widget.profile,
                     ),
                   ),
                 );
@@ -233,7 +232,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   controller: _firstNameController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
-                    labelText: widget.userFName,
+                    labelText: widget.profile.f_name,
                   ),
                   enabled: false,
                 ),
@@ -242,16 +241,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   controller: _lastNameController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
-                    labelText: widget.userLName,
-                  ),
-                  enabled: false,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: widget.userEmail,
+                    labelText: widget.profile.l_name,
                   ),
                   enabled: false,
                 ),

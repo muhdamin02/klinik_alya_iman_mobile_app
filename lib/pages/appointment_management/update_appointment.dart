@@ -87,6 +87,7 @@ class _UpdateBookingPageState extends State<UpdateBookingPage> {
         // arrangement: arrangement!,
         // flower_type: flowerTypes.join(', '),
         user_id: widget.appointment.user_id,
+        profile_id: widget.appointment.profile_id,
       );
 
       try {

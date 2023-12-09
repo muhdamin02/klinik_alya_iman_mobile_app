@@ -1,3 +1,4 @@
+import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/update_appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
@@ -5,8 +6,9 @@ import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
 
 class ListAppointment extends StatefulWidget {
   final int userId;
+  final Profile profile;
 
-  const ListAppointment({super.key, required this.userId});
+  const ListAppointment({super.key, required this.userId, required this.profile});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -27,7 +29,7 @@ class _ListAppointmentState extends State<ListAppointment> {
 
   Future<void> _fetchBookingHistory() async {
     List<Appointment> bookingHistory =
-        await DatabaseService().appointment(widget.userId);
+        await DatabaseService().appointment(widget.userId, widget.profile.profile_id);
     setState(() {
       _bookingHistory = bookingHistory;
     });

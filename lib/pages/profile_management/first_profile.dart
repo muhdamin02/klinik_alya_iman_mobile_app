@@ -25,7 +25,6 @@ class FirstProfile extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // Add your button click logic here
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -33,7 +32,6 @@ class FirstProfile extends StatelessWidget {
                       userId: userId,
                       userFName: userFName,
                       userLName: userLName,
-                      userEmail: userEmail,
                     ),
                   ),
                 );

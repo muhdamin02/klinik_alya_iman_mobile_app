@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/appointment_form.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/first_profile.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/profile_management/list_profile.dart';
 import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
 
 class Home extends StatelessWidget {
@@ -34,11 +34,8 @@ class Home extends StatelessWidget {
 
           // Decide which page to navigate based on the profile count
           if (profileCount > 0) {
-            return AppointmentForm(
-              userId: userId,
-              userFName: userFName,
-              userLName: userLName,
-              userEmail: userEmail,
+            return ListProfile(
+              userId: userId
             );
           } else {
             return FirstProfile(

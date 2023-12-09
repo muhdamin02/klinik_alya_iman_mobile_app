@@ -7,14 +7,13 @@ import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
 
 class CreateProfile extends StatefulWidget {
   final int userId;
-  final String userFName, userLName, userEmail;
+  final String userFName, userLName;
 
   const CreateProfile({
     Key? key,
     required this.userId,
     required this.userFName,
     required this.userLName,
-    required this.userEmail,
   }) : super(key: key);
 
   @override

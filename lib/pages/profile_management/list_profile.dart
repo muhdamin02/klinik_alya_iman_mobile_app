@@ -1,5 +1,7 @@
 import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/appointment_form.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/profile_management/create_profile.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/profile_page.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/update_profile.dart';
 import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
@@ -98,68 +100,102 @@ class _ListProfileState extends State<ListProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:
-            const Text('Profile List', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
+        appBar: AppBar(
+          title:
+              const Text('Profile List', style: TextStyle(color: Colors.white)),
+          iconTheme: const IconThemeData(
+            color: Colors.white,
+          ),
         ),
-      ),
-      body: ListView.builder(
-        itemCount: _profileList.length,
-        itemBuilder: (context, index) {
-          Profile profile = _profileList[index];
-          return Column(
-            children: [
-              const SizedBox(height: 16.0), // Add SizedBox widget here
-              ListTile(
-                title: Text('${profile.f_name} ${profile.l_name}',
-                    style: const TextStyle(fontSize: 20)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 4.0),
-                    Text('Date of Birth: ${profile.dob}'),
-                  ],
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.visibility),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(
-                              profile: profile,
-                            ),
-                          ),
-                        );
-                      },
+        body: Stack(children: [
+          ListView.builder(
+            itemCount: _profileList.length,
+            itemBuilder: (context, index) {
+              Profile profile = _profileList[index];
+              return Column(
+                children: [
+                  const SizedBox(height: 16.0), // Add SizedBox widget here
+                  ListTile(
+                    title: Text('${profile.f_name} ${profile.l_name}',
+                        style: const TextStyle(fontSize: 20)),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 4.0),
+                        Text('Date of Birth: ${profile.dob}'),
+                      ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // Call a method to handle the update functionality
-                        _updateProfile(profile);
-                      },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.check_circle),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AppointmentForm(
+                                  userId: widget.userId,
+                                  profile: profile,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.visibility),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(
+                                  profile: profile,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            // Call a method to handle the update functionality
+                            _updateProfile(profile);
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            // Call a method to handle the delete functionality
+                            _deleteProfile(profile.profile_id);
+                          },
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        // Call a method to handle the delete functionality
-                        _deleteProfile(profile.profile_id);
-                      },
+                  ),
+                ],
+              );
+            },
+          ),
+          Positioned(
+            bottom: 32.0,
+            right: 32.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateProfile(
+                      userId: widget.userId,
+                      userFName: "",
+                      userLName: "",
                     ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
+                  ),
+                );
+              },
+              child: const Icon(Icons.add),
+            ),
+          ),
+        ]));
   }
 
   // ----------------------------------------------------------------------

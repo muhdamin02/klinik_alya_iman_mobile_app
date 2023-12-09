@@ -51,9 +51,9 @@ class DatabaseService {
       'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
     );
 
-    // assignment table
+    // appointment table
     await db.execute(
-      'CREATE TABLE appointment(appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+      'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER, profile_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
     );
   }
 
@@ -167,12 +167,12 @@ class DatabaseService {
   }
 
   // Retrieve
-  Future<List<Appointment>> appointment(int id) async {
+  Future<List<Appointment>> appointment(int userId, int? profileId) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'appointment',
-      where: 'user_id = ?',
-      whereArgs: [id],
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
     );
     return List.generate(
         maps.length, (index) => Appointment.fromMap(maps[index]));
