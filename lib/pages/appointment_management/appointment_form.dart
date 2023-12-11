@@ -61,6 +61,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
         appointment_date: appointmentDate,
         user_id: widget.userId,
         profile_id: widget.profile.profile_id,
+        status: 'Pending',
+        remarks: 'The appointment is pending.',
       );
 
       // ----------------------------------------------------------------------

@@ -62,6 +62,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/lints-2.1.1",
       "packageUri": "lib/",
@@ -170,7 +176,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-09T09:43:00.431106Z",
+  "generated": "2023-12-11T02:02:55.116585Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

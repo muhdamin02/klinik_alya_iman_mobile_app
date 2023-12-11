@@ -8,7 +8,8 @@ class ListAppointment extends StatefulWidget {
   final int userId;
   final Profile profile;
 
-  const ListAppointment({super.key, required this.userId, required this.profile});
+  const ListAppointment(
+      {super.key, required this.userId, required this.profile});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -28,8 +29,8 @@ class _ListAppointmentState extends State<ListAppointment> {
   // View list of booking
 
   Future<void> _fetchBookingHistory() async {
-    List<Appointment> bookingHistory =
-        await DatabaseService().appointment(widget.userId, widget.profile.profile_id);
+    List<Appointment> bookingHistory = await DatabaseService()
+        .appointment(widget.userId, widget.profile.profile_id);
     setState(() {
       _bookingHistory = bookingHistory;
     });
@@ -57,6 +58,82 @@ class _ListAppointmentState extends State<ListAppointment> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
+  // Cancel Booking
+
+  void _cancelAppointment(Appointment appointment) {
+    TextEditingController cancellationReasonController =
+        TextEditingController();
+    final int? appointmentId = appointment.appointment_id;
+    String status = appointment.status;
+    String remarks = appointment.remarks;
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Cancel Appointment'),
+          content: Builder(
+            builder: (BuildContext context) {
+              return Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Reason for Cancellation:',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    TextFormField(
+                      controller: cancellationReasonController,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter reason...',
+                      ),
+                      style: const TextStyle(fontSize: 15),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a reason';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  // Proceed with cancellation
+                  status = 'Cancelled';
+                  remarks = cancellationReasonController.text;
+                  await DatabaseService()
+                      .cancelAppointment(appointmentId!, status, remarks);
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pop();
+                  _fetchBookingHistory();
+                }
+              },
+              child: const Text('Confirm'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
   // Delete Booking
 
   void _deleteAppointment(int? appointmentId) {
@@ -65,7 +142,8 @@ class _ListAppointmentState extends State<ListAppointment> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Delete Appointment (ID: $appointmentId)'),
-          content: const Text('Are you sure you want to delete this appointment?'),
+          content:
+              const Text('Are you sure you want to delete this appointment?'),
           actions: <Widget>[
             ElevatedButton(
               child:
@@ -113,14 +191,17 @@ class _ListAppointmentState extends State<ListAppointment> {
           Appointment appointment = _bookingHistory[index];
           return Column(
             children: [
-              const SizedBox(height: 16.0), // Add SizedBox widget here
+              const SizedBox(height: 16.0),
               ListTile(
-                title: Text('Appointment ID: ${appointment.appointment_id}', style: const TextStyle(fontSize: 20)),
+                title: Text('Appointment ID: ${appointment.appointment_id}',
+                    style: const TextStyle(fontSize: 20)),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 4.0),
                     Text('Appointment Date: ${appointment.appointment_date}'),
+                    Text('Appointment Status: ${appointment.status}'),
+                    Text('Appointment Remarks: ${appointment.remarks}'),
                   ],
                 ),
                 trailing: Row(
@@ -131,6 +212,13 @@ class _ListAppointmentState extends State<ListAppointment> {
                       onPressed: () {
                         // Call a method to handle the update functionality
                         _updateAppointment(appointment);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        // Call a method to handle the cancel functionality
+                        _cancelAppointment(appointment);
                       },
                     ),
                     IconButton(

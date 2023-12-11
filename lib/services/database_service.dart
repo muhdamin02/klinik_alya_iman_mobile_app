@@ -53,7 +53,7 @@ class DatabaseService {
 
     // appointment table
     await db.execute(
-      'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER, profile_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
+      'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER NOT NULL, profile_id INTEGER NOT NULL, status TEXT NOT NULL, remarks TEXT NOT NULL, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
     );
 
     await db.execute(
@@ -195,6 +195,19 @@ class DatabaseService {
     final db = await _databaseService.database;
     await db.update('appointment', appointment.toMap(),
         where: 'appointment_id = ?', whereArgs: [appointment.appointment_id]);
+  }
+
+  // Cancel
+  Future<void> cancelAppointment(int id, String status, String remarks) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'status': status,
+      'remarks': remarks,
+    };
+
+    await db.update('appointment', valuesToUpdate,
+        where: 'appointment_id = ?', whereArgs: [id]);
   }
 
   // Delete

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
 import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
 
@@ -69,25 +70,18 @@ class _UpdateBookingPageState extends State<UpdateBookingPage> {
 
   void _updateBooking() async {
     if (_formKey.currentState!.validate()) {
-      // if (!_selectedFlowerTypes.contains(true)) {
-      //   setState(() {
-      //     _showCheckboxError = true;
-      //   });
-      //   return;
-      // }
-
       final appointmentDate = _appointmentDateController.text;
-      // final flowerTypes = _setSelectedFlowerTypes();
-      // final arrangement = _selectedArrangement;
+      final oldAppointmentDate = widget.appointment.appointment_date;
+      String timeNow = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 
       // Create a new Appointment instance with the updated data
       final updatedAppointment = Appointment(
         appointment_id: widget.appointment.appointment_id,
         appointment_date: appointmentDate,
-        // arrangement: arrangement!,
-        // flower_type: flowerTypes.join(', '),
         user_id: widget.appointment.user_id,
         profile_id: widget.appointment.profile_id,
+        status: widget.appointment.status,
+        remarks: 'Updated appointment date from $oldAppointmentDate to $appointmentDate on $timeNow',
       );
 
       try {
