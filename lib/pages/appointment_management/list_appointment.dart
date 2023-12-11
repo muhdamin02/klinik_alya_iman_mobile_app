@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import '../../appbar/appbar_appointment.dart';
 import '../../models/appointment.dart';
 import '../../models/profile.dart';
+import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../../services/misc_methods/date_display.dart';
+import 'appointment_form.dart';
 import 'update_appointment.dart';
-
+import 'view_appointment.dart';
 
 class ListAppointment extends StatefulWidget {
-  final int userId;
+  final User user;
   final Profile profile;
   final bool autoImplyLeading;
 
   const ListAppointment(
       {super.key,
-      required this.userId,
+      required this.user,
       required this.profile,
       required this.autoImplyLeading});
 
@@ -22,6 +25,8 @@ class ListAppointment extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _ListAppointmentState createState() => _ListAppointmentState();
 }
+
+// ----------------------------------------------------------------------
 
 class _ListAppointmentState extends State<ListAppointment> {
   List<Appointment> _bookingHistory = [];
@@ -33,30 +38,45 @@ class _ListAppointmentState extends State<ListAppointment> {
   }
 
   // ----------------------------------------------------------------------
-  // View list of booking
+  // View list of appointments
 
   Future<void> _fetchBookingHistory() async {
     List<Appointment> bookingHistory = await DatabaseService()
-        .appointment(widget.userId, widget.profile.profile_id);
+        .appointment(widget.user.user_id!, widget.profile.profile_id);
     setState(() {
       _bookingHistory = bookingHistory;
     });
   }
   // ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  // Update Booking
+// ----------------------------------------------------------------------
+  // View Appointment
 
-  void _updateAppointment(Appointment appointment) {
-    // Navigate to the update booking page with the selected booking
+  void _viewAppointment(Appointment appointment) {
+    // Navigate to the view appointment details page with the selected appointment
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UpdateBookingPage(appointment: appointment),
+        builder: (context) => ViewAppointment(appointment: appointment),
+      ),
+    );
+  }
+
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // Update Appointment
+
+  void _updateAppointment(Appointment appointment) {
+    // Navigate to the update appointment page with the selected appointment
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateAppointment(appointment: appointment),
       ),
     ).then((result) {
       if (result == true) {
-        // If the booking was updated, refresh the booking history
+        // If the appointment was updated, refresh the appointment history
         _fetchBookingHistory();
       }
     });
@@ -65,7 +85,7 @@ class _ListAppointmentState extends State<ListAppointment> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Cancel Booking
+  // Cancel Appointment
 
   void _cancelAppointment(Appointment appointment) {
     TextEditingController cancellationReasonController =
@@ -141,20 +161,20 @@ class _ListAppointmentState extends State<ListAppointment> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Delete Booking
+  // Delete Appointment
 
   void _deleteAppointment(int? appointmentId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delete Appointment (ID: $appointmentId)'),
+          title: const Text('Remove Appointment'),
           content:
-              const Text('Are you sure you want to delete this appointment?'),
+              const Text('Are you sure you want to remove this appointment from history?'),
           actions: <Widget>[
             ElevatedButton(
               child:
-                  const Text('Delete', style: TextStyle(color: Colors.white)),
+                  const Text('Remove', style: TextStyle(color: Colors.white)),
               onPressed: () async {
                 // Call the deleteAppointment method and pass the appointmentId
                 await DatabaseService().deleteAppointment(appointmentId!);
@@ -178,12 +198,14 @@ class _ListAppointmentState extends State<ListAppointment> {
   }
 
   // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
   // Builder
 
   @override
   Widget build(BuildContext context) {
+    // Sort the _bookingHistory list by appointment date
+    _bookingHistory
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
     return WillPopScope(
       onWillPop: () async {
         return widget.autoImplyLeading;
@@ -191,62 +213,96 @@ class _ListAppointmentState extends State<ListAppointment> {
       child: Scaffold(
         appBar: AlyaImanAppBarAppointment(
           title: 'Appointment History',
+          user: widget.user,
           profile: widget.profile,
           autoImplyLeading: widget.autoImplyLeading,
         ),
-        body: ListView.builder(
-          itemCount: _bookingHistory.length,
-          itemBuilder: (context, index) {
-            Appointment appointment = _bookingHistory[index];
-            return Column(
-              children: [
-                const SizedBox(height: 16.0),
-                ListTile(
-                  title: Text('Appointment ID: ${appointment.appointment_id}',
-                      style: const TextStyle(fontSize: 20)),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 4.0),
-                      Text('Appointment Date: ${appointment.appointment_date}'),
-                      Text('Appointment Status: ${appointment.status}'),
-                      Text('Appointment Remarks: ${appointment.remarks}'),
-                    ],
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Call a method to handle the update functionality
-                          _updateAppointment(appointment);
-                        },
+        body: Stack(
+          children: [
+            ListView.builder(
+              itemCount: _bookingHistory.length,
+              itemBuilder: (context, index) {
+                Appointment appointment = _bookingHistory[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 16.0),
+                    ListTile(
+                      title: DateDisplay(date: appointment.appointment_date),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 4.0),
+                          Text('Status: ${appointment.status}'),
+                        ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          // Call a method to handle the cancel functionality
-                          _cancelAppointment(appointment);
-                        },
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.visibility),
+                            onPressed: () {
+                              // Call a method to handle the update functionality
+                              _viewAppointment(appointment);
+                            },
+                          ),
+                          Visibility(
+                            visible: appointment.status != 'Cancelled',
+                            child: IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                // Call a method to handle the update functionality
+                                _updateAppointment(appointment);
+                              },
+                            ),
+                          ),
+                          Visibility(
+                            visible: appointment.status != 'Cancelled',
+                            child: IconButton(
+                              icon: const Icon(Icons.not_interested_rounded),
+                              onPressed: () {
+                                // Call a method to handle the cancel functionality
+                                _cancelAppointment(appointment);
+                              },
+                            ),
+                          ),
+                          Visibility(
+                            visible: appointment.status == 'Cancelled',
+                            child: IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () {
+                                // Call a method to handle the delete functionality
+                                _deleteAppointment(appointment.appointment_id);
+                              },
+                            ),
+                          )
+                        ],
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Call a method to handle the delete functionality
-                          _deleteAppointment(appointment.appointment_id);
-                        },
+                    ),
+                  ],
+                );
+              },
+            ),
+            Positioned(
+              bottom: 32.0,
+              right: 32.0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AppointmentForm(
+                        user: widget.user,
+                        profile: widget.profile,
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
+                    ),
+                  );
+                },
+                child: const Icon(Icons.add),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-
-  // ----------------------------------------------------------------------
 }

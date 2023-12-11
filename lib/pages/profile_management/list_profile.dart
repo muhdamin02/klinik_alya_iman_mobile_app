@@ -1,18 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/profile_management/first_profile.dart';
 
 import '../../models/profile.dart';
+import '../../models/user.dart';
 import '../../services/database_service.dart';
-import '../appointment_management/appointment_form.dart';
 import '../startup/login.dart';
 import 'create_profile.dart';
 import 'profile_page.dart';
 import 'update_profile.dart';
 
-
 class ListProfile extends StatefulWidget {
-  final int userId;
+  final User user;
 
-  const ListProfile({super.key, required this.userId});
+  const ListProfile({super.key, required this.user});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -32,7 +34,8 @@ class _ListProfileState extends State<ListProfile> {
   // View list of profiles
 
   Future<void> _fetchProfileList() async {
-    List<Profile> profileList = await DatabaseService().profile(widget.userId);
+    List<Profile> profileList =
+        await DatabaseService().profile(widget.user.user_id!);
     setState(() {
       _profileList = profileList;
     });
@@ -62,37 +65,104 @@ class _ListProfileState extends State<ListProfile> {
   // ----------------------------------------------------------------------
   // Delete Booking
 
-  void _deleteProfile(int? profileId) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Profile (ID: $profileId)'),
-          content: const Text('Are you sure you want to delete this profile?'),
-          actions: <Widget>[
-            ElevatedButton(
-              child:
-                  const Text('Delete', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                // Call the deleteProfile method and pass the profileId
-                await DatabaseService().deleteProfile(profileId!);
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pop();
-                // Refresh the profile list
-                _fetchProfileList();
-              },
-            ),
-            ElevatedButton(
-              child:
-                  const Text('Cancel', style: TextStyle(color: Colors.white)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+  void _deleteProfile(int? profileId) async {
+    // Check if there are associated appointments
+    bool hasAppointments = await DatabaseService().hasAppointments(profileId!);
+
+    if (hasAppointments) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Delete Profile'),
+            content: const Text(
+                'This profile has associated appointments. Deleting the profile will also delete the appointments. Are you sure you want to proceed?'),
+            actions: <Widget>[
+              ElevatedButton(
+                child:
+                    const Text('Delete', style: TextStyle(color: Colors.white)),
+                onPressed: () async {
+                  // Delete associated appointments
+                  await DatabaseService()
+                      .deleteAppointmentsByProfile(profileId);
+
+                  // Delete the profile
+                  await DatabaseService().deleteProfile(profileId);
+
+                  if (await DatabaseService()
+                          .getProfileCount(widget.user.user_id!) ==
+                      0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FirstProfile(
+                          user: widget.user,
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).pop(); // Close the dialog
+                    // Refresh the profile list
+                    _fetchProfileList();
+                  }
+                },
+              ),
+              ElevatedButton(
+                child:
+                    const Text('Cancel', style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Delete Profile'),
+            content:
+                const Text('Are you sure you want to delete this profile?'),
+            actions: <Widget>[
+              ElevatedButton(
+                child:
+                    const Text('Delete', style: TextStyle(color: Colors.white)),
+                onPressed: () async {
+                  // Call the deleteProfile method and pass the profileId
+                  await DatabaseService().deleteProfile(profileId);
+                  if (await DatabaseService()
+                          .getProfileCount(widget.user.user_id!) ==
+                      0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FirstProfile(
+                          user: widget.user,
+                        ),
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).pop(); // Close the dialog
+                    // Refresh the profile list
+                    _fetchProfileList();
+                  }
+                },
+              ),
+              ElevatedButton(
+                child:
+                    const Text('Cancel', style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   // ----------------------------------------------------------------------
@@ -108,40 +178,41 @@ class _ListProfileState extends State<ListProfile> {
         return false;
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Choose Profile',
-                style: TextStyle(color: Colors.white)),
-            automaticallyImplyLeading: false,
-            iconTheme: const IconThemeData(
-              color: Colors.white,
-            ),
-            actions: [
-              PopupMenuButton(
-                itemBuilder: (BuildContext context) {
-                  return [
-                    const PopupMenuItem(
-                      value: 'logout',
-                      child: ListTile(
-                        leading: Icon(Icons.logout),
-                        title: Text('Logout'),
-                      ),
-                    ),
-                  ];
-                },
-                onSelected: (value) {
-                  if (value == 'logout') {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Login(),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+        appBar: AppBar(
+          title: const Text('Choose Profile',
+              style: TextStyle(color: Colors.white)),
+          automaticallyImplyLeading: false,
+          iconTheme: const IconThemeData(
+            color: Colors.white,
           ),
-          body: Stack(children: [
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: ListTile(
+                      leading: Icon(Icons.logout),
+                      title: Text('Logout'),
+                    ),
+                  ),
+                ];
+              },
+              onSelected: (value) {
+                if (value == 'logout') {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
             ListView.builder(
               itemCount: _profileList.length,
               itemBuilder: (context, index) {
@@ -163,26 +234,13 @@ class _ListProfileState extends State<ListProfile> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.check_circle),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AppointmentForm(
-                                    userId: widget.userId,
-                                    profile: profile,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.visibility),
+                            icon: const Icon(Icons.account_circle),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProfilePage(
+                                    user: widget.user,
                                     profile: profile,
                                   ),
                                 ),
@@ -210,26 +268,25 @@ class _ListProfileState extends State<ListProfile> {
                 );
               },
             ),
-            Positioned(
-              bottom: 32.0,
-              right: 32.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateProfile(
-                        userId: widget.userId,
-                        userFName: "",
-                        userLName: "",
-                      ),
-                    ),
-                  );
-                },
-                child: const Icon(Icons.add),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Navigate to the page where you want to appointment form
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateProfile(
+                  user: widget.user,
+                ),
               ),
-            ),
-          ])),
+            );
+          },
+          icon: const Icon(Icons.person_add),
+          label: const Text('Add New Profile'),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
     );
   }
 }

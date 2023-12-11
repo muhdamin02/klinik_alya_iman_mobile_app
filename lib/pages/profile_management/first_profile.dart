@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../models/user.dart';
+import '../startup/login.dart';
 import 'create_profile.dart';
-
 
 class FirstProfile extends StatelessWidget {
   final User user;
@@ -23,6 +23,31 @@ class FirstProfile extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Quick Start'),
           automaticallyImplyLeading: false,
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (BuildContext context) {
+                return [
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: ListTile(
+                      leading: Icon(Icons.logout),
+                      title: Text('Logout'),
+                    ),
+                  ),
+                ];
+              },
+              onSelected: (value) {
+                if (value == 'logout') {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
         ),
         body: Center(
           child: Column(
@@ -34,9 +59,7 @@ class FirstProfile extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateProfile(
-                        userId: user.user_id ?? 0,
-                        userFName: user.f_name,
-                        userLName: user.l_name,
+                        user: user,
                       ),
                     ),
                   );

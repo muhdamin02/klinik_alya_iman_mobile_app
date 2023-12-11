@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<int>(
-      future: DatabaseService().getProfileCount(user.user_id ?? 0),
+      future: DatabaseService().getProfileCount(user.user_id!),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Data is still loading
@@ -28,7 +28,7 @@ class Home extends StatelessWidget {
 
           // Decide which page to navigate based on the profile count
           if (profileCount > 0) {
-            return ListProfile(userId: user.user_id ?? 0);
+            return ListProfile(user: user);
           } else {
             return FirstProfile(
               user: user,

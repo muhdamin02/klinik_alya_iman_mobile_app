@@ -8,6 +8,7 @@ class Appointment {
   final int? profile_id;
   final String status;
   final String remarks;
+  final int? practitioner_id;
   
   Appointment({
     this.appointment_id,
@@ -16,6 +17,7 @@ class Appointment {
     required this.profile_id,
     required this.status,
     required this.remarks,
+    required this.practitioner_id,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class Appointment {
       'profile_id': profile_id,
       'status': status,
       'remarks': remarks,
+      'practitioner_id': practitioner_id,
     };
   }
 
@@ -37,6 +40,7 @@ class Appointment {
       profile_id: map['profile_id']?.toInt() ?? 0,
       status: map['status'] ?? '',
       remarks: map['remarks'] ?? '',
+      practitioner_id: map['practitioner_id']?.toInt() ?? 0,
     );
   }
   
@@ -45,6 +49,6 @@ class Appointment {
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {
-    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, user_id: $user_id, profile_id: $profile_id, status: $status, remarks: $remarks)';
+    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, user_id: $user_id, profile_id: $profile_id, status: $status, remarks: $remarks, practitioner_id: $practitioner_id)';
   }
 }

@@ -4,21 +4,21 @@ import 'package:intl/intl.dart';
 import '../../models/appointment.dart';
 import '../../services/database_service.dart';
 
-
-class UpdateBookingPage extends StatefulWidget {
+class UpdateAppointment extends StatefulWidget {
   final Appointment appointment;
 
-  const UpdateBookingPage({Key? key, required this.appointment})
+  const UpdateAppointment({Key? key, required this.appointment})
       : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _UpdateBookingPageState createState() => _UpdateBookingPageState();
+  _UpdateAppointmentState createState() => _UpdateAppointmentState();
 }
 
-class _UpdateBookingPageState extends State<UpdateBookingPage> {
+class _UpdateAppointmentState extends State<UpdateAppointment> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _appointmentDateController = TextEditingController();
+  final TextEditingController _appointmentDateController =
+      TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -60,7 +60,8 @@ class _UpdateBookingPageState extends State<UpdateBookingPage> {
 
     if (picked != null) {
       setState(() {
-        _appointmentDateController.text = picked.toIso8601String().split('T')[0];
+        _appointmentDateController.text =
+            picked.toIso8601String().split('T')[0];
       });
     }
   }
@@ -83,7 +84,9 @@ class _UpdateBookingPageState extends State<UpdateBookingPage> {
         user_id: widget.appointment.user_id,
         profile_id: widget.appointment.profile_id,
         status: widget.appointment.status,
-        remarks: 'Updated appointment date from $oldAppointmentDate to $appointmentDate on $timeNow',
+        remarks:
+            'Updated appointment date from $oldAppointmentDate to $appointmentDate on $timeNow',
+        practitioner_id: widget.appointment.practitioner_id,
       );
 
       try {
@@ -149,13 +152,10 @@ class _UpdateBookingPageState extends State<UpdateBookingPage> {
 
   @override
   Widget build(BuildContext context) {
-    int? appointmentID = widget.appointment.appointment_id;
-    String stringAppointmentID = appointmentID.toString();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Appointment (ID: $stringAppointmentID)',
-            style: const TextStyle(color: Colors.white)),
+        title: const Text('Reschedule Appointment',
+            style: TextStyle(color: Colors.white)),
         automaticallyImplyLeading: true,
         iconTheme: const IconThemeData(
           color: Colors.white,

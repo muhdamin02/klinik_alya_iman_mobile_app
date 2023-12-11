@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../models/user.dart';
 import '../pages/profile_management/list_profile.dart';
 import '../pages/startup/login.dart';
 
 
 class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final int? userId;
+  final User user;
   final bool autoImplyLeading;
 
   const AlyaImanAppBarUser({
     Key? key,
     required this.title,
-    required this.userId,
+    required this.user,
     required this.autoImplyLeading,
   }) : super(key: key);
 
@@ -50,7 +51,7 @@ class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget 
                   context,
                   MaterialPageRoute(
                     builder: (context) => ListProfile(
-                      userId: userId!,
+                      user: user,
                     ),
                   ),
                 );

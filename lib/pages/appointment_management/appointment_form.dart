@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../models/appointment.dart';
 import '../../models/profile.dart';
+import '../../models/user.dart';
 import '../../services/database_service.dart';
 import 'list_appointment.dart';
 
-
 class AppointmentForm extends StatefulWidget {
-  final int userId;
+  final User user;
   final Profile profile;
 
-  const AppointmentForm({Key? key, required this.userId, required this.profile})
+  const AppointmentForm({Key? key, required this.user, required this.profile})
       : super(key: key);
 
   @override
@@ -56,10 +56,11 @@ class _AppointmentFormState extends State<AppointmentForm> {
       // Create a new appointment instance with the form data
       final appointment = Appointment(
         appointment_date: appointmentDate,
-        user_id: widget.userId,
+        user_id: widget.user.user_id!,
         profile_id: widget.profile.profile_id,
         status: 'Pending',
         remarks: 'The appointment is pending.',
+        practitioner_id: 0,
       );
 
       // ----------------------------------------------------------------------
@@ -87,7 +88,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ListAppointment(
-                        userId: widget.userId,
+                        user: widget.user,
                         profile: widget.profile,
                         autoImplyLeading: false,
                       ),

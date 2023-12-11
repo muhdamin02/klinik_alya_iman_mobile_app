@@ -7,7 +7,6 @@ import '../home.dart';
 import '../practitioner_pages/practitioner_home.dart';
 import 'register.dart';
 
-
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -105,95 +104,101 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const Image(
-                  image: AssetImage('assets/klinik_alya_iman.png'),
-                  fit: BoxFit.fitHeight),
-              const SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextFormField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Username',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your username';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: SizedBox(
-                  height: 45.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _onLogin,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(
-                          50, 163, 203, 1), // Set the desired button color here
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent the user from navigating back
+        return false;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const Image(
+                    image: AssetImage('assets/klinik_alya_iman.png'),
+                    fit: BoxFit.fitHeight),
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Username',
                     ),
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('No account? '),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Register()),
-                      );
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your username';
+                      }
+                      return null;
                     },
-                    child: const Text(
-                      'Click here to register',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    height: 45.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _onLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(50, 163, 203,
+                            1), // Set the desired button color here
+                      ),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 32.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('No account? '),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Register(willPopScopeBool: true)),
+                        );
+                      },
+                      child: const Text(
+                        'Click here to register',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

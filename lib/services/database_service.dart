@@ -53,7 +53,7 @@ class DatabaseService {
 
     // appointment table
     await db.execute(
-      'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER NOT NULL, profile_id INTEGER NOT NULL, status TEXT NOT NULL, remarks TEXT NOT NULL, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
+      'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER NOT NULL, profile_id INTEGER NOT NULL, status TEXT NOT NULL, remarks TEXT NOT NULL, practitioner_id INT NULL, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
     );
 
     await db.execute(
@@ -158,6 +158,24 @@ class DatabaseService {
     ));
 
     return profileCount ?? 0;
+  }
+
+  // Check if Profile has Appointments
+  Future<bool> hasAppointments(int profileId) async {
+    final db = await _databaseService.database;
+    final appointmentCount = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM appointment WHERE profile_id = ?',
+      [profileId],
+    ));
+
+    return appointmentCount != 0;
+  }
+
+  // Delete Appointments by Profile
+  Future<void> deleteAppointmentsByProfile(int profileId) async {
+    final db = await _databaseService.database;
+    await db
+        .delete('appointment', where: 'profile_id = ?', whereArgs: [profileId]);
   }
 
 //////////////////////////////////////////////////////////////////////////

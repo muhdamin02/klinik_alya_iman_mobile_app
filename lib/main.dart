@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'pages/startup/login.dart';
+import 'services/misc_methods/page_transition.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,38 +43,44 @@ class _MyAppState extends State<MyApp> {
         textTheme: const TextTheme(
           // booking history details text
           bodyMedium: TextStyle(
-            fontFamily: 'Coolvetica',
+            fontFamily: 'Afacad',
             fontSize: 18,
             fontWeight: FontWeight.normal,
           ),
 
           // validator texts
           bodySmall: TextStyle(
-            fontFamily: 'Coolvetica',
+            fontFamily: 'Afacad',
             fontSize: 14,
             fontWeight: FontWeight.normal,
           ),
 
           // submit and update button
           labelLarge: TextStyle(
-            fontFamily: 'Coolvetica',
+            fontFamily: 'Afacad',
             fontSize: 18,
             fontWeight: FontWeight.normal,
           ),
 
           // appbar
           titleLarge: TextStyle(
-            fontFamily: 'Coolvetica',
+            fontFamily: 'Afacad',
             fontSize: 25,
             fontWeight: FontWeight.normal,
           ),
 
           // placeholder text in textfields, checkbox tiles, dropdown options
           titleMedium: TextStyle(
-            fontFamily: 'Coolvetica',
+            fontFamily: 'Afacad',
             fontSize: 18,
             fontWeight: FontWeight.normal,
           ),
+        ),
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CustomPageTransitionBuilder(),
+            TargetPlatform.iOS: CustomPageTransitionBuilder(),
+          },
         ),
       ),
       home: const Login(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/user.dart';
 import '../startup/login.dart';
-
+import 'manage_appointment.dart';
 
 class PractitionerHome extends StatelessWidget {
   final User user;
@@ -21,8 +21,10 @@ class PractitionerHome extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Practitioner placeholder',
-              style: TextStyle(color: Colors.white)),
+          title: const Text(
+            'Practitioner placeholder',
+            style: TextStyle(color: Colors.white),
+          ),
           automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(
             color: Colors.white,
@@ -65,6 +67,18 @@ class PractitionerHome extends StatelessWidget {
                   style: const TextStyle(fontSize: 16)),
               Text('Email: ${user.email}',
                   style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ManageAppointment(),
+                    ),
+                  );
+                },
+                child: const Text('Manage Appointments'),
+              ),
               // Add more details specific to practitioners
             ],
           ),

@@ -4,10 +4,10 @@ import '../../models/user.dart';
 import '../../services/database_service.dart';
 import 'login.dart';
 
-
 class Register extends StatefulWidget {
-  const Register({Key? key, this.user}) : super(key: key);
+  const Register({Key? key, this.user, required this.willPopScopeBool}) : super(key: key);
   final User? user;
+  final bool willPopScopeBool;
 
   @override
   State<Register> createState() => _RegisterState();
@@ -127,96 +127,103 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const Image(
-                  image: AssetImage('assets/klinik_alya_iman.png'),
-                  fit: BoxFit.fitHeight),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent the user from navigating back
+        return widget.willPopScopeBool;
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const Image(
+                    image: AssetImage('assets/klinik_alya_iman.png'),
+                    fit: BoxFit.fitHeight),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 16.0,
+                  ),
+                  child: buildFirstName(),
                 ),
-                child: buildFirstName(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 16.0,
+                  ),
+                  child: buildLastName(),
                 ),
-                child: buildLastName(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 16.0,
+                  ),
+                  child: buildUsername(),
                 ),
-                child: buildUsername(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 16.0,
+                  ),
+                  child: buildEmail(),
                 ),
-                child: buildEmail(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 16.0,
+                  ),
+                  child: buildPassword(),
                 ),
-                child: buildPassword(),
-              ),
-              const SizedBox(height: 12.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  height: 45.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        await _onSave();
-                      }
-                    },
-                    child: const Text(
-                      'Register',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.white,
+                const SizedBox(height: 12.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    height: 45.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await _onSave();
+                        }
+                      },
+                      child: const Text(
+                        'Register',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 32.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Already have an account? '),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                      );
-                    },
-                    child: const Text(
-                      'Click here to login',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
+                const SizedBox(height: 32.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Already have an account? '),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Login()),
+                        );
+                      },
+                      child: const Text(
+                        'Click here to login',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32.0),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 32.0),
+              ],
+            ),
           ),
         ),
       ),

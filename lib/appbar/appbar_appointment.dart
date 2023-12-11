@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../models/profile.dart';
+import '../models/user.dart';
 import '../pages/profile_management/list_profile.dart';
 import '../pages/startup/login.dart';
-
 
 class AlyaImanAppBarAppointment extends StatelessWidget
     implements PreferredSizeWidget {
   final String title;
+  final User user;
   final Profile profile;
   final bool autoImplyLeading;
 
   const AlyaImanAppBarAppointment({
     Key? key,
     required this.title,
+    required this.user,
     required this.profile,
     required this.autoImplyLeading,
   }) : super(key: key);
@@ -52,7 +54,7 @@ class AlyaImanAppBarAppointment extends StatelessWidget
                   context,
                   MaterialPageRoute(
                     builder: (context) => ListProfile(
-                      userId: profile.user_id,
+                      user: user,
                     ),
                   ),
                 );

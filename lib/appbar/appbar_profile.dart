@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/profile.dart';
+import '../models/user.dart';
 import '../pages/appointment_management/list_appointment.dart';
 import '../pages/profile_management/list_profile.dart';
 import '../pages/startup/login.dart';
@@ -8,12 +9,14 @@ import '../pages/startup/login.dart';
 
 class AlyaImanAppBarProfile extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final User user;
   final Profile profile;
   final bool autoImplyLeading;
 
   const AlyaImanAppBarProfile({
     Key? key,
     required this.title,
+    required this.user,
     required this.profile,
     required this.autoImplyLeading,
   }) : super(key: key);
@@ -59,7 +62,7 @@ class AlyaImanAppBarProfile extends StatelessWidget implements PreferredSizeWidg
                   context,
                   MaterialPageRoute(
                     builder: (context) => ListProfile(
-                      userId: profile.user_id,
+                      user: user,
                     ),
                   ),
                 );
@@ -68,7 +71,7 @@ class AlyaImanAppBarProfile extends StatelessWidget implements PreferredSizeWidg
                   context,
                   MaterialPageRoute(
                     builder: (context) => ListAppointment(
-                      userId: profile.user_id,
+                      user: user,
                       profile: profile,
                       autoImplyLeading: true,
                     ),

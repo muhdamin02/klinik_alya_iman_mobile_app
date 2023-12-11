@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../appbar/appbar_user.dart';
 import '../../models/profile.dart';
+import '../../models/user.dart';
 import '../../services/database_service.dart';
 import 'list_profile.dart';
 
 
 class CreateProfile extends StatefulWidget {
-  final int userId;
-  final String userFName, userLName;
+  final User user;
 
   const CreateProfile({
     Key? key,
-    required this.userId,
-    required this.userFName,
-    required this.userLName,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -54,8 +52,8 @@ class _CreateProfileState extends State<CreateProfile> {
     super.initState();
 
     // Prefill the text fields with the user's information
-    _firstNameController.text = widget.userFName;
-    _lastNameController.text = widget.userLName;
+    _firstNameController.text = widget.user.f_name;
+    _lastNameController.text = widget.user.l_name;
   }
 
   // ----------------------------------------------------------------------
@@ -73,7 +71,7 @@ class _CreateProfileState extends State<CreateProfile> {
         l_name: editedLastName,
         dob: dateOfBirth,
         gender: selectedGender,
-        user_id: widget.userId,
+        user_id: widget.user.user_id!,
       );
 
       if (_selectedGender == null) {
@@ -105,7 +103,7 @@ class _CreateProfileState extends State<CreateProfile> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ListProfile(
-                        userId: widget.userId,
+                        user: widget.user,
                       ),
                     ),
                   );
@@ -155,7 +153,7 @@ class _CreateProfileState extends State<CreateProfile> {
     return Scaffold(
       appBar: AlyaImanAppBarUser(
           title: 'Create Profile',
-          userId: widget.userId,
+          user: widget.user,
           autoImplyLeading: true,
         ),
       body: SingleChildScrollView(
