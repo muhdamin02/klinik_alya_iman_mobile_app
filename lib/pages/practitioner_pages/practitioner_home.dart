@@ -73,7 +73,10 @@ class PractitionerHome extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ManageAppointment(),
+                      builder: (context) => ManageAppointment(
+                        user: user,
+                        autoImplyLeading: true,
+                      ),
                     ),
                   );
                 },

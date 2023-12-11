@@ -196,13 +196,23 @@ class DatabaseService {
     );
   }
 
-  // Retrieve
+  // Retrieve based on User and Profile
   Future<List<Appointment>> appointment(int userId, int? profileId) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'appointment',
       where: 'user_id = ? AND profile_id = ?',
       whereArgs: [userId, profileId],
+    );
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Retrieve All
+  Future<List<Appointment>> appointmentAll() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
     );
     return List.generate(
         maps.length, (index) => Appointment.fromMap(maps[index]));
