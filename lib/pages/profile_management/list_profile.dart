@@ -1,10 +1,13 @@
-import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/appointment_form.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/create_profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/profile_page.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/update_profile.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../models/profile.dart';
+import '../../services/database_service.dart';
+import '../appointment_management/appointment_form.dart';
+import '../startup/login.dart';
+import 'create_profile.dart';
+import 'profile_page.dart';
+import 'update_profile.dart';
+
 
 class ListProfile extends StatefulWidget {
   final int userId;
@@ -26,7 +29,7 @@ class _ListProfileState extends State<ListProfile> {
   }
 
   // ----------------------------------------------------------------------
-  // View list of booking
+  // View list of profiles
 
   Future<void> _fetchProfileList() async {
     List<Profile> profileList = await DatabaseService().profile(widget.userId);
@@ -37,10 +40,10 @@ class _ListProfileState extends State<ListProfile> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Update Booking
+  // Update list of profiles
 
   void _updateProfile(Profile profile) {
-    // Navigate to the update booking page with the selected booking
+    // Navigate to the list of profiles page with the selected profiles
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -48,7 +51,7 @@ class _ListProfileState extends State<ListProfile> {
       ),
     ).then((result) {
       if (result == true) {
-        // If the booking was updated, refresh the booking history
+        // If the list of profiles was updated, refresh the list of profiles
         _fetchProfileList();
       }
     });
@@ -99,104 +102,134 @@ class _ListProfileState extends State<ListProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title:
-              const Text('Profile List', style: TextStyle(color: Colors.white)),
-          iconTheme: const IconThemeData(
-            color: Colors.white,
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent the user from navigating back
+        return false;
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Choose Profile',
+                style: TextStyle(color: Colors.white)),
+            automaticallyImplyLeading: false,
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
+            actions: [
+              PopupMenuButton(
+                itemBuilder: (BuildContext context) {
+                  return [
+                    const PopupMenuItem(
+                      value: 'logout',
+                      child: ListTile(
+                        leading: Icon(Icons.logout),
+                        title: Text('Logout'),
+                      ),
+                    ),
+                  ];
+                },
+                onSelected: (value) {
+                  if (value == 'logout') {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
-        ),
-        body: Stack(children: [
-          ListView.builder(
-            itemCount: _profileList.length,
-            itemBuilder: (context, index) {
-              Profile profile = _profileList[index];
-              return Column(
-                children: [
-                  const SizedBox(height: 16.0), // Add SizedBox widget here
-                  ListTile(
-                    title: Text('${profile.f_name} ${profile.l_name}',
-                        style: const TextStyle(fontSize: 20)),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 4.0),
-                        Text('Date of Birth: ${profile.dob}'),
-                      ],
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.check_circle),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AppointmentForm(
-                                  userId: widget.userId,
-                                  profile: profile,
+          body: Stack(children: [
+            ListView.builder(
+              itemCount: _profileList.length,
+              itemBuilder: (context, index) {
+                Profile profile = _profileList[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 16.0), // Add SizedBox widget here
+                    ListTile(
+                      title: Text('${profile.f_name} ${profile.l_name}',
+                          style: const TextStyle(fontSize: 20)),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 4.0),
+                          Text('Date of Birth: ${profile.dob}'),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.check_circle),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AppointmentForm(
+                                    userId: widget.userId,
+                                    profile: profile,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.visibility),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProfilePage(
-                                  profile: profile,
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.visibility),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfilePage(
+                                    profile: profile,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            // Call a method to handle the update functionality
-                            _updateProfile(profile);
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            // Call a method to handle the delete functionality
-                            _deleteProfile(profile.profile_id);
-                          },
-                        ),
-                      ],
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              // Call a method to handle the update functionality
+                              _updateProfile(profile);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              // Call a method to handle the delete functionality
+                              _deleteProfile(profile.profile_id);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
-          Positioned(
-            bottom: 32.0,
-            right: 32.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateProfile(
-                      userId: widget.userId,
-                      userFName: "",
-                      userLName: "",
-                    ),
-                  ),
+                  ],
                 );
               },
-              child: const Icon(Icons.add),
             ),
-          ),
-        ]));
+            Positioned(
+              bottom: 32.0,
+              right: 32.0,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateProfile(
+                        userId: widget.userId,
+                        userFName: "",
+                        userLName: "",
+                      ),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.add),
+              ),
+            ),
+          ])),
+    );
   }
-
-  // ----------------------------------------------------------------------
 }

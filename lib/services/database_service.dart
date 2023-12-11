@@ -1,9 +1,9 @@
-import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
-import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
-import 'package:klinik_alya_iman_mobile_app/models/user.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../models/appointment.dart';
+import '../models/profile.dart';
+import '../models/user.dart';
 
 class DatabaseService {
   Future<void> initialize() async {

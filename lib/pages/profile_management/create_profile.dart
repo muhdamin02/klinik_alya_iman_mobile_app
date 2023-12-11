@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/list_profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/profile_page.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../appbar/appbar_user.dart';
+import '../../models/profile.dart';
+import '../../services/database_service.dart';
+import 'list_profile.dart';
+
 
 class CreateProfile extends StatefulWidget {
   final int userId;
@@ -103,8 +104,8 @@ class _CreateProfileState extends State<CreateProfile> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProfilePage(
-                        profile: profile,
+                      builder: (context) => ListProfile(
+                        userId: widget.userId,
                       ),
                     ),
                   );
@@ -152,47 +153,11 @@ class _CreateProfileState extends State<CreateProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:
-            const Text('Create Profile', style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
+      appBar: AlyaImanAppBarUser(
+          title: 'Create Profile',
+          userId: widget.userId,
+          autoImplyLeading: true,
         ),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem(
-                  value: 'logout',
-                  child: ListTile(
-                    leading: Icon(Icons.logout),
-                    title: Text('Logout'),
-                  ),
-                ),
-              ];
-            },
-            onSelected: (value) {
-              if (value == 'history') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListProfile(
-                      userId: widget.userId,
-                    ),
-                  ),
-                );
-              } else if (value == 'logout') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Login(),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

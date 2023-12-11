@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../models/appointment.dart';
+import '../../services/database_service.dart';
+
 
 class UpdateBookingPage extends StatefulWidget {
   final Appointment appointment;
@@ -154,7 +156,7 @@ class _UpdateBookingPageState extends State<UpdateBookingPage> {
       appBar: AppBar(
         title: Text('Update Appointment (ID: $stringAppointmentID)',
             style: const TextStyle(color: Colors.white)),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),

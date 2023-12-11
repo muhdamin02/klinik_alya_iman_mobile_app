@@ -1,7 +1,9 @@
-import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
-import 'package:klinik_alya_iman_mobile_app/models/user.dart';
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../models/user.dart';
+import '../../services/database_service.dart';
+import 'login.dart';
+
 
 class Register extends StatefulWidget {
   const Register({Key? key, this.user}) : super(key: key);

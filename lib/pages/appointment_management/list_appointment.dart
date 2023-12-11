@@ -1,15 +1,22 @@
-import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/update_appointment.dart';
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../appbar/appbar_appointment.dart';
+import '../../models/appointment.dart';
+import '../../models/profile.dart';
+import '../../services/database_service.dart';
+import 'update_appointment.dart';
+
 
 class ListAppointment extends StatefulWidget {
   final int userId;
   final Profile profile;
+  final bool autoImplyLeading;
 
   const ListAppointment(
-      {super.key, required this.userId, required this.profile});
+      {super.key,
+      required this.userId,
+      required this.profile,
+      required this.autoImplyLeading});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -177,63 +184,66 @@ class _ListAppointmentState extends State<ListAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appointment History',
-            style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
+    return WillPopScope(
+      onWillPop: () async {
+        return widget.autoImplyLeading;
+      },
+      child: Scaffold(
+        appBar: AlyaImanAppBarAppointment(
+          title: 'Appointment History',
+          profile: widget.profile,
+          autoImplyLeading: widget.autoImplyLeading,
         ),
-      ),
-      body: ListView.builder(
-        itemCount: _bookingHistory.length,
-        itemBuilder: (context, index) {
-          Appointment appointment = _bookingHistory[index];
-          return Column(
-            children: [
-              const SizedBox(height: 16.0),
-              ListTile(
-                title: Text('Appointment ID: ${appointment.appointment_id}',
-                    style: const TextStyle(fontSize: 20)),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 4.0),
-                    Text('Appointment Date: ${appointment.appointment_date}'),
-                    Text('Appointment Status: ${appointment.status}'),
-                    Text('Appointment Remarks: ${appointment.remarks}'),
-                  ],
+        body: ListView.builder(
+          itemCount: _bookingHistory.length,
+          itemBuilder: (context, index) {
+            Appointment appointment = _bookingHistory[index];
+            return Column(
+              children: [
+                const SizedBox(height: 16.0),
+                ListTile(
+                  title: Text('Appointment ID: ${appointment.appointment_id}',
+                      style: const TextStyle(fontSize: 20)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 4.0),
+                      Text('Appointment Date: ${appointment.appointment_date}'),
+                      Text('Appointment Status: ${appointment.status}'),
+                      Text('Appointment Remarks: ${appointment.remarks}'),
+                    ],
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          // Call a method to handle the update functionality
+                          _updateAppointment(appointment);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          // Call a method to handle the cancel functionality
+                          _cancelAppointment(appointment);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          // Call a method to handle the delete functionality
+                          _deleteAppointment(appointment.appointment_id);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // Call a method to handle the update functionality
-                        _updateAppointment(appointment);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () {
-                        // Call a method to handle the cancel functionality
-                        _cancelAppointment(appointment);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        // Call a method to handle the delete functionality
-                        _deleteAppointment(appointment.appointment_id);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

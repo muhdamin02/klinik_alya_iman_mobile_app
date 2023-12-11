@@ -1,19 +1,16 @@
-import 'package:klinik_alya_iman_mobile_app/models/appointment.dart';
-import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/appointment_management/list_appointment.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/list_profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../models/appointment.dart';
+import '../../models/profile.dart';
+import '../../services/database_service.dart';
+import 'list_appointment.dart';
+
 
 class AppointmentForm extends StatefulWidget {
   final int userId;
   final Profile profile;
 
-  const AppointmentForm(
-      {Key? key,
-      required this.userId,
-      required this.profile})
+  const AppointmentForm({Key? key, required this.userId, required this.profile})
       : super(key: key);
 
   @override
@@ -92,6 +89,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                       builder: (context) => ListAppointment(
                         userId: widget.userId,
                         profile: widget.profile,
+                        autoImplyLeading: false,
                       ),
                     ),
                   );
@@ -148,64 +146,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem(
-                  value: 'profile',
-                  child: ListTile(
-                    leading: Icon(Icons.list),
-                    title: Text('Profiles'),
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'history',
-                  child: ListTile(
-                    leading: Icon(Icons.list),
-                    title: Text('Appointment History'),
-                  ),
-                ),
-                const PopupMenuItem(
-                  value: 'logout',
-                  child: ListTile(
-                    leading: Icon(Icons.logout),
-                    title: Text('Logout'),
-                  ),
-                ),
-              ];
-            },
-            onSelected: (value) {
-              if (value == 'profile') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListProfile(
-                      userId: widget.userId,
-                    ),
-                  ),
-                );
-              } else if (value == 'history') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListAppointment(
-                      userId: widget.userId,
-                      profile: widget.profile,
-                    ),
-                  ),
-                );
-              } else if (value == 'logout') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Login(),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

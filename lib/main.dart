@@ -1,5 +1,6 @@
-import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/startup/login.dart';
 
 void main() {
   runApp(const MyApp());

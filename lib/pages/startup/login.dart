@@ -1,11 +1,12 @@
-import 'package:klinik_alya_iman_mobile_app/models/user.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/home.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/practitioner_pages/practitioner_home.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/startup/register.dart';
-import 'package:klinik_alya_iman_mobile_app/services/auth_service.dart';
-
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../models/user.dart';
+import '../../services/auth_service.dart';
+import '../../services/database_service.dart';
+import '../home.dart';
+import '../practitioner_pages/practitioner_home.dart';
+import 'register.dart';
+
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

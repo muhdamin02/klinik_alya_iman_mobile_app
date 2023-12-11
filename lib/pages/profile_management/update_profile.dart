@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/models/profile.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../../models/profile.dart';
+import '../../services/database_service.dart';
+
 
 class UpdateProfile extends StatefulWidget {
   final Profile profile;
@@ -166,7 +168,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
       appBar: AppBar(
         title: const Text('Update Profile',
             style: TextStyle(color: Colors.white)),
-        automaticallyImplyLeading: false,
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),

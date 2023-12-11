@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/models/user.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/first_profile.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/profile_management/list_profile.dart';
-import 'package:klinik_alya_iman_mobile_app/services/database_service.dart';
+
+import '../models/user.dart';
+import '../services/database_service.dart';
+import 'profile_management/first_profile.dart';
+import 'profile_management/list_profile.dart';
+
 
 class Home extends StatelessWidget {
   final User user;
