@@ -59,8 +59,9 @@ class _AppointmentFormState extends State<AppointmentForm> {
         user_id: widget.user.user_id!,
         profile_id: widget.profile.profile_id,
         status: 'Pending',
-        remarks: 'The appointment is pending.',
-        practitioner_id: 0,
+        system_remarks: 'The appointment is pending.',
+        patient_remarks: 'No remarks by patient.',
+        practitioner_remarks: 'No remarks by practitioner.',
       );
 
       // ----------------------------------------------------------------------

@@ -4,6 +4,8 @@ import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../appointment_management/update_appointment.dart';
+import '../appointment_management/view_appointment.dart';
 
 class ManageAppointment extends StatefulWidget {
   final User user;
@@ -32,48 +34,92 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   // View list of appointments
 
   Future<void> _fetchBookingHistory() async {
-    List<Appointment> bookingHistory = await DatabaseService()
-        .appointmentAll();
+    List<Appointment> bookingHistory = await DatabaseService().appointmentAll();
     setState(() {
       _bookingHistory = bookingHistory;
     });
   }
   // ----------------------------------------------------------------------
 
-// ----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // View Appointment
 
-  // void _viewAppointment(Appointment appointment) {
-  //   // Navigate to the view appointment details page with the selected appointment
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => ViewAppointment(appointment: appointment),
-  //     ),
-  //   );
-  // }
+  void _viewAppointment(Appointment appointment) {
+    // Navigate to the view appointment details page with the selected appointment
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewAppointment(appointment: appointment, user: widget.user,),
+      ),
+    );
+  }
 
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
   // Update Appointment
 
-  // void _updateAppointment(Appointment appointment) {
-  //   // Navigate to the update appointment page with the selected appointment
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => UpdateAppointment(appointment: appointment),
-  //     ),
-  //   ).then((result) {
-  //     if (result == true) {
-  //       // If the appointment was updated, refresh the appointment history
-  //       _fetchBookingHistory();
-  //     }
-  //   });
-  // }
+  void _updateAppointment(Appointment appointment) {
+    // Navigate to the update appointment page with the selected appointment
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateAppointment(appointment: appointment, reschedulerIsPatient: false,),
+      ),
+    ).then((result) {
+      if (result == true) {
+        // If the appointment was updated, refresh the appointment history
+        _fetchBookingHistory();
+      }
+    });
+  }
 
   // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // Confirm Appointment
+
+  void _confirmAppointment(Appointment appointment) {
+    String status = appointment.status;
+    String remarks = appointment.system_remarks;
+    String practitionerName = '${widget.user.f_name} ${widget.user.l_name}';
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Appointment'),
+          content:
+              const Text('Are you sure you want to confirm this appointment?'),
+          actions: <Widget>[
+            ElevatedButton(
+              child:
+                  const Text('Confirm', style: TextStyle(color: Colors.white)),
+              onPressed: () async {
+                status = 'Confirmed';
+                remarks =
+                    'The appointment has been confirmed by $practitionerName.';
+                // Call the deleteAppointment method and pass the appointmentId
+                await DatabaseService().updateAppointmentStatus(
+                    appointment.appointment_id!, status, remarks);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
+                // Refresh the appointment history
+                _fetchBookingHistory();
+              },
+            ),
+            ElevatedButton(
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   // ----------------------------------------------------------------------
   // Cancel Appointment
@@ -237,7 +283,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                             icon: const Icon(Icons.visibility),
                             onPressed: () {
                               // Call a method to handle the update functionality
-                              // _viewAppointment(appointment);
+                              _viewAppointment(appointment);
                             },
                           ),
                           Visibility(
@@ -246,7 +292,17 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                               icon: const Icon(Icons.edit),
                               onPressed: () {
                                 // Call a method to handle the update functionality
-                                // _updateAppointment(appointment);
+                                _updateAppointment(appointment);
+                              },
+                            ),
+                          ),
+                          Visibility(
+                            visible: appointment.status != 'Cancelled' && appointment.status != 'Confirmed',
+                            child: IconButton(
+                              icon: const Icon(Icons.thumb_up),
+                              onPressed: () {
+                                // Call a method to handle the update functionality
+                                _confirmAppointment(appointment);
                               },
                             ),
                           ),

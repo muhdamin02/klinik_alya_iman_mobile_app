@@ -3,11 +3,14 @@ import 'package:intl/intl.dart';
 
 import '../../models/appointment.dart';
 import '../../services/database_service.dart';
+import '../../services/misc_methods/date_display.dart';
 
 class UpdateAppointment extends StatefulWidget {
   final Appointment appointment;
+  final bool reschedulerIsPatient;
 
-  const UpdateAppointment({Key? key, required this.appointment})
+  const UpdateAppointment(
+      {Key? key, required this.appointment, required this.reschedulerIsPatient})
       : super(key: key);
 
   @override
@@ -75,7 +78,21 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
     if (_formKey.currentState!.validate()) {
       final appointmentDate = _appointmentDateController.text;
       final oldAppointmentDate = widget.appointment.appointment_date;
-      String timeNow = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
+      DateDisplay dateDisplayNew = DateDisplay(date: appointmentDate);
+      String appointmentDateString = dateDisplayNew.getStringDate();
+      DateDisplay dateDisplayOld = DateDisplay(date: oldAppointmentDate);
+      String oldAppointmentDateString = dateDisplayOld.getStringDate();
+      
+      String timeNow = DateFormat('MMMM dd, yyyy \'at\' hh:mm a').format(DateTime.now());
+      
+      String rescheduler;
+
+      if (widget.reschedulerIsPatient == true) {
+        rescheduler = 'patient';
+      } else {
+        rescheduler = 'practitioner';
+      }
 
       // Create a new Appointment instance with the updated data
       final updatedAppointment = Appointment(
@@ -83,15 +100,16 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
         appointment_date: appointmentDate,
         user_id: widget.appointment.user_id,
         profile_id: widget.appointment.profile_id,
-        status: widget.appointment.status,
-        remarks:
-            'Updated appointment date from $oldAppointmentDate to $appointmentDate on $timeNow',
-        practitioner_id: widget.appointment.practitioner_id,
+        status: 'Pending',
+        system_remarks:
+            'Rescheduled appointment date from $oldAppointmentDateString to $appointmentDateString on $timeNow by the $rescheduler.',
+        patient_remarks: widget.appointment.patient_remarks,
+        practitioner_remarks: widget.appointment.practitioner_remarks,
       );
 
       try {
         // Update the FlowerBook in the database
-        await DatabaseService().updateAppointment(updatedAppointment);
+        await DatabaseService().rescheduleAppointment(updatedAppointment);
 
         // ignore: use_build_context_synchronously
         showDialog(

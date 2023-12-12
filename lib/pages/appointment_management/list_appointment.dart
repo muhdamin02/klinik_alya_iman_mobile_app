@@ -49,7 +49,7 @@ class _ListAppointmentState extends State<ListAppointment> {
   }
   // ----------------------------------------------------------------------
 
-// ----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // View Appointment
 
   void _viewAppointment(Appointment appointment) {
@@ -57,7 +57,7 @@ class _ListAppointmentState extends State<ListAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewAppointment(appointment: appointment),
+        builder: (context) => ViewAppointment(appointment: appointment, user: widget.user),
       ),
     );
   }
@@ -72,7 +72,7 @@ class _ListAppointmentState extends State<ListAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UpdateAppointment(appointment: appointment),
+        builder: (context) => UpdateAppointment(appointment: appointment, reschedulerIsPatient: true,),
       ),
     ).then((result) {
       if (result == true) {
@@ -92,7 +92,7 @@ class _ListAppointmentState extends State<ListAppointment> {
         TextEditingController();
     final int? appointmentId = appointment.appointment_id;
     String status = appointment.status;
-    String remarks = appointment.remarks;
+    String systemRemarks = appointment.system_remarks;
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     showDialog(
@@ -136,9 +136,10 @@ class _ListAppointmentState extends State<ListAppointment> {
                 if (formKey.currentState!.validate()) {
                   // Proceed with cancellation
                   status = 'Cancelled';
-                  remarks = cancellationReasonController.text;
+                  systemRemarks = 'The appointment has been cancelled by the patient.';
+                  systemRemarks = cancellationReasonController.text;
                   await DatabaseService()
-                      .cancelAppointment(appointmentId!, status, remarks);
+                      .updateAppointmentStatus(appointmentId!, status, systemRemarks);
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                   _fetchBookingHistory();

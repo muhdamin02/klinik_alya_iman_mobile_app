@@ -52,9 +52,20 @@ class DatabaseService {
     );
 
     // appointment table
-    await db.execute(
-      'CREATE TABLE appointment (appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, appointment_date TEXT NOT NULL, user_id INTEGER NOT NULL, profile_id INTEGER NOT NULL, status TEXT NOT NULL, remarks TEXT NOT NULL, practitioner_id INT NULL, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL, FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL);',
-    );
+    await db.execute('''
+  CREATE TABLE appointment (
+    appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    appointment_date TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    system_remarks TEXT NOT NULL,
+    patient_remarks TEXT DEFAULT 'No remarks by patient.',
+    practitioner_remarks TEXT DEFAULT 'No remarks by practitioner.',
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
 
     await db.execute(
       'INSERT INTO user (f_name, l_name, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)',
@@ -208,6 +219,18 @@ class DatabaseService {
         maps.length, (index) => Appointment.fromMap(maps[index]));
   }
 
+  // Retrieve One Appointment Info
+  Future<List<Appointment>> appointmentInfo(int? appointmentId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'appointment_id = ?',
+      whereArgs: [appointmentId],
+    );
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
   // Retrieve All
   Future<List<Appointment>> appointmentAll() async {
     final db = await _databaseService.database;
@@ -218,20 +241,21 @@ class DatabaseService {
         maps.length, (index) => Appointment.fromMap(maps[index]));
   }
 
-  // Update
-  Future<void> updateAppointment(Appointment appointment) async {
+  // Reschedule Appointment
+  Future<void> rescheduleAppointment(Appointment appointment) async {
     final db = await _databaseService.database;
     await db.update('appointment', appointment.toMap(),
         where: 'appointment_id = ?', whereArgs: [appointment.appointment_id]);
   }
 
-  // Cancel
-  Future<void> cancelAppointment(int id, String status, String remarks) async {
+  // Update Appointment Status
+  Future<void> updateAppointmentStatus(
+      int id, String status, String systemRemarks) async {
     final db = await _databaseService.database;
 
     Map<String, dynamic> valuesToUpdate = {
       'status': status,
-      'remarks': remarks,
+      'system_remarks': systemRemarks,
     };
 
     await db.update('appointment', valuesToUpdate,
@@ -243,5 +267,29 @@ class DatabaseService {
     final db = await _databaseService.database;
     await db
         .delete('appointment', where: 'appointment_id = ?', whereArgs: [id]);
+  }
+
+  // Leave Remarks as Patient
+  Future<void> leaveRemarksAsPatient(int id, String patientRemarks) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'patient_remarks': patientRemarks,
+    };
+
+    await db.update('appointment', valuesToUpdate,
+        where: 'appointment_id = ?', whereArgs: [id]);
+  }
+
+  // Leave Remarks as Practitioner
+  Future<void> leaveRemarksAsPractitioner(int id, String practitionerRemarks) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'practitioner_remarks': practitionerRemarks,
+    };
+
+    await db.update('appointment', valuesToUpdate,
+        where: 'appointment_id = ?', whereArgs: [id]);
   }
 }

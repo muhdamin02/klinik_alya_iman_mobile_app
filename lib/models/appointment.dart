@@ -7,8 +7,9 @@ class Appointment {
   final int user_id;
   final int? profile_id;
   final String status;
-  final String remarks;
-  final int? practitioner_id;
+  final String system_remarks;
+  final String patient_remarks;
+  final String practitioner_remarks;
   
   Appointment({
     this.appointment_id,
@@ -16,8 +17,9 @@ class Appointment {
     required this.user_id,
     required this.profile_id,
     required this.status,
-    required this.remarks,
-    required this.practitioner_id,
+    required this.system_remarks,
+    required this.patient_remarks,
+    required this.practitioner_remarks,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,8 +29,9 @@ class Appointment {
       'user_id': user_id,
       'profile_id': profile_id,
       'status': status,
-      'remarks': remarks,
-      'practitioner_id': practitioner_id,
+      'system_remarks': system_remarks,
+      'patient_remarks': patient_remarks,
+      'practitioner_remarks': practitioner_remarks,
     };
   }
 
@@ -39,8 +42,9 @@ class Appointment {
       user_id: map['user_id']?.toInt() ?? 0,
       profile_id: map['profile_id']?.toInt() ?? 0,
       status: map['status'] ?? '',
-      remarks: map['remarks'] ?? '',
-      practitioner_id: map['practitioner_id']?.toInt() ?? 0,
+      system_remarks: map['system_remarks'] ?? '',
+      patient_remarks: map['patient_remarks'] ?? '',
+      practitioner_remarks: map['practitioner_remarks'] ?? '',
     );
   }
   
@@ -49,6 +53,6 @@ class Appointment {
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {
-    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, user_id: $user_id, profile_id: $profile_id, status: $status, remarks: $remarks, practitioner_id: $practitioner_id)';
+    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, user_id: $user_id, profile_id: $profile_id, status: $status, system_remarks: $system_remarks, patient_remarks: $patient_remarks, practitioner_remarks: $practitioner_remarks)';
   }
 }
