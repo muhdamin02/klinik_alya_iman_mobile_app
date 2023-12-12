@@ -110,7 +110,7 @@ class _RegisterState extends State<Register> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Login()),
+                  MaterialPageRoute(builder: (context) => Login(usernamePlaceholder: username, passwordPlaceholder: password)),
                 );
               },
             ),
@@ -209,7 +209,7 @@ class _RegisterState extends State<Register> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Login()),
+                              builder: (context) => const Login(usernamePlaceholder: '', passwordPlaceholder: '',)),
                         );
                       },
                       child: const Text(

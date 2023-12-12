@@ -62,7 +62,7 @@ class AlyaImanAppBarAppointment extends StatelessWidget
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Login(),
+                    builder: (context) => Login(usernamePlaceholder: user.username, passwordPlaceholder: user.password),
                   ),
                 );
               }

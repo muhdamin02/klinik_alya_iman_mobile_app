@@ -153,6 +153,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           ],
                         ),
                         const SizedBox(height: 8.0),
+                        Text('Time: ${appointment.appointment_time}'),
+                        const SizedBox(height: 8.0),
                         Text('Status: ${appointment.status}'),
                         const SizedBox(height: 12.0),
                         Text(

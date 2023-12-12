@@ -60,7 +60,7 @@ class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget 
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Login(),
+                    builder: (context) => Login(usernamePlaceholder: user.username, passwordPlaceholder: user.password),
                   ),
                 );
               }

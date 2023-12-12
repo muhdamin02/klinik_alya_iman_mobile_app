@@ -203,7 +203,7 @@ class _ListProfileState extends State<ListProfile> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Login(),
+                      builder: (context) => Login(usernamePlaceholder: widget.user.username, passwordPlaceholder: widget.user.password),
                     ),
                   );
                 }

@@ -8,7 +8,14 @@ import '../practitioner_pages/practitioner_home.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  final String usernamePlaceholder;
+  final String passwordPlaceholder;
+
+  const Login(
+      {Key? key,
+      required this.usernamePlaceholder,
+      required this.passwordPlaceholder})
+      : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -21,6 +28,16 @@ class _LoginState extends State<Login> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
+
+// Prefill text fields
+  @override
+  void initState() {
+    super.initState();
+
+    // Prefill the text fields with the user's information
+    _usernameController.text = widget.usernamePlaceholder;
+    _passwordController.text = widget.passwordPlaceholder;
+  }
 
   // ----------------------------------------------------------------------
   // Determines what happens during Log In
@@ -128,7 +145,8 @@ class _LoginState extends State<Login> {
                       labelText: 'Username',
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null ||
+                          value.isEmpty || value == '') {
                         return 'Please enter your username';
                       }
                       return null;
@@ -146,7 +164,8 @@ class _LoginState extends State<Login> {
                     ),
                     obscureText: true,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null ||
+                          value.isEmpty || value == '') {
                         return 'Please enter your password';
                       }
                       return null;
@@ -185,7 +204,8 @@ class _LoginState extends State<Login> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Register(willPopScopeBool: true)),
+                              builder: (context) =>
+                                  const Register(willPopScopeBool: true)),
                         );
                       },
                       child: const Text(

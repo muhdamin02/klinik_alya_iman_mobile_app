@@ -228,7 +228,7 @@ class _ListAppointmentState extends State<ListAppointment> {
                   children: [
                     const SizedBox(height: 16.0),
                     ListTile(
-                      title: DateDisplay(date: appointment.appointment_date),
+                      title: Text('${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -283,26 +283,25 @@ class _ListAppointmentState extends State<ListAppointment> {
                 );
               },
             ),
-            Positioned(
-              bottom: 32.0,
-              right: 32.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AppointmentForm(
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Navigate to the page where you want to appointment form
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AppointmentForm(
                         user: widget.user,
                         profile: widget.profile,
                       ),
-                    ),
-                  );
-                },
-                child: const Icon(Icons.add),
               ),
-            ),
-          ],
+            );
+          },
+          icon: const Icon(Icons.event),
+          label: const Text('Book New Appointment'),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }

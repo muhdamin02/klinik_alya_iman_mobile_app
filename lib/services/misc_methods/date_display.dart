@@ -9,13 +9,13 @@ class DateDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateTime dateTime = DateTime.parse(date);
-    final formattedDate = DateFormat.yMMMMd().format(dateTime);
+    final formattedDate = DateFormat('MMM d, y').format(dateTime);
 
     return Text(formattedDate);
   }
 
   String getStringDate() {
     final DateTime dateTime = DateTime.parse(date);
-    return DateFormat.yMMMMd().format(dateTime);
+    return DateFormat('MMM d, y').format(dateTime);
   }
 }

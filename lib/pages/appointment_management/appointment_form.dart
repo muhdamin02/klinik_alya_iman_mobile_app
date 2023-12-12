@@ -24,6 +24,20 @@ class _AppointmentFormState extends State<AppointmentForm> {
       TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
+  bool _isDateSelected = false;
+  String _selectedTime = '';
+
+  final List<String> availableTimeSlots = [
+    '09:00 AM',
+    '10:00 AM',
+    '11:00 AM',
+    '12:00 PM',
+    '01:00 PM',
+    '02:00 PM',
+    '03:00 PM',
+    '04:00 PM',
+    '05:00 PM',
+  ];
 
   // ----------------------------------------------------------------------
   // Date Picker
@@ -40,6 +54,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
       setState(() {
         _appointmentDateController.text =
             picked.toIso8601String().split('T')[0];
+        _selectedTime = ''; // Reset selected time when date changes
+        _isDateSelected = true; // Set the flag to true when date is selected
       });
     }
   }
@@ -47,15 +63,116 @@ class _AppointmentFormState extends State<AppointmentForm> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
+  // Time Picker
+
+  Widget _buildTimeButton(String selectedTime) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: FutureBuilder<bool>(
+          future:
+              isTimeAvailable(_appointmentDateController.text, selectedTime),
+          builder: (context, snapshot) {
+            final isAvailable = snapshot.data ?? false;
+
+            return ElevatedButton(
+              onPressed: _isDateSelected && isAvailable
+                  ? () {
+                      setState(() {
+                        _selectedTime = selectedTime;
+                      });
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color(0xFF32a3cb),
+                backgroundColor: _selectedTime == selectedTime
+                    ? Colors.white // White fill when selected
+                    : const Color(0xFF32a3cb), // Text color
+                side: BorderSide(
+                  color: _selectedTime == selectedTime
+                      ? const Color(0xFF32a3cb) // Blue outline when selected
+                      : const Color.fromARGB(0, 255, 255, 255), // No outline by default
+                  width: 3.0,
+                ),
+              ),
+              child: Text(
+                selectedTime,
+                style: TextStyle(
+                  color: _selectedTime == selectedTime
+                      ? const Color(0xFF32a3cb) // Blue text when selected
+                      : Colors.white, // White text by default
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // Function to generate a row of time buttons
+  Widget _buildTimeRow(List<String> timeSlots) {
+    return Row(
+      children:
+          timeSlots.map((timeSlot) => _buildTimeButton(timeSlot)).toList(),
+    );
+  }
+
+  // ----------------------------------------------------------------------
+  // Check if TimeAvailable
+
+  Future<bool> isTimeAvailable(String selectedDate, String selectedTime) async {
+    if (await DatabaseService()
+        .isAppointmentExists(selectedDate, selectedTime)) {
+      return false; // Time slot is booked
+    }
+    return true; // Time slot is available
+  }
+
+  // ----------------------------------------------------------------------
   // Submit form
 
+  // Submit form
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      // Check if a time has been selected
+      if (_selectedTime.isEmpty) {
+        // Show an error message and return if no time is selected
+        // You can customize the error handling based on your requirements
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please select an appointment time.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
       final appointmentDate = _appointmentDateController.text;
+      final appointmentTime = _selectedTime;
+
+      // Check availability one more time before submitting (just in case)
+      bool isAvailable =
+          await isTimeAvailable(appointmentDate, appointmentTime);
+      if (!isAvailable) {
+        // Handle the case where the selected time became unavailable
+        // (Maybe show an error message to the user)
+        return;
+      }
 
       // Create a new appointment instance with the form data
       final appointment = Appointment(
-        appointment_date: appointmentDate,
+        appointment_date: _appointmentDateController.text,
+        appointment_time: appointmentTime,
         user_id: widget.user.user_id!,
         profile_id: widget.profile.profile_id,
         status: 'Pending',
@@ -63,6 +180,10 @@ class _AppointmentFormState extends State<AppointmentForm> {
         patient_remarks: 'No remarks by patient.',
         practitioner_remarks: 'No remarks by practitioner.',
       );
+
+      // setState(() {
+      //   bookedAppointments.add(appointment);
+      // });
 
       // ----------------------------------------------------------------------
       // Create new booking
@@ -119,8 +240,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
           ),
         );
       }
-
-      // ----------------------------------------------------------------------
     }
   }
 
@@ -143,69 +262,66 @@ class _AppointmentFormState extends State<AppointmentForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Appointment Form',
-            style: TextStyle(color: Colors.white)),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
+        title: const Text('Appointment Form'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _appointmentDateController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Appointment Date',
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  validator: _requiredValidator,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _appointmentDateController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Appointment Date',
                 ),
-                const SizedBox(height: 32.0),
-                TextFormField(
-                  controller: _firstNameController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: widget.profile.f_name,
-                  ),
-                  enabled: false,
+                readOnly: true,
+                onTap: () {
+                  _selectDate(context);
+                },
+                validator: _requiredValidator,
+              ),
+              const SizedBox(height: 16.0),
+              const Text('Choose Appointment Time'),
+              _buildTimeRow(['09:00 AM', '10:00 AM', '11:00 AM']),
+              _buildTimeRow(['12:00 PM', '01:00 PM', '02:00 PM']),
+              _buildTimeRow(['03:00 PM', '04:00 PM', '05:00 PM']),
+              const SizedBox(height: 32.0),
+              TextFormField(
+                controller: _firstNameController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: widget.profile.f_name,
                 ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _lastNameController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: widget.profile.l_name,
-                  ),
-                  enabled: false,
+                enabled: false,
+              ),
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _lastNameController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: widget.profile.l_name,
                 ),
-                const SizedBox(height: 16.0),
-                SizedBox(
-                  height: 45.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Submit',
-                        style: TextStyle(color: Colors.white)),
-                  ),
+                enabled: false,
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                height: 45.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submitForm,
+                  child: const Text('Submit',
+                      style: TextStyle(color: Colors.white)),
                 ),
-                const SizedBox(height: 16.0),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16.0),
+            ],
           ),
         ),
       ),
     );
   }
-
-  // ----------------------------------------------------------------------
 }

@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
           },
         ),
       ),
-      home: const Login(),
+      home: const Login(usernamePlaceholder: '', passwordPlaceholder: '',),
     );
   }
 }

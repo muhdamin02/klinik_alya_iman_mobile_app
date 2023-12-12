@@ -25,6 +25,20 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  bool _isDateSelected = false;
+  String _selectedTime = '';
+
+  final List<String> availableTimeSlots = [
+    '09:00 AM',
+    '10:00 AM',
+    '11:00 AM',
+    '12:00 PM',
+    '01:00 PM',
+    '02:00 PM',
+    '03:00 PM',
+    '04:00 PM',
+    '05:00 PM',
+  ];
 
   // List<bool> _selectedFlowerTypes = List.filled(5, false);
   // String? _selectedArrangement;
@@ -33,7 +47,9 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
   void initState() {
     super.initState();
     // Initialize the text controllers with the existing values
+    _isDateSelected = true;
     _appointmentDateController.text = widget.appointment.appointment_date;
+    _selectedTime = widget.appointment.appointment_time;
   }
 
   // ----------------------------------------------------------------------
@@ -65,8 +81,80 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
       setState(() {
         _appointmentDateController.text =
             picked.toIso8601String().split('T')[0];
+        _selectedTime = ''; // Reset selected time when date changes
+        _isDateSelected = true; // Set the flag to true when date is selected
       });
     }
+  }
+
+  //
+
+  // ----------------------------------------------------------------------
+  // Time Picker
+
+  Widget _buildTimeButton(String selectedTime) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: FutureBuilder<bool>(
+          future:
+              isTimeAvailable(_appointmentDateController.text, selectedTime),
+          builder: (context, snapshot) {
+            final isAvailable = snapshot.data ?? false;
+
+            return ElevatedButton(
+              onPressed: _isDateSelected && isAvailable
+                  ? () {
+                      setState(() {
+                        _selectedTime = selectedTime;
+                      });
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                foregroundColor: const Color(0xFF32a3cb),
+                backgroundColor: _selectedTime == selectedTime
+                    ? Colors.white // White fill when selected
+                    : const Color(0xFF32a3cb), // Text color
+                side: BorderSide(
+                  color: _selectedTime == selectedTime
+                      ? const Color(0xFF32a3cb) // Blue outline when selected
+                      : const Color.fromARGB(
+                          0, 255, 255, 255), // No outline by default
+                  width: 3.0,
+                ),
+              ),
+              child: Text(
+                selectedTime,
+                style: TextStyle(
+                  color: _selectedTime == selectedTime
+                      ? const Color(0xFF32a3cb) // Blue text when selected
+                      : Colors.white, // White text by default
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // Function to generate a row of time buttons
+  Widget _buildTimeRow(List<String> timeSlots) {
+    return Row(
+      children:
+          timeSlots.map((timeSlot) => _buildTimeButton(timeSlot)).toList(),
+    );
+  }
+
+  // ----------------------------------------------------------------------
+  // Check if TimeAvailable
+
+  Future<bool> isTimeAvailable(String selectedDate, String selectedTime) async {
+    if (await DatabaseService()
+        .isAppointmentExists(selectedDate, selectedTime)) {
+      return false; // Time slot is booked
+    }
+    return true; // Time slot is available
   }
 
   // ----------------------------------------------------------------------
@@ -78,14 +166,46 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
     if (_formKey.currentState!.validate()) {
       final appointmentDate = _appointmentDateController.text;
       final oldAppointmentDate = widget.appointment.appointment_date;
+      final appointmentTime = _selectedTime;
+
+      if (_selectedTime.isEmpty) {
+        // Show an error message and return if no time is selected
+        // You can customize the error handling based on your requirements
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please select an appointment time.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      // Check availability one more time before submitting (just in case)
+      bool isAvailable =
+          await isTimeAvailable(appointmentDate, appointmentTime);
+      if (!isAvailable) {
+        // Handle the case where the selected time became unavailable
+        // (Maybe show an error message to the user)
+        return;
+      }
 
       DateDisplay dateDisplayNew = DateDisplay(date: appointmentDate);
       String appointmentDateString = dateDisplayNew.getStringDate();
       DateDisplay dateDisplayOld = DateDisplay(date: oldAppointmentDate);
       String oldAppointmentDateString = dateDisplayOld.getStringDate();
-      
-      String timeNow = DateFormat('MMMM dd, yyyy \'at\' hh:mm a').format(DateTime.now());
-      
+
+      String timeNow =
+          DateFormat('MMMM dd, yyyy \'at\' hh:mm a').format(DateTime.now());
+
       String rescheduler;
 
       if (widget.reschedulerIsPatient == true) {
@@ -98,6 +218,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
       final updatedAppointment = Appointment(
         appointment_id: widget.appointment.appointment_id,
         appointment_date: appointmentDate,
+        appointment_time: appointmentTime,
         user_id: widget.appointment.user_id,
         profile_id: widget.appointment.profile_id,
         status: 'Pending',
@@ -198,6 +319,11 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                 },
                 validator: _requiredValidator,
               ),
+              const SizedBox(height: 16.0),
+              const Text('Choose Appointment Time'),
+              _buildTimeRow(['09:00 AM', '10:00 AM', '11:00 AM']),
+              _buildTimeRow(['12:00 PM', '01:00 PM', '02:00 PM']),
+              _buildTimeRow(['03:00 PM', '04:00 PM', '05:00 PM']),
               const SizedBox(height: 32.0),
               SizedBox(
                 height: 45.0,

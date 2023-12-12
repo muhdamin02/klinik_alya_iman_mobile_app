@@ -56,6 +56,7 @@ class DatabaseService {
   CREATE TABLE appointment (
     appointment_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     appointment_date TEXT NOT NULL,
+    appointment_time TEXT NOT NULL,
     user_id INTEGER NOT NULL,
     profile_id INTEGER NOT NULL,
     status TEXT NOT NULL,
@@ -207,6 +208,19 @@ class DatabaseService {
     );
   }
 
+  // Check if an appointment already exists for a given date and time
+  Future<bool> isAppointmentExists(
+      String appointmentDate, String appointmentTime) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'appointment_date = ? AND appointment_time = ?',
+      whereArgs: [appointmentDate, appointmentTime],
+    );
+
+    return maps.isNotEmpty;
+  }
+
   // Retrieve based on User and Profile
   Future<List<Appointment>> appointment(int userId, int? profileId) async {
     final db = await _databaseService.database;
@@ -282,7 +296,8 @@ class DatabaseService {
   }
 
   // Leave Remarks as Practitioner
-  Future<void> leaveRemarksAsPractitioner(int id, String practitionerRemarks) async {
+  Future<void> leaveRemarksAsPractitioner(
+      int id, String practitionerRemarks) async {
     final db = await _databaseService.database;
 
     Map<String, dynamic> valuesToUpdate = {
