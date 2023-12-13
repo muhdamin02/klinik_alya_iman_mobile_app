@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../appbar/appbar_appointment.dart';
+import '../../appbar/appbar_profiles_logout_only.dart';
 import '../../models/appointment.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
@@ -29,22 +29,22 @@ class ListAppointment extends StatefulWidget {
 // ----------------------------------------------------------------------
 
 class _ListAppointmentState extends State<ListAppointment> {
-  List<Appointment> _bookingHistory = [];
+  List<Appointment> _appointmentList = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchBookingHistory();
+    _fetchAppointmentList();
   }
 
   // ----------------------------------------------------------------------
   // View list of appointments
 
-  Future<void> _fetchBookingHistory() async {
-    List<Appointment> bookingHistory = await DatabaseService()
+  Future<void> _fetchAppointmentList() async {
+    List<Appointment> appointmentList = await DatabaseService()
         .appointment(widget.user.user_id!, widget.profile.profile_id);
     setState(() {
-      _bookingHistory = bookingHistory;
+      _appointmentList = appointmentList;
     });
   }
   // ----------------------------------------------------------------------
@@ -76,8 +76,8 @@ class _ListAppointmentState extends State<ListAppointment> {
       ),
     ).then((result) {
       if (result == true) {
-        // If the appointment was updated, refresh the appointment history
-        _fetchBookingHistory();
+        // If the appointment was updated, refresh the appointment list
+        _fetchAppointmentList();
       }
     });
   }
@@ -142,7 +142,7 @@ class _ListAppointmentState extends State<ListAppointment> {
                       .updateAppointmentStatus(appointmentId!, status, systemRemarks);
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
-                  _fetchBookingHistory();
+                  _fetchAppointmentList();
                 }
               },
               child: const Text('Confirm'),
@@ -182,7 +182,7 @@ class _ListAppointmentState extends State<ListAppointment> {
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
                 // Refresh the appointment history
-                _fetchBookingHistory();
+                _fetchAppointmentList();
               },
             ),
             ElevatedButton(
@@ -204,7 +204,7 @@ class _ListAppointmentState extends State<ListAppointment> {
   @override
   Widget build(BuildContext context) {
     // Sort the _bookingHistory list by appointment date
-    _bookingHistory
+    _appointmentList
         .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
 
     return WillPopScope(
@@ -212,8 +212,8 @@ class _ListAppointmentState extends State<ListAppointment> {
         return widget.autoImplyLeading;
       },
       child: Scaffold(
-        appBar: AlyaImanAppBarAppointment(
-          title: 'Appointment History',
+        appBar: AlyaImanAppBarOnlySeeProfilesAndLogout(
+          title: 'Appointments',
           user: widget.user,
           profile: widget.profile,
           autoImplyLeading: widget.autoImplyLeading,
@@ -221,9 +221,9 @@ class _ListAppointmentState extends State<ListAppointment> {
         body: Stack(
           children: [
             ListView.builder(
-              itemCount: _bookingHistory.length,
+              itemCount: _appointmentList.length,
               itemBuilder: (context, index) {
-                Appointment appointment = _bookingHistory[index];
+                Appointment appointment = _appointmentList[index];
                 return Column(
                   children: [
                     const SizedBox(height: 16.0),
@@ -242,12 +242,12 @@ class _ListAppointmentState extends State<ListAppointment> {
                           IconButton(
                             icon: const Icon(Icons.visibility),
                             onPressed: () {
-                              // Call a method to handle the update functionality
+                              // Call a method to handle the view functionality
                               _viewAppointment(appointment);
                             },
                           ),
                           Visibility(
-                            visible: appointment.status != 'Cancelled',
+                            visible: appointment.status != 'Cancelled' && appointment.status != 'Confirmed',
                             child: IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () {

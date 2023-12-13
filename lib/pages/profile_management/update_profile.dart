@@ -281,6 +281,4 @@ class _UpdateProfileState extends State<UpdateProfile> {
       ),
     );
   }
-
-  // ----------------------------------------------------------------------
 }

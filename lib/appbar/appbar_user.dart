@@ -32,7 +32,7 @@ class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget 
                 const PopupMenuItem(
                   value: 'profile',
                   child: ListTile(
-                    leading: Icon(Icons.list),
+                    leading: Icon(Icons.group),
                     title: Text('Profiles'),
                   ),
                 ),

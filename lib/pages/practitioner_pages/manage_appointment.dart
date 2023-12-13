@@ -22,21 +22,21 @@ class ManageAppointment extends StatefulWidget {
 // ----------------------------------------------------------------------
 
 class _ManageAppointmentState extends State<ManageAppointment> {
-  List<Appointment> _bookingHistory = [];
+  List<Appointment> _appointmentList = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchBookingHistory();
+    _fetchAppointmentList();
   }
 
   // ----------------------------------------------------------------------
   // View list of appointments
 
-  Future<void> _fetchBookingHistory() async {
-    List<Appointment> bookingHistory = await DatabaseService().appointmentAll();
+  Future<void> _fetchAppointmentList() async {
+    List<Appointment> appointmentList = await DatabaseService().appointmentAll();
     setState(() {
-      _bookingHistory = bookingHistory;
+      _appointmentList = appointmentList;
     });
   }
   // ----------------------------------------------------------------------
@@ -69,7 +69,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
     ).then((result) {
       if (result == true) {
         // If the appointment was updated, refresh the appointment history
-        _fetchBookingHistory();
+        _fetchAppointmentList();
       }
     });
   }
@@ -105,7 +105,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
                 // Refresh the appointment history
-                _fetchBookingHistory();
+                _fetchAppointmentList();
               },
             ),
             ElevatedButton(
@@ -240,7 +240,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   @override
   Widget build(BuildContext context) {
     // Sort the _bookingHistory list by appointment date
-    _bookingHistory
+    _appointmentList
         .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
 
     return WillPopScope(
@@ -261,9 +261,9 @@ class _ManageAppointmentState extends State<ManageAppointment> {
         body: Stack(
           children: [
             ListView.builder(
-              itemCount: _bookingHistory.length,
+              itemCount: _appointmentList.length,
               itemBuilder: (context, index) {
-                Appointment appointment = _bookingHistory[index];
+                Appointment appointment = _appointmentList[index];
                 return Column(
                   children: [
                     const SizedBox(height: 16.0),

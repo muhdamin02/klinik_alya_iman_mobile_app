@@ -2,6 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/appointment.dart';
+import '../models/medication.dart';
 import '../models/profile.dart';
 import '../models/user.dart';
 
@@ -63,6 +64,21 @@ class DatabaseService {
     system_remarks TEXT NOT NULL,
     patient_remarks TEXT DEFAULT 'No remarks by patient.',
     practitioner_remarks TEXT DEFAULT 'No remarks by practitioner.',
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE medication (
+    medication_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    medication_name TEXT NOT NULL,
+    medication_type TEXT NOT NULL,
+    medication_day TEXT NOT NULL,
+    medication_time TEXT NOT NULL,
+    medication_quantity INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
   );
@@ -306,5 +322,70 @@ class DatabaseService {
 
     await db.update('appointment', valuesToUpdate,
         where: 'appointment_id = ?', whereArgs: [id]);
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// MEDICATION DATABASE ////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Insert
+  Future<void> insertMedication(Medication medication) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'medication',
+      medication.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Retrieve based on User and Profile
+  Future<List<Medication>> medication(int userId, int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'medication',
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
+    );
+    return List.generate(
+        maps.length, (index) => Medication.fromMap(maps[index]));
+  }
+
+  // Retrieve One Appointment Info
+  Future<List<Medication>> medicationInfo(int? medicationId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'medication',
+      where: 'medication_id = ?',
+      whereArgs: [medicationId],
+    );
+    return List.generate(
+        maps.length, (index) => Medication.fromMap(maps[index]));
+  }
+
+  // Retrieve All
+  Future<List<Medication>> medicationAll() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'medication',
+    );
+    return List.generate(
+        maps.length, (index) => Medication.fromMap(maps[index]));
+  }
+
+  // Edit Medication
+  Future<void> editMedication(Medication medication) async {
+    final db = await _databaseService.database;
+    await db.update('medication', medication.toMap(),
+        where: 'medication_id = ?', whereArgs: [medication.medication_id]);
+  }
+
+  // Delete
+  Future<void> deleteMedication(int id) async {
+    final db = await _databaseService.database;
+    await db.delete('medication', where: 'medication_id = ?', whereArgs: [id]);
   }
 }

@@ -262,7 +262,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Appointment Form'),
+        title: const Text('Book Appointment'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

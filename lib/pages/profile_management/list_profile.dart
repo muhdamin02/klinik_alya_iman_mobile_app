@@ -242,6 +242,7 @@ class _ListProfileState extends State<ListProfile> {
                                   builder: (context) => ProfilePage(
                                     user: widget.user,
                                     profile: profile,
+                                    autoImplyLeading: true,
                                   ),
                                 ),
                               );

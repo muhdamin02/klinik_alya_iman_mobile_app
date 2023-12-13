@@ -6,7 +6,6 @@ import '../../models/user.dart';
 import '../../services/database_service.dart';
 import 'list_profile.dart';
 
-
 class CreateProfile extends StatefulWidget {
   final User user;
 
@@ -51,9 +50,19 @@ class _CreateProfileState extends State<CreateProfile> {
   void initState() {
     super.initState();
 
-    // Prefill the text fields with the user's information
-    _firstNameController.text = widget.user.f_name;
-    _lastNameController.text = widget.user.l_name;
+    _initializeTextFields();
+  }
+
+  // ----------------------------------------------------------------------
+  // Initialize text fields
+  Future<void> _initializeTextFields() async {
+    // Prefill the text fields with the user's information if profile count = 0
+    int profileCount = await DatabaseService().getProfileCount(widget.user.user_id!);
+
+    if (profileCount == 0) {
+      _firstNameController.text = widget.user.f_name;
+      _lastNameController.text = widget.user.l_name;
+    }
   }
 
   // ----------------------------------------------------------------------
@@ -152,10 +161,10 @@ class _CreateProfileState extends State<CreateProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AlyaImanAppBarUser(
-          title: 'Create Profile',
-          user: widget.user,
-          autoImplyLeading: true,
-        ),
+        title: 'Create Profile',
+        user: widget.user,
+        autoImplyLeading: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
