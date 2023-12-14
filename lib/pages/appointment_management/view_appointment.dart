@@ -147,8 +147,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         Row(
                           children: [
                             const Text('Date: '),
-                            DateDisplay(
-                                date: appointment.appointment_date),
+                            DateDisplay(date: appointment.appointment_date),
                             Text(' ($dayOfWeek)'),
                           ],
                         ),

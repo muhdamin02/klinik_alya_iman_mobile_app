@@ -359,6 +359,4 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
       ),
     );
   }
-
-  // ----------------------------------------------------------------------
 }

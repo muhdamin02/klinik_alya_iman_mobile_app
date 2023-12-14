@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
-import 'medication_dose_times.dart';
+import 'medication_next_dose_day.dart';
 
 class MedicationFrequencyIntervalPage extends StatefulWidget {
   final Medication medication;
@@ -48,10 +47,10 @@ class _MedicationFrequencyIntervalPageState
       medication_type: widget.medication.medication_type,
       frequency_type: widget.medication.frequency_type,
       frequency_interval: frequencyInterval,
-      daily_frequency: 0,
+      medication_day: '',
+      daily_frequency: 1,
       next_dose_day: '',
       dose_times: '',
-      medication_time: '',
       medication_quantity: 0,
       user_id: widget.user.user_id!,
       profile_id: widget.profile.profile_id!,
@@ -59,7 +58,7 @@ class _MedicationFrequencyIntervalPageState
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MedicationDoseTimesPage(
+        builder: (context) => MedicationNextDoseDayPage(
           medication: medication,
           user: widget.user,
           profile: widget.profile,

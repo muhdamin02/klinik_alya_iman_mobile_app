@@ -6,6 +6,7 @@ import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import 'medication_form/medication_name.dart';
+import 'view_medication.dart';
 
 class ListMedication extends StatefulWidget {
   final User user;
@@ -51,13 +52,13 @@ class _ListMedicationState extends State<ListMedication> {
 
   void _viewMedication(Medication medication) {
     // Navigate to the view medication details page with the selected medication
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) =>
-    //         ViewMedication(medication: medication, user: widget.user),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            ViewMedication(medication: medication, user: widget.user),
+      ),
+    );
   }
 
   // ----------------------------------------------------------------------
@@ -149,12 +150,12 @@ class _ListMedicationState extends State<ListMedication> {
                     const SizedBox(height: 16.0),
                     ListTile(
                       title: Text(
-                          '${medication.medication_name} - ${medication.medication_time}'),
+                          medication.medication_name),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 4.0),
-                          Text('Status: ${medication.medication_type}'),
+                          Text('Medication Type: ${medication.medication_type}'),
                         ],
                       ),
                       trailing: Row(
@@ -198,9 +199,9 @@ class _ListMedicationState extends State<ListMedication> {
               frequency_type: '',
               frequency_interval: 0,
               daily_frequency: 0,
+              medication_day: '',
               next_dose_day: '',
               dose_times: '',
-              medication_time: '',
               medication_quantity: 0,
               user_id: widget.user.user_id!,
               profile_id: widget.profile.profile_id!,

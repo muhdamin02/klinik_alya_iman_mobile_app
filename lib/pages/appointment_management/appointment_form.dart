@@ -91,7 +91,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 side: BorderSide(
                   color: _selectedTime == selectedTime
                       ? const Color(0xFF32a3cb) // Blue outline when selected
-                      : const Color.fromARGB(0, 255, 255, 255), // No outline by default
+                      : const Color.fromARGB(
+                          0, 255, 255, 255), // No outline by default
                   width: 3.0,
                 ),
               ),

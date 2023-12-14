@@ -57,7 +57,8 @@ class _ListAppointmentState extends State<ListAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewAppointment(appointment: appointment, user: widget.user),
+        builder: (context) =>
+            ViewAppointment(appointment: appointment, user: widget.user),
       ),
     );
   }
@@ -72,7 +73,10 @@ class _ListAppointmentState extends State<ListAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UpdateAppointment(appointment: appointment, reschedulerIsPatient: true,),
+        builder: (context) => UpdateAppointment(
+          appointment: appointment,
+          reschedulerIsPatient: true,
+        ),
       ),
     ).then((result) {
       if (result == true) {
@@ -136,10 +140,11 @@ class _ListAppointmentState extends State<ListAppointment> {
                 if (formKey.currentState!.validate()) {
                   // Proceed with cancellation
                   status = 'Cancelled';
-                  systemRemarks = 'The appointment has been cancelled by the patient.';
+                  systemRemarks =
+                      'The appointment has been cancelled by the patient.';
                   systemRemarks = cancellationReasonController.text;
-                  await DatabaseService()
-                      .updateAppointmentStatus(appointmentId!, status, systemRemarks);
+                  await DatabaseService().updateAppointmentStatus(
+                      appointmentId!, status, systemRemarks);
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                   _fetchAppointmentList();
@@ -170,8 +175,8 @@ class _ListAppointmentState extends State<ListAppointment> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Remove Appointment'),
-          content:
-              const Text('Are you sure you want to remove this appointment from history?'),
+          content: const Text(
+              'Are you sure you want to remove this appointment from history?'),
           actions: <Widget>[
             ElevatedButton(
               child:
@@ -228,7 +233,8 @@ class _ListAppointmentState extends State<ListAppointment> {
                   children: [
                     const SizedBox(height: 16.0),
                     ListTile(
-                      title: Text('${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
+                      title: Text(
+                          '${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -247,7 +253,8 @@ class _ListAppointmentState extends State<ListAppointment> {
                             },
                           ),
                           Visibility(
-                            visible: appointment.status != 'Cancelled' && appointment.status != 'Confirmed',
+                            visible: appointment.status != 'Cancelled' &&
+                                appointment.status != 'Confirmed',
                             child: IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () {
@@ -292,9 +299,9 @@ class _ListAppointmentState extends State<ListAppointment> {
               context,
               MaterialPageRoute(
                 builder: (context) => AppointmentForm(
-                        user: widget.user,
-                        profile: widget.profile,
-                      ),
+                  user: widget.user,
+                  profile: widget.profile,
+                ),
               ),
             );
           },

@@ -4,7 +4,9 @@ import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import 'medication_frequency_daily.dart';
+import 'medication_frequency_day.dart';
 import 'medication_frequency_interval.dart';
+import 'medication_next_dose_day.dart';
 
 class MedicationFrequencyTypePage extends StatefulWidget {
   final Medication medication;
@@ -36,9 +38,9 @@ class _MedicationFrequencyTypePageState
         frequency_type: frequency,
         frequency_interval: 0,
         daily_frequency: 0,
+        medication_day: '',
         next_dose_day: '',
         dose_times: '',
-        medication_time: '',
         medication_quantity: 0,
         user_id: widget.user.user_id!,
         profile_id: widget.profile.profile_id!,
@@ -49,6 +51,32 @@ class _MedicationFrequencyTypePageState
           context,
           MaterialPageRoute(
             builder: (context) => MedicationDailyFrequencyPage(
+              medication: medication,
+              user: widget.user,
+              profile: widget.profile,
+            ),
+          ),
+        );
+      }
+
+      if (frequency == 'EveryOtherDay') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicationNextDoseDayPage(
+              medication: medication,
+              user: widget.user,
+              profile: widget.profile,
+            ),
+          ),
+        );
+      }
+
+      if (frequency == 'SpecificDays') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicationFrequencyDayPage(
               medication: medication,
               user: widget.user,
               profile: widget.profile,
