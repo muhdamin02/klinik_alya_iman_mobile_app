@@ -5,7 +5,7 @@ import '../../models/medication.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
-import 'medication_form.dart';
+import 'medication_form/medication_name.dart';
 
 class ListMedication extends StatefulWidget {
   final User user;
@@ -127,10 +127,6 @@ class _ListMedicationState extends State<ListMedication> {
 
   @override
   Widget build(BuildContext context) {
-    // Sort the _medicationList list by appointment time
-    // _medicationList
-    //     .sort((a, b) => a.medication_time.compareTo(b.medication_time));
-
     return WillPopScope(
       onWillPop: () async {
         return widget.autoImplyLeading;
@@ -196,14 +192,29 @@ class _ListMedicationState extends State<ListMedication> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
+            final medication = Medication(
+              medication_name: '',
+              medication_type: '',
+              frequency_type: '',
+              frequency_interval: 0,
+              daily_frequency: 0,
+              next_dose_day: '',
+              dose_times: '',
+              medication_time: '',
+              medication_quantity: 0,
+              user_id: widget.user.user_id!,
+              profile_id: widget.profile.profile_id!,
+            );
+
             // Navigate to the page where you want to medication form
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MedicationForm(
-                        user: widget.user,
-                        profile: widget.profile,
-                      ),
+                builder: (context) => MedicationNamePage(
+                  user: widget.user,
+                  profile: widget.profile,
+                  medication: medication,
+                ),
               ),
             );
           },

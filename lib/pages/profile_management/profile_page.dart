@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../appbar/appbar_all_pages.dart';
+import '../../models/medication.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../appointment_management/appointment_form.dart';
-import '../medication_management/medication_form.dart';
+import '../medication_management/medication_form/medication_name.dart';
 
 class ProfilePage extends StatelessWidget {
   final User user;
@@ -70,11 +71,26 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 10),
             FloatingActionButton.extended(
               onPressed: () {
+                final medication = Medication(
+                  medication_name: '',
+                  medication_type: '',
+                  frequency_type: '',
+                  frequency_interval: 0,
+                  daily_frequency: 0,
+                  next_dose_day: '',
+                  dose_times: '',
+                  medication_time: '',
+                  medication_quantity: 0,
+                  user_id: user.user_id!,
+                  profile_id: profile.profile_id!,
+                );
+
                 // Navigate to the page where you want to medication form
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MedicationForm(
+                    builder: (context) => MedicationNamePage(
+                      medication: medication,
                       user: user,
                       profile: profile,
                     ),
