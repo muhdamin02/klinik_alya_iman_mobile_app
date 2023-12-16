@@ -1,103 +1,102 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+name: klinik_alya_iman_mobile_app
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-import 'pages/startup/login.dart';
-import 'services/misc_methods/page_transition.dart';
-import 'services/notification_service.dart';
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+environment:
+  sdk: '>=3.1.3 <4.0.0'
 
-void main() {
-  runApp(const MyApp());
-}
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
 
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    NotificationService.initialize(flutterLocalNotificationsPlugin);
-  }
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  sqflite: ^2.3.0
+  intl: ^0.19.0
+  path: ^1.8.3
+  flutter_local_notifications: ^16.2.0
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Klinik Alya Iman',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: const MaterialColor(
-            0xFF32a3cb,
-            <int, Color>{
-              50: Color(0xFF32a3cb),
-              100: Color(0xFF32a3cb),
-              200: Color(0xFF32a3cb),
-              300: Color(0xFF32a3cb),
-              400: Color(0xFF32a3cb),
-              500: Color(0xFF32a3cb),
-              600: Color(0xFF32a3cb),
-              700: Color(0xFF32a3cb),
-              800: Color(0xFF32a3cb),
-              900: Color(0xFF32a3cb),
-            },
-          ),
-        ).copyWith(
-          primary: const Color(0xFF32a3cb),
-          secondary: const Color(0xFF32a3cb),
-        ),
-        textTheme: const TextTheme(
-          // booking history details text
-          bodyMedium: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-          ),
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
-          // validator texts
-          bodySmall: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-          ),
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
 
-          // submit and update button
-          labelLarge: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-          ),
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
 
-          // appbar
-          titleLarge: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 25,
-            fontWeight: FontWeight.normal,
-          ),
+# The following section is specific to Flutter packages.
+flutter:
 
-          // placeholder text in textfields, checkbox tiles, dropdown options
-          titleMedium: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: {
-            TargetPlatform.android: CustomPageTransitionBuilder(),
-            TargetPlatform.iOS: CustomPageTransitionBuilder(),
-          },
-        ),
-      ),
-      home: const Login(
-        usernamePlaceholder: '',
-        passwordPlaceholder: '',
-      ),
-    );
-  }
-}
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+      - assets/
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+
+  fonts:
+    - family: Afacad
+      fonts:
+        - asset: assets/fonts/afacad/Afacad-VariableFont_wght.ttf
+        - asset: assets/fonts/afacad/Afacad-Italic-VariableFont_wght.ttf
+          style: italic
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Coolvetica
+  #     fonts:
+  #       - asset: fonts/coolvetica_rg.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
