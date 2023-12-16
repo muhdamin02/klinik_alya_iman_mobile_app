@@ -32,7 +32,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
         medication_type: type,
         frequency_type: '',
         frequency_interval: 0,
-        daily_frequency: 0,
+        daily_frequency: 1,
         medication_day: '',
         next_dose_day: '',
         dose_times: '',

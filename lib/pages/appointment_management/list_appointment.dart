@@ -38,7 +38,7 @@ class _ListAppointmentState extends State<ListAppointment> {
   }
 
   // ----------------------------------------------------------------------
-  // View list of appointments
+  // Get list of appointments
 
   Future<void> _fetchAppointmentList() async {
     List<Appointment> appointmentList = await DatabaseService()

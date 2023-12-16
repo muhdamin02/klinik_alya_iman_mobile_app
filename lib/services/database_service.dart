@@ -377,6 +377,18 @@ class DatabaseService {
         maps.length, (index) => Medication.fromMap(maps[index]));
   }
 
+  // Retrieve based on User
+  Future<List<Medication>> medicationUser(int userId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'medication',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+    return List.generate(
+        maps.length, (index) => Medication.fromMap(maps[index]));
+  }
+
   // Retrieve One Appointment Info
   Future<List<Medication>> medicationInfo(int? medicationId) async {
     final db = await _databaseService.database;
@@ -410,5 +422,16 @@ class DatabaseService {
   Future<void> deleteMedication(int id) async {
     final db = await _databaseService.database;
     await db.delete('medication', where: 'medication_id = ?', whereArgs: [id]);
+  }
+
+  // Retrieve Medicine Count
+  Future<int> getMedicineCount(int userId) async {
+    final db = await _databaseService.database;
+    final medicineCount = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM medicine WHERE user_id = ?',
+      [userId],
+    ));
+
+    return medicineCount ?? 0;
   }
 }

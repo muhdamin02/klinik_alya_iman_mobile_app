@@ -38,8 +38,6 @@ class NotificationService {
       title,
       body,
       tz.TZDateTime.from(scheduledTime, tz.local),
-      // tz.TZDateTime.now(tz.local).add(const Duration(
-      //     seconds: 3)), //schedule the notification to show after 3 seconds.
       const NotificationDetails(
         // Android details
         android: AndroidNotificationDetails('main_channel', 'Main Channel',
@@ -54,5 +52,53 @@ class NotificationService {
       androidAllowWhileIdle:
           true, // To show notification even when the app is closed
     );
+  }
+
+  Future<void> showRepeatingNotification(
+    int id,
+    String title,
+    String body,
+    Time scheduledTime,
+  ) async {
+    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'repeating_channel_id',
+      'Repeating Channel Name',
+      channelDescription: 'Repeating Channel Description',
+      importance: Importance.max,
+      priority: Priority.max,
+    );
+
+    final platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      _nextInstanceOfScheduledTime(scheduledTime),
+      platformChannelSpecifics,
+      // Type of time interpretation
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle:
+          true, // To show notification even when the app is closed
+    );
+  }
+
+  tz.TZDateTime _nextInstanceOfScheduledTime(Time scheduledTime) {
+    final now = tz.TZDateTime.now(tz.local);
+    var scheduledDateTime = tz.TZDateTime(tz.local, now.year, now.month,
+            now.day, scheduledTime.hour, scheduledTime.minute)
+        .add(const Duration(days: 1));
+
+    print('scheduled date time: $scheduledDateTime');
+
+    if (scheduledDateTime.isBefore(now)) {
+      scheduledDateTime = scheduledDateTime.add(const Duration(days: 1));
+      print('the notification will arrive tomorrow');
+      print('scheduled date time after add: $scheduledDateTime');
+    }
+
+    return scheduledDateTime;
   }
 }

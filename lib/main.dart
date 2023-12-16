@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'pages/startup/login.dart';
 import 'services/misc_methods/page_transition.dart';
 import 'services/notification_service.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
   runApp(const MyApp());
 }
 
@@ -21,6 +16,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsFlutterBinding.ensureInitialized();
+    NotificationService().initNotification();
+    tz.initializeTimeZones();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

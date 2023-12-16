@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
 import '../../models/user.dart';
 import '../../services/auth_service.dart';
@@ -7,8 +6,6 @@ import '../../services/database_service.dart';
 import '../home.dart';
 import '../practitioner_pages/practitioner_home.dart';
 import 'register.dart';
-
-DateTime scheduleTime = DateTime.now();
 
 class Login extends StatefulWidget {
   final String usernamePlaceholder;
@@ -36,8 +33,6 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-
-    tz.initializeTimeZones();
 
     // Prefill the text fields with the user's information
     _usernameController.text = widget.usernamePlaceholder;

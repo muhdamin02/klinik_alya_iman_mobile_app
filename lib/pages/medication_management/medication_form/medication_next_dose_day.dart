@@ -66,7 +66,7 @@ class _MedicationNextDoseDayPageState extends State<MedicationNextDoseDayPage> {
       frequency_interval: widget.medication.frequency_interval,
       daily_frequency: widget.medication.daily_frequency,
       medication_day: widget.medication.medication_day,
-      next_dose_day: '',
+      next_dose_day: day,
       dose_times: '',
       medication_quantity: 0,
       user_id: widget.user.user_id!,

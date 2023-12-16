@@ -37,7 +37,7 @@ class _MedicationFrequencyTypePageState
         medication_type: widget.medication.medication_type,
         frequency_type: frequency,
         frequency_interval: 0,
-        daily_frequency: 0,
+        daily_frequency: 1,
         medication_day: '',
         next_dose_day: '',
         dose_times: '',

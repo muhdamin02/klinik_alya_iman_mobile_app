@@ -101,8 +101,8 @@ class _MedicationFrequencyIntervalPageState
                           });
                         },
                         min: 2.0,
-                        max: 30.0,
-                        divisions: 29,
+                        max: 14.0,
+                        divisions: 13,
                         label: '${_value.toInt()}',
                       ),
                       Text(
@@ -122,8 +122,8 @@ class _MedicationFrequencyIntervalPageState
                           });
                         },
                         min: 1.0,
-                        max: 21.0,
-                        divisions: 21,
+                        max: 14.0,
+                        divisions: 14,
                         label: '${_value.toInt()}',
                       ),
                       Text(
