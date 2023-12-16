@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'pages/startup/login.dart';
 import 'services/misc_methods/page_transition.dart';
+import 'services/notification_service.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +19,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    NotificationService.initialize(flutterLocalNotificationsPlugin);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -83,7 +94,10 @@ class _MyAppState extends State<MyApp> {
           },
         ),
       ),
-      home: const Login(usernamePlaceholder: '', passwordPlaceholder: '',),
+      home: const Login(
+        usernamePlaceholder: '',
+        passwordPlaceholder: '',
+      ),
     );
   }
 }
