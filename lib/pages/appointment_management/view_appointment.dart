@@ -23,11 +23,13 @@ class ViewAppointment extends StatefulWidget {
 
 class _ViewAppointmentState extends State<ViewAppointment> {
   List<Appointment> _appointmentInfo = [];
+  String? _patientName;
 
   @override
   void initState() {
     super.initState();
     _fetchAppointmentInfo();
+    _loadPatientName();
   }
 
   // ----------------------------------------------------------------------
@@ -39,6 +41,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     setState(() {
       _appointmentInfo = appointmentInfo;
     });
+  }
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // load patient name
+  Future<void> _loadPatientName() async {
+    _patientName =
+        await DatabaseService().getPatientName(widget.appointment.profile_id);
+    setState(() {}); // Update the UI to display the patient name
   }
   // ----------------------------------------------------------------------
 
@@ -144,6 +155,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text('Patient: $_patientName'),
+                        const SizedBox(height: 8.0),
                         Row(
                           children: [
                             const Text('Date: '),
