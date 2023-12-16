@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../models/user.dart';
 import '../services/database_service.dart';
+import '../services/notification_service.dart';
 import 'profile_management/first_profile.dart';
 import 'profile_management/list_profile.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class Home extends StatelessWidget {
   final User user;
@@ -13,6 +17,11 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+    NotificationService().initNotification();
+    NotificationService()
+        .showNotification(1, 'delayed noti', 'tolonglah berhasil aku merayu', DateTime(2023, 12, 16, 17, 27));
+
     return FutureBuilder<int>(
       future: DatabaseService().getProfileCount(user.user_id!),
       builder: (context, snapshot) {

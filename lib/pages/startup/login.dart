@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/main.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 import '../../models/user.dart';
 import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
-import '../../services/notification_service.dart';
 import '../home.dart';
 import '../practitioner_pages/practitioner_home.dart';
 import 'register.dart';
+
+DateTime scheduleTime = DateTime.now();
 
 class Login extends StatefulWidget {
   final String usernamePlaceholder;
@@ -35,6 +36,8 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
+
+    tz.initializeTimeZones();
 
     // Prefill the text fields with the user's information
     _usernameController.text = widget.usernamePlaceholder;
@@ -117,8 +120,6 @@ class _LoginState extends State<Login> {
   }
 
   // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
   // Builder
 
   @override
@@ -194,29 +195,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SizedBox(
-                    height: 45.0,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        NotificationService.showBigTextNotification(title: 'aa', body: 'ddd', fln: flutterLocalNotificationsPlugin);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(50, 163, 203,
-                            1), // Set the desired button color here
-                      ),
-                      child: const Text(
-                        'NNOTIFCIATION',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 32.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -263,116 +241,6 @@ Future<List<Map<String, dynamic>>> getUserData(String username) async {
   );
 
   return result;
-}
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-// get user id
-
-Future<int?> _getUserID(String username) async {
-  final db = await DatabaseService().database;
-  final List<Map<String, dynamic>> result = await db.query(
-    'user',
-    columns: ['user_id'],
-    where: 'username = ?',
-    whereArgs: [username],
-    limit: 1,
-  );
-
-  if (result.isNotEmpty) {
-    return result.first['user_id'] as int?;
-  }
-
-  return null;
-}
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-// get user first name
-
-Future<String?> _getUserFName(String username) async {
-  final db = await DatabaseService().database;
-  final List<Map<String, dynamic>> result = await db.query(
-    'user',
-    columns: ['f_name'],
-    where: 'username = ?',
-    whereArgs: [username],
-    limit: 1,
-  );
-
-  if (result.isNotEmpty) {
-    return result.first['f_name'] as String?;
-  }
-
-  return null;
-}
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-// get user last name
-
-Future<String?> _getUserLName(String username) async {
-  final db = await DatabaseService().database;
-  final List<Map<String, dynamic>> result = await db.query(
-    'user',
-    columns: ['l_name'],
-    where: 'username = ?',
-    whereArgs: [username],
-    limit: 1,
-  );
-
-  if (result.isNotEmpty) {
-    return result.first['l_name'] as String?;
-  }
-
-  return null;
-}
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-// get user email
-
-Future<String?> _getUserEmail(String username) async {
-  final db = await DatabaseService().database;
-  final List<Map<String, dynamic>> result = await db.query(
-    'user',
-    columns: ['email'],
-    where: 'username = ?',
-    whereArgs: [username],
-    limit: 1,
-  );
-
-  if (result.isNotEmpty) {
-    return result.first['email'] as String?;
-  }
-
-  return null;
-}
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
-// get user role
-
-Future<String?> _getUserRole(String username) async {
-  final db = await DatabaseService().database;
-  final List<Map<String, dynamic>> result = await db.query(
-    'user',
-    columns: ['role'],
-    where: 'username = ?',
-    whereArgs: [username],
-    limit: 1,
-  );
-
-  if (result.isNotEmpty) {
-    return result.first['role'] as String?;
-  }
-
-  return null;
 }
 
 // ----------------------------------------------------------------------
