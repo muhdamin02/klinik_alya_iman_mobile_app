@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/main.dart';
 
 import '../../models/user.dart';
 import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
+import '../../services/notification_service.dart';
 import '../home.dart';
 import '../practitioner_pages/practitioner_home.dart';
 import 'register.dart';
@@ -135,7 +137,7 @@ class _LoginState extends State<Login> {
                 const Image(
                     image: AssetImage('assets/klinik_alya_iman.png'),
                     fit: BoxFit.fitHeight),
-                const SizedBox(height: 32),
+                const SizedBox(height: 32.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
@@ -145,15 +147,14 @@ class _LoginState extends State<Login> {
                       labelText: 'Username',
                     ),
                     validator: (value) {
-                      if (value == null ||
-                          value.isEmpty || value == '') {
+                      if (value == null || value.isEmpty || value == '') {
                         return 'Please enter your username';
                       }
                       return null;
                     },
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
@@ -164,15 +165,14 @@ class _LoginState extends State<Login> {
                     ),
                     obscureText: true,
                     validator: (value) {
-                      if (value == null ||
-                          value.isEmpty || value == '') {
+                      if (value == null || value.isEmpty || value == '') {
                         return 'Please enter your password';
                       }
                       return null;
                     },
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(
@@ -186,6 +186,29 @@ class _LoginState extends State<Login> {
                       ),
                       child: const Text(
                         'Login',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    height: 45.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        NotificationService.showBigTextNotification(title: 'aa', body: 'ddd', fln: flutterLocalNotificationsPlugin);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(50, 163, 203,
+                            1), // Set the desired button color here
+                      ),
+                      child: const Text(
+                        'NNOTIFCIATION',
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,
