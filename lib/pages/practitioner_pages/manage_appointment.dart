@@ -34,7 +34,8 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   // View list of appointments
 
   Future<void> _fetchAppointmentList() async {
-    List<Appointment> appointmentList = await DatabaseService().appointmentAll();
+    List<Appointment> appointmentList =
+        await DatabaseService().appointmentAll();
     setState(() {
       _appointmentList = appointmentList;
     });
@@ -49,7 +50,10 @@ class _ManageAppointmentState extends State<ManageAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewAppointment(appointment: appointment, user: widget.user,),
+        builder: (context) => ViewAppointment(
+          appointment: appointment,
+          user: widget.user,
+        ),
       ),
     );
   }
@@ -64,7 +68,10 @@ class _ManageAppointmentState extends State<ManageAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UpdateAppointment(appointment: appointment, reschedulerIsPatient: false,),
+        builder: (context) => UpdateAppointment(
+          appointment: appointment,
+          reschedulerIsPatient: false,
+        ),
       ),
     ).then((result) {
       if (result == true) {
@@ -268,7 +275,8 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                   children: [
                     const SizedBox(height: 16.0),
                     ListTile(
-                      title: DateDisplay(date: appointment.appointment_date),
+                      title: Text(
+                          '${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -297,7 +305,8 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                             ),
                           ),
                           Visibility(
-                            visible: appointment.status != 'Cancelled' && appointment.status != 'Confirmed',
+                            visible: appointment.status != 'Cancelled' &&
+                                appointment.status != 'Confirmed',
                             child: IconButton(
                               icon: const Icon(Icons.thumb_up),
                               onPressed: () {
