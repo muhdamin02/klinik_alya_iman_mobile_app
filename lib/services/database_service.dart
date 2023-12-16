@@ -91,11 +91,11 @@ class DatabaseService {
     await db.execute(
       'INSERT INTO user (f_name, l_name, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)',
       [
-        'Muhammad Shahid',
-        'Shamsul Anuar',
-        'abualyain',
-        'abualyain',
-        'abualyain@example.com',
+        'Robiah',
+        'Hamzah',
+        'doctor',
+        'doctor',
+        'doctor@example.com',
         'practitioner'
       ],
     );
@@ -326,6 +326,25 @@ class DatabaseService {
 
     await db.update('appointment', valuesToUpdate,
         where: 'appointment_id = ?', whereArgs: [id]);
+  }
+
+  // Retrieve Patient Name
+  Future<String?> getPatientName(int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'profile',
+      where: 'profile_id = ?',
+      whereArgs: [profileId],
+    );
+
+    // Assuming 'f_name' and 'l_name' are columns in the 'appointment' table
+    final String firstName = maps.first['f_name'];
+    final String lastName = maps.first['l_name'];
+
+    // Concatenate 'f_name' and 'l_name' to get 'patientName'
+    final String patientName = '$firstName $lastName';
+
+    return patientName;
   }
 
 //////////////////////////////////////////////////////////////////////////
