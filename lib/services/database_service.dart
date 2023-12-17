@@ -203,11 +203,29 @@ class DatabaseService {
     return appointmentCount != 0;
   }
 
+  // Check if Profile has Medication
+  Future<bool> hasMedication(int profileId) async {
+    final db = await _databaseService.database;
+    final medicationCount = Sqflite.firstIntValue(await db.rawQuery(
+      'SELECT COUNT(*) FROM medication WHERE profile_id = ?',
+      [profileId],
+    ));
+
+    return medicationCount != 0;
+  }
+
   // Delete Appointments by Profile
   Future<void> deleteAppointmentsByProfile(int profileId) async {
     final db = await _databaseService.database;
     await db
         .delete('appointment', where: 'profile_id = ?', whereArgs: [profileId]);
+  }
+
+  // Delete Medication by Profile
+  Future<void> deleteMedicationByProfile(int profileId) async {
+    final db = await _databaseService.database;
+    await db
+        .delete('medication', where: 'profile_id = ?', whereArgs: [profileId]);
   }
 
 //////////////////////////////////////////////////////////////////////////

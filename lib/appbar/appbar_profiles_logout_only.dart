@@ -4,6 +4,8 @@ import '../models/profile.dart';
 import '../models/user.dart';
 import '../pages/profile_management/profile_page.dart';
 import '../pages/startup/login.dart';
+import '../services/misc_methods/notification_singleton.dart';
+import '../services/notification_service.dart';
 
 class AlyaImanAppBarOnlySeeProfilesAndLogout extends StatelessWidget
     implements PreferredSizeWidget {
@@ -48,7 +50,7 @@ class AlyaImanAppBarOnlySeeProfilesAndLogout extends StatelessWidget
                 ),
               ];
             },
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == 'profile_page') {
                 Navigator.push(
                   context,
@@ -61,10 +63,16 @@ class AlyaImanAppBarOnlySeeProfilesAndLogout extends StatelessWidget
                   ),
                 );
               } else if (value == 'logout') {
+                NotificationCounter notificationCounter = NotificationCounter();
+                notificationCounter.reset();
+                await NotificationService().cancelAllNotifications();
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Login(usernamePlaceholder: user.username, passwordPlaceholder: user.password),
+                    builder: (context) => Login(
+                        usernamePlaceholder: user.username,
+                        passwordPlaceholder: user.password),
                   ),
                 );
               }

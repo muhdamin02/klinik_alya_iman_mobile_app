@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
-import 'medication_next_dose_day.dart';
+import 'medication_dose_times.dart';
 
 class MedicationFrequencyDayPage extends StatefulWidget {
   final Medication medication;
@@ -46,7 +46,7 @@ class _MedicationFrequencyDayPageState
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MedicationNextDoseDayPage(
+          builder: (context) => MedicationDoseTimesPage(
             medication: medication,
             user: widget.user,
             profile: widget.profile,

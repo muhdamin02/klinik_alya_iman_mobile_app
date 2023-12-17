@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../models/user.dart';
+import '../../services/misc_methods/notification_singleton.dart';
+import '../../services/notification_service.dart';
 import '../startup/login.dart';
 import 'manage_appointment.dart';
 
@@ -42,12 +44,19 @@ class PractitionerHome extends StatelessWidget {
                   ),
                 ];
               },
-              onSelected: (value) {
+              onSelected: (value) async {
                 if (value == 'logout') {
+                  NotificationCounter notificationCounter =
+                      NotificationCounter();
+                  notificationCounter.reset();
+                  await NotificationService().cancelAllNotifications();
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Login(usernamePlaceholder: user.username, passwordPlaceholder: user.password),
+                      builder: (context) => Login(
+                          usernamePlaceholder: user.username,
+                          passwordPlaceholder: user.password),
                     ),
                   );
                 }

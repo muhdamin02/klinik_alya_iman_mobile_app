@@ -6,9 +6,11 @@ import '../pages/appointment_management/list_appointment.dart';
 import '../pages/medication_management/list_medication.dart';
 import '../pages/profile_management/list_profile.dart';
 import '../pages/startup/login.dart';
+import '../services/misc_methods/notification_singleton.dart';
+import '../services/notification_service.dart';
 
-
-class AlyaImanAppBarSeeAllPages extends StatelessWidget implements PreferredSizeWidget {
+class AlyaImanAppBarSeeAllPages extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
   final User user;
   final Profile profile;
@@ -64,7 +66,7 @@ class AlyaImanAppBarSeeAllPages extends StatelessWidget implements PreferredSize
                 ),
               ];
             },
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == 'profile') {
                 Navigator.push(
                   context,
@@ -97,10 +99,16 @@ class AlyaImanAppBarSeeAllPages extends StatelessWidget implements PreferredSize
                   ),
                 );
               } else if (value == 'logout') {
+                NotificationCounter notificationCounter = NotificationCounter();
+                notificationCounter.reset();
+                await NotificationService().cancelAllNotifications();
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Login(usernamePlaceholder: user.username, passwordPlaceholder: user.password),
+                    builder: (context) => Login(
+                        usernamePlaceholder: user.username,
+                        passwordPlaceholder: user.password),
                   ),
                 );
               }

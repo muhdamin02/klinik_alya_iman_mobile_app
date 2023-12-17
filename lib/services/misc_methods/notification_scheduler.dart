@@ -26,11 +26,40 @@ class NotificationScheduler {
         DateTime.now().add(const Duration(seconds: 5)));
   }
 
-  void scheduleNotificationDaily() {
-    const scheduledTime = Time(14, 15);
+  void scheduleNotificationDaily(
+      int id, String title, String subtitle, Time scheduledTime) {
+    NotificationService()
+        .showDailyNotification(id, title, subtitle, scheduledTime);
+  }
 
-    NotificationService().showRepeatingNotification(1, 'Repeating noti',
-        'This notification repeats every day', scheduledTime);
+  void scheduleNotificationBiDaily(int id, String title, String subtitle,
+      Time scheduledTime, DateTime initialDate) {
+    NotificationService().showBiDailyNotification(
+        id, title, subtitle, scheduledTime, initialDate);
+  }
+
+  void scheduleNotificationEverySpecificDays(int id, String title,
+      String subtitle, Time scheduledTime, int repeatInterval, int dayOfWeek) {
+    NotificationService().showEverySpecificDayNotification(
+        id, title, subtitle, scheduledTime, repeatInterval, dayOfWeek);
+  }
+
+  void scheduleNotificationEveryXDays(int id, String title, String subtitle,
+      Time scheduledTime, DateTime initialDate, int frequencyInterval) {
+    NotificationService().showXDaysNotification(
+        id, title, subtitle, scheduledTime, initialDate, frequencyInterval);
+  }
+
+  void scheduleNotificationEveryXWeeks(int id, String title, String subtitle,
+      Time scheduledTime, DateTime initialDate, int frequencyInterval) {
+    NotificationService().showXWeeksNotification(
+        id, title, subtitle, scheduledTime, initialDate, frequencyInterval);
+  }
+
+  void scheduleNotificationEveryXMonths(int id, String title, String subtitle,
+      Time scheduledTime, DateTime initialDate, int frequencyInterval) {
+    NotificationService().showXMonthsNotification(
+        id, title, subtitle, scheduledTime, initialDate, frequencyInterval);
   }
 
   // Other methods or functionality as needed

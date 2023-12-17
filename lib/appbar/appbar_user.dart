@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../pages/profile_management/list_profile.dart';
 import '../pages/startup/login.dart';
+import '../services/misc_methods/notification_singleton.dart';
+import '../services/notification_service.dart';
 
-
-class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget {
+class AlyaImanAppBarUser extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
   final User user;
   final bool autoImplyLeading;
@@ -45,7 +47,7 @@ class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget 
                 ),
               ];
             },
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == 'profile') {
                 Navigator.push(
                   context,
@@ -55,12 +57,17 @@ class AlyaImanAppBarUser extends StatelessWidget implements PreferredSizeWidget 
                     ),
                   ),
                 );
-              }
-              else if (value == 'logout') {
+              } else if (value == 'logout') {
+                NotificationCounter notificationCounter = NotificationCounter();
+                notificationCounter.reset();
+                await NotificationService().cancelAllNotifications();
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Login(usernamePlaceholder: user.username, passwordPlaceholder: user.password),
+                    builder: (context) => Login(
+                        usernamePlaceholder: user.username,
+                        passwordPlaceholder: user.password),
                   ),
                 );
               }

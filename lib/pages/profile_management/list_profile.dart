@@ -6,6 +6,8 @@ import 'package:klinik_alya_iman_mobile_app/pages/profile_management/first_profi
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../../services/misc_methods/notification_singleton.dart';
+import '../../services/notification_service.dart';
 import '../startup/login.dart';
 import 'create_profile.dart';
 import 'profile_page.dart';
@@ -68,15 +70,16 @@ class _ListProfileState extends State<ListProfile> {
   void _deleteProfile(int? profileId) async {
     // Check if there are associated appointments
     bool hasAppointments = await DatabaseService().hasAppointments(profileId!);
+    bool hasMedication = await DatabaseService().hasMedication(profileId);
 
-    if (hasAppointments) {
+    if (hasAppointments || hasMedication) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Delete Profile'),
             content: const Text(
-                'This profile has associated appointments. Deleting the profile will also delete the appointments. Are you sure you want to proceed?'),
+                'This profile has associated appointments and/or medication. Deleting the profile will also delete the appointments and/or medication. Are you sure you want to proceed?'),
             actions: <Widget>[
               ElevatedButton(
                 child:
@@ -85,6 +88,9 @@ class _ListProfileState extends State<ListProfile> {
                   // Delete associated appointments
                   await DatabaseService()
                       .deleteAppointmentsByProfile(profileId);
+
+                  // Delete associated medication
+                  await DatabaseService().deleteMedicationByProfile(profileId);
 
                   // Delete the profile
                   await DatabaseService().deleteProfile(profileId);
@@ -198,12 +204,18 @@ class _ListProfileState extends State<ListProfile> {
                   ),
                 ];
               },
-              onSelected: (value) {
+              onSelected: (value) async {
                 if (value == 'logout') {
+                  NotificationCounter notificationCounter =
+                      NotificationCounter();
+                  notificationCounter.reset();
+                  await NotificationService().cancelAllNotifications();
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Login(usernamePlaceholder: widget.user.username, passwordPlaceholder: widget.user.password),
+                      builder: (context) => Login(
+                          usernamePlaceholder: widget.user.username,
+                          passwordPlaceholder: widget.user.password),
                     ),
                   );
                 }
