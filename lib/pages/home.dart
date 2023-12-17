@@ -8,6 +8,7 @@ import '../models/user.dart';
 import '../services/database_service.dart';
 import '../services/misc_methods/notification_scheduler.dart';
 import '../services/misc_methods/notification_singleton.dart';
+import '../services/notification_service.dart';
 import 'profile_management/first_profile.dart';
 import 'profile_management/list_profile.dart';
 
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
     await _getMedicationIds();
     print(_medicationList);
     print(_medicationCount);
-    await _logic();
+    await _setNotifications();
   }
 
   Future<void> _getMedication() async {
@@ -106,7 +107,12 @@ class _HomeState extends State<Home> {
     return DateTime(dateParts[0], dateParts[1], dateParts[2]);
   }
 
-  Future<void> _logic() async {
+  Future<void> _setNotifications() async {
+    NotificationCounter notificationCounter = NotificationCounter();
+    notificationCounter.reset();
+    await NotificationService().cancelAllNotifications();
+    print('Reset notifications');
+
     for (int count = 0; count < _medicationCount; count++) {
       Medication? target;
       int id = _medicationIds[count];
@@ -323,40 +329,46 @@ class _HomeState extends State<Home> {
 
         if (frequencyType == 'EveryXDays') {
           DateTime nextDoseDayDate = convertStringToDate(nextDoseDay);
-          print('$id: You take it every $frequencyInterval day(s), starting on $nextDoseDay.');
+          print(
+              '$id: You take it every $frequencyInterval day(s), starting on $nextDoseDay.');
           print('$id: $nextDoseDayDate');
           NotificationScheduler().scheduleNotificationEveryXDays(
               notificationCounter.notificationCount,
               medicationName,
               'Take $medicationQuantity $medicationSuffix at ${doseTimesStrList[0]}',
               Time(doseTimesToD[0].hour, doseTimesToD[0].minute),
-              nextDoseDayDate, frequencyInterval);
+              nextDoseDayDate,
+              frequencyInterval);
           notificationCounter.increment();
         }
 
         if (frequencyType == 'EveryXWeeks') {
           DateTime nextDoseDayDate = convertStringToDate(nextDoseDay);
-          print('$id: You take it every $frequencyInterval week(s), starting on $nextDoseDay.');
+          print(
+              '$id: You take it every $frequencyInterval week(s), starting on $nextDoseDay.');
           print('$id: $nextDoseDayDate');
           NotificationScheduler().scheduleNotificationEveryXWeeks(
               notificationCounter.notificationCount,
               medicationName,
               'Take $medicationQuantity $medicationSuffix at ${doseTimesStrList[0]}',
               Time(doseTimesToD[0].hour, doseTimesToD[0].minute),
-              nextDoseDayDate, frequencyInterval);
+              nextDoseDayDate,
+              frequencyInterval);
           notificationCounter.increment();
         }
 
         if (frequencyType == 'EveryXMonths') {
           DateTime nextDoseDayDate = convertStringToDate(nextDoseDay);
-          print('$id: You take it every $frequencyInterval month(s), starting on $nextDoseDay.');
+          print(
+              '$id: You take it every $frequencyInterval month(s), starting on $nextDoseDay.');
           print('$id: $nextDoseDayDate');
           NotificationScheduler().scheduleNotificationEveryXMonths(
               notificationCounter.notificationCount,
               medicationName,
               'Take $medicationQuantity $medicationSuffix at ${doseTimesStrList[0]}',
               Time(doseTimesToD[0].hour, doseTimesToD[0].minute),
-              nextDoseDayDate, frequencyInterval);
+              nextDoseDayDate,
+              frequencyInterval);
           notificationCounter.increment();
         }
       } else {
