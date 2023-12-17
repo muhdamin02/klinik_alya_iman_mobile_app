@@ -81,8 +81,8 @@ class _HomeState extends State<Home> {
         int frequencyInterval = target.frequency_interval;
         int dailyFrequency = target.daily_frequency;
         String medicationDay = target.medication_day;
-        // String nextDoseDay = target.next_dose_day;
-        // String doseTimes = target.dose_times;
+        String nextDoseDay = target.next_dose_day;
+        String doseTimes = target.dose_times;
 
         print('Frequency Type of medication_id $id: $frequencyType');
 

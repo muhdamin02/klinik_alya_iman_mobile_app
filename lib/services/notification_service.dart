@@ -86,10 +86,11 @@ class NotificationService {
   }
 
   tz.TZDateTime _nextInstanceOfScheduledTime(Time scheduledTime) {
-    final now = tz.TZDateTime.now(tz.local);
-    var scheduledDateTime = tz.TZDateTime(tz.local, now.year, now.month,
-            now.day, scheduledTime.hour, scheduledTime.minute)
-        .add(const Duration(days: 1));
+    print(scheduledTime);
+    final now = tz.TZDateTime.now(tz.getLocation('Asia/Kuala_Lumpur'));
+    print(now);
+    var scheduledDateTime = tz.TZDateTime(tz.getLocation('Asia/Kuala_Lumpur'),
+        now.year, now.month, now.day, scheduledTime.hour, scheduledTime.minute);
 
     print('scheduled date time: $scheduledDateTime');
 

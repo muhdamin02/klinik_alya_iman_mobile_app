@@ -24,9 +24,9 @@ class MedicationDoseTimesPage extends StatefulWidget {
 }
 
 class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
-  List<List<TimeOfDay>> _selectedTimesList = [];
+  final List<TimeOfDay> _selectedTimesList = [];
 
-  // Function to show the time picker
+// Function to show the time picker
   Future<void> _selectTime(BuildContext context, int index) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -35,18 +35,20 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
 
     if (picked != null) {
       setState(() {
-        _selectedTimesList[index].add(picked);
+        // Ensure that _selectedTimesList has enough elements
+        while (_selectedTimesList.length <= index) {
+          _selectedTimesList.add(picked);
+        }
+        _selectedTimesList[index] = picked;
       });
     }
   }
 
-  // Function to build a list of time pickers based on daily_frequency
+// Function to build a list of time pickers based on daily_frequency
   List<Widget> _buildTimePickers() {
     List<Widget> timePickers = [];
 
     for (int i = 0; i < widget.medication.daily_frequency; i++) {
-      _selectedTimesList.add([]); // Create a separate list for each time picker
-
       timePickers.add(
         Column(
           children: [
@@ -56,10 +58,10 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
               },
               child: const Text('Select Time'),
             ),
-            if (_selectedTimesList[i]
-                .isNotEmpty) // Check if index is within bounds
+            // ignore: unnecessary_null_comparison
+            if (_selectedTimesList.length > i && _selectedTimesList[i] != null)
               Text(
-                'Selected Time ${i + 1}: ${_selectedTimesList[i].last.format(context)}',
+                'Selected Time ${i + 1}: ${_selectedTimesList[i].format(context)}',
                 style: const TextStyle(fontSize: 18.0),
               ),
             const SizedBox(height: 16.0),
@@ -72,9 +74,8 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
   }
 
   void _setMedicationDoseTimes() {
-    final List<String> formattedTimes = _selectedTimesList
-        .map((times) => times.map((time) => time.format(context)).join(', '))
-        .toList();
+    final List<String> formattedTimes =
+        _selectedTimesList.map((time) => time.format(context)).toList();
 
     final medication = Medication(
       medication_name: widget.medication.medication_name,

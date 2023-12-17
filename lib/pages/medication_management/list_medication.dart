@@ -149,13 +149,13 @@ class _ListMedicationState extends State<ListMedication> {
                   children: [
                     const SizedBox(height: 16.0),
                     ListTile(
-                      title: Text(
-                          medication.medication_name),
+                      title: Text(medication.medication_name),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 4.0),
-                          Text('Medication Type: ${medication.medication_type}'),
+                          Text(
+                              'Medication Type: ${medication.medication_type}'),
                         ],
                       ),
                       trailing: Row(

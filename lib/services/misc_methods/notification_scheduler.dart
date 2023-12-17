@@ -27,7 +27,7 @@ class NotificationScheduler {
   }
 
   void scheduleNotificationDaily() {
-    const scheduledTime = Time(02, 05);
+    const scheduledTime = Time(14, 15);
 
     NotificationService().showRepeatingNotification(1, 'Repeating noti',
         'This notification repeats every day', scheduledTime);
