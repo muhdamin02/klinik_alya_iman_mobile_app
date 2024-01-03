@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../appbar/appbar_all_pages.dart';
+import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/medication.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
@@ -27,18 +27,23 @@ class ProfilePage extends StatelessWidget {
         return autoImplyLeading;
       },
       child: Scaffold(
-        appBar: AlyaImanAppBarSeeAllPages(
-          title: 'Profile Page',
+        appBar: AppBar(
+          title: const Text('Profile Page'),
+        ),
+        drawer: AppDrawerAllPages(
+          header: 'Profile Page',
           user: user,
           profile: profile,
-          autoImplyLeading: autoImplyLeading,
+          autoImplyLeading: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Name: ${profile.f_name} ${profile.l_name}',
+              Text('Name: ${profile.name}}',
+                  style: const TextStyle(fontSize: 20)),
+              Text('IC or Passport: ${profile.identification}',
                   style: const TextStyle(fontSize: 20)),
               Text('Date of Birth: ${profile.dob}',
                   style: const TextStyle(fontSize: 16)),

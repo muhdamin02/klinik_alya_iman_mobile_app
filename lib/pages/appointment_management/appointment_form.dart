@@ -22,8 +22,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _appointmentDateController =
       TextEditingController();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _identificationController = TextEditingController();
   bool _isDateSelected = false;
   String _selectedTime = '';
 
@@ -292,19 +292,19 @@ class _AppointmentFormState extends State<AppointmentForm> {
               _buildTimeRow(['03:00 PM', '04:00 PM', '05:00 PM']),
               const SizedBox(height: 32.0),
               TextFormField(
-                controller: _firstNameController,
+                controller: _nameController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: widget.profile.f_name,
+                  labelText: widget.profile.name,
                 ),
                 enabled: false,
               ),
               const SizedBox(height: 16.0),
               TextFormField(
-                controller: _lastNameController,
+                controller: _identificationController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: widget.profile.l_name,
+                  labelText: widget.profile.identification,
                 ),
                 enabled: false,
               ),

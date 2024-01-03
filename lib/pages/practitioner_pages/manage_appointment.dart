@@ -89,7 +89,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   void _confirmAppointment(Appointment appointment) {
     String status = appointment.status;
     String remarks = appointment.system_remarks;
-    String practitionerName = '${widget.user.f_name} ${widget.user.l_name}';
+    String practitionerName = widget.user.name;
 
     showDialog(
       context: context,

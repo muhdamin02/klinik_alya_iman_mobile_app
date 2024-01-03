@@ -44,12 +44,12 @@ class DatabaseService {
   Future<void> _onCreate(Database db, int version) async {
     // user table
     await db.execute(
-      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL, role TEXT NOT NULL)',
+      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, password TEXT NOT NULL, phone TEXT NOT NULL, role TEXT NOT NULL)',
     );
 
     // profile table
     await db.execute(
-      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, f_name TEXT NOT NULL, l_name TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
     );
 
     // appointment table
@@ -88,15 +88,39 @@ class DatabaseService {
   );
 ''');
 
+    // system admin
     await db.execute(
-      'INSERT INTO user (f_name, l_name, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
-        'Robiah',
-        'Hamzah',
+        'Guest',
+        '-',
+        '-',
+        '-',
+        'guest'
+      ],
+    );
+
+    // practitioner
+    await db.execute(
+      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      [
+        'Muhammad Amin bin Shamsul Anuar',
+        '020630141149',
         'doctor',
-        'doctor',
-        'doctor@example.com',
+        '0104081975',
         'practitioner'
+      ],
+    );
+
+    // system admin
+    await db.execute(
+      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      [
+        'Abdullah bin Abdul Samad',
+        '920101141111',
+        'sa',
+        '0123456789',
+        'systemadmin'
       ],
     );
   }
@@ -119,24 +143,59 @@ class DatabaseService {
     );
   }
 
-  // check if username exists
-  Future<bool> checkUsernameExists(String username) async {
+  // check if user exists
+  Future<bool> checkUserExists(String identification) async {
     final db = await _databaseService.database;
     final count = Sqflite.firstIntValue(await db.rawQuery(
-      'SELECT COUNT(*) FROM user WHERE username = ?',
-      [username],
+      'SELECT COUNT(*) FROM user WHERE identification = ?',
+      [identification],
     ));
     return count != null && count > 0;
   }
 
-  // Check if email exists
-  Future<bool> checkEmailExists(String email) async {
+  // // Check if email exists
+  // Future<bool> checkEmailExists(String email) async {
+  //   final db = await _databaseService.database;
+  //   final count = Sqflite.firstIntValue(await db.rawQuery(
+  //     'SELECT COUNT(*) FROM user WHERE email = ?',
+  //     [email],
+  //   ));
+  //   return count != null && count > 0;
+  // }
+
+  // Retrieve All
+  Future<List<User>> userAll() async {
     final db = await _databaseService.database;
-    final count = Sqflite.firstIntValue(await db.rawQuery(
-      'SELECT COUNT(*) FROM user WHERE email = ?',
-      [email],
-    ));
-    return count != null && count > 0;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+    );
+    return List.generate(maps.length, (index) => User.fromMap(maps[index]));
+  }
+
+  // Retrieve One User Info
+  Future<List<User>> userInfo(int? userId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+    return List.generate(maps.length, (index) => User.fromMap(maps[index]));
+  }
+
+  // Retrieve User Name
+  Future<String?> getUserName(int? userId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+
+    // Assuming 'f_name' is a column in the 'user' table
+    final String firstName = maps.first['name'];
+
+    return firstName;
   }
 
 //////////////////////////////////////////////////////////////////////////

@@ -3,12 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/first_profile.dart';
 
+import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
-import '../../services/misc_methods/notification_singleton.dart';
-import '../../services/notification_service.dart';
-import '../startup/login.dart';
 import 'create_profile.dart';
 import 'profile_page.dart';
 import 'update_profile.dart';
@@ -187,41 +185,13 @@ class _ListProfileState extends State<ListProfile> {
         appBar: AppBar(
           title: const Text('Choose Profile',
               style: TextStyle(color: Colors.white)),
-          automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) {
-                return [
-                  const PopupMenuItem(
-                    value: 'logout',
-                    child: ListTile(
-                      leading: Icon(Icons.logout),
-                      title: Text('Logout'),
-                    ),
-                  ),
-                ];
-              },
-              onSelected: (value) async {
-                if (value == 'logout') {
-                  NotificationCounter notificationCounter =
-                      NotificationCounter();
-                  notificationCounter.reset();
-                  await NotificationService().cancelAllNotifications();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Login(
-                          usernamePlaceholder: widget.user.username,
-                          passwordPlaceholder: widget.user.password),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
+        ),
+        drawer: AppDrawerLogout(
+          header: 'Choose Profile',
+          user: widget.user,
         ),
         body: Stack(
           children: [
@@ -233,7 +203,7 @@ class _ListProfileState extends State<ListProfile> {
                   children: [
                     const SizedBox(height: 16.0), // Add SizedBox widget here
                     ListTile(
-                      title: Text('${profile.f_name} ${profile.l_name}',
+                      title: Text(profile.identification,
                           style: const TextStyle(fontSize: 20)),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

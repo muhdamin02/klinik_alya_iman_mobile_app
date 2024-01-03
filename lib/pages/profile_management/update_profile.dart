@@ -17,7 +17,7 @@ class UpdateProfile extends StatefulWidget {
 class _UpdateProfileState extends State<UpdateProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _identificationController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
 
   String? _selectedGender;
@@ -28,8 +28,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
   void initState() {
     super.initState();
     // Initialize the text controllers with the existing values
-    _firstNameController.text = widget.profile.f_name;
-    _lastNameController.text = widget.profile.l_name;
+    _firstNameController.text = widget.profile.name;
+    _identificationController.text = widget.profile.identification;
     _dateOfBirthController.text = widget.profile.dob;
     _selectedGender = widget.profile.gender;
   }
@@ -40,7 +40,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   void dispose() {
     _firstNameController.dispose();
-    _lastNameController.dispose();
+    _identificationController.dispose();
     _dateOfBirthController.dispose();
     super.dispose();
   }
@@ -80,15 +80,15 @@ class _UpdateProfileState extends State<UpdateProfile> {
       // }
 
       final firstName = _firstNameController.text;
-      final lastName = _lastNameController.text;
+      final identification = _identificationController.text;
       final dateOfBirth = _dateOfBirthController.text;
       final String? selectedGender = _selectedGender;
 
       // Create a new Appointment instance with the updated data
       final updatedProfile = Profile(
         profile_id: widget.profile.profile_id,
-        f_name: firstName,
-        l_name: lastName,
+        name: firstName,
+        identification: identification,
         dob: dateOfBirth,
         gender: selectedGender,
         user_id: widget.profile.user_id,
@@ -189,7 +189,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               ),
               const SizedBox(height: 32.0),
               TextFormField(
-                controller: _lastNameController,
+                controller: _identificationController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Last Name',

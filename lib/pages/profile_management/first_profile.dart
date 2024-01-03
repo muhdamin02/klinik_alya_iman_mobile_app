@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/user.dart';
-import '../../services/misc_methods/notification_singleton.dart';
-import '../../services/notification_service.dart';
-import '../startup/login.dart';
 import 'create_profile.dart';
 
 class FirstProfile extends StatelessWidget {
@@ -25,38 +23,10 @@ class FirstProfile extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Quick Start'),
           automaticallyImplyLeading: false,
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) {
-                return [
-                  const PopupMenuItem(
-                    value: 'logout',
-                    child: ListTile(
-                      leading: Icon(Icons.logout),
-                      title: Text('Logout'),
-                    ),
-                  ),
-                ];
-              },
-              onSelected: (value) async {
-                if (value == 'logout') {
-                  NotificationCounter notificationCounter =
-                      NotificationCounter();
-                  notificationCounter.reset();
-                  await NotificationService().cancelAllNotifications();
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Login(
-                          usernamePlaceholder: user.username,
-                          passwordPlaceholder: user.password),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
+        ),
+        drawer: AppDrawerLogout(
+          header: 'First Profile',
+          user: user,
         ),
         body: Center(
           child: Column(

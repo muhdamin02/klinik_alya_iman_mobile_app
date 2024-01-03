@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import 'login.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key, this.user, required this.willPopScopeBool}) : super(key: key);
+  const Register({Key? key, this.user, required this.willPopScopeBool})
+      : super(key: key);
   final User? user;
   final bool willPopScopeBool;
 
@@ -15,29 +17,27 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _identificationController =
+      TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final DatabaseService _databaseService = DatabaseService();
 
   // ----------------------------------------------------------------------
   // Register user to database
 
   Future<void> _onSave() async {
-    final fname = _firstNameController.text;
-    final lname = _lastNameController.text;
-    final username = _usernameController.text;
+    final name = _nameController.text;
+    final identification = _identificationController.text;
     final password = _passwordController.text;
-    final email = _emailController.text;
+    final phone = _phoneController.text;
 
-    // Check if username or email already exists in the database
-    bool isUsernameExists =
-        await _databaseService.checkUsernameExists(username);
-    bool isEmailExists = await _databaseService.checkEmailExists(email);
+    // Check if identification already exists in the database
+    bool isIdentificationExists =
+        await _databaseService.checkUserExists(identification);
 
-    if (isEmailExists) {
+    if (isIdentificationExists) {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
@@ -45,30 +45,7 @@ class _RegisterState extends State<Register> {
           return AlertDialog(
             title: const Text('Registration Failed'),
             content: const Text(
-                'Email already exists. Please use a different email.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-      return; // Exit the method if email exists
-    }
-
-    if (isUsernameExists) {
-      // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Registration Failed'),
-            content: const Text(
-                'Username already exists. Please choose a different username.'),
+                'Account already exists. Contact your doctor for further details.'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -86,11 +63,10 @@ class _RegisterState extends State<Register> {
     // Registration successful, insert the user into the database
     await _databaseService.insertUser(
       User(
-        f_name: fname,
-        l_name: lname,
-        username: username,
+        name: name,
+        identification: identification,
         password: password,
-        email: email,
+        phone: phone,
         role: 'patient',
       ),
     );
@@ -110,7 +86,10 @@ class _RegisterState extends State<Register> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Login(usernamePlaceholder: username, passwordPlaceholder: password)),
+                  MaterialPageRoute(
+                      builder: (context) => Login(
+                          identificationPlaceholder: identification,
+                          passwordPlaceholder: password)),
                 );
               },
             ),
@@ -147,28 +126,21 @@ class _RegisterState extends State<Register> {
                     vertical: 10.0,
                     horizontal: 16.0,
                   ),
-                  child: buildFirstName(),
+                  child: buildName(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 10.0,
                     horizontal: 16.0,
                   ),
-                  child: buildLastName(),
+                  child: buildIdentification(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 10.0,
                     horizontal: 16.0,
                   ),
-                  child: buildUsername(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 16.0,
-                  ),
-                  child: buildEmail(),
+                  child: buildPhone(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -209,7 +181,10 @@ class _RegisterState extends State<Register> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Login(usernamePlaceholder: '', passwordPlaceholder: '',)),
+                              builder: (context) => const Login(
+                                    identificationPlaceholder: '',
+                                    passwordPlaceholder: '',
+                                  )),
                         );
                       },
                       child: const Text(
@@ -233,18 +208,18 @@ class _RegisterState extends State<Register> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // First Name textfield
+  // Name textfield
 
-  Widget buildFirstName() => TextFormField(
-        controller: _firstNameController,
+  Widget buildName() => TextFormField(
+        controller: _nameController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'First name',
+          labelText: 'Full name',
         ),
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your first name';
+            return 'Please enter your full name';
           }
           return null;
         },
@@ -253,18 +228,20 @@ class _RegisterState extends State<Register> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Last Name textfield
+  // Identification textfield
 
-  Widget buildLastName() => TextFormField(
-        controller: _lastNameController,
+  Widget buildIdentification() => TextFormField(
+        controller: _identificationController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'Last name',
+          labelText: 'IC or Passport Number',
+          counterText: ''
         ),
+        maxLength: 20,
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your last name';
+            return 'Please enter your IC or password number';
           }
           return null;
         },
@@ -273,47 +250,25 @@ class _RegisterState extends State<Register> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Userame textfield
+  // Phone textfield
 
-  Widget buildUsername() => TextFormField(
-        controller: _usernameController,
+  Widget buildPhone() => TextFormField(
+        keyboardType: TextInputType.phone,
+        controller: _phoneController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'Username',
+          labelText: 'Phone Number',
+          counterText: ''
         ),
+        inputFormatters: [
+          // Use the FilteringTextInputFormatter to allow only digits and certain characters
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        maxLength: 15,
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your username';
-          }
-          return null;
-        },
-      );
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Email textfield
-
-  Widget buildEmail() => TextFormField(
-        keyboardType: TextInputType.emailAddress,
-        controller: _emailController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Email',
-        ),
-        validator: (value) {
-          // Validate Input
-          if (value == null || value.isEmpty) {
-            return 'Please enter your email address';
-          }
-
-          // Email regex pattern
-          final emailRegex = RegExp(
-              r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d-]{2,}$');
-
-          if (!emailRegex.hasMatch(value)) {
-            return 'Please enter a valid email address';
+            return 'Please enter your phone number';
           }
 
           return null;

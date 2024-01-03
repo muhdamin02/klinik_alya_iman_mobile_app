@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../appbar/appbar_profiles_logout_only.dart';
+import '../../app_drawer/app_drawer_profiles_logout_only.dart';
 import '../../models/appointment.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
@@ -217,8 +216,11 @@ class _ListAppointmentState extends State<ListAppointment> {
         return widget.autoImplyLeading;
       },
       child: Scaffold(
-        appBar: AlyaImanAppBarOnlySeeProfilesAndLogout(
-          title: 'Appointments',
+        appBar: AppBar(
+          title: const Text('My Appointments'),
+        ),
+        drawer: AppDrawerProfilesLogout(
+          header: 'Appointments',
           user: widget.user,
           profile: widget.profile,
           autoImplyLeading: widget.autoImplyLeading,

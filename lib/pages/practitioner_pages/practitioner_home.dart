@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/user.dart';
-import '../../services/misc_methods/notification_singleton.dart';
-import '../../services/notification_service.dart';
-import '../startup/login.dart';
 import 'manage_appointment.dart';
 
 class PractitionerHome extends StatelessWidget {
@@ -27,54 +25,29 @@ class PractitionerHome extends StatelessWidget {
             'Practitioner placeholder',
             style: TextStyle(color: Colors.white),
           ),
-          automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) {
-                return [
-                  const PopupMenuItem(
-                    value: 'logout',
-                    child: ListTile(
-                      leading: Icon(Icons.logout),
-                      title: Text('Logout'),
-                    ),
-                  ),
-                ];
-              },
-              onSelected: (value) async {
-                if (value == 'logout') {
-                  NotificationCounter notificationCounter =
-                      NotificationCounter();
-                  notificationCounter.reset();
-                  await NotificationService().cancelAllNotifications();
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Login(
-                          usernamePlaceholder: user.username,
-                          passwordPlaceholder: user.password),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
+        ),
+        drawer: AppDrawerLogout(
+          header: 'Practitioner Home',
+          user: user,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome, ${user.f_name} ${user.l_name}!',
+              Text('Welcome, ${user.name}!',
                   style: const TextStyle(fontSize: 20)),
               const SizedBox(height: 16.0),
               Text('User ID: ${user.user_id}',
                   style: const TextStyle(fontSize: 16)),
-              Text('Email: ${user.email}',
+              const SizedBox(height: 16.0),
+              Text('IC or Passport: ${user.identification}',
+                  style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 16.0),
+              Text('Phone: ${user.phone}',
                   style: const TextStyle(fontSize: 16)),
               const SizedBox(height: 16.0),
               ElevatedButton(

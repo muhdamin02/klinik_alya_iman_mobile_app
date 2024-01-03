@@ -11,7 +11,7 @@ class Appointment {
   final String system_remarks;
   final String patient_remarks;
   final String practitioner_remarks;
-  
+
   Appointment({
     this.appointment_id,
     required this.appointment_date,
@@ -51,9 +51,10 @@ class Appointment {
       practitioner_remarks: map['practitioner_remarks'] ?? '',
     );
   }
-  
+
   String toJson() => json.encode(toMap());
-  factory Appointment.fromJson(String source) => Appointment.fromMap(json.decode(source));
+  factory Appointment.fromJson(String source) =>
+      Appointment.fromMap(json.decode(source));
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {

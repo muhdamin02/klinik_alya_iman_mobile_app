@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../appbar/appbar_user.dart';
+import '../../app_drawer/app_drawer_user.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
@@ -21,8 +21,8 @@ class CreateProfile extends StatefulWidget {
 
 class _CreateProfileState extends State<CreateProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _identificationController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
 
   String? _selectedGender;
@@ -57,11 +57,12 @@ class _CreateProfileState extends State<CreateProfile> {
   // Initialize text fields
   Future<void> _initializeTextFields() async {
     // Prefill the text fields with the user's information if profile count = 0
-    int profileCount = await DatabaseService().getProfileCount(widget.user.user_id!);
+    int profileCount =
+        await DatabaseService().getProfileCount(widget.user.user_id!);
 
     if (profileCount == 0) {
-      _firstNameController.text = widget.user.f_name;
-      _lastNameController.text = widget.user.l_name;
+      _nameController.text = widget.user.name;
+      _identificationController.text = widget.user.identification;
     }
   }
 
@@ -70,14 +71,14 @@ class _CreateProfileState extends State<CreateProfile> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      final String editedFirstName = _firstNameController.text;
-      final String editedLastName = _lastNameController.text;
+      final String editedName = _nameController.text;
+      final String editedIdentification = _identificationController.text;
       final String dateOfBirth = _dateOfBirthController.text;
       final String? selectedGender = _selectedGender;
 
       final profile = Profile(
-        f_name: editedFirstName,
-        l_name: editedLastName,
+        name: editedName,
+        identification: editedIdentification,
         dob: dateOfBirth,
         gender: selectedGender,
         user_id: widget.user.user_id!,
@@ -160,8 +161,11 @@ class _CreateProfileState extends State<CreateProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AlyaImanAppBarUser(
-        title: 'Create Profile',
+      appBar: AppBar(
+        title: const Text('Create Profile'),
+      ),
+      drawer: AppDrawerUser(
+        header: 'Create Profile',
         user: widget.user,
         autoImplyLeading: true,
       ),
@@ -175,19 +179,10 @@ class _CreateProfileState extends State<CreateProfile> {
               children: [
                 const SizedBox(height: 32.0),
                 TextFormField(
-                  controller: _firstNameController,
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'First Name',
-                  ),
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _lastNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Last Name',
+                    labelText: 'Full Name',
                   ),
                   validator: _requiredValidator,
                 ),

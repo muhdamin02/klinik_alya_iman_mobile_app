@@ -5,15 +5,16 @@ import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
 import '../home.dart';
 import '../practitioner_pages/practitioner_home.dart';
+import '../system_admin_pages/system_admin_home.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
-  final String usernamePlaceholder;
+  final String identificationPlaceholder;
   final String passwordPlaceholder;
 
   const Login(
       {Key? key,
-      required this.usernamePlaceholder,
+      required this.identificationPlaceholder,
       required this.passwordPlaceholder})
       : super(key: key);
 
@@ -23,9 +24,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int? userId;
-  String? userFName, userLName, userEmail, userRole;
+  String? userName, userPhone, userRole;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _identificationController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
 
@@ -35,7 +36,7 @@ class _LoginState extends State<Login> {
     super.initState();
 
     // Prefill the text fields with the user's information
-    _usernameController.text = widget.usernamePlaceholder;
+    _identificationController.text = widget.identificationPlaceholder;
     _passwordController.text = widget.passwordPlaceholder;
   }
 
@@ -45,33 +46,41 @@ class _LoginState extends State<Login> {
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
       // Form is valid, proceed with login
-      final username = _usernameController.text;
+      final identification = _identificationController.text;
       final password = _passwordController.text;
 
       // Call your authentication service to validate login credentials
-      _authService.login(username, password).then((success) async {
+      _authService.login(identification, password).then((success) async {
         if (success) {
-          List<Map<String, dynamic>> userData = await getUserData(username);
+          List<Map<String, dynamic>> userData = await getUserData(identification);
 
           for (Map<String, dynamic> user in userData) {
             userId = user['user_id'];
-            userFName = user['f_name'];
-            userLName = user['l_name'];
-            userEmail = user['email'];
+            userName = user['name'];
+            userPhone = user['phone'];
             userRole = user['role'];
           }
 
           final user = User(
             user_id: userId,
-            f_name: userFName ?? '',
-            l_name: userLName ?? '',
-            username: username,
+            name: userName ?? '',
+            identification: identification,
             password: password,
-            email: userEmail ?? '',
+            phone: userPhone ?? '',
             role: userRole ?? '',
           );
 
-          if (userRole == 'practitioner') {
+          if (userRole == 'patient') {
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Home(
+                  user: user,
+                ),
+              ),
+            );
+          } else if (userRole == 'practitioner') {
             // ignore: use_build_context_synchronously
             Navigator.pushReplacement(
               context,
@@ -81,12 +90,12 @@ class _LoginState extends State<Login> {
                 ),
               ),
             );
-          } else if (userRole == 'patient') {
+          } else if (userRole == 'systemadmin') {
             // ignore: use_build_context_synchronously
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => Home(
+                builder: (context) => SystemAdminHome(
                   user: user,
                 ),
               ),
@@ -98,7 +107,7 @@ class _LoginState extends State<Login> {
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Login Failed'),
-              content: const Text('Invalid username or password.'),
+              content: const Text('Invalid ID or password.'),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -137,14 +146,16 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
-                    controller: _usernameController,
+                    controller: _identificationController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Username',
+                      labelText: 'IC or Passport Number',
+                      counterText: '',
                     ),
+                    maxLength: 20,
                     validator: (value) {
                       if (value == null || value.isEmpty || value == '') {
-                        return 'Please enter your username';
+                        return 'Please enter your IC  or Passport Number';
                       }
                       return null;
                     },
@@ -225,14 +236,14 @@ class _LoginState extends State<Login> {
 // ----------------------------------------------------------------------
 // get user data
 
-Future<List<Map<String, dynamic>>> getUserData(String username) async {
+Future<List<Map<String, dynamic>>> getUserData(String identification) async {
   final db = await DatabaseService().database;
 
-  // Fetch all columns for the user with the given username
+  // Fetch all columns for the user with the given identification
   final List<Map<String, dynamic>> result = await db.query(
     'user',
-    where: 'username = ?',
-    whereArgs: [username],
+    where: 'identification = ?',
+    whereArgs: [identification],
   );
 
   return result;
