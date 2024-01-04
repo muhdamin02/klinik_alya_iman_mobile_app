@@ -64,6 +64,7 @@ class DatabaseService {
     system_remarks TEXT NOT NULL,
     patient_remarks TEXT DEFAULT 'No remarks by patient.',
     practitioner_remarks TEXT DEFAULT 'No remarks by practitioner.',
+    random_id TEXT,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
   );
@@ -91,21 +92,15 @@ class DatabaseService {
     // system admin
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      [
-        'Guest',
-        '-',
-        '-',
-        '-',
-        'guest'
-      ],
+      ['Guest', '-', '-', '-', 'guest'],
     );
 
     // practitioner
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
-        'Muhammad Amin bin Shamsul Anuar',
-        '020630141149',
+        'Muhammad Shahid bin Shamsul Anuar',
+        'doctor',
         'doctor',
         '0104081975',
         'practitioner'
@@ -115,13 +110,13 @@ class DatabaseService {
     // system admin
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      [
-        'Abdullah bin Abdul Samad',
-        '920101141111',
-        'sa',
-        '0123456789',
-        'systemadmin'
-      ],
+      ['Abdullah bin Abdul Samad', 'sa', 'sa', '0123456789', 'systemadmin'],
+    );
+
+    // patient
+    await db.execute(
+      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      ['Muhammad Amin bin Shamsul Anuar', 'a', 'a', '0104081975', 'patient'],
     );
   }
 
@@ -168,6 +163,8 @@ class DatabaseService {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'user',
+      where: 'role != ?',
+      whereArgs: ['guest'],
     );
     return List.generate(maps.length, (index) => User.fromMap(maps[index]));
   }
@@ -287,6 +284,22 @@ class DatabaseService {
         .delete('medication', where: 'profile_id = ?', whereArgs: [profileId]);
   }
 
+  Future<int> getLatestProfileId(int userId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> result = await db.rawQuery('''
+      SELECT profile_id FROM profile
+      WHERE user_id = ?
+      ORDER BY profile_id DESC
+      LIMIT 1
+    ''', [userId]);
+
+    if (result.isNotEmpty) {
+      return result.first['profile_id'] as int;
+    }
+
+    return 0;
+  }
+
 //////////////////////////////////////////////////////////////////////////
 //// ---------------------------------------------------------------- ////
 //// APPOINTMENT DATABASE ////////////////////////////////////////////////
@@ -306,13 +319,13 @@ class DatabaseService {
   }
 
   // Check if an appointment already exists for a given date and time
-  Future<bool> isAppointmentExists(
+  Future<bool> isAppointmentDateConfirmed(
       String appointmentDate, String appointmentTime) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'appointment',
-      where: 'appointment_date = ? AND appointment_time = ?',
-      whereArgs: [appointmentDate, appointmentTime],
+      where: 'appointment_date = ? AND appointment_time = ? AND status = ?',
+      whereArgs: [appointmentDate, appointmentTime, 'Confirmed'],
     );
 
     return maps.isNotEmpty;
@@ -415,11 +428,7 @@ class DatabaseService {
     );
 
     // Assuming 'f_name' and 'l_name' are columns in the 'appointment' table
-    final String firstName = maps.first['f_name'];
-    final String lastName = maps.first['l_name'];
-
-    // Concatenate 'f_name' and 'l_name' to get 'patientName'
-    final String patientName = '$firstName $lastName';
+    final String patientName = maps.first['name'];
 
     return patientName;
   }

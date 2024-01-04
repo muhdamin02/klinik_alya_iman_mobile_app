@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../models/user.dart';
 import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
+import '../guest_pages/guest_home.dart';
 import '../home.dart';
 import '../practitioner_pages/practitioner_home.dart';
 import '../system_admin_pages/system_admin_home.dart';
-import 'register.dart';
 
 class Login extends StatefulWidget {
   final String identificationPlaceholder;
@@ -24,9 +24,11 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int? userId;
-  String? userName, userPhone, userRole;
+  String? userName, userIdentification, userPassword, userPhone, userRole;
+  bool passwordVisible = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _identificationController = TextEditingController();
+  final TextEditingController _identificationController =
+      TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
 
@@ -52,7 +54,8 @@ class _LoginState extends State<Login> {
       // Call your authentication service to validate login credentials
       _authService.login(identification, password).then((success) async {
         if (success) {
-          List<Map<String, dynamic>> userData = await getUserData(identification);
+          List<Map<String, dynamic>> userData =
+              await getUserData(identification);
 
           for (Map<String, dynamic> user in userData) {
             userId = user['user_id'];
@@ -123,11 +126,44 @@ class _LoginState extends State<Login> {
     }
   }
 
+  _guestLogin() async {
+    List<Map<String, dynamic>> userData = await getUserData('-');
+
+    for (Map<String, dynamic> user in userData) {
+      userId = user['user_id'];
+      userName = user['name'];
+      userIdentification = user['identification'];
+      userPassword = user['password'];
+      userPhone = user['phone'];
+      userRole = user['role'];
+    }
+
+    final user = User(
+      user_id: userId,
+      name: userName ?? '',
+      identification: userIdentification ?? '',
+      password: userPassword ?? '',
+      phone: userPhone ?? '',
+      role: userRole ?? '',
+    );
+
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GuestHome(
+          user: user,
+        ),
+      ),
+    );
+  }
+
   // ----------------------------------------------------------------------
   // Builder
 
   @override
   Widget build(BuildContext context) {
+    
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
@@ -165,12 +201,26 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
+                    obscureText: passwordVisible,
                     controller: _passwordController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
                       labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          setState(
+                            () {
+                              passwordVisible = !passwordVisible;
+                            },
+                          );
+                        },
+                      ),
                     ),
-                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
                     validator: (value) {
                       if (value == null || value.isEmpty || value == '') {
                         return 'Please enter your password';
@@ -205,18 +255,11 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('No account? '),
+                    const Text('One-time user? '),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const Register(willPopScopeBool: true)),
-                        );
-                      },
+                      onTap: _guestLogin,
                       child: const Text(
-                        'Click here to register',
+                        'Click here',
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                         ),

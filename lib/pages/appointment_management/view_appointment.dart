@@ -156,6 +156,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Patient: $_patientName'),
+                        Text('Patient ID: ${appointment.profile_id}'),
                         const SizedBox(height: 8.0),
                         Row(
                           children: [
@@ -177,6 +178,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         const SizedBox(height: 12.0),
                         Text(
                             'Practitioner Remarks: \n${appointment.practitioner_remarks}'),
+                        const SizedBox(height: 12.0),
+                        Text(
+                            'Random ID: \n${appointment.random_id}'),
                       ],
                     ),
                   );

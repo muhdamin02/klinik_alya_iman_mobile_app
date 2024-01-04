@@ -151,7 +151,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
 
   Future<bool> isTimeAvailable(String selectedDate, String selectedTime) async {
     if (await DatabaseService()
-        .isAppointmentExists(selectedDate, selectedTime)) {
+        .isAppointmentDateConfirmed(selectedDate, selectedTime)) {
       return false; // Time slot is booked
     }
     return true; // Time slot is available
@@ -226,6 +226,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
             'Rescheduled appointment date from $oldAppointmentDateString to $appointmentDateString on $timeNow by the $rescheduler.',
         patient_remarks: widget.appointment.patient_remarks,
         practitioner_remarks: widget.appointment.practitioner_remarks,
+        random_id: '',
       );
 
       try {

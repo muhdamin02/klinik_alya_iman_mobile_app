@@ -60,7 +60,7 @@ class _CreateProfileState extends State<CreateProfile> {
     int profileCount =
         await DatabaseService().getProfileCount(widget.user.user_id!);
 
-    if (profileCount == 0) {
+    if (profileCount == 0 && !(widget.user.role == 'guest')) {
       _nameController.text = widget.user.name;
       _identificationController.text = widget.user.identification;
     }
@@ -183,6 +183,15 @@ class _CreateProfileState extends State<CreateProfile> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Full Name',
+                  ),
+                  validator: _requiredValidator,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _identificationController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'IC or Passport',
                   ),
                   validator: _requiredValidator,
                 ),

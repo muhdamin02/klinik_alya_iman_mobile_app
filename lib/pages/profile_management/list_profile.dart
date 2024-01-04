@@ -63,7 +63,7 @@ class _ListProfileState extends State<ListProfile> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Delete Booking
+  // Delete Profile
 
   void _deleteProfile(int? profileId) async {
     // Check if there are associated appointments

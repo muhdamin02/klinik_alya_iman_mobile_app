@@ -23,7 +23,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
   final TextEditingController _appointmentDateController =
       TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _identificationController = TextEditingController();
+  final TextEditingController _identificationController =
+      TextEditingController();
   bool _isDateSelected = false;
   String _selectedTime = '';
 
@@ -45,7 +46,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime(DateTime.now().day + 1),
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 1),
     );
@@ -124,7 +125,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
 
   Future<bool> isTimeAvailable(String selectedDate, String selectedTime) async {
     if (await DatabaseService()
-        .isAppointmentExists(selectedDate, selectedTime)) {
+        .isAppointmentDateConfirmed(selectedDate, selectedTime)) {
       return false; // Time slot is booked
     }
     return true; // Time slot is available
@@ -180,6 +181,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
         system_remarks: 'The appointment is pending.',
         patient_remarks: 'No remarks by patient.',
         practitioner_remarks: 'No remarks by practitioner.',
+        random_id: '',
       );
 
       // setState(() {
