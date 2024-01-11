@@ -12,6 +12,7 @@ class Appointment {
   final String patient_remarks;
   final String practitioner_remarks;
   final String random_id;
+  final int practitioner_id;
 
   Appointment({
     this.appointment_id,
@@ -24,6 +25,7 @@ class Appointment {
     required this.patient_remarks,
     required this.practitioner_remarks,
     required this.random_id,
+    required this.practitioner_id,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +40,7 @@ class Appointment {
       'patient_remarks': patient_remarks,
       'practitioner_remarks': practitioner_remarks,
       'random_id': random_id,
+      'practitioner_id': practitioner_id,
     };
   }
 
@@ -53,6 +56,7 @@ class Appointment {
       patient_remarks: map['patient_remarks'] ?? '',
       practitioner_remarks: map['practitioner_remarks'] ?? '',
       random_id: map['random_id'] ?? '',
+      practitioner_id: map['practitioner_id']
     );
   }
 
@@ -62,6 +66,6 @@ class Appointment {
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {
-    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, appointment_time: $appointment_time, user_id: $user_id, profile_id: $profile_id, status: $status, system_remarks: $system_remarks, patient_remarks: $patient_remarks, practitioner_remarks: $practitioner_remarks, random_id: $random_id)';
+    return 'Appointment(appointment_id: $appointment_id, appointment_date: $appointment_date, appointment_time: $appointment_time, user_id: $user_id, profile_id: $profile_id, status: $status, system_remarks: $system_remarks, patient_remarks: $patient_remarks, practitioner_remarks: $practitioner_remarks, random_id: $random_id, practitioner_id: $practitioner_id)';
   }
 }

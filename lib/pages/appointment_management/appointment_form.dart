@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/appointment.dart';
 import '../../models/profile.dart';
@@ -28,6 +29,22 @@ class _AppointmentFormState extends State<AppointmentForm> {
   bool _isDateSelected = false;
   String _selectedTime = '';
 
+  @override
+  void initState() {
+    super.initState();
+
+    var uuid = const Uuid();
+    formattedUUID = formatUUID(uuid);
+  }
+
+  var uuid = const Uuid();
+  String formattedUUID = '';
+
+  String formatUUID(Uuid uuid) {
+    String rawUUID = uuid.v4();
+    return rawUUID.substring(0, 8).toUpperCase();
+  }
+
   final List<String> availableTimeSlots = [
     '09:00 AM',
     '10:00 AM',
@@ -44,11 +61,14 @@ class _AppointmentFormState extends State<AppointmentForm> {
   // Date Picker
 
   Future<void> _selectDate(BuildContext context) async {
+    final DateTime currentDate = DateTime.now();
+    final DateTime oneDayForward = currentDate.add(const Duration(days: 1));
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime(DateTime.now().day + 1),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 1),
+      initialDate: oneDayForward,
+      firstDate: currentDate,
+      lastDate: DateTime(currentDate.year + 1),
     );
 
     if (picked != null) {
@@ -181,7 +201,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
         system_remarks: 'The appointment is pending.',
         patient_remarks: 'No remarks by patient.',
         practitioner_remarks: 'No remarks by practitioner.',
-        random_id: '',
+        random_id: formattedUUID,
+        practitioner_id: 0,
       );
 
       // setState(() {

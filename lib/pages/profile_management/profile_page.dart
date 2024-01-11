@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/medical_history/create_new_med_history_entry.dart';
 
 import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/medication.dart';
@@ -41,7 +42,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Name: ${profile.name}}',
+              Text('Name: ${profile.name}',
                   style: const TextStyle(fontSize: 20)),
               Text('IC or Passport: ${profile.identification}',
                   style: const TextStyle(fontSize: 20)),
@@ -104,6 +105,23 @@ class ProfilePage extends StatelessWidget {
               },
               icon: const Icon(Icons.medication),
               label: const Text('Add Medication'),
+            ),
+            const SizedBox(height: 10),
+            FloatingActionButton.extended(
+              onPressed: () {
+                // Navigate to the page where you want to appointment form
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateNewMedHistoryEntry(
+                      user: user,
+                      profile: profile,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.create),
+              label: const Text('Create New Entry'),
             ),
           ],
         ),

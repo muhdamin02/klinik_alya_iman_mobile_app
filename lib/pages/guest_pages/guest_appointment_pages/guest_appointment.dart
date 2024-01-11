@@ -218,6 +218,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
           patient_remarks: 'No remarks by patient.',
           practitioner_remarks: 'No remarks by practitioner.',
           random_id: formattedUUID,
+          practitioner_id: 0,
         );
         // Insert the appointment into the database
         await DatabaseService().insertAppointment(appointment);

@@ -61,6 +61,45 @@ class _GuestCompleteBookState extends State<GuestCompleteBook>
     _controller.forward();
   }
 
+  Future<void> _showConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure you want to return to the home page?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        GuestHome(user: widget.user, showTips: false),
+                  ),
+                );
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime appointmentDate =
@@ -135,13 +174,7 @@ class _GuestCompleteBookState extends State<GuestCompleteBook>
                     ElevatedButton(
                       onPressed: isButtonEnabled
                           ? () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      GuestHome(user: widget.user),
-                                ),
-                              );
+                              _showConfirmationDialog();
                             }
                           : null, // Disable the button if not enabled
                       child: const Text('Return'),

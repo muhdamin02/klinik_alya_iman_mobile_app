@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../app_drawer/app_drawer_guest_appointment.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import 'guest_appointment.dart';
@@ -149,6 +150,10 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Enter Patient Details'),
+      ),
+      drawer: AppDrawerGuestAppt(
+        header: 'Guest Appointment',
+        user: widget.user,
       ),
       body: SingleChildScrollView(
         child: Padding(

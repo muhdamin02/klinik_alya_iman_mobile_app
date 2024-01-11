@@ -2,6 +2,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/appointment.dart';
+import '../models/homefeed.dart';
+import '../models/medical_history.dart';
 import '../models/medication.dart';
 import '../models/profile.dart';
 import '../models/user.dart';
@@ -65,6 +67,7 @@ class DatabaseService {
     patient_remarks TEXT DEFAULT 'No remarks by patient.',
     practitioner_remarks TEXT DEFAULT 'No remarks by practitioner.',
     random_id TEXT,
+    practitioner_id INTEGER,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
   );
@@ -82,6 +85,28 @@ class DatabaseService {
     next_dose_day TEXT,
     dose_times TEXT,
     medication_quantity INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE homefeed (
+    homefeed_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    datetime_posted TEXT NOT NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE medical_history (
+    medical_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    datetime_posted TEXT NOT NULL,
     user_id INTEGER NOT NULL,
     profile_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
@@ -117,6 +142,72 @@ class DatabaseService {
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       ['Muhammad Amin bin Shamsul Anuar', 'a', 'a', '0104081975', 'patient'],
+    );
+
+    // homefeed 1
+    await db.execute(
+      'INSERT INTO homefeed (title, body, datetime_posted) VALUES (?, ?, ?)',
+      [
+        'Test Title ABC',
+        'MAIMAIMAIAMIAMIAM aimaimaimaiamiam',
+        'test date time 1'
+      ],
+    );
+
+    // homefeed 2
+    await db.execute(
+      'INSERT INTO homefeed (title, body, datetime_posted) VALUES (?, ?, ?)',
+      [
+        'Test Title DEF',
+        'SHAKLAKALKALKALKALKALKALAKLAKLAK QLAKLK',
+        'test date time 2'
+      ],
+    );
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// HOMEFEED DATABASE ///////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Home Feed All
+  Future<List<HomeFeed>> homeFeedAll() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'homefeed',
+    );
+    return List.generate(maps.length, (index) => HomeFeed.fromMap(maps[index]));
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// MEDICAL HISTORY DATABASE ///////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Retrieve based on User and Profile
+  Future<List<MedicalHistory>> retrieveMedHistory(
+      int userId, int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'medical_history',
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
+    );
+    return List.generate(
+        maps.length, (index) => MedicalHistory.fromMap(maps[index]));
+  }
+
+  // Insert
+  Future<void> newMedHistoryEntry(MedicalHistory medicalHistory) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'medical_history',
+      medicalHistory.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
@@ -193,6 +284,16 @@ class DatabaseService {
     final String firstName = maps.first['name'];
 
     return firstName;
+  }
+
+  // Retrieve List of Practitioners
+  Future<List<String>> getPractitionerDDL() async {
+    final db = await _databaseService.database;
+    List<Map<String, dynamic>> maps = await db.query('user',
+        where: 'role = ?',
+        whereArgs: ['practitioner'],
+        columns: ['name']); // Specify the columns you want to retrieve
+    return List.generate(maps.length, (i) => maps[i]['name']);
   }
 
 //////////////////////////////////////////////////////////////////////////

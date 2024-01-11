@@ -29,8 +29,7 @@ class _ManageUserState extends State<ManageUser> {
   }
 
   // ----------------------------------------------------------------------
-  // View list of appointments
-
+  // View list of users
   Future<void> _fetchUserList() async {
     List<User> userList = await DatabaseService().userAll();
     setState(() {
@@ -40,10 +39,10 @@ class _ManageUserState extends State<ManageUser> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // View Appointment
+  // View user
 
   void _viewUser(User user) {
-    // Navigate to the view appointment details page with the selected appointment
+    // Navigate to the view user details page with the selected user
     Navigator.push(
       context,
       MaterialPageRoute(

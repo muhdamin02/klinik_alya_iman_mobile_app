@@ -23,13 +23,17 @@ class ViewAppointment extends StatefulWidget {
 
 class _ViewAppointmentState extends State<ViewAppointment> {
   List<Appointment> _appointmentInfo = [];
-  String? _patientName;
+  List<String> _practitionerList = [];
+  String? _patientName, _practitionerName;
+  String? _selectedPractitioner;
 
   @override
   void initState() {
     super.initState();
     _fetchAppointmentInfo();
     _loadPatientName();
+    _getPractitionerName();
+    _getPractitionerList();
   }
 
   // ----------------------------------------------------------------------
@@ -45,11 +49,32 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
+  // Fetch details
+
+  Future<void> _getPractitionerList() async {
+    List<String> practitionerList =
+        await DatabaseService().getPractitionerDDL();
+    setState(() {
+      _practitionerList = practitionerList;
+    });
+  }
+  //
+
+  // ----------------------------------------------------------------------
   // load patient name
   Future<void> _loadPatientName() async {
     _patientName =
         await DatabaseService().getPatientName(widget.appointment.profile_id);
     setState(() {}); // Update the UI to display the patient name
+  }
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // load patient name
+  Future<void> _getPractitionerName() async {
+    _practitionerName =
+        await DatabaseService().getUserName(widget.appointment.practitioner_id);
+    setState(() {});
   }
   // ----------------------------------------------------------------------
 
@@ -179,8 +204,25 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         Text(
                             'Practitioner Remarks: \n${appointment.practitioner_remarks}'),
                         const SizedBox(height: 12.0),
-                        Text(
-                            'Random ID: \n${appointment.random_id}'),
+                        Text('Random ID: \n${appointment.random_id}'),
+                        const SizedBox(height: 12.0),
+                        Text('Practitioner in Charge: \n$_practitionerName'),
+                        const SizedBox(height: 12.0),
+                        const Text('Practitioner in Charge:'),
+                        DropdownButton<String>(
+                          value: _selectedPractitioner,
+                          items: _practitionerList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedPractitioner = newValue;
+                            });
+                          },
+                        ),
                       ],
                     ),
                   );

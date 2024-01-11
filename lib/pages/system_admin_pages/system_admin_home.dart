@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/practitioner_pages/manage_appointment.dart';
 
 import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/user.dart';
@@ -61,6 +62,21 @@ class SystemAdminHome extends StatelessWidget {
                   );
                 },
                 child: const Text('Manage Users'),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ManageAppointment(
+                        user: user,
+                        autoImplyLeading: true,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Manage Appointments'),
               ),
               // Add more details specific to practitioners
             ],

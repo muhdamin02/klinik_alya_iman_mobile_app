@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
 import 'package:timezone/data/latest.dart' as tz;
-
-import 'pages/startup/login.dart';
 import 'services/misc_methods/page_transition.dart';
 import 'services/notification_service.dart';
 

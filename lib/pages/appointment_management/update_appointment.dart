@@ -226,7 +226,8 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
             'Rescheduled appointment date from $oldAppointmentDateString to $appointmentDateString on $timeNow by the $rescheduler.',
         patient_remarks: widget.appointment.patient_remarks,
         practitioner_remarks: widget.appointment.practitioner_remarks,
-        random_id: '',
+        random_id: widget.appointment.random_id,
+        practitioner_id: 0,
       );
 
       try {

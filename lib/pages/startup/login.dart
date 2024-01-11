@@ -153,6 +153,7 @@ class _LoginState extends State<Login> {
       MaterialPageRoute(
         builder: (context) => GuestHome(
           user: user,
+          showTips: true,
         ),
       ),
     );
@@ -163,7 +164,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
@@ -178,6 +178,30 @@ class _LoginState extends State<Login> {
                 const Image(
                     image: AssetImage('assets/klinik_alya_iman.png'),
                     fit: BoxFit.fitHeight),
+                const SizedBox(height: 32.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    height: 45.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _guestLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(50, 163, 203,
+                            1), // Set the desired button color here
+                      ),
+                      child: const Text(
+                        'Continue as guest',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32.0),
+                const Text('or...'),
                 const SizedBox(height: 32.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -250,22 +274,6 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 32.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('One-time user? '),
-                    GestureDetector(
-                      onTap: _guestLogin,
-                      child: const Text(
-                        'Click here',
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
