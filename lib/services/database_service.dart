@@ -148,9 +148,9 @@ class DatabaseService {
     await db.execute(
       'INSERT INTO homefeed (title, body, datetime_posted) VALUES (?, ?, ?)',
       [
-        'Test Title ABC',
-        'MAIMAIMAIAMIAMIAM aimaimaimaiamiam',
-        'test date time 1'
+        'Holiday Schedule Announcement',
+        'In celebration of the upcoming holidays, our clinic will have adjusted hours. Please take note of our special schedule to ensure we can continue to provide excellent care during this festive season. Wishing you all happy and healthy holidays!',
+        '12-1-2024'
       ],
     );
 
@@ -158,9 +158,9 @@ class DatabaseService {
     await db.execute(
       'INSERT INTO homefeed (title, body, datetime_posted) VALUES (?, ?, ?)',
       [
-        'Test Title DEF',
-        'SHAKLAKALKALKALKALKALKALAKLAKLAK QLAKLK',
-        'test date time 2'
+        'Important COVID-19 Update',
+        'In response to the latest COVID-19 developments, we want to assure you that we are closely monitoring the situation. Our clinic continues to follow all safety protocols to ensure a safe environment for both patients and staff. Stay informed and stay safe.',
+        '13-1-2024'
       ],
     );
   }

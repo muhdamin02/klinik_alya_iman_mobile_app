@@ -175,47 +175,40 @@ class _LoginState extends State<Login> {
             key: _formKey,
             child: Column(
               children: [
-                const Image(
+                const Padding(
+                  padding: EdgeInsets.only(top: 24.0),
+                  child: Image(
                     image: AssetImage('assets/klinik_alya_iman.png'),
-                    fit: BoxFit.fitHeight),
-                const SizedBox(height: 32.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SizedBox(
-                    height: 45.0,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _guestLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(50, 163, 203,
-                            1), // Set the desired button color here
-                      ),
-                      child: const Text(
-                        'Continue as guest',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    fit: BoxFit.fitHeight,
                   ),
                 ),
-                const SizedBox(height: 32.0),
-                const Text('or...'),
-                const SizedBox(height: 32.0),
+                const Text(
+                  'Welcome...',
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Color.fromARGB(255, 0, 76, 104),
+                  ),
+                ),
+                const SizedBox(height: 48.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
                     controller: _identificationController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                       labelText: 'IC or Passport Number',
                       counterText: '',
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 20.0),
                     ),
                     maxLength: 20,
                     validator: (value) {
                       if (value == null || value.isEmpty || value == '') {
-                        return 'Please enter your IC  or Passport Number';
+                        return 'Please enter your IC or Passport Number';
                       }
                       return null;
                     },
@@ -228,19 +221,27 @@ class _LoginState extends State<Login> {
                     obscureText: passwordVisible,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
                       labelText: 'Password',
-                      suffixIcon: IconButton(
-                        icon: Icon(passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off),
-                        onPressed: () {
-                          setState(
-                            () {
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 20.0),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0), // Adjust the right padding as needed
+                        child: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
                               passwordVisible = !passwordVisible;
-                            },
-                          );
-                        },
+                            });
+                          },
+                        ),
                       ),
                     ),
                     keyboardType: TextInputType.visiblePassword,
@@ -262,19 +263,89 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                       onPressed: _onLogin,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(50, 163, 203,
-                            1), // Set the desired button color here
+                        foregroundColor: const Color.fromARGB(255, 0, 61, 83),
+                        backgroundColor: const Color.fromARGB(
+                            255, 167, 224, 245), // Set the text color
+                        side: const BorderSide(
+                          color: Color.fromARGB(
+                              255, 0, 61, 83), // Set the outline color
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              25.0), // Adjust the value as needed
+                        ),
                       ),
                       child: const Text(
-                        'Login',
+                        'Continue as Member',
                         style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
+                          fontSize: 18.0,
+                          color: Color.fromARGB(255, 0, 61, 83),
                         ),
                       ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 32.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color.fromARGB(255, 0, 115, 156),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'or',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 0, 76, 104),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color.fromARGB(255, 0, 115, 156),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    height: 45.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _guestLogin,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: const Color.fromARGB(255, 119, 91, 0),
+                        backgroundColor: const Color.fromARGB(
+                            255, 255, 230, 148), // Set the text color
+                        side: const BorderSide(
+                          color: Color.fromARGB(
+                              255, 119, 91, 0), // Set the outline color
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              25.0), // Adjust the value as needed
+                        ),
+                      ),
+                      child: const Text(
+                        'Get Started as Guest',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Color.fromARGB(255, 119, 91, 0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32.0),
               ],
             ),
           ),

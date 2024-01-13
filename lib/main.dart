@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Klinik Alya Iman',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color.fromRGBO(238, 247, 255, 1),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: const MaterialColor(
             0xFF32a3cb,
@@ -47,8 +48,8 @@ class _MyAppState extends State<MyApp> {
             },
           ),
         ).copyWith(
-          primary: const Color(0xFF32a3cb),
-          secondary: const Color(0xFF32a3cb),
+          primary: const Color.fromARGB(255, 0, 61, 83),
+          secondary: const Color.fromARGB(255, 0, 61, 83),
         ),
         textTheme: const TextTheme(
           // booking history details text

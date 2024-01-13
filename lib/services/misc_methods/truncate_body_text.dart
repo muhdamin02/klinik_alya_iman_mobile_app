@@ -1,4 +1,4 @@
-String truncateText(String text, {int maxChars = 20}) {
+String truncateText(String text, {int maxChars = 80}) {
   if (text.length <= maxChars) {
     return text;
   } else {
