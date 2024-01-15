@@ -33,19 +33,18 @@ class AppDrawerProfilesLogout extends StatelessWidget {
               children: [
                 const DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Color(0xFF32a3cb),
+                    color: Color.fromARGB(255, 37, 101, 184),
                   ),
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
+                        color: Colors.white, fontSize: 24, fontFamily: 'Rubik'),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.person),
-                  title: const Text('My Profile'),
+                  title: const Text('My Profile',
+                      style: TextStyle(fontFamily: 'Rubik')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -65,7 +64,7 @@ class AppDrawerProfilesLogout extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
+            title: const Text('Logout', style: TextStyle(fontFamily: 'Rubik')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

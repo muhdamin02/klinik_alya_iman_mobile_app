@@ -59,144 +59,284 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
       appBar: AppBar(
         title: const Text('Step 2: Medication Type'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Choose Medication Type',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Please choose the type of your medication.',
-                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(
-                        child: SizedBox(
-                            height: 90.0,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                const medicationType = 'Pills';
-                                buttonIsSelected = true;
-                                _setMedicationType(type: medicationType);
-                              },
-                              child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.event, // Use any icon you want
-                                  color: Color.fromARGB(255, 37, 101, 184),
-                                  size: 32,
-                                ),
-                                SizedBox(
-                                    height:
-                                        8), // Adjust the spacing between icon and text
-                                Text(
-                                  'Pills',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 37, 101, 184),
-                                  ),
-                                ),
-                              ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Choose Medication Type',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Please choose the type of your medication.',
+                style: TextStyle(fontSize: 16.0, color: Colors.grey),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 90.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          const medicationType = 'Pills';
+                          buttonIsSelected = true;
+                          _setMedicationType(type: medicationType);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              255, 221, 236, 255), // Set the text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.medication, // Use any icon you want
+                              color: Color.fromARGB(255, 37, 101, 184),
+                              size: 36,
                             ),
-                            ))),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                        child: SizedBox(
-                            height: 90.0,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                const medicationType = 'Injection';
-                                buttonIsSelected = true;
-                                _setMedicationType(type: medicationType);
-                              },
-                              child: const SizedBox(
-                                  width: 100.0,
-                                  child: Center(child: Text('Injection'))),
-                            ))),
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                  children: [
-                    Expanded(
-                        child: SizedBox(
-                            height: 90.0,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                const medicationType = 'Solution (liquid)';
-                                buttonIsSelected = true;
-                                _setMedicationType(type: medicationType);
-                              },
-                              child: const SizedBox(
-                                  width: 100.0,
-                                  child: Center(child: Text('Solution'))),
-                            ))),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                        child: SizedBox(
-                            height: 90.0,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                const medicationType = 'Drops';
-                                buttonIsSelected = true;
-                                _setMedicationType(type: medicationType);
-                              },
-                              child: const SizedBox(
-                                  width: 100.0,
-                                  child: Center(child: Text('Drops'))),
-                            ))),
-                  ],
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                  children: [
-                    Expanded(
-                        child: SizedBox(
-                            height: 90.0,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                const medicationType = 'Inhaler';
-                                buttonIsSelected = true;
-                                _setMedicationType(type: medicationType);
-                              },
-                              child: const SizedBox(
-                                  width: 100.0,
-                                  child: Center(child: Text('Inhaler'))),
-                            ))),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                        child: SizedBox(
-                            height: 90.0,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                const medicationType = 'Powder';
-                                buttonIsSelected = true;
-                                _setMedicationType(type: medicationType);
-                              },
-                              child: const SizedBox(
-                                  width: 100.0,
-                                  child: Center(child: Text('Powder'))),
-                            ))),
-                  ],
-                ),
-              ],
-            ),
+                            SizedBox(
+                                height:
+                                    8), // Adjust the spacing between icon and text
+                            Text(
+                              'Pills',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 37, 101, 184),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: SizedBox(
+                      height: 90.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              255, 221, 236, 255), // Set the text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const medicationType = 'Injection';
+                          buttonIsSelected = true;
+                          _setMedicationType(type: medicationType);
+                        },
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.vaccines_outlined, // Use any icon you want
+                              color: Color.fromARGB(255, 37, 101, 184),
+                              size: 36,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Injection',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 37, 101, 184),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 90.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              255, 221, 236, 255), // Set the text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const medicationType = 'Solution (liquid)';
+                          buttonIsSelected = true;
+                          _setMedicationType(type: medicationType);
+                        },
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.water_outlined, // Use any icon you want
+                              color: Color.fromARGB(255, 37, 101, 184),
+                              size: 36,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Solution',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 37, 101, 184),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: SizedBox(
+                      height: 90.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              255, 221, 236, 255), // Set the text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const medicationType = 'Drops';
+                          buttonIsSelected = true;
+                          _setMedicationType(type: medicationType);
+                        },
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons
+                                  .water_drop_outlined, // Use any icon you want
+                              color: Color.fromARGB(255, 37, 101, 184),
+                              size: 36,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Drops',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 37, 101, 184),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 90.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              255, 221, 236, 255), // Set the text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const medicationType = 'Inhaler';
+                          buttonIsSelected = true;
+                          _setMedicationType(type: medicationType);
+                        },
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.air, // Use any icon you want
+                              color: Color.fromARGB(255, 37, 101, 184),
+                              size: 36,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Inhaler',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 37, 101, 184),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: SizedBox(
+                      height: 90.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              255, 221, 236, 255), // Set the text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const medicationType = 'Powder';
+                          buttonIsSelected = true;
+                          _setMedicationType(type: medicationType);
+                        },
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons
+                                  .auto_awesome_rounded, // Use any icon you want
+                              color: Color.fromARGB(255, 37, 101, 184),
+                              size: 36,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Powder',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 37, 101, 184),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

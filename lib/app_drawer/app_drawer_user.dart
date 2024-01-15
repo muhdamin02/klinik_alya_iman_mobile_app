@@ -30,13 +30,14 @@ class AppDrawerUser extends StatelessWidget {
               children: const [
                 DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Color(0xFF32a3cb),
+                    color: Color.fromARGB(255, 37, 101, 184),
                   ),
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
+                      fontFamily: 'Rubik'
                     ),
                   ),
                 ),
@@ -45,7 +46,8 @@ class AppDrawerUser extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.group),
-            title: const Text('Switch Profile'),
+            title: const Text('Switch Profile',
+                style: TextStyle(fontFamily: 'Rubik')),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -60,7 +62,7 @@ class AppDrawerUser extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
+            title: const Text('Logout', style: TextStyle(fontFamily: 'Rubik')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

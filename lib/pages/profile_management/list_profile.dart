@@ -101,6 +101,7 @@ class _ListProfileState extends State<ListProfile> {
                       MaterialPageRoute(
                         builder: (context) => FirstProfile(
                           user: widget.user,
+                          showTips: false,
                         ),
                       ),
                     );
@@ -145,6 +146,7 @@ class _ListProfileState extends State<ListProfile> {
                       MaterialPageRoute(
                         builder: (context) => FirstProfile(
                           user: widget.user,
+                          showTips: false,
                         ),
                       ),
                     );
@@ -223,13 +225,15 @@ class _ListProfileState extends State<ListProfile> {
                                 25.0), // Adjust the radius
                           ),
                           elevation: 3, // Set the elevation for the card
-                          color: const Color.fromARGB(255, 221, 236, 255),
+                          color: const Color.fromARGB(255, 238, 238, 238),
                           child: Padding(
                             padding: const EdgeInsets.all(
                                 16.0), // Add SizedBox widget here
                             child: ListTile(
                               title: Text(profile.name,
-                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

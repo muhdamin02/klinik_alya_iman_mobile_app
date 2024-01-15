@@ -3,7 +3,6 @@ import '../../app_drawer/app_drawer_guest_home.dart';
 import '../../models/homefeed.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
-import '../../services/misc_methods/truncate_body_text.dart';
 
 class GuestHome extends StatefulWidget {
   final User user;
@@ -16,6 +15,7 @@ class GuestHome extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _GuestHomeState createState() => _GuestHomeState();
 }
 
@@ -26,6 +26,12 @@ class _GuestHomeState extends State<GuestHome> {
   void initState() {
     super.initState();
     _fetchHomeFeed();
+
+    if (widget.showTips) {
+      Future.delayed(Duration.zero, () {
+        _showTipsDialog();
+      });
+    }
   }
 
   // ----------------------------------------------------------------------
@@ -38,7 +44,30 @@ class _GuestHomeState extends State<GuestHome> {
     });
   }
 
-  bool showOverlay = true;
+  void _showTipsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          title: const Text('Tips'),
+          content: const Text(
+              'As a guest, you can pre-register for booking appointments.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +79,7 @@ class _GuestHomeState extends State<GuestHome> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Guest placeholder',
+            'Home',
             style: TextStyle(color: Colors.white),
           ),
           iconTheme: const IconThemeData(
@@ -69,42 +98,41 @@ class _GuestHomeState extends State<GuestHome> {
                 HomeFeed homeFeed = _homeFeed[index];
                 return Column(
                   children: [
-                    const SizedBox(height: 16.0),
+                    const SizedBox(height: 12.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Card(
-                        elevation: 3, // Set the elevation for the card
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ListTile(
-                            title: Text(homeFeed.title),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 4.0),
-                                GestureDetector(
-                                  onTap: () {
-                                    // Add logic to navigate to the full article or perform any desired action
-                                    // _viewArticle(homeFeed);
-                                  },
-                                  child: Text(
-                                    truncateText(homeFeed.body),
+                      child: GestureDetector(
+                        onTap: () {
+                          // function
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the radius
+                          ),
+                          elevation: 3, // Set the elevation for the card
+                          color: const Color.fromARGB(255, 238, 238, 238),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListTile(
+                              title: Text(
+                                homeFeed.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight
+                                      .bold, // You can adjust other font styles as well
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4.0),
+                                  Text(
+                                    homeFeed.body,
+                                    maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                Text(homeFeed.datetime_posted),
-                              ],
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.visibility),
-                                  onPressed: () {
-                                    // _viewArticle(homeFeed);
-                                  },
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -114,62 +142,6 @@ class _GuestHomeState extends State<GuestHome> {
                 );
               },
             ),
-            if (showOverlay &&
-                widget.showTips) // Show overlay only when showOverlay is true
-              GestureDetector(
-                onTap: () {
-                  // Optional: Add logic here if you want to dismiss the overlay when tapped outside the textbox
-                },
-                child: Container(
-                  color: Colors.black
-                      .withOpacity(0.7), // Adjust the opacity as needed
-                  child: Center(
-                    child: Container(
-                      width: 300, // Adjust the width as needed
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Tips',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 8.0),
-                              const Text(
-                                'As a guest, you can pre-register for booking appointments.',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
-                                textAlign: TextAlign.center, // Center the text
-                              ),
-                              const SizedBox(height: 16.0),
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    showOverlay = false;
-                                  });
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
       ),

@@ -222,13 +222,8 @@ class ProfilePage extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              // foregroundColor: const Color.fromARGB(255, 0, 61, 83),
                               backgroundColor: const Color.fromARGB(
                                   255, 233, 243, 255), // Set the text color
-                              // side: const BorderSide(
-                              //   color: Color.fromARGB(
-                              //       255, 0, 61, 83), // Set the outline color
-                              // ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     32.0), // Adjust the value as needed

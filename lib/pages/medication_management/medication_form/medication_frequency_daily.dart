@@ -62,66 +62,125 @@ class _MedicationDailyFrequencyPageState
       appBar: AppBar(
         title: const Text('Step 4: Frequency Intervals'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'How often do you take it?',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Specify the frequency of taking your medication.',
-                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    const dailyFrequency = 1;
-                    buttonIsSelected = true;
-                    _setDailyFrequency(dailyFrequency: dailyFrequency);
-                  },
-                  child: const SizedBox(
-                      width: 200.0, child: Center(child: Text('Once a day'))),
-                ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
-                  onPressed: () {
-                    const dailyFrequency = 2;
-                    buttonIsSelected = true;
-                    _setDailyFrequency(dailyFrequency: dailyFrequency);
-                  },
-                  child: const SizedBox(
-                      width: 200.0, child: Center(child: Text('Twice a day'))),
-                ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
-                  onPressed: () {
-                    const dailyFrequency = 3;
-                    buttonIsSelected = true;
-                    _setDailyFrequency(dailyFrequency: dailyFrequency);
-                  },
-                  child: const SizedBox(
-                      width: 200.0,
-                      child: Center(child: Text('Three times a day'))),
-                ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
-                  onPressed: () {
-                    const dailyFrequency = 4;
-                    buttonIsSelected = true;
-                    _setDailyFrequency(dailyFrequency: dailyFrequency);
-                  },
-                  child: const SizedBox(
-                      width: 200.0,
-                      child: Center(child: Text('Four times a day'))),
-                ),
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'How often do you take it?',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Specify the frequency of taking your medication.',
+                style: TextStyle(fontSize: 16.0, color: Colors.grey),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  Expanded(
+                      child: SizedBox(
+                    height: 60.0,
+                    width: 150,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 115, 176, 255),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              25.0), // Adjust the value as needed
+                        ),
+                      ),
+                      onPressed: () {
+                        const dailyFrequency = 1;
+                        buttonIsSelected = true;
+                        _setDailyFrequency(dailyFrequency: dailyFrequency);
+                      },
+                      child: const Text('Once a day',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  )),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: SizedBox(
+                      height: 60.0,
+                      width: 150,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 115, 176, 255),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const dailyFrequency = 2;
+                          buttonIsSelected = true;
+                          _setDailyFrequency(dailyFrequency: dailyFrequency);
+                        },
+                        child: const Text('Twice a day',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 60.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 115, 176, 255),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const dailyFrequency = 3;
+                          buttonIsSelected = true;
+                          _setDailyFrequency(dailyFrequency: dailyFrequency);
+                        },
+                        child: const Text('Three times a day',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: SizedBox(
+                      height: 60.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 115, 176, 255),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the value as needed
+                          ),
+                        ),
+                        onPressed: () {
+                          const dailyFrequency = 4;
+                          buttonIsSelected = true;
+                          _setDailyFrequency(dailyFrequency: dailyFrequency);
+                        },
+                        child: const Text('Four times a day',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

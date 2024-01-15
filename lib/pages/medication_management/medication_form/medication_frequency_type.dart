@@ -108,88 +108,148 @@ class _MedicationFrequencyTypePageState
       appBar: AppBar(
         title: const Text('Step 3: Frequency Type'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'How often do you take it?',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Choose the frequency of taking your medication.',
-                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'How often do you take it?',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                'Choose the frequency of taking your medication.',
+                style: TextStyle(fontSize: 16.0, color: Colors.grey),
+              ),
+              const SizedBox(height: 16.0),
+              SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: () {
                     const medicationFrequency = 'EveryDay';
                     buttonIsSelected = true;
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
-                  child: const SizedBox(
-                      width: 200.0, child: Center(child: Text('Every day'))),
+                  child: const Text('Every day',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: () {
                     const medicationFrequency = 'EveryOtherDay';
                     buttonIsSelected = true;
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
-                  child: const SizedBox(
-                      width: 200.0,
-                      child: Center(child: Text('Every other day'))),
+                  child: const Text('Every other day',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: () {
                     const medicationFrequency = 'SpecificDays';
                     buttonIsSelected = true;
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
-                  child: const SizedBox(
-                      width: 200.0,
-                      child: Center(child: Text('Specific days of the week'))),
+                  child: const Text('Specific days of the week',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: () {
                     const medicationFrequency = 'EveryXDays';
                     buttonIsSelected = true;
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
-                  child: const SizedBox(
-                      width: 200.0, child: Center(child: Text('Every X days'))),
+                  child: const Text('Every X days',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: () {
                     const medicationFrequency = 'EveryXWeeks';
                     buttonIsSelected = true;
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
-                  child: const SizedBox(
-                      width: 200.0,
-                      child: Center(child: Text('Every X weeks'))),
+                  child: const Text('Every X weeks',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-                const SizedBox(height: 5.0),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 8.0),
+              SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: () {
                     const medicationFrequency = 'EveryXMonths';
                     buttonIsSelected = true;
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
-                  child: const SizedBox(
-                      width: 200.0,
-                      child: Center(child: Text('Every X months'))),
+                  child: const Text('Every X months',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

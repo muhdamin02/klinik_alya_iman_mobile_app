@@ -50,10 +50,10 @@ class _PatientHomepageState extends State<PatientHomepage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Profile Page'),
+          title: const Text('Home'),
         ),
         drawer: AppDrawerAllPages(
-          header: 'Profile Page',
+          header: 'Home',
           user: widget.user,
           profile: widget.profile,
           autoImplyLeading: true,
@@ -69,40 +69,39 @@ class _PatientHomepageState extends State<PatientHomepage> {
                     const SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Card(
-                        elevation: 3, // Set the elevation for the card
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ListTile(
-                            title: Text(homeFeed.title),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 4.0),
-                                GestureDetector(
-                                  onTap: () {
-                                    // Add logic to navigate to the full article or perform any desired action
-                                    // _viewArticle(homeFeed);
-                                  },
-                                  child: Text(
+                      child: GestureDetector(
+                        onTap: () {
+                          print('tapped');
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the radius
+                          ),
+                          elevation: 3, // Set the elevation for the card
+                          color: const Color.fromARGB(255, 238, 238, 238),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListTile(
+                              title: Text(
+                                homeFeed.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight
+                                      .bold, // You can adjust other font styles as well
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4.0),
+                                  Text(
                                     homeFeed.body,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                // Text(homeFeed.datetime_posted),
-                              ],
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.visibility),
-                                  onPressed: () {
-                                    // _viewArticle(homeFeed);
-                                  },
-                                ),
-                              ],
+                                  // Text(homeFeed.datetime_posted),
+                                ],
+                              ),
                             ),
                           ),
                         ),

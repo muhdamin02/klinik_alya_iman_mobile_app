@@ -398,6 +398,7 @@ class _HomeState extends State<Home> {
           } else {
             return FirstProfile(
               user: widget.user,
+              showTips: true,
             );
           }
         }

@@ -321,25 +321,22 @@ class _CreateProfileState extends State<CreateProfile> {
                   left: 16.0,
                   right: 16.0), // Set your desired margin
               child: SizedBox(
-                height: 45.0,
+                height: 60.0,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _submitForm,
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 0, 61, 83),
                     backgroundColor: const Color.fromARGB(
-                        255, 167, 224, 245), // Set the text color
-                    side: const BorderSide(
-                      color: Color.fromARGB(
-                          255, 0, 61, 83), // Set the outline color
-                    ),
+                        255, 115, 176, 255), // Set the text color
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           25.0), // Adjust the value as needed
                     ),
                   ),
                   child: const Text('Create Profile',
-                      style: TextStyle(color: Color.fromARGB(255, 0, 61, 83))),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255))),
                 ),
               ),
             ),
