@@ -294,63 +294,87 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
       appBar: AppBar(
         title: const Text('Book Appointment'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _appointmentDateController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Appointment Date',
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _appointmentDateController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Appointment Date',
+                        ),
+                        readOnly: true,
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        validator: _requiredValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      const Text('Choose Appointment Time'),
+                      _buildTimeRow(['09:00 AM', '10:00 AM', '11:00 AM']),
+                      _buildTimeRow(['12:00 PM', '01:00 PM', '02:00 PM']),
+                      _buildTimeRow(['03:00 PM', '04:00 PM', '05:00 PM']),
+                      const SizedBox(height: 32.0),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: widget.profile.name,
+                        ),
+                        enabled: false,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _identificationController,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: widget.profile.identification,
+                        ),
+                        enabled: false,
+                      ),
+                      const SizedBox(height: 16.0),
+                    ],
+                  ),
                 ),
-                readOnly: true,
-                onTap: () {
-                  _selectDate(context);
-                },
-                validator: _requiredValidator,
               ),
-              const SizedBox(height: 16.0),
-              const Text('Choose Appointment Time'),
-              _buildTimeRow(['09:00 AM', '10:00 AM', '11:00 AM']),
-              _buildTimeRow(['12:00 PM', '01:00 PM', '02:00 PM']),
-              _buildTimeRow(['03:00 PM', '04:00 PM', '05:00 PM']),
-              const SizedBox(height: 32.0),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: widget.profile.name,
-                ),
-                enabled: false,
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _identificationController,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: widget.profile.identification,
-                ),
-                enabled: false,
-              ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                height: 45.0,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  right: 16.0), // Set your desired margin
+              child: SizedBox(
+                height: 60.0,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   child: const Text('Submit',
-                      style: TextStyle(color: Colors.white)),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ),
-              const SizedBox(height: 16.0),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

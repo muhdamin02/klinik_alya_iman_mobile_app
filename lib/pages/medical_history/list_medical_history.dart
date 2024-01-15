@@ -6,7 +6,6 @@ import '../../models/medical_history.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
-import '../../services/misc_methods/truncate_body_text.dart';
 
 class ListMedicalHistory extends StatefulWidget {
   final User user;
@@ -88,7 +87,8 @@ class _ListMedicalHistoryState extends State<ListMedicalHistory> {
                                     // _viewArticle(homeFeed);
                                   },
                                   child: Text(
-                                    truncateText(medicalHistory.body),
+                                    medicalHistory.body,
+                                    maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),

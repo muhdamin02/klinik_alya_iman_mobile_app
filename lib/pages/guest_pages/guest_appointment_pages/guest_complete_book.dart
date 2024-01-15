@@ -64,7 +64,6 @@ class _GuestCompleteBookState extends State<GuestCompleteBook>
   Future<void> _showConfirmationDialog() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirmation'),

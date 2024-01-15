@@ -154,7 +154,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('View Appointment'),
+        title: const Text('Appointment Details'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -162,11 +162,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Appointment Details',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16.0),
               // Display appointment details using ListView.builder
               ListView.builder(
                 shrinkWrap: true,
@@ -180,34 +175,74 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Patient: $_patientName'),
-                        Text('Patient ID: ${appointment.profile_id}'),
-                        const SizedBox(height: 8.0),
+                        const Text('PATIENT NAME',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text('$_patientName'),
+                        const SizedBox(height: 24),
+                        const Text('APPOINTMENT DATE',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
                         Row(
                           children: [
-                            const Text('Date: '),
                             DateDisplay(date: appointment.appointment_date),
                             Text(' ($dayOfWeek)'),
                           ],
                         ),
-                        const SizedBox(height: 8.0),
-                        Text('Time: ${appointment.appointment_time}'),
-                        const SizedBox(height: 8.0),
-                        Text('Status: ${appointment.status}'),
-                        const SizedBox(height: 12.0),
-                        Text(
-                            'System-generated Remarks: \n${appointment.system_remarks}'),
-                        const SizedBox(height: 12.0),
-                        Text(
-                            'Patient Remarks: \n${appointment.patient_remarks}'),
-                        const SizedBox(height: 12.0),
-                        Text(
-                            'Practitioner Remarks: \n${appointment.practitioner_remarks}'),
-                        const SizedBox(height: 12.0),
-                        Text('Random ID: \n${appointment.random_id}'),
-                        const SizedBox(height: 12.0),
-                        Text('Practitioner in Charge: \n$_practitionerName'),
-                        const SizedBox(height: 12.0),
+                        const SizedBox(height: 24),
+                        const Text('APPOINTMENT TIME',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.appointment_time),
+                        const SizedBox(height: 24),
+                        const Text('STATUS',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.status),
+                        const SizedBox(height: 24),
+                        const Text('REFERENCE NUMBER',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.random_id),
+                        const SizedBox(height: 24),
+                        const Text('PRACTITIONER',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text('$_practitionerName'),
+                        const SizedBox(height: 24),
+                        const Text('SYSTEM-GENERATED REMARKS',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.system_remarks),
+                        const SizedBox(height: 24),
+                        const Text('PATIENT REMARKS',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.patient_remarks),
+                        const SizedBox(height: 24),
+                        const Text('PRACTITIONER REMARKS',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.practitioner_remarks),
+                        const SizedBox(height: 24),
                         const Text('Practitioner in Charge:'),
                         DropdownButton<String>(
                           value: _selectedPractitioner,

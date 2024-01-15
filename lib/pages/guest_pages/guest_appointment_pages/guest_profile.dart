@@ -70,63 +70,15 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
         return;
       }
 
-      try {
-        // Insert the profile into the database
-        // await DatabaseService().insertProfile(profile);
-
-        // int latestProfileId =
-        //     (await DatabaseService().getProfileCount(widget.user.user_id!)) - 1;
-
-        // List<Profile> profileList =
-        //     await DatabaseService().profile(widget.user.user_id!);
-
-        // profile = profileList[latestProfileId];
-
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Form submitted successfully!'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  _formKey.currentState!.reset();
-                  _dateOfBirthController.clear();
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GuestAppointmentForm(
-                        user: widget.user,
-                        profile: profile,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GuestAppointmentForm(
+            user: widget.user,
+            profile: profile,
           ),
-        );
-      } catch (error) {
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Error'),
-            content: Text('An error occurred: $error'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -155,98 +107,139 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
         header: 'Guest Appointment',
         user: widget.user,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 32.0),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Full Name',
-                  ),
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _identificationController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'IC or Passport',
-                  ),
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _dateOfBirthController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Date of Birth',
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Select Gender:',
-                        style: TextStyle(fontSize: 20)),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        for (String gender in _genderOptions)
-                          Expanded(
-                            child: RadioListTile<String>(
-                              title: Text(gender),
-                              value: gender,
-                              groupValue: _selectedGender,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  _selectedGender = value;
-                                  _genderError = false;
-                                });
-                              },
-                            ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                      ],
-                    ),
-                    if (_genderError)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Please select a gender',
-                          style: TextStyle(
-                            color: Color.fromRGBO(197, 44, 44, 1),
-                            fontSize: 14,
-                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 20.0),
+                          labelText: 'Full Name',
                         ),
+                        validator: _requiredValidator,
                       ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                SizedBox(
-                  height: 45.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Continue',
-                        style: TextStyle(color: Colors.white)),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _identificationController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 20.0),
+                          labelText: 'IC or Passport',
+                        ),
+                        validator: _requiredValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _dateOfBirthController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 20.0),
+                          labelText: 'Date of Birth',
+                        ),
+                        readOnly: true,
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        validator: _requiredValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Select Gender:',
+                              style: TextStyle(fontSize: 20)),
+                          const SizedBox(height: 8.0),
+                          Row(
+                            children: [
+                              for (String gender in _genderOptions)
+                                Expanded(
+                                  child: RadioListTile<String>(
+                                    title: Text(gender),
+                                    value: gender,
+                                    groupValue: _selectedGender,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _selectedGender = value;
+                                        _genderError = false;
+                                      });
+                                    },
+                                  ),
+                                ),
+                            ],
+                          ),
+                          if (_genderError)
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Please select a gender',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(197, 44, 44, 1),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 16.0),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
-              ],
+              ),
             ),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  right: 16.0), // Set your desired margin
+              child: SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
+                  child: const Text('Continue',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

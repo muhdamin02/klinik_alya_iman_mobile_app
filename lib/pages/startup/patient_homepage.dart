@@ -5,7 +5,6 @@ import '../../models/homefeed.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
-import '../../services/misc_methods/truncate_body_text.dart';
 
 class PatientHomepage extends StatefulWidget {
   final User user;
@@ -86,11 +85,12 @@ class _PatientHomepageState extends State<PatientHomepage> {
                                     // _viewArticle(homeFeed);
                                   },
                                   child: Text(
-                                    truncateText(homeFeed.body),
+                                    homeFeed.body,
+                                    maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                Text(homeFeed.datetime_posted),
+                                // Text(homeFeed.datetime_posted),
                               ],
                             ),
                             trailing: Row(

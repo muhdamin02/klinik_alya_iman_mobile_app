@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Klinik Alya Iman',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color.fromRGBO(238, 247, 255, 1),
+        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: const MaterialColor(
             0xFF32a3cb,
@@ -48,42 +48,42 @@ class _MyAppState extends State<MyApp> {
             },
           ),
         ).copyWith(
-          primary: const Color.fromARGB(255, 0, 61, 83),
-          secondary: const Color.fromARGB(255, 0, 61, 83),
+          primary: const Color.fromARGB(255, 37, 101, 184),
+          secondary: const Color.fromARGB(255, 37, 101, 184),
         ),
         textTheme: const TextTheme(
           // booking history details text
           bodyMedium: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 18,
+            fontFamily: 'Rubik',
+            fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
 
           // validator texts
           bodySmall: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 14,
+            fontFamily: 'Rubik',
+            fontSize: 12,
             fontWeight: FontWeight.normal,
           ),
 
           // submit and update button
           labelLarge: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 18,
+            fontFamily: 'Rubik',
+            fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
 
           // appbar
           titleLarge: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 25,
+            fontFamily: 'Rubik',
+            fontSize: 23,
             fontWeight: FontWeight.normal,
           ),
 
           // placeholder text in textfields, checkbox tiles, dropdown options
           titleMedium: TextStyle(
-            fontFamily: 'Afacad',
-            fontSize: 18,
+            fontFamily: 'Rubik',
+            fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
         ),

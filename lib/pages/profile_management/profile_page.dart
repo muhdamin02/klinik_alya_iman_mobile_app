@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/medical_history/create_new_med_history_entry.dart';
+import 'package:intl/intl.dart';
+import 'package:klinik_alya_iman_mobile_app/pages/medical_history/list_medical_history.dart';
 
 import '../../app_drawer/app_drawer_all_pages.dart';
-import '../../models/medication.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
-import '../appointment_management/appointment_form.dart';
-import '../medication_management/medication_form/medication_name.dart';
+import '../appointment_management/list_appointment.dart';
+import '../medication_management/list_medication.dart';
 
 class ProfilePage extends StatelessWidget {
   final User user;
@@ -22,6 +22,10 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String cleanedDate = profile.dob.replaceAll(" at", "");
+    DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(cleanedDate);
+    String formattedDate = DateFormat('dd MMMM yyyy').format(parsedDate);
+
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
@@ -37,95 +41,230 @@ class ProfilePage extends StatelessWidget {
           profile: profile,
           autoImplyLeading: true,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
+        body: Align(
+          alignment: Alignment.topLeft,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Name: ${profile.name}',
-                  style: const TextStyle(fontSize: 20)),
-              Text('IC or Passport: ${profile.identification}',
-                  style: const TextStyle(fontSize: 20)),
-              Text('Date of Birth: ${profile.dob}',
-                  style: const TextStyle(fontSize: 16)),
-              Text('Gender: ${profile.gender}',
-                  style: const TextStyle(fontSize: 16)),
-              // Add more details as needed
+              Expanded(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.all(16.0), // Add your desired padding
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('NAME',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 121, 121, 121))),
+                      const SizedBox(height: 4),
+                      Text(profile.name, style: const TextStyle(fontSize: 16)),
+                      const SizedBox(height: 24),
+                      const Text('IC/PASSPORT',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 121, 121, 121))),
+                      const SizedBox(height: 4),
+                      Text(profile.identification,
+                          style: const TextStyle(fontSize: 16)),
+                      const SizedBox(height: 24),
+                      const Text('DATE OF BIRTH',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 121, 121, 121))),
+                      const SizedBox(height: 4),
+                      Text(
+                        formattedDate,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text('GENDER',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 121, 121, 121))),
+                      const SizedBox(height: 4),
+                      Text('${profile.gender}',
+                          style: const TextStyle(fontSize: 16)),
+                      // Add more details as needed
+                    ],
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      bottom: 16.0, left: 16.0, right: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 90.0,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListAppointment(
+                                    user: user,
+                                    profile: profile,
+                                    autoImplyLeading: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(
+                                  255, 233, 243, 255), // Set the text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    32.0), // Adjust the value as needed
+                              ),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.event, // Use any icon you want
+                                  color: Color.fromARGB(255, 37, 101, 184),
+                                  size: 32,
+                                ),
+                                SizedBox(
+                                    height:
+                                        8), // Adjust the spacing between icon and text
+                                Text(
+                                  'Appointment',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 37, 101, 184),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: SizedBox(
+                          height: 90.0,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Navigate to the page where you want to medication form
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListMedication(
+                                    user: user,
+                                    profile: profile,
+                                    autoImplyLeading: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              // foregroundColor: const Color.fromARGB(255, 0, 61, 83),
+                              backgroundColor: const Color.fromARGB(
+                                  255, 233, 243, 255), // Set the text color
+                              // side: const BorderSide(
+                              //   color: Color.fromARGB(
+                              //       255, 0, 61, 83), // Set the outline color
+                              // ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    32.0), // Adjust the value as needed
+                              ),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.medication, // Use any icon you want
+                                  color: Color.fromARGB(255, 37, 101, 184),
+                                  size: 32,
+                                ),
+                                SizedBox(
+                                    height:
+                                        8), // Adjust the spacing between icon and text
+                                Text(
+                                  'Medication',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 37, 101, 184),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: SizedBox(
+                          height: 90.0,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Navigate to the page where you want to appointment form
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListMedicalHistory(
+                                    user: user,
+                                    profile: profile,
+                                    autoImplyLeading: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              // foregroundColor: const Color.fromARGB(255, 0, 61, 83),
+                              backgroundColor: const Color.fromARGB(
+                                  255, 233, 243, 255), // Set the text color
+                              // side: const BorderSide(
+                              //   color: Color.fromARGB(
+                              //       255, 0, 61, 83), // Set the outline color
+                              // ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    32.0), // Adjust the value as needed
+                              ),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.assignment, // Use any icon you want
+                                  color: Color.fromARGB(255, 37, 101, 184),
+                                  size: 32,
+                                ),
+                                SizedBox(
+                                    height:
+                                        8), // Adjust the spacing between icon and text
+                                Text(
+                                  'Personal Info',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 37, 101, 184),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            FloatingActionButton.extended(
-              onPressed: () {
-                // Navigate to the page where you want to appointment form
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AppointmentForm(
-                      user: user,
-                      profile: profile,
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.event),
-              label: const Text('Book Appointment'),
-            ),
-            const SizedBox(height: 10),
-            FloatingActionButton.extended(
-              onPressed: () {
-                final medication = Medication(
-                  medication_name: '',
-                  medication_type: '',
-                  frequency_type: '',
-                  frequency_interval: 0,
-                  daily_frequency: 0,
-                  medication_day: '',
-                  next_dose_day: '',
-                  dose_times: '',
-                  medication_quantity: 0,
-                  user_id: user.user_id!,
-                  profile_id: profile.profile_id!,
-                );
-
-                // Navigate to the page where you want to medication form
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MedicationNamePage(
-                      medication: medication,
-                      user: user,
-                      profile: profile,
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.medication),
-              label: const Text('Add Medication'),
-            ),
-            const SizedBox(height: 10),
-            FloatingActionButton.extended(
-              onPressed: () {
-                // Navigate to the page where you want to appointment form
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateNewMedHistoryEntry(
-                      user: user,
-                      profile: profile,
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.create),
-              label: const Text('Create New Entry'),
-            ),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }

@@ -32,32 +32,62 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
       appBar: AppBar(
         title: const Text('Step 1: Medication Name'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Enter Medication Name',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Enter Medication Name',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16.0),
+                    const Text(
+                      'Please enter the name of your medication. For example, "Aspirin", "Ibuprofen", etc.',
+                      style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 16.0),
+                    TextField(
+                      controller: _medicationNameController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 20.0),
+                        labelText: 'Medication Name',
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                  ],
                 ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Please enter the name of your medication. For example, "Aspirin", "Ibuprofen", etc.',
-                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: _medicationNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Medication Name',
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  right: 16.0), // Set your desired margin
+              child: SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
                   onPressed: () {
                     final medicationName = _medicationNameController.text;
                     if (medicationName.isNotEmpty) {
@@ -87,17 +117,18 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Please enter a medication name.'),
+                          content: Text('Please enter a medication name.',
+                              style: TextStyle(fontFamily: 'Rubik')),
                         ),
                       );
                     }
                   },
                   child: const Text('Next'),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

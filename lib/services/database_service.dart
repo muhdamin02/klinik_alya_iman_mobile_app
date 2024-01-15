@@ -432,16 +432,40 @@ class DatabaseService {
     return maps.isNotEmpty;
   }
 
-  // Retrieve based on User and Profile
-  Future<List<Appointment>> appointment(int userId, int? profileId) async {
+  // Retrieve based on User and Profile (upcoming)
+  Future<List<Appointment>> appointmentUpcoming(
+      int userId, int? profileId) async {
     final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
     final List<Map<String, dynamic>> maps = await db.query(
       'appointment',
-      where: 'user_id = ? AND profile_id = ?',
-      whereArgs: [userId, profileId],
+      where: 'user_id = ? AND profile_id = ? AND appointment_date >= ?',
+      whereArgs: [userId, profileId, todayDate],
     );
+
     return List.generate(
         maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  Future<List<Appointment>> pastAppointments(int userId, int? profileId) async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'user_id = ? AND profile_id = ? AND appointment_date < ?',
+      whereArgs: [userId, profileId, todayDate],
+    );
+
+    return List.generate(
+      maps.length,
+      (index) => Appointment.fromMap(maps[index]),
+    );
   }
 
   // Retrieve One Appointment Info

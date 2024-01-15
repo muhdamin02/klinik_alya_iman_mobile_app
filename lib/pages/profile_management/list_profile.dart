@@ -201,50 +201,45 @@ class _ListProfileState extends State<ListProfile> {
                 Profile profile = _profileList[index];
                 return Column(
                   children: [
-                    const SizedBox(height: 16.0), // Add SizedBox widget here
-                    ListTile(
-                      title: Text(profile.identification,
-                          style: const TextStyle(fontSize: 20)),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4.0),
-                          Text('Date of Birth: ${profile.dob}'),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.account_circle),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProfilePage(
-                                    user: widget.user,
-                                    profile: profile,
-                                    autoImplyLeading: true,
-                                  ),
-                                ),
-                              );
-                            },
+                    const SizedBox(height: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                user: widget.user,
+                                profile: profile,
+                                autoImplyLeading: true,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the radius
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              // Call a method to handle the update functionality
-                              _updateProfile(profile);
-                            },
+                          elevation: 3, // Set the elevation for the card
+                          color: const Color.fromARGB(255, 221, 236, 255),
+                          child: Padding(
+                            padding: const EdgeInsets.all(
+                                16.0), // Add SizedBox widget here
+                            child: ListTile(
+                              title: Text(profile.name,
+                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4.0),
+                                  Text(profile.identification),
+                                ],
+                              ),
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              // Call a method to handle the delete functionality
-                              _deleteProfile(profile.profile_id);
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ],

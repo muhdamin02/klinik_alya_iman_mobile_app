@@ -22,7 +22,8 @@ class CreateProfile extends StatefulWidget {
 class _CreateProfileState extends State<CreateProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _identificationController = TextEditingController();
+  final TextEditingController _identificationController =
+      TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
 
   String? _selectedGender;
@@ -100,27 +101,66 @@ class _CreateProfileState extends State<CreateProfile> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Form submitted successfully!'),
+            title: const Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Success',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            content: Text(
+              'Profile for $editedName has been created!',
+              textAlign: TextAlign.center,
+            ),
             actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  _formKey.currentState!.reset();
-                  _dateOfBirthController.clear();
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ListProfile(
-                        user: widget.user,
+              Container(
+                margin:
+                    const EdgeInsets.only(bottom: 16.0), // Set bottom margin
+                child: Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _formKey.currentState!.reset();
+                      _dateOfBirthController.clear();
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListProfile(
+                            user: widget.user,
+                          ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 0, 61, 83),
+                      backgroundColor: const Color.fromARGB(255, 167, 224, 245),
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 0, 61, 83),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
-                  );
-                },
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: Color.fromARGB(255, 0, 61, 83),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(48.0), // Adjust the radius
+            ),
           ),
+          barrierDismissible: false,
         );
       } catch (error) {
         // ignore: use_build_context_synchronously
@@ -169,98 +209,142 @@ class _CreateProfileState extends State<CreateProfile> {
         user: widget.user,
         autoImplyLeading: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 32.0),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Full Name',
-                  ),
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _identificationController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'IC or Passport',
-                  ),
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _dateOfBirthController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Date of Birth',
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  validator: _requiredValidator,
-                ),
-                const SizedBox(height: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Select Gender:',
-                        style: TextStyle(fontSize: 20)),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        for (String gender in _genderOptions)
-                          Expanded(
-                            child: RadioListTile<String>(
-                              title: Text(gender),
-                              value: gender,
-                              groupValue: _selectedGender,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  _selectedGender = value;
-                                  _genderError = false;
-                                });
-                              },
-                            ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                      ],
-                    ),
-                    if (_genderError)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Please select a gender',
-                          style: TextStyle(
-                            color: Color.fromRGBO(197, 44, 44, 1),
-                            fontSize: 14,
-                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 20.0),
+                          labelText: 'Full Name',
                         ),
+                        validator: _requiredValidator,
                       ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                SizedBox(
-                  height: 45.0,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Create Profile',
-                        style: TextStyle(color: Colors.white)),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _identificationController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 20.0),
+                          labelText: 'IC or Passport',
+                        ),
+                        validator: _requiredValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _dateOfBirthController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 20.0),
+                          labelText: 'Date of Birth',
+                        ),
+                        readOnly: true,
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        validator: _requiredValidator,
+                      ),
+                      const SizedBox(height: 16.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Select Gender:',
+                              style: TextStyle(fontSize: 20)),
+                          const SizedBox(height: 8.0),
+                          Row(
+                            children: [
+                              for (String gender in _genderOptions)
+                                Expanded(
+                                  child: RadioListTile<String>(
+                                    title: Text(gender),
+                                    value: gender,
+                                    groupValue: _selectedGender,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _selectedGender = value;
+                                        _genderError = false;
+                                      });
+                                    },
+                                  ),
+                                ),
+                            ],
+                          ),
+                          if (_genderError)
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Please select a gender',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(197, 44, 44, 1),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
-              ],
+              ),
             ),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  right: 16.0), // Set your desired margin
+              child: SizedBox(
+                height: 45.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 0, 61, 83),
+                    backgroundColor: const Color.fromARGB(
+                        255, 167, 224, 245), // Set the text color
+                    side: const BorderSide(
+                      color: Color.fromARGB(
+                          255, 0, 61, 83), // Set the outline color
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
+                  child: const Text('Create Profile',
+                      style: TextStyle(color: Color.fromARGB(255, 0, 61, 83))),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

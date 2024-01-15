@@ -183,9 +183,10 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 const Text(
-                  'Welcome...',
+                  'Welcome back!',
                   style: TextStyle(
                     fontSize: 32,
+                    fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 0, 76, 104),
                   ),
                 ),
@@ -258,18 +259,13 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(
-                    height: 45.0,
+                    height: 60.0,
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _onLogin,
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: const Color.fromARGB(255, 0, 61, 83),
                         backgroundColor: const Color.fromARGB(
-                            255, 167, 224, 245), // Set the text color
-                        side: const BorderSide(
-                          color: Color.fromARGB(
-                              255, 0, 61, 83), // Set the outline color
-                        ),
+                            255, 115, 176, 255), // Set the text color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               25.0), // Adjust the value as needed
@@ -279,7 +275,8 @@ class _LoginState extends State<Login> {
                         'Continue as Member',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Color.fromARGB(255, 0, 61, 83),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
                     ),
@@ -292,7 +289,7 @@ class _LoginState extends State<Login> {
                     children: [
                       Expanded(
                         child: Divider(
-                          color: Color.fromARGB(255, 0, 115, 156),
+                          color: Color.fromARGB(255, 21, 82, 161),
                           height: 1,
                         ),
                       ),
@@ -301,13 +298,13 @@ class _LoginState extends State<Login> {
                         child: Text(
                           'or',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 0, 76, 104),
+                            color: Color.fromARGB(255, 9, 52, 109),
                           ),
                         ),
                       ),
                       Expanded(
                         child: Divider(
-                          color: Color.fromARGB(255, 0, 115, 156),
+                          color: Color.fromARGB(255, 21, 82, 161),
                           height: 1,
                         ),
                       ),
@@ -318,18 +315,13 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SizedBox(
-                    height: 45.0,
+                    height: 60.0,
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _guestLogin,
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: const Color.fromARGB(255, 119, 91, 0),
                         backgroundColor: const Color.fromARGB(
-                            255, 255, 230, 148), // Set the text color
-                        side: const BorderSide(
-                          color: Color.fromARGB(
-                              255, 119, 91, 0), // Set the outline color
-                        ),
+                            255, 255, 220, 106), // Set the text color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               25.0), // Adjust the value as needed
@@ -339,7 +331,8 @@ class _LoginState extends State<Login> {
                         'Get Started as Guest',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Color.fromARGB(255, 119, 91, 0),
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 112, 92, 0),
                         ),
                       ),
                     ),

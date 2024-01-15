@@ -244,6 +244,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
               ),
             ],
           ),
+          barrierDismissible: false,
         );
       } catch (error) {
         // Handle any errors that occur during the database operation
@@ -333,12 +334,20 @@ class _AppointmentFormState extends State<AppointmentForm> {
               ),
               const SizedBox(height: 16.0),
               SizedBox(
-                height: 45.0,
+                height: 60.0,
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _submitForm,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   child: const Text('Submit',
-                      style: TextStyle(color: Colors.white)),
+                      style: TextStyle(color: Colors.white,
+                      fontWeight: FontWeight.bold)),
                 ),
               ),
               const SizedBox(height: 16.0),
