@@ -321,13 +321,14 @@ class DatabaseService {
   }
 
   // Retrieve List of Practitioners
-  Future<List<String>> getPractitionerDDL() async {
+  Future<List<User>> getPractitionerDDL() async {
     final db = await _databaseService.database;
-    List<Map<String, dynamic>> maps = await db.query('user',
-        where: 'role = ?',
-        whereArgs: ['practitioner'],
-        columns: ['name']); // Specify the columns you want to retrieve
-    return List.generate(maps.length, (i) => maps[i]['name']);
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'role = ?',
+      whereArgs: ['practitioner'],
+    ); // Specify the columns you want to retrieve
+    return List.generate(maps.length, (index) => User.fromMap(maps[index]));
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -466,6 +467,40 @@ class DatabaseService {
     return maps.isNotEmpty;
   }
 
+  // Retrieve All (upcoming)
+  Future<List<Appointment>> appointmentAllUpcoming() async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'appointment_date >= ?',
+      whereArgs: [todayDate],
+    );
+
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Retrieve All (past)
+  Future<List<Appointment>> appointmentAllPast() async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'appointment_date < ?',
+      whereArgs: [todayDate],
+    );
+
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
   // Retrieve based on User and Profile (upcoming)
   Future<List<Appointment>> appointmentUpcoming(
       int userId, int? profileId) async {
@@ -484,6 +519,7 @@ class DatabaseService {
         maps.length, (index) => Appointment.fromMap(maps[index]));
   }
 
+  // Retrieve based on User and Profile (past)
   Future<List<Appointment>> pastAppointments(int userId, int? profileId) async {
     final db = await _databaseService.database;
 
@@ -543,6 +579,19 @@ class DatabaseService {
 
     await db.update('appointment', valuesToUpdate,
         where: 'appointment_id = ?', whereArgs: [id]);
+  }
+
+  // Assign Practitioner to Appointment
+  Future<void> assignAppointmentPractitioner(
+      int appointmentId, int practitionerId) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'practitioner_id': practitionerId,
+    };
+
+    await db.update('appointment', valuesToUpdate,
+        where: 'appointment_id = ?', whereArgs: [appointmentId]);
   }
 
   // Delete

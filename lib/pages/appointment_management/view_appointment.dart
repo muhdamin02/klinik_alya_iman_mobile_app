@@ -23,9 +23,9 @@ class ViewAppointment extends StatefulWidget {
 
 class _ViewAppointmentState extends State<ViewAppointment> {
   List<Appointment> _appointmentInfo = [];
-  List<String> _practitionerList = [];
+  List<User> _practitionerList = [];
   String? _patientName, _practitionerName;
-  String? _selectedPractitioner;
+  User? _selectedPractitioner;
 
   @override
   void initState() {
@@ -52,8 +52,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   // Fetch details
 
   Future<void> _getPractitionerList() async {
-    List<String> practitionerList =
-        await DatabaseService().getPractitionerDDL();
+    List<User> practitionerList = await DatabaseService().getPractitionerDDL();
     setState(() {
       _practitionerList = practitionerList;
     });
@@ -70,10 +69,14 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // load patient name
+  // load practitioner name
   Future<void> _getPractitionerName() async {
-    _practitionerName =
-        await DatabaseService().getUserName(widget.appointment.practitioner_id);
+    if (widget.appointment.practitioner_id != 0) {
+      _practitionerName = await DatabaseService()
+          .getUserName(widget.appointment.practitioner_id);
+    } else {
+      _practitionerName = 'Not yet assigned';
+    }
     setState(() {});
   }
   // ----------------------------------------------------------------------
@@ -143,7 +146,19 @@ class _ViewAppointmentState extends State<ViewAppointment> {
           ],
         );
       },
+      barrierDismissible: false,
     );
+  }
+
+  void _handlePractitionerSelection(practitionerId) async {
+    // Add your logic here to handle the immediate postback
+    print(
+        'Selected Practitioner: ${_selectedPractitioner?.user_id} ${_selectedPractitioner?.name}');
+    await DatabaseService().assignAppointmentPractitioner(
+        widget.appointment.appointment_id!, practitionerId);
+    _fetchAppointmentInfo();
+    print('updated $_appointmentInfo');
+    // You can perform any actions or update the UI based on the selected practitioner
   }
 
   @override
@@ -243,20 +258,36 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         const SizedBox(height: 4),
                         Text(appointment.practitioner_remarks),
                         const SizedBox(height: 24),
-                        const Text('Practitioner in Charge:'),
-                        DropdownButton<String>(
-                          value: _selectedPractitioner,
-                          items: _practitionerList.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _selectedPractitioner = newValue;
-                            });
-                          },
+                        Visibility(
+                          visible:
+                              widget.user.role.toLowerCase() == 'systemadmin',
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('PRACTITIONER IN CHARGE',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color:
+                                          Color.fromARGB(255, 121, 121, 121))),
+                              DropdownButton<User>(
+                                value: _selectedPractitioner,
+                                items: _practitionerList.map((User user) {
+                                  return DropdownMenuItem<User>(
+                                    value: user,
+                                    child: Text(user.name),
+                                  );
+                                }).toList(),
+                                onChanged: (User? newValue) {
+                                  setState(() {
+                                    _selectedPractitioner = newValue;
+                                    _handlePractitionerSelection(
+                                        _selectedPractitioner!
+                                            .user_id); // Call the method to handle immediate postback
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -267,12 +298,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _leaveRemarks(widget.appointment);
-        },
-        icon: const Icon(Icons.rate_review),
-        label: const Text('Leave Remarks'),
+      floatingActionButton: Visibility(
+        visible: widget.user.role.toLowerCase() != 'systemadmin',
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            _leaveRemarks(widget.appointment);
+          },
+          icon: const Icon(Icons.rate_review),
+          label: const Text('Leave Remarks'),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

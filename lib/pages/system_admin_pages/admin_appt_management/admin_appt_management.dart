@@ -1,130 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/app_drawer/app_drawer_system_admin.dart';
 
 import '../../../models/appointment.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
 import '../../../services/misc_methods/date_display.dart';
-import '../../appointment_management/update_appointment.dart';
 import '../../appointment_management/view_appointment.dart';
 
-class ManageAppointment extends StatefulWidget {
+class ManageAppointmentAdmin extends StatefulWidget {
   final User user;
   final bool autoImplyLeading;
 
-  const ManageAppointment(
+  const ManageAppointmentAdmin(
       {super.key, required this.user, required this.autoImplyLeading});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ManageAppointmentState createState() => _ManageAppointmentState();
+  _ManageAppointmentAdminState createState() => _ManageAppointmentAdminState();
 }
 
 // ----------------------------------------------------------------------
 
-class _ManageAppointmentState extends State<ManageAppointment> {
-  List<Appointment> _appointmentList = [];
+class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
+  List<Appointment> _appointmentUpcomingList = [];
+  List<Appointment> _appointmentPastList = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchAppointmentList();
+    _fetchAppointmentUpcomingList();
+    _fetchAppointmentPastList();
   }
 
   // ----------------------------------------------------------------------
-  // View list of appointments
+  // Get list of upcoming appointments
 
-  Future<void> _fetchAppointmentList() async {
-    List<Appointment> appointmentList =
-        await DatabaseService().appointmentAll();
+  Future<void> _fetchAppointmentUpcomingList() async {
+    List<Appointment> appointmentUpcomingList =
+        await DatabaseService().appointmentAllUpcoming();
+
+    // Sort the list by appointment date in ascending order
+    appointmentUpcomingList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
     setState(() {
-      _appointmentList = appointmentList;
+      _appointmentUpcomingList = appointmentUpcomingList;
     });
   }
+
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // View Appointment
+  // Get list of past appointments
+
+  Future<void> _fetchAppointmentPastList() async {
+    List<Appointment> appointmentPastList =
+        await DatabaseService().appointmentAllPast();
+
+    // Sort the list by appointment date in descending order
+    appointmentPastList
+        .sort((a, b) => b.appointment_date.compareTo(a.appointment_date));
+
+    setState(() {
+      _appointmentPastList = appointmentPastList;
+    });
+  }
+
+  // ----------------------------------------------------------------------
 
   void _viewAppointment(Appointment appointment) {
     // Navigate to the view appointment details page with the selected appointment
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewAppointment(
-          appointment: appointment,
-          user: widget.user,
-        ),
+        builder: (context) =>
+            ViewAppointment(appointment: appointment, user: widget.user),
       ),
-    );
-  }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Update Appointment
-
-  void _updateAppointment(Appointment appointment) {
-    // Navigate to the update appointment page with the selected appointment
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => UpdateAppointment(
-          appointment: appointment,
-          reschedulerIsPatient: false,
-        ),
-      ),
-    ).then((result) {
-      if (result == true) {
-        // If the appointment was updated, refresh the appointment history
-        _fetchAppointmentList();
-      }
-    });
-  }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Confirm Appointment
-
-  void _confirmAppointment(Appointment appointment) {
-    String status = appointment.status;
-    String remarks = appointment.system_remarks;
-    String practitionerName = widget.user.name;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Confirm Appointment'),
-          content:
-              const Text('Are you sure you want to confirm this appointment?'),
-          actions: <Widget>[
-            ElevatedButton(
-              child:
-                  const Text('Confirm', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                status = 'Confirmed';
-                remarks =
-                    'The appointment has been confirmed by $practitionerName.';
-                // Call the deleteAppointment method and pass the appointmentId
-                await DatabaseService().updateAppointmentStatus(
-                    appointment.appointment_id!, status, remarks);
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pop();
-                // Refresh the appointment history
-                _fetchAppointmentList();
-              },
-            ),
-            ElevatedButton(
-              child:
-                  const Text('Cancel', style: TextStyle(color: Colors.white)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 
@@ -133,10 +84,6 @@ class _ManageAppointmentState extends State<ManageAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    // Sort the _bookingHistory list by appointment date
-    _appointmentList
-        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
-
     return WillPopScope(
       onWillPop: () async {
         return widget.autoImplyLeading;
@@ -147,28 +94,179 @@ class _ManageAppointmentState extends State<ManageAppointment> {
             'Appointment List',
             style: TextStyle(color: Colors.white),
           ),
-          automaticallyImplyLeading: widget.autoImplyLeading,
+          automaticallyImplyLeading: true,
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
         ),
-        body: Stack(
+        drawer: AppDrawerSystemAdmin(
+          header: 'Manage Appointment',
+          user: widget.user,
+        ),
+        body: TabBarAppointment(
+            appointmentUpcomingList: _appointmentUpcomingList,
+            appointmentPastList: _appointmentPastList,
+            onViewAppointment: _viewAppointment),
+      ),
+    );
+  }
+}
+
+class TabBarAppointment extends StatefulWidget {
+  final List<Appointment> appointmentUpcomingList;
+  final List<Appointment> appointmentPastList;
+  final Function(Appointment) onViewAppointment;
+
+  const TabBarAppointment(
+      {Key? key,
+      required this.appointmentUpcomingList,
+      required this.appointmentPastList,
+      required this.onViewAppointment})
+      : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _TabBarAppointmentState createState() => _TabBarAppointmentState();
+}
+
+class _TabBarAppointmentState extends State<TabBarAppointment> {
+  String _selectedFilter = 'All'; // default
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 2,
+      child: Scaffold(
+        body: Column(
           children: [
-            ListView.builder(
-              itemCount: _appointmentList.length,
-              itemBuilder: (context, index) {
-                Appointment appointment = _appointmentList[index];
-                return Column(
-                  children: [
-                    const SizedBox(height: 16.0),
-                    ListTile(
+            Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 74, 142, 230),
+              ),
+              child: const Column(
+                children: [
+                  SizedBox(height: 8),
+                  TabBar(
+                    labelStyle: TextStyle(
+                      // Set your desired text style for the selected (active) tab here
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontFamily: 'Rubik',
+                      // You can set other text style properties as needed
+                    ),
+                    unselectedLabelStyle: TextStyle(
+                      // Set your desired text style for the unselected tabs here
+                      fontSize: 16,
+                      fontFamily: 'Rubik',
+                      // You can set other text style properties as needed
+                    ),
+                    indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                    indicatorWeight: 6,
+                    tabs: <Widget>[
+                      Tab(
+                        text: 'Upcoming',
+                      ),
+                      Tab(
+                        text: 'Past',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Filter:',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  DropdownButton<String>(
+                    value: _selectedFilter,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedFilter = value!;
+                      });
+                    },
+                    items: ['All', 'Assigned', 'Unassigned']
+                        .map<DropdownMenuItem<String>>(
+                      (String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: <Widget>[
+                  _buildAppointmentList(widget.appointmentUpcomingList),
+                  _buildAppointmentList(widget.appointmentPastList),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppointmentList(List<Appointment> appointmentList) {
+    List<Appointment> filteredList;
+
+    if (_selectedFilter == 'Assigned') {
+      filteredList = appointmentList
+          .where((appointment) => appointment.practitioner_id != 0)
+          .toList();
+    } else if (_selectedFilter == 'Unassigned') {
+      filteredList = appointmentList
+          .where((appointment) => appointment.practitioner_id == 0)
+          .toList();
+    } else {
+      filteredList = appointmentList;
+    }
+
+    return ListView.builder(
+      itemCount: filteredList.length,
+      itemBuilder: (context, index) {
+        Appointment appointment = filteredList[index];
+        return Column(
+          children: [
+            const SizedBox(height: 12.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: GestureDetector(
+                onTap: () {
+                  widget.onViewAppointment(appointment);
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(25.0), // Adjust the radius
+                  ),
+                  elevation: 3, // Set the elevation for the card
+                  color: const Color.fromARGB(255, 238, 238, 238),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ListTile(
                       title: Text(
                           '${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 4.0),
-                          Text('Status: ${appointment.status}'),
+                          Text(appointment.status),
                         ],
                       ),
                       trailing: Row(
@@ -177,61 +275,21 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                           IconButton(
                             icon: const Icon(Icons.visibility),
                             onPressed: () {
-                              // Call a method to handle the update functionality
-                              _viewAppointment(appointment);
+                              widget.onViewAppointment(appointment);
                             },
                           ),
-                          Visibility(
-                            visible: appointment.status != 'Cancelled',
-                            child: IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                // Call a method to handle the update functionality
-                                _updateAppointment(appointment);
-                              },
-                            ),
-                          ),
-                          Visibility(
-                            visible: appointment.status != 'Cancelled' &&
-                                appointment.status != 'Confirmed',
-                            child: IconButton(
-                              icon: const Icon(Icons.thumb_up),
-                              onPressed: () {
-                                // Call a method to handle the update functionality
-                                _confirmAppointment(appointment);
-                              },
-                            ),
-                          ),
-                          Visibility(
-                            visible: appointment.status != 'Cancelled',
-                            child: IconButton(
-                              icon: const Icon(Icons.not_interested_rounded),
-                              onPressed: () {
-                                // Call a method to handle the cancel functionality
-                                // _cancelAppointment(appointment);
-                              },
-                            ),
-                          ),
-                          Visibility(
-                            visible: appointment.status == 'Cancelled',
-                            child: IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                // Call a method to handle the delete functionality
-                                // _deleteAppointment(appointment.appointment_id);
-                              },
-                            ),
-                          )
                         ],
                       ),
                     ),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ),
             ),
+            if (index == filteredList.length - 1)
+              const SizedBox(height: 77.0), // Add SizedBox after the last item
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

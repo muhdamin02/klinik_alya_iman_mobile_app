@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/user.dart';
-import '../pages/practitioner_pages/manage_appointment.dart';
 import '../pages/startup/login.dart';
+import '../pages/system_admin_pages/admin_appt_management/admin_appt_management.dart';
 import '../pages/system_admin_pages/system_admin_home.dart';
 import '../pages/system_admin_pages/user_management/manage_user.dart';
 import '../services/misc_methods/notification_singleton.dart';
@@ -80,7 +80,7 @@ class AppDrawerSystemAdmin extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ManageAppointment(
+                        builder: (context) => ManageAppointmentAdmin(
                           user: user,
                           autoImplyLeading: true,
                         ),

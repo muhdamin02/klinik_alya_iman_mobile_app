@@ -182,7 +182,7 @@ class TabBarUser extends StatelessWidget {
               child: TextField(
                 onChanged: onSearchQueryChanged,
                 decoration: const InputDecoration(
-                  hintText: 'Search by name or identification',
+                  hintText: 'Search by name or IC/passport',
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding:
@@ -191,6 +191,11 @@ class TabBarUser extends StatelessWidget {
                     borderRadius: BorderRadius.all(
                       Radius.circular(25.0),
                     ),
+                  ),
+                  prefixIcon: Padding(
+                    padding:
+                        EdgeInsets.only(left: 10.0), // Adjust the left padding
+                    child: Icon(Icons.search),
                   ),
                 ),
               ),
@@ -241,17 +246,6 @@ class TabBarUser extends StatelessWidget {
                           children: [
                             const SizedBox(height: 4.0),
                             Text(user.identification),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.visibility),
-                              onPressed: () {
-                                onViewUser(user);
-                              },
-                            ),
                           ],
                         ),
                       ),

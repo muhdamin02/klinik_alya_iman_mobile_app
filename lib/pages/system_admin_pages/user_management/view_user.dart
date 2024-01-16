@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/capitalize_first_letter.dart';
 
 class ViewUser extends StatefulWidget {
   final User user;
@@ -79,22 +80,44 @@ class _ViewUserState extends State<ViewUser> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('User: $_userName'),
-                        const SizedBox(height: 8.0),
-                        // Row(
-                        //   children: [
-                        //     const Text('Date: '),
-                        //     DateDisplay(date: appointment.appointment_date),
-                        //     Text(' ($dayOfWeek)'),
-                        //   ],
-                        // ),
-                        const SizedBox(height: 8.0),
-                        Text('Username: ${user.identification}'),
-                        const SizedBox(height: 8.0),
-                        Text('Password: ${user.password}'),
-                        const SizedBox(height: 12.0),
-                        Text('Email: ${user.phone}'),
-                        const SizedBox(height: 12.0),
+                        const Text('NAME',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text('$_userName',
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('IC/PASSPORT',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(user.identification,
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('PASSWORD',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(user.password,
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('PHONE',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(user.phone, style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('ROLE',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(capitalize(user.role), style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
                       ],
                     ),
                   );
