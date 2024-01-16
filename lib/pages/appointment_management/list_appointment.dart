@@ -251,7 +251,7 @@ class _ListAppointmentState extends State<ListAppointment> {
           profile: widget.profile,
           autoImplyLeading: widget.autoImplyLeading,
         ),
-        body: TabBarExample(
+        body: TabBarAppointment(
             appointmentUpcomingList: _appointmentUpcomingList,
             appointmentPastList: _appointmentPastList,
             onViewAppointment: _viewAppointment),
@@ -277,12 +277,12 @@ class _ListAppointmentState extends State<ListAppointment> {
   }
 }
 
-class TabBarExample extends StatelessWidget {
+class TabBarAppointment extends StatelessWidget {
   final List<Appointment> appointmentUpcomingList;
   final List<Appointment> appointmentPastList;
   final Function(Appointment) onViewAppointment;
 
-  const TabBarExample(
+  const TabBarAppointment(
       {Key? key,
       required this.appointmentUpcomingList,
       required this.appointmentPastList,

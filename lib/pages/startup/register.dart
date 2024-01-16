@@ -44,8 +44,7 @@ class _RegisterState extends State<Register> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Registration Failed'),
-            content: const Text(
-                'Account already exists. Contact your doctor for further details.'),
+            content: const Text('Account already exists.'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -77,7 +76,7 @@ class _RegisterState extends State<Register> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Registration Successful'),
-          content: const Text('You have been registered successfully.'),
+          content: const Text('Account has been registered successfully.'),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
@@ -212,8 +211,14 @@ class _RegisterState extends State<Register> {
 
   Widget buildName() => TextFormField(
         controller: _nameController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
           labelText: 'Full name',
         ),
         validator: (value) {
@@ -233,10 +238,9 @@ class _RegisterState extends State<Register> {
   Widget buildIdentification() => TextFormField(
         controller: _identificationController,
         decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'IC or Passport Number',
-          counterText: ''
-        ),
+            border: OutlineInputBorder(),
+            labelText: 'IC or Passport Number',
+            counterText: ''),
         maxLength: 20,
         validator: (value) {
           // Validate Input
@@ -256,10 +260,9 @@ class _RegisterState extends State<Register> {
         keyboardType: TextInputType.phone,
         controller: _phoneController,
         decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Phone Number',
-          counterText: ''
-        ),
+            border: OutlineInputBorder(),
+            labelText: 'Phone Number',
+            counterText: ''),
         inputFormatters: [
           // Use the FilteringTextInputFormatter to allow only digits and certain characters
           FilteringTextInputFormatter.digitsOnly,

@@ -180,6 +180,18 @@ class DatabaseService {
     return List.generate(maps.length, (index) => HomeFeed.fromMap(maps[index]));
   }
 
+  // Insert
+  Future<void> newAnnouncement(HomeFeed homeFeed) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'homefeed',
+      homeFeed.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
 //////////////////////////////////////////////////////////////////////////
 //// ---------------------------------------------------------------- ////
 //// MEDICAL HISTORY DATABASE ///////////////////////////////////////////////////
@@ -256,6 +268,28 @@ class DatabaseService {
       'user',
       where: 'role != ?',
       whereArgs: ['guest'],
+    );
+    return List.generate(maps.length, (index) => User.fromMap(maps[index]));
+  }
+
+  // Retrieve All Patients
+  Future<List<User>> userPatient() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'role = ?',
+      whereArgs: ['patient'],
+    );
+    return List.generate(maps.length, (index) => User.fromMap(maps[index]));
+  }
+
+  // Retrieve All Practitioner
+  Future<List<User>> userPractitioner() async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'role = ?',
+      whereArgs: ['practitioner'],
     );
     return List.generate(maps.length, (index) => User.fromMap(maps[index]));
   }

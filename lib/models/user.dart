@@ -23,7 +23,7 @@ class User {
       'name': name,
       'identification': identification,
       'password': password,
-      'email': phone,
+      'phone': phone,
       'role': role,
     };
   }

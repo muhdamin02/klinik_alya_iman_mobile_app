@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import 'manage_user.dart';
 
 class RegisterUser extends StatefulWidget {
   const RegisterUser({Key? key, this.user, required this.willPopScopeBool})
@@ -16,10 +18,12 @@ class RegisterUser extends StatefulWidget {
 class _RegisterUserState extends State<RegisterUser> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _identificationController = TextEditingController();
+  final TextEditingController _identificationController =
+      TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final DatabaseService _databaseService = DatabaseService();
+  String _selectedRole = 'patient';
 
   // ----------------------------------------------------------------------
   // Register user to databas
@@ -29,6 +33,7 @@ class _RegisterUserState extends State<RegisterUser> {
     final identification = _identificationController.text;
     final password = _passwordController.text;
     final phone = _phoneController.text;
+    final role = _selectedRole;
 
     // Check if username or email already exists in the database
     bool isIdentificationExists =
@@ -41,8 +46,7 @@ class _RegisterUserState extends State<RegisterUser> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Registration Failed'),
-            content: const Text(
-                'Account already exists.'),
+            content: const Text('Account already exists.'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -64,7 +68,7 @@ class _RegisterUserState extends State<RegisterUser> {
         identification: identification,
         password: password,
         phone: phone,
-        role: 'patient',
+        role: role,
       ),
     );
 
@@ -74,18 +78,27 @@ class _RegisterUserState extends State<RegisterUser> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Registration Successful'),
-          content: const Text('You have been registered successfully.'),
+          content: const Text('Account has been registered successfully.'),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManageUser(
+                      user: widget.user!,
+                      autoImplyLeading: false,
+                    ),
+                  ),
+                );
               },
             ),
           ],
         );
       },
+      barrierDismissible: false,
     );
   }
 
@@ -111,46 +124,105 @@ class _RegisterUserState extends State<RegisterUser> {
             color: Colors.white,
           ),
         ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 16.0,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 16.0,
+                        ),
+                        child: buildName(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 16.0,
+                        ),
+                        child: buildIdentification(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 16.0,
+                        ),
+                        child: buildPhone(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 16.0,
+                        ),
+                        child: buildPassword(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 16.0,
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedRole,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedRole = newValue!;
+                            });
+                          },
+                          items: const [
+                            DropdownMenuItem<String>(
+                              value: 'patient',
+                              child: Text('Patient'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'practitioner',
+                              child: Text('Practitioner'),
+                            ),
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 20.0,
+                              horizontal: 20.0,
+                            ),
+                            labelText: 'User Role',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                    ],
                   ),
-                  child: buildName(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 16.0,
-                  ),
-                  child: buildIdentification(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 16.0,
-                  ),
-                  child: buildPhone(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 16.0,
-                  ),
-                  child: buildPassword(),
-                ),
-                const SizedBox(height: 12.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: const EdgeInsets.only(
+                    bottom: 16.0,
+                    left: 16.0,
+                    right: 16.0), // Set your desired margin
+                child: SizedBox(
                   child: SizedBox(
-                    height: 45.0,
+                    height: 60.0,
                     width: double.infinity,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 115, 176, 255),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              25.0), // Adjust the value as needed
+                        ),
+                      ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           await _onSave();
@@ -166,10 +238,9 @@ class _RegisterUserState extends State<RegisterUser> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32.0),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -182,8 +253,14 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget buildName() => TextFormField(
         controller: _nameController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           labelText: 'Name',
         ),
         validator: (value) {
@@ -202,8 +279,14 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget buildIdentification() => TextFormField(
         controller: _identificationController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           labelText: 'Identification',
         ),
         validator: (value) {
@@ -221,24 +304,26 @@ class _RegisterUserState extends State<RegisterUser> {
   // Phone textfield
 
   Widget buildPhone() => TextFormField(
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.phone,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(11), // Limit the length to 10 digits
+        ],
         controller: _phoneController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           labelText: 'Phone',
         ),
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
             return 'Please enter your phone number';
-          }
-
-          // Email regex pattern
-          final emailRegex = RegExp(
-              r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z\d-]{2,}$');
-
-          if (!emailRegex.hasMatch(value)) {
-            return 'Please enter a valid phone number';
           }
 
           return null;
@@ -252,8 +337,14 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Widget buildPassword() => TextFormField(
         controller: _passwordController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           labelText: 'Password',
         ),
         obscureText: true,

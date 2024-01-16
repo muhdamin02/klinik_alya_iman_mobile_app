@@ -1,17 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/practitioner_pages/manage_appointment.dart';
 
 import '../../app_drawer/app_drawer_logout.dart';
+import '../../app_drawer/app_drawer_system_admin.dart';
+import '../../models/homefeed.dart';
 import '../../models/user.dart';
-import 'user_management/manage_user.dart';
+import '../../services/database_service.dart';
+import 'announcement_management/new_announcement.dart';
 
-class SystemAdminHome extends StatelessWidget {
+class SystemAdminHome extends StatefulWidget {
   final User user;
 
   const SystemAdminHome({
     Key? key,
     required this.user,
   }) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _SystemAdminHomeState createState() => _SystemAdminHomeState();
+}
+
+class _SystemAdminHomeState extends State<SystemAdminHome> {
+  List<HomeFeed> _homeFeed = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHomeFeed();
+  }
+
+  // ----------------------------------------------------------------------
+  // View homefeed
+
+  Future<void> _fetchHomeFeed() async {
+    List<HomeFeed> homeFeed = await DatabaseService().homeFeedAll();
+    setState(() {
+      _homeFeed = homeFeed;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,65 +49,87 @@ class SystemAdminHome extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'SystemAdminHome placeholder',
+            'Home',
             style: TextStyle(color: Colors.white),
           ),
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
         ),
-        drawer: AppDrawerLogout(
+        drawer: AppDrawerSystemAdmin(
           header: 'System Admin Home',
-          user: user,
+          user: widget.user,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Welcome, ${user.name}!',
-                  style: const TextStyle(fontSize: 20)),
-              const SizedBox(height: 16.0),
-              Text('User ID: ${user.user_id}',
-                  style: const TextStyle(fontSize: 16)),
-              Text('User ID: ${user.identification}',
-                  style: const TextStyle(fontSize: 16)),
-              Text('Email: ${user.phone}',
-                  style: const TextStyle(fontSize: 16)),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ManageUser(
-                        user: user,
-                        autoImplyLeading: true,
+        body: Stack(
+          children: [
+            ListView.builder(
+              itemCount: _homeFeed.length,
+              itemBuilder: (context, index) {
+                HomeFeed homeFeed = _homeFeed[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 12.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          // function
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the radius
+                          ),
+                          elevation: 3, // Set the elevation for the card
+                          color: const Color.fromARGB(255, 238, 238, 238),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListTile(
+                              title: Text(
+                                homeFeed.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight
+                                      .bold, // You can adjust other font styles as well
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4.0),
+                                  Text(
+                                    homeFeed.body,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  );
-                },
-                child: const Text('Manage Users'),
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ManageAppointment(
-                        user: user,
-                        autoImplyLeading: true,
-                      ),
-                    ),
-                  );
-                },
-                child: const Text('Manage Appointments'),
-              ),
-              // Add more details specific to practitioners
-            ],
-          ),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Navigate to the page where you want to medication form
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NewAnnouncement(
+                  user: widget.user,
+                ),
+              ),
+            );
+          },
+          icon: const Icon(Icons.announcement),
+          label: const Text('Add New Announcement'),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }

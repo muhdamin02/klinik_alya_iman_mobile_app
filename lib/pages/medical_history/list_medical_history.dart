@@ -71,40 +71,41 @@ class _ListMedicalHistoryState extends State<ListMedicalHistory> {
                     const SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Card(
-                        elevation: 3, // Set the elevation for the card
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ListTile(
-                            title: Text(medicalHistory.title),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 4.0),
-                                GestureDetector(
-                                  onTap: () {
-                                    // Add logic to navigate to the full article or perform any desired action
-                                    // _viewArticle(homeFeed);
-                                  },
-                                  child: Text(
-                                    medicalHistory.body,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
+                      child: GestureDetector(
+                        onTap: () {
+                          // function
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the radius
+                          ),
+                          elevation: 3, // Set the elevation for the card
+                          color: const Color.fromARGB(255, 238, 238, 238),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListTile(
+                              title: Text(medicalHistory.title,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4.0),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Add logic to navigate to the full article or perform any desired action
+                                      // _viewArticle(homeFeed);
+                                    },
+                                    child: Text(
+                                      medicalHistory.body,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                ),
-                                Text(medicalHistory.datetime_posted),
-                              ],
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.visibility),
-                                  onPressed: () {
-                                    // _viewArticle(homeFeed);
-                                  },
-                                ),
-                              ],
+                                  Text(medicalHistory.datetime_posted),
+                                ],
+                              ),
                             ),
                           ),
                         ),

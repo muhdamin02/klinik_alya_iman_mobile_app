@@ -139,59 +139,100 @@ class _CreateNewMedHistoryEntryState extends State<CreateNewMedHistoryEntry> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create New Entry'),
+        title: const Text('New Entry'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // TextFormField(
-              //   controller: _dateController,
-              //   decoration: const InputDecoration(
-              //     border: OutlineInputBorder(),
-              //     labelText: 'Date',
-              //   ),
-              //   readOnly: true,
-              //   onTap: () {
-              //     _selectDate(context);
-              //   },
-              //   validator: _requiredValidator,
-              // ),
-
-              TextFormField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Entry Title',
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // TextFormField(
+                      //   controller: _dateController,
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     labelText: 'Date',
+                      //   ),
+                      //   readOnly: true,
+                      //   onTap: () {
+                      //     _selectDate(context);
+                      //   },
+                      //   validator: _requiredValidator,
+                      // ),
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'Entry Title',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty || value == '') {
+                            return 'Enter an entry title';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _bodyController,
+                        minLines: 20,
+                        maxLines: null, // Set to null for multiline
+                        maxLength: 1500, // Set the maximum number of characters
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'Entry Body',
+                          alignLabelWithHint: true,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty || value == '') {
+                            return 'Enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _bodyController,
-                maxLines: null, // Set to null for multiline
-                maxLength: 1500, // Set the maximum number of characters
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Entry Body',
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              SizedBox(
-                height: 45.0,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin:
+                  const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
+              child: SizedBox(
+                height: 60.0,
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          25.0), // Adjust the value as needed
+                    ),
+                  ),
                   onPressed: _submitForm,
                   child: const Text('Submit',
                       style: TextStyle(color: Colors.white)),
                 ),
               ),
-              const SizedBox(height: 16.0),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

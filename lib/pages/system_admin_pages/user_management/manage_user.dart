@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klinik_alya_iman_mobile_app/app_drawer/app_drawer_system_admin.dart';
 
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
@@ -20,20 +21,33 @@ class ManageUser extends StatefulWidget {
 // ----------------------------------------------------------------------
 
 class _ManageUserState extends State<ManageUser> {
-  List<User> _userList = [];
+  List<User> _patientList = [];
+  List<User> _practitionerList = [];
+  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchUserList();
+    _fetchPatientList();
+    _fetchPractitionerList();
   }
 
   // ----------------------------------------------------------------------
   // View list of users
-  Future<void> _fetchUserList() async {
-    List<User> userList = await DatabaseService().userAll();
+  Future<void> _fetchPatientList() async {
+    List<User> patientList = await DatabaseService().userPatient();
     setState(() {
-      _userList = userList;
+      _patientList = patientList;
+    });
+  }
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // View list of users
+  Future<void> _fetchPractitionerList() async {
+    List<User> practitionerList = await DatabaseService().userPractitioner();
+    setState(() {
+      _practitionerList = practitionerList;
     });
   }
   // ----------------------------------------------------------------------
@@ -53,189 +67,6 @@ class _ManageUserState extends State<ManageUser> {
     );
   }
 
-  // // ----------------------------------------------------------------------
-
-  // // ----------------------------------------------------------------------
-  // // Update Appointment
-
-  // void _updateAppointment(User appointment) {
-  //   // Navigate to the update appointment page with the selected appointment
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => UpdateAppointment(
-  //         appointment: appointment,
-  //         reschedulerIsPatient: false,
-  //       ),
-  //     ),
-  //   ).then((result) {
-  //     if (result == true) {
-  //       // If the appointment was updated, refresh the appointment history
-  //       _fetchAppointmentList();
-  //     }
-  //   });
-  // }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Confirm Appointment
-
-  // void _confirmAppointment(User appointment) {
-  //   String status = appointment.status;
-  //   String remarks = appointment.system_remarks;
-  //   String practitionerName = '${widget.user.f_name} ${widget.user.l_name}';
-
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Confirm Appointment'),
-  //         content:
-  //             const Text('Are you sure you want to confirm this appointment?'),
-  //         actions: <Widget>[
-  //           ElevatedButton(
-  //             child:
-  //                 const Text('Confirm', style: TextStyle(color: Colors.white)),
-  //             onPressed: () async {
-  //               status = 'Confirmed';
-  //               remarks =
-  //                   'The appointment has been confirmed by $practitionerName.';
-  //               // Call the deleteAppointment method and pass the appointmentId
-  //               await DatabaseService().updateAppointmentStatus(
-  //                   appointment.appointment_id!, status, remarks);
-  //               // ignore: use_build_context_synchronously
-  //               Navigator.of(context).pop();
-  //               // Refresh the appointment history
-  //               _fetchAppointmentList();
-  //             },
-  //           ),
-  //           ElevatedButton(
-  //             child:
-  //                 const Text('Cancel', style: TextStyle(color: Colors.white)),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // ----------------------------------------------------------------------
-  // Cancel Appointment
-
-  // void _cancelAppointment(Appointment appointment) {
-  //   TextEditingController cancellationReasonController =
-  //       TextEditingController();
-  //   final int? appointmentId = appointment.appointment_id;
-  //   String status = appointment.status;
-  //   String remarks = appointment.remarks;
-  //   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Cancel Appointment'),
-  //         content: Builder(
-  //           builder: (BuildContext context) {
-  //             return Form(
-  //               key: formKey,
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   const Text(
-  //                     'Reason for Cancellation:',
-  //                     style: TextStyle(fontSize: 16),
-  //                   ),
-  //                   TextFormField(
-  //                     controller: cancellationReasonController,
-  //                     decoration: const InputDecoration(
-  //                       hintText: 'Enter reason...',
-  //                     ),
-  //                     style: const TextStyle(fontSize: 15),
-  //                     validator: (value) {
-  //                       if (value == null || value.isEmpty) {
-  //                         return 'Please enter a reason';
-  //                       }
-  //                       return null;
-  //                     },
-  //                   ),
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //         actions: [
-  //           ElevatedButton(
-  //             onPressed: () async {
-  //               if (formKey.currentState!.validate()) {
-  //                 // Proceed with cancellation
-  //                 status = 'Cancelled';
-  //                 remarks = cancellationReasonController.text;
-  //                 await DatabaseService()
-  //                     .cancelAppointment(appointmentId!, status, remarks);
-  //                 // ignore: use_build_context_synchronously
-  //                 Navigator.of(context).pop();
-  //                 _fetchBookingHistory();
-  //               }
-  //             },
-  //             child: const Text('Confirm'),
-  //           ),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Cancel'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Delete Appointment
-
-  // void _deleteAppointment(int? appointmentId) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Remove Appointment'),
-  //         content: const Text(
-  //             'Are you sure you want to remove this appointment from history?'),
-  //         actions: <Widget>[
-  //           ElevatedButton(
-  //             child:
-  //                 const Text('Remove', style: TextStyle(color: Colors.white)),
-  //             onPressed: () async {
-  //               // Call the deleteAppointment method and pass the appointmentId
-  //               await DatabaseService().deleteAppointment(appointmentId!);
-  //               // ignore: use_build_context_synchronously
-  //               Navigator.of(context).pop();
-  //               // Refresh the appointment history
-  //               _fetchBookingHistory();
-  //             },
-  //           ),
-  //           ElevatedButton(
-  //             child:
-  //                 const Text('Cancel', style: TextStyle(color: Colors.white)),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   // ----------------------------------------------------------------------
   // Builder
 
@@ -251,67 +82,190 @@ class _ManageUserState extends State<ManageUser> {
             'User List',
             style: TextStyle(color: Colors.white),
           ),
-          automaticallyImplyLeading: widget.autoImplyLeading,
           iconTheme: const IconThemeData(
             color: Colors.white,
           ),
         ),
-        body: Stack(
+        drawer: AppDrawerSystemAdmin(
+          header: 'Manage User',
+          user: widget.user,
+        ),
+        body: TabBarUser(
+          patientList: _patientList,
+          practitionerList: _practitionerList,
+          onViewUser: _viewUser,
+          onSearchQueryChanged: (value) {
+            setState(() {
+              _searchQuery = value.toLowerCase();
+            });
+          },
+          searchQuery: _searchQuery,
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Navigate to the page where you want to appointment form
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RegisterUser(
+                  user: widget.user,
+                  willPopScopeBool: true,
+                ),
+              ),
+            );
+          },
+          icon: const Icon(Icons.person_2_outlined),
+          label: const Text('Register New User'),
+        ),
+      ),
+    );
+  }
+}
+
+class TabBarUser extends StatelessWidget {
+  final List<User> patientList;
+  final List<User> practitionerList;
+  final Function(User) onViewUser;
+  final Function(String) onSearchQueryChanged;
+  final String searchQuery;
+
+  const TabBarUser(
+      {Key? key,
+      required this.patientList,
+      required this.practitionerList,
+      required this.onViewUser,
+      required this.onSearchQueryChanged,
+      required this.searchQuery})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 2,
+      child: Scaffold(
+        body: Column(
           children: [
-            ListView.builder(
-              itemCount: _userList.length,
-              itemBuilder: (context, index) {
-                User user = _userList[index];
-                return Column(
-                  children: [
-                    const SizedBox(height: 16.0),
-                    ListTile(
-                      title: Text(
-                          '${user.identification} - ${user.name}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4.0),
-                          Text('Status: ${user.role}'),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.visibility),
-                            onPressed: () {
-                              _viewUser(user);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
+            Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 74, 142, 230),
+              ),
+              child: const TabBar(
+                labelStyle: TextStyle(
+                  // Set your desired text style for the selected (active) tab here
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  fontFamily: 'Rubik',
+                  // You can set other text style properties as needed
+                ),
+                unselectedLabelStyle: TextStyle(
+                  // Set your desired text style for the unselected tabs here
+                  fontSize: 16,
+                  fontFamily: 'Rubik',
+                  // You can set other text style properties as needed
+                ),
+                indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                indicatorWeight: 6,
+                tabs: <Widget>[
+                  Tab(
+                    text: 'Patients',
+                  ),
+                  Tab(
+                    text: 'Practitioners',
+                  ),
+                ],
+              ),
             ),
-            Positioned(
-              bottom: 32.0,
-              right: 32.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegisterUser(
-                        user: widget.user,
-                        willPopScopeBool: true,
-                      ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 16.0, left: 16.0, right: 16.0, bottom: 0.0),
+              child: TextField(
+                onChanged: onSearchQueryChanged,
+                decoration: const InputDecoration(
+                  hintText: 'Search by name or identification',
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25.0),
                     ),
-                  );
-                },
-                child: const Icon(Icons.add),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: <Widget>[
+                  _buildUserList(patientList, searchQuery),
+                  _buildUserList(practitionerList, searchQuery),
+                ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildUserList(List<User> userList, searchQuery) {
+    return ListView.builder(
+      itemCount: userList.length,
+      itemBuilder: (context, index) {
+        User user = userList[index];
+        if (searchQuery.isEmpty ||
+            user.name.toLowerCase().contains(searchQuery) ||
+            user.identification.toLowerCase().contains(searchQuery)) {
+          return Column(
+            children: [
+              const SizedBox(height: 12.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    onViewUser(user);
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    elevation: 3,
+                    color: const Color.fromARGB(255, 238, 238, 238),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ListTile(
+                        title: Text(user.name),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 4.0),
+                            Text(user.identification),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.visibility),
+                              onPressed: () {
+                                onViewUser(user);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              if (index == userList.length - 1) const SizedBox(height: 77.0),
+            ],
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }
