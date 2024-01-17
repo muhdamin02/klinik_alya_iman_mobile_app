@@ -32,7 +32,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     super.initState();
     _fetchAppointmentInfo();
     _loadPatientName();
-    _getPractitionerName();
     _getPractitionerList();
   }
 
@@ -44,6 +43,10 @@ class _ViewAppointmentState extends State<ViewAppointment> {
         .appointmentInfo(widget.appointment.appointment_id);
     setState(() {
       _appointmentInfo = appointmentInfo;
+      if (_appointmentInfo.isNotEmpty) {
+        // Call _getPractitionerName with the practitioner_id from the first appointment in the list
+        _getPractitionerName(_appointmentInfo[0].practitioner_id);
+      }
     });
   }
   // ----------------------------------------------------------------------
@@ -70,12 +73,17 @@ class _ViewAppointmentState extends State<ViewAppointment> {
 
   // ----------------------------------------------------------------------
   // load practitioner name
-  Future<void> _getPractitionerName() async {
-    if (widget.appointment.practitioner_id != 0) {
-      _practitionerName = await DatabaseService()
-          .getUserName(widget.appointment.practitioner_id);
+  Future<void> _getPractitionerName(practitionerId) async {
+    if (practitionerId != 0) {
+      String? practitionerName =
+          await DatabaseService().getUserName(practitionerId);
+      setState(() {
+        _practitionerName = practitionerName;
+      });
     } else {
-      _practitionerName = 'Not yet assigned';
+      setState(() {
+        _practitionerName = 'Not yet assigned.';
+      });
     }
     setState(() {});
   }
@@ -126,10 +134,12 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     userRemarks = remarksController.text;
                     await DatabaseService()
                         .leaveRemarksAsPatient(appointmentId!, userRemarks);
-                  } else {
+                  } else if (widget.user.role.toLowerCase() == 'practitioner') {
                     userRemarks = remarksController.text;
                     await DatabaseService().leaveRemarksAsPractitioner(
                         appointmentId!, userRemarks);
+                  } else {
+                    return;
                   }
                   Navigator.pop(context); // Close the dialog
                   _fetchAppointmentInfo();
@@ -151,14 +161,41 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   }
 
   void _handlePractitionerSelection(practitionerId) async {
-    // Add your logic here to handle the immediate postback
     print(
         'Selected Practitioner: ${_selectedPractitioner?.user_id} ${_selectedPractitioner?.name}');
-    await DatabaseService().assignAppointmentPractitioner(
-        widget.appointment.appointment_id!, practitionerId);
-    _fetchAppointmentInfo();
-    print('updated $_appointmentInfo');
-    // You can perform any actions or update the UI based on the selected practitioner
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Assign Practitioner'),
+          content: Builder(
+            builder: (BuildContext context) {
+              return Text(
+                  'Are you sure you want to assign ${_selectedPractitioner?.name} to this appointment?');
+            },
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                await DatabaseService().assignAppointmentPractitioner(
+                    widget.appointment.appointment_id!, practitionerId);
+                Navigator.pop(context);
+                _fetchAppointmentInfo();
+              },
+              child: const Text('Confirm'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
   }
 
   @override
