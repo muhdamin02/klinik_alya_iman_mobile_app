@@ -91,6 +91,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
         identification: identification,
         dob: dateOfBirth,
         gender: selectedGender,
+        maternity: widget.profile.maternity,
         user_id: widget.profile.user_id,
       );
 

@@ -82,6 +82,7 @@ class _CreateProfileState extends State<CreateProfile> {
         identification: editedIdentification,
         dob: dateOfBirth,
         gender: selectedGender,
+        maternity: 'No',
         user_id: widget.user.user_id!,
       );
 

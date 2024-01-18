@@ -51,7 +51,7 @@ class DatabaseService {
 
     // profile table
     await db.execute(
-      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, maternity TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
     );
 
     // appointment table
@@ -448,6 +448,18 @@ class DatabaseService {
     }
 
     return 0;
+  }
+
+  // Set Maternity
+  Future<void> setMaternity(int id, String maternityValue) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'maternity': maternityValue,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'maternity = ?', whereArgs: [id]);
   }
 
 //////////////////////////////////////////////////////////////////////////

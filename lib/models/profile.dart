@@ -7,6 +7,7 @@ class Profile {
   final String identification;
   final String dob;
   final String? gender;
+  final String maternity;
   final int user_id;
   Profile({
     this.profile_id,
@@ -14,6 +15,7 @@ class Profile {
     required this.identification,
     required this.dob,
     required this.gender,
+    required this.maternity,
     required this.user_id,
   });
 
@@ -24,6 +26,7 @@ class Profile {
       'identification': identification,
       'dob': dob,
       'gender': gender,
+      'maternity': maternity,
       'user_id': user_id,
     };
   }
@@ -35,6 +38,7 @@ class Profile {
       identification: map['identification'] ?? '',
       dob: map['dob'] ?? '',
       gender: map['gender'] ?? '',
+      maternity: map['maternity'] ?? '',
       user_id: map['user_id']?.toInt() ?? 0,
     );
   }
@@ -45,6 +49,6 @@ class Profile {
   // Implement toString to make it easier to see information about each profile when using the print statement.
   @override
   String toString() {
-    return 'User(profile_id: $profile_id, name: $name, identification: $identification, dob: $dob, gender: $gender, user_id: $user_id)';
+    return 'User(profile_id: $profile_id, name: $name, identification: $identification, dob: $dob, gender: $gender, maternity: $maternity, user_id: $user_id)';
   }
 }
