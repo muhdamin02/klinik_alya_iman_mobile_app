@@ -79,7 +79,7 @@ class _SystemAdminHomeState extends State<SystemAdminHome> {
                             borderRadius: BorderRadius.circular(
                                 25.0), // Adjust the radius
                           ),
-                          elevation: 3, // Set the elevation for the card
+                          elevation: 8, // Set the elevation for the card
                           color: const Color.fromARGB(255, 238, 238, 238),
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),

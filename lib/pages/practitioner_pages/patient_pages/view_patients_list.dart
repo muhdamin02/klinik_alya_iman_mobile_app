@@ -212,7 +212,7 @@ class TabBarPatient extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     ),
-                    elevation: 3,
+                    elevation: 8,
                     color: const Color.fromARGB(255, 238, 238, 238),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

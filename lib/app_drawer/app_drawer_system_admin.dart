@@ -65,7 +65,7 @@ class AppDrawerSystemAdmin extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => ManageUser(
                           user: user,
-                          autoImplyLeading: true,
+                          autoImplyLeading: false,
                         ),
                       ),
                     );
@@ -82,7 +82,7 @@ class AppDrawerSystemAdmin extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => ManageAppointmentAdmin(
                           user: user,
-                          autoImplyLeading: true,
+                          autoImplyLeading: false,
                         ),
                       ),
                     );
