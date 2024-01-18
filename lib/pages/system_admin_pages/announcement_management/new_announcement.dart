@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/medical_history/list_medical_history.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/system_admin_pages/system_admin_home.dart';
 
 import '../../../models/homefeed.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../system_admin_home.dart';
 
 class NewAnnouncement extends StatefulWidget {
   final User user;

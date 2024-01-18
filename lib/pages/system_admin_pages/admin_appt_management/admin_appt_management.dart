@@ -23,12 +23,14 @@ class ManageAppointmentAdmin extends StatefulWidget {
 
 class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
   List<Appointment> _appointmentUpcomingList = [];
+  List<Appointment> _appointmentTodayList = [];
   List<Appointment> _appointmentPastList = [];
 
   @override
   void initState() {
     super.initState();
     _fetchAppointmentUpcomingList();
+    _fetchAppointmentTodayList();
     _fetchAppointmentPastList();
   }
 
@@ -45,6 +47,24 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
 
     setState(() {
       _appointmentUpcomingList = appointmentUpcomingList;
+    });
+  }
+
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // Get list of Today appointments
+
+  Future<void> _fetchAppointmentTodayList() async {
+    List<Appointment> appointmentTodayList =
+        await DatabaseService().appointmentAllToday();
+
+    // Sort the list by appointment date in ascending order
+    appointmentTodayList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
+    setState(() {
+      _appointmentTodayList = appointmentTodayList;
     });
   }
 
@@ -105,6 +125,7 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
         ),
         body: TabBarAppointment(
             appointmentUpcomingList: _appointmentUpcomingList,
+            appointmentTodayList: _appointmentTodayList,
             appointmentPastList: _appointmentPastList,
             onViewAppointment: _viewAppointment),
       ),
@@ -114,12 +135,14 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
 
 class TabBarAppointment extends StatefulWidget {
   final List<Appointment> appointmentUpcomingList;
+  final List<Appointment> appointmentTodayList;
   final List<Appointment> appointmentPastList;
   final Function(Appointment) onViewAppointment;
 
   const TabBarAppointment(
       {Key? key,
       required this.appointmentUpcomingList,
+      required this.appointmentTodayList,
       required this.appointmentPastList,
       required this.onViewAppointment})
       : super(key: key);
@@ -135,8 +158,8 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 0,
-      length: 2,
+      initialIndex: 1,
+      length: 3,
       child: Scaffold(
         body: Column(
           children: [
@@ -166,6 +189,9 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                     tabs: <Widget>[
                       Tab(
                         text: 'Upcoming',
+                      ),
+                      Tab(
+                        text: 'Today',
                       ),
                       Tab(
                         text: 'Past',
@@ -212,6 +238,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
               child: TabBarView(
                 children: <Widget>[
                   _buildAppointmentList(widget.appointmentUpcomingList),
+                  _buildAppointmentList(widget.appointmentTodayList),
                   _buildAppointmentList(widget.appointmentPastList),
                 ],
               ),

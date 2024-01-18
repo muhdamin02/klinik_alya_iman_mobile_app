@@ -114,7 +114,7 @@ class DatabaseService {
   );
 ''');
 
-    // system admin
+    // system guest
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       ['Guest', '-', '-', '-', 'guest'],
@@ -360,6 +360,20 @@ class DatabaseService {
     return List.generate(maps.length, (index) => Profile.fromMap(maps[index]));
   }
 
+  // Retrieve profiles based on a list of profile_ids
+  Future<List<Profile>> profilesByProfileIds(List<int?> profileIds) async {
+    final db = await database;
+
+    // Use the "IN" clause to fetch profiles with matching profile_ids
+    final List<Map<String, dynamic>> maps = await db.query(
+      'profile',
+      where: 'profile_id IN (${profileIds.map((_) => '?').join(', ')})',
+      whereArgs: profileIds,
+    );
+
+    return List.generate(maps.length, (index) => Profile.fromMap(maps[index]));
+  }
+
   // Update
   Future<void> updateProfile(Profile profile) async {
     final db = await _databaseService.database;
@@ -476,7 +490,24 @@ class DatabaseService {
 
     final List<Map<String, dynamic>> maps = await db.query(
       'appointment',
-      where: 'appointment_date >= ?',
+      where: 'appointment_date > ?',
+      whereArgs: [todayDate],
+    );
+
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Retrieve All (today)
+  Future<List<Appointment>> appointmentAllToday() async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'appointment_date = ?',
       whereArgs: [todayDate],
     );
 
@@ -511,7 +542,24 @@ class DatabaseService {
 
     final List<Map<String, dynamic>> maps = await db.query(
       'appointment',
-      where: 'user_id = ? AND profile_id = ? AND appointment_date >= ?',
+      where: 'user_id = ? AND profile_id = ? AND appointment_date > ?',
+      whereArgs: [userId, profileId, todayDate],
+    );
+
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Retrieve based on User and Profile (today)
+  Future<List<Appointment>> appointmentToday(int userId, int? profileId) async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'user_id = ? AND profile_id = ? AND appointment_date = ?',
       whereArgs: [userId, profileId, todayDate],
     );
 
@@ -536,6 +584,90 @@ class DatabaseService {
       maps.length,
       (index) => Appointment.fromMap(maps[index]),
     );
+  }
+
+  // Retrieve based on User and Profile (upcoming) for practitioners
+  Future<List<Appointment>> appointmentUpcomingPractitioner(
+      int? practitionerId) async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'practitioner_id = ? AND appointment_date > ?',
+      whereArgs: [practitionerId, todayDate],
+    );
+
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Retrieve based on User and Profile (today) for practitioners
+  Future<List<Appointment>> appointmentTodayPractitioner(
+      int? practitionerId) async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'practitioner_id = ? AND appointment_date = ?',
+      whereArgs: [practitionerId, todayDate],
+    );
+
+    return List.generate(
+        maps.length, (index) => Appointment.fromMap(maps[index]));
+  }
+
+  // Retrieve based on User and Profile (past) for practitioners
+  Future<List<Appointment>> pastAppointmentsPractitioner(
+      int? practitionerId) async {
+    final db = await _databaseService.database;
+
+    // Get today's date in the format yyyy-MM-dd
+    final todayDate = DateTime.now().toLocal().toString().split(' ')[0];
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'practitioner_id = ? AND appointment_date < ?',
+      whereArgs: [practitionerId, todayDate],
+    );
+
+    return List.generate(
+      maps.length,
+      (index) => Appointment.fromMap(maps[index]),
+    );
+  }
+
+  // Retrieve based on User and Profile (all) for practitioners
+  Future<List<Appointment>> patientsUnderCare(
+    int? practitionerId,
+  ) async {
+    final db = await _databaseService.database;
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'practitioner_id = ?',
+      whereArgs: [practitionerId],
+    );
+
+    final Set<int> uniqueProfileIds = <int>{};
+    final List<Appointment> uniqueAppointments = [];
+
+    for (final map in maps) {
+      final Appointment appointment = Appointment.fromMap(map);
+      final int profileId = appointment.profile_id!;
+
+      if (!uniqueProfileIds.contains(profileId)) {
+        uniqueProfileIds.add(profileId);
+        uniqueAppointments.add(appointment);
+      }
+    }
+
+    return uniqueAppointments;
   }
 
   // Retrieve One Appointment Info

@@ -19,27 +19,71 @@ class ManageAppointment extends StatefulWidget {
   _ManageAppointmentState createState() => _ManageAppointmentState();
 }
 
-// ----------------------------------------------------------------------
-
 class _ManageAppointmentState extends State<ManageAppointment> {
-  List<Appointment> _appointmentList = [];
+  List<Appointment> _appointmentUpcomingList = [];
+  List<Appointment> _appointmentTodayList = [];
+  List<Appointment> _appointmentPastList = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchAppointmentList();
+    _fetchAppointmentUpcomingList();
+    _fetchAppointmentTodayList();
+    _fetchAppointmentPastList();
   }
 
   // ----------------------------------------------------------------------
-  // View list of appointments
+  // Get list of upcoming appointments
 
-  Future<void> _fetchAppointmentList() async {
-    List<Appointment> appointmentList =
-        await DatabaseService().appointmentAll();
+  Future<void> _fetchAppointmentUpcomingList() async {
+    List<Appointment> appointmentUpcomingList = await DatabaseService()
+        .appointmentUpcomingPractitioner(widget.user.user_id!);
+
+    // Sort the list by appointment date in ascending order
+    appointmentUpcomingList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
     setState(() {
-      _appointmentList = appointmentList;
+      _appointmentUpcomingList = appointmentUpcomingList;
     });
   }
+
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // Get list of today appointments
+
+  Future<void> _fetchAppointmentTodayList() async {
+    List<Appointment> appointmentTodayList = await DatabaseService()
+        .appointmentTodayPractitioner(widget.user.user_id!);
+
+    // Sort the list by appointment date in ascending order
+    appointmentTodayList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
+    setState(() {
+      _appointmentTodayList = appointmentTodayList;
+    });
+  }
+
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // Get list of past appointments
+
+  Future<void> _fetchAppointmentPastList() async {
+    List<Appointment> appointmentPastList = await DatabaseService()
+        .pastAppointmentsPractitioner(widget.user.user_id!);
+
+    // Sort the list by appointment date in descending order
+    appointmentPastList
+        .sort((a, b) => b.appointment_date.compareTo(a.appointment_date));
+
+    setState(() {
+      _appointmentPastList = appointmentPastList;
+    });
+  }
+
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
@@ -76,7 +120,8 @@ class _ManageAppointmentState extends State<ManageAppointment> {
     ).then((result) {
       if (result == true) {
         // If the appointment was updated, refresh the appointment history
-        _fetchAppointmentList();
+        _fetchAppointmentUpcomingList();
+        _fetchAppointmentPastList();
       }
     });
   }
@@ -112,7 +157,8 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
                 // Refresh the appointment history
-                _fetchAppointmentList();
+                _fetchAppointmentUpcomingList();
+                _fetchAppointmentPastList();
               },
             ),
             ElevatedButton(
@@ -246,9 +292,6 @@ class _ManageAppointmentState extends State<ManageAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    // Sort the _bookingHistory list by appointment date
-    _appointmentList
-        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
 
     return WillPopScope(
       onWillPop: () async {
@@ -265,23 +308,117 @@ class _ManageAppointmentState extends State<ManageAppointment> {
             color: Colors.white,
           ),
         ),
-        body: Stack(
+        body: TabBarAppointment(
+            appointmentUpcomingList: _appointmentUpcomingList,
+            appointmentTodayList: _appointmentTodayList,
+            appointmentPastList: _appointmentPastList,
+            onViewAppointment: _viewAppointment),
+      ),
+    );
+  }
+}
+
+class TabBarAppointment extends StatelessWidget {
+  final List<Appointment> appointmentUpcomingList;
+  final List<Appointment> appointmentTodayList;
+  final List<Appointment> appointmentPastList;
+  final Function(Appointment) onViewAppointment;
+
+  const TabBarAppointment(
+      {Key? key,
+      required this.appointmentUpcomingList,
+      required this.appointmentTodayList,
+      required this.appointmentPastList,
+      required this.onViewAppointment})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 3,
+      child: Scaffold(
+        body: Column(
           children: [
-            ListView.builder(
-              itemCount: _appointmentList.length,
-              itemBuilder: (context, index) {
-                Appointment appointment = _appointmentList[index];
-                return Column(
-                  children: [
-                    const SizedBox(height: 16.0),
-                    ListTile(
+            Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 74, 142, 230),
+              ),
+              child: const TabBar(
+                labelStyle: TextStyle(
+                  // Set your desired text style for the selected (active) tab here
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  fontFamily: 'Rubik',
+                  // You can set other text style properties as needed
+                ),
+                unselectedLabelStyle: TextStyle(
+                  // Set your desired text style for the unselected tabs here
+                  fontSize: 16,
+                  fontFamily: 'Rubik',
+                  // You can set other text style properties as needed
+                ),
+                indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                indicatorWeight: 6,
+                tabs: <Widget>[
+                  Tab(
+                    text: 'Upcoming',
+                  ),
+                  Tab(
+                    text: 'Today',
+                  ),
+                  Tab(
+                    text: 'Past',
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: <Widget>[
+                  _buildAppointmentList(appointmentUpcomingList),
+                  _buildAppointmentList(appointmentTodayList),
+                  _buildAppointmentList(appointmentPastList),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppointmentList(List<Appointment> appointmentList) {
+    return ListView.builder(
+      itemCount: appointmentList.length,
+      itemBuilder: (context, index) {
+        Appointment appointment = appointmentList[index];
+        return Column(
+          children: [
+            const SizedBox(height: 12.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: GestureDetector(
+                onTap: () {
+                  onViewAppointment(appointment);
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(25.0), // Adjust the radius
+                  ),
+                  elevation: 3, // Set the elevation for the card
+                  color: const Color.fromARGB(255, 238, 238, 238),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ListTile(
                       title: Text(
                           '${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 4.0),
-                          Text('Status: ${appointment.status}'),
+                          Text(appointment.status),
                         ],
                       ),
                       trailing: Row(
@@ -290,79 +427,21 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                           IconButton(
                             icon: const Icon(Icons.visibility),
                             onPressed: () {
-                              // Call a method to handle the update functionality
-                              _viewAppointment(appointment);
+                              onViewAppointment(appointment);
                             },
                           ),
-                          Visibility(
-                            visible: appointment.status != 'Cancelled',
-                            child: IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                // Call a method to handle the update functionality
-                                _updateAppointment(appointment);
-                              },
-                            ),
-                          ),
-                          Visibility(
-                            visible: appointment.status != 'Cancelled' &&
-                                appointment.status != 'Confirmed',
-                            child: IconButton(
-                              icon: const Icon(Icons.thumb_up),
-                              onPressed: () {
-                                // Call a method to handle the update functionality
-                                _confirmAppointment(appointment);
-                              },
-                            ),
-                          ),
-                          Visibility(
-                            visible: appointment.status != 'Cancelled',
-                            child: IconButton(
-                              icon: const Icon(Icons.not_interested_rounded),
-                              onPressed: () {
-                                // Call a method to handle the cancel functionality
-                                // _cancelAppointment(appointment);
-                              },
-                            ),
-                          ),
-                          Visibility(
-                            visible: appointment.status == 'Cancelled',
-                            child: IconButton(
-                              icon: const Icon(Icons.close),
-                              onPressed: () {
-                                // Call a method to handle the delete functionality
-                                // _deleteAppointment(appointment.appointment_id);
-                              },
-                            ),
-                          )
                         ],
                       ),
                     ),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ),
             ),
-            // Positioned(
-            //   bottom: 32.0,
-            //   right: 32.0,
-            //   child: FloatingActionButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => AppointmentForm(
-            //             user: widget.user,
-            //             profile: widget.profile,
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //     child: const Icon(Icons.add),
-            //   ),
-            // ),
+            if (index == appointmentList.length - 1)
+              const SizedBox(height: 77.0), // Add SizedBox after the last item
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }
