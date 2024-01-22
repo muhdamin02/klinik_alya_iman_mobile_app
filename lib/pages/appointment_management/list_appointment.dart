@@ -120,7 +120,7 @@ class _ListAppointmentState extends State<ListAppointment> {
       MaterialPageRoute(
         builder: (context) => UpdateAppointment(
           appointment: appointment,
-          reschedulerIsPatient: true,
+          rescheduler: widget.user.role,
         ),
       ),
     ).then((result) {

@@ -45,47 +45,34 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0), // Add your desired padding
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0), // Add your desired padding
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('NAME',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 121, 121, 121))),
-                    const SizedBox(height: 4),
-                    Text(profile.name, style: const TextStyle(fontSize: 16)),
-                    const SizedBox(height: 24),
-                    const Text('IC/PASSPORT',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 121, 121, 121))),
-                    const SizedBox(height: 4),
-                    Text(profile.identification,
-                        style: const TextStyle(fontSize: 16)),
-                    const SizedBox(height: 24),
-                    const Text('DATE OF BIRTH',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 121, 121, 121))),
-                    const SizedBox(height: 4),
-                    Text(
-                      formattedDate,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 24),
-                    const Text('GENDER',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 121, 121, 121))),
-                    const SizedBox(height: 4),
-                    Text('${profile.gender}',
-                        style: const TextStyle(fontSize: 16)),
-                    // Add more details as needed
-                  ],
-                ),
+              const Text('NAME',
+                  style: TextStyle(
+                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
+              const SizedBox(height: 4),
+              Text(profile.name, style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 24),
+              const Text('IC/PASSPORT',
+                  style: TextStyle(
+                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
+              const SizedBox(height: 4),
+              Text(profile.identification,
+                  style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 24),
+              const Text('DATE OF BIRTH',
+                  style: TextStyle(
+                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
+              const SizedBox(height: 4),
+              Text(
+                formattedDate,
+                style: const TextStyle(fontSize: 16),
               ),
+              const SizedBox(height: 24),
+              const Text('GENDER',
+                  style: TextStyle(
+                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
+              const SizedBox(height: 4),
+              Text('${profile.gender}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 24),
               Row(
                 children: [
                   Expanded(

@@ -178,6 +178,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
               ),
             ],
           ),
+          barrierDismissible: false,
         );
         return;
       }

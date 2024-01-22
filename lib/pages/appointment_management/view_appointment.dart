@@ -7,6 +7,7 @@ import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import 'update_appointment.dart';
 
 class ViewAppointment extends StatefulWidget {
   final Appointment appointment;
@@ -88,6 +89,49 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     setState(() {});
   }
   // ----------------------------------------------------------------------
+
+  void _confirmAppointment(Appointment appointment) {
+    String status = appointment.status;
+    String remarks = appointment.system_remarks;
+    String practitionerName = widget.user.name;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Appointment'),
+          content:
+              const Text('Are you sure you want to confirm this appointment?'),
+          actions: <Widget>[
+            ElevatedButton(
+              child:
+                  const Text('Confirm', style: TextStyle(color: Colors.white)),
+              onPressed: () async {
+                status = 'Confirmed';
+                remarks = 'The appointment has been confirmed.';
+                // Call the deleteAppointment method and pass the appointmentId
+                await DatabaseService().updateAppointmentStatus(
+                    appointment.appointment_id!, status, remarks);
+                Navigator.of(context).pop();
+                // Refresh the appointment
+                _fetchAppointmentInfo();
+                _loadPatientName();
+                _getPractitionerList();
+              },
+            ),
+            ElevatedButton(
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
+  }
 
   void _leaveRemarks(Appointment appointment) async {
     TextEditingController remarksController = TextEditingController();
@@ -335,15 +379,57 @@ class _ViewAppointmentState extends State<ViewAppointment> {
           ),
         ),
       ),
-      floatingActionButton: Visibility(
-        visible: widget.user.role.toLowerCase() != 'systemadmin',
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            _leaveRemarks(widget.appointment);
-          },
-          icon: const Icon(Icons.rate_review),
-          label: const Text('Leave Remarks'),
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Visibility(
+            visible: widget.user.role.toLowerCase() != 'patient' && widget.appointment.status != 'Confirmed',
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                _confirmAppointment(widget.appointment);
+              },
+              icon: const Icon(Icons.check),
+              label: const Text('Confirm'),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Visibility(
+            visible: widget.user.role.toLowerCase() != 'patient',
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateAppointment(
+                      appointment: widget.appointment,
+                      rescheduler: widget.user.role,
+                    ),
+                  ),
+                ).then((result) {
+                  if (result == true) {
+                    // If the appointment was updated, refresh the appointment list
+                    _fetchAppointmentInfo();
+                    _loadPatientName();
+                    _getPractitionerList();
+                  }
+                });
+              },
+              icon: const Icon(Icons.edit),
+              label: const Text('Reschedule'),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Visibility(
+            visible: widget.user.role.toLowerCase() != 'systemadmin',
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                _leaveRemarks(widget.appointment);
+              },
+              icon: const Icon(Icons.rate_review),
+              label: const Text('Leave Remarks'),
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

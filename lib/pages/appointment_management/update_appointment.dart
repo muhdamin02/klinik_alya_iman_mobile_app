@@ -7,10 +7,10 @@ import '../../services/misc_methods/date_display.dart';
 
 class UpdateAppointment extends StatefulWidget {
   final Appointment appointment;
-  final bool reschedulerIsPatient;
+  final String rescheduler;
 
   const UpdateAppointment(
-      {Key? key, required this.appointment, required this.reschedulerIsPatient})
+      {Key? key, required this.appointment, required this.rescheduler})
       : super(key: key);
 
   @override
@@ -208,10 +208,12 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
 
       String rescheduler;
 
-      if (widget.reschedulerIsPatient == true) {
+      if (widget.rescheduler == 'patient') {
         rescheduler = 'patient';
-      } else {
+      } else if (widget.rescheduler == 'practitioner') {
         rescheduler = 'practitioner';
+      } else {
+        rescheduler = 'admin';
       }
 
       // Create a new Appointment instance with the updated data
@@ -223,7 +225,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
         profile_id: widget.appointment.profile_id,
         status: 'Pending',
         system_remarks:
-            'Rescheduled appointment date from $oldAppointmentDateString to $appointmentDateString on $timeNow by the $rescheduler.',
+            'Rescheduled appointment date from $oldAppointmentDateString at ${widget.appointment.appointment_time} to $appointmentDateString at $appointmentTime on $timeNow by the $rescheduler.',
         patient_remarks: widget.appointment.patient_remarks,
         practitioner_remarks: widget.appointment.practitioner_remarks,
         random_id: widget.appointment.random_id,
