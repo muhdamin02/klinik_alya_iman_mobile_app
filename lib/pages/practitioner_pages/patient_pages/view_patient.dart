@@ -23,12 +23,64 @@ class ViewPatient extends StatefulWidget {
 }
 
 class _ViewPatientState extends State<ViewPatient> {
-  String maternityValue = 'No';
+  List<Profile> _profileInfo = [];
+  String _maternityValue = 'No';
 
   @override
   void initState() {
     super.initState();
-    maternityValue = widget.profile.maternity;
+    _fetchProfileInfo();
+    _maternityValue = widget.profile.maternity;
+  }
+
+  // ----------------------------------------------------------------------
+  // Fetch details
+
+  Future<void> _fetchProfileInfo() async {
+    List<Profile> profileInfo =
+        await DatabaseService().profileInfo(widget.profile.profile_id);
+    setState(() {
+      _profileInfo = profileInfo;
+    });
+  }
+  // ----------------------------------------------------------------------
+
+  void _handleMaternitySelection(maternityValue) async {
+    print('Maternity to be set: ${widget.profile.profile_id}');
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Set Maternity Status'),
+          content: Builder(
+            builder: (BuildContext context) {
+              return Text(
+                  'Are you sure you want to set maternity status for ${widget.profile.name} to $maternityValue?');
+            },
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                await DatabaseService()
+                    .setMaternity(widget.profile.profile_id!, maternityValue);
+                // ignore: use_build_context_synchronously
+                Navigator.pop(context);
+                _fetchProfileInfo();
+              },
+              child: const Text('Confirm'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false,
+    );
   }
 
   @override
@@ -37,86 +89,91 @@ class _ViewPatientState extends State<ViewPatient> {
     DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(cleanedDate);
     String formattedDate = DateFormat('dd MMMM yyyy').format(parsedDate);
 
-    return WillPopScope(
-      onWillPop: () async {
-        // Return false to prevent the user from navigating back
-        return widget.autoImplyLeading;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Patient Info'),
-        ),
-        body: Padding(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Patient Details'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(16.0), // Add your desired padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('NAME',
-                  style: TextStyle(
-                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
-              const SizedBox(height: 4),
-              Text(widget.profile.name, style: const TextStyle(fontSize: 16)),
-              const SizedBox(height: 24),
-              const Text('IC/PASSPORT',
-                  style: TextStyle(
-                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
-              const SizedBox(height: 4),
-              Text(widget.profile.identification,
-                  style: const TextStyle(fontSize: 16)),
-              const SizedBox(height: 24),
-              const Text('DATE OF BIRTH',
-                  style: TextStyle(
-                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
-              const SizedBox(height: 4),
-              Text(
-                formattedDate,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 24),
-              const Text('GENDER',
-                  style: TextStyle(
-                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
-              const SizedBox(height: 4),
-              Text('${widget.profile.gender}',
-                  style: const TextStyle(fontSize: 16)),
-              const SizedBox(height: 24),
-              const Text('MATERNITY STATUS',
-                  style: TextStyle(
-                      fontSize: 14, color: Color.fromARGB(255, 121, 121, 121))),
-              const SizedBox(height: 4),
-              DropdownButton<String>(
-                value: maternityValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    maternityValue = newValue!;
-                    // Call functions based on selected value if needed
-                    switch (maternityValue) {
-                      case 'No':
-                        DatabaseService().setMaternity(widget.profile.profile_id!, 'No');
-                        break;
-                      case 'First Trimester':
-                        DatabaseService().setMaternity(widget.profile.profile_id!, 'First Trimester');
-                        break;
-                      case 'Second Trimester':
-                        DatabaseService().setMaternity(widget.profile.profile_id!, 'Second Trimester');
-                        break;
-                      case 'Third Trimester':
-                        DatabaseService().setMaternity(widget.profile.profile_id!, 'Third Trimester');
-                        break;
-                    }
-                  });
-                },
-                items: <String>[
-                  'No',
-                  'First Trimester',
-                  'Second Trimester',
-                  'Third Trimester'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: _profileInfo.length,
+                itemBuilder: (context, index) {
+                  Profile profile = _profileInfo[index];
+                  return SizedBox(
+                    width: MediaQuery.of(context)
+                        .size
+                        .width, // Set width to screen width
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('NAME',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(profile.name,
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('IC/PASSPORT',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(profile.identification,
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('DATE OF BIRTH',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(
+                          formattedDate,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(height: 24),
+                        const Text('GENDER',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(profile.gender!,
+                            style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 24),
+                        const Text('MATERNITY STATUS',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        DropdownButton<String>(
+                          value: _maternityValue,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _maternityValue = newValue!;
+                              _handleMaternitySelection(_maternityValue);
+                            });
+                          },
+                          items: <String>[
+                            'No',
+                            'First Trimester',
+                            'Second Trimester',
+                            'Third Trimester'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   );
-                }).toList(),
+                },
               ),
             ],
           ),

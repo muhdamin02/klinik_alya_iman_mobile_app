@@ -6,6 +6,9 @@ import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../appointment_management/list_appointment.dart';
+import '../maternity_pages/first_trimester.dart';
+import '../maternity_pages/second_trimester.dart';
+import '../maternity_pages/third_trimester.dart';
 import '../medication_management/list_medication.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -236,7 +239,39 @@ class ProfilePage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Handle button press
+                      if (profile.maternity == 'First Trimester') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FirstTrimester(
+                              user: user,
+                              profile: profile,
+                            ),
+                          ),
+                        );
+                      }
+                      if (profile.maternity == 'Second Trimester') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SecondTrimester(
+                              user: user,
+                              profile: profile,
+                            ),
+                          ),
+                        );
+                      }
+                      if (profile.maternity == 'Third Trimester') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ThirdTrimester(
+                              user: user,
+                              profile: profile,
+                            ),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 233, 243, 255),

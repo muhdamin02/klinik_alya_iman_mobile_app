@@ -115,19 +115,44 @@ class DatabaseService {
 ''');
 
     // system guest
+    // DO NOT TOUCH
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       ['Guest', '-', '-', '-', 'guest'],
     );
 
-    // practitioner
+    // practitioner 1
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
         'Muhammad Shahid bin Shamsul Anuar',
+        '881020105137',
         'doctor',
-        'doctor',
-        '0104081975',
+        '0136281168',
+        'practitioner'
+      ],
+    );
+
+    // practitioner 2
+    await db.execute(
+      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      [
+        'Muhammad Syazwan Redza bin Muhammad Sadzalee',
+        '020624140713',
+        'syazwan',
+        '0136026669',
+        'practitioner'
+      ],
+    );
+
+    // practitioner 3
+    await db.execute(
+      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      [
+        'Yasmin Anisah binti Khalid',
+        '010208100836',
+        'yasmin',
+        '01118870942',
         'practitioner'
       ],
     );
@@ -135,13 +160,13 @@ class DatabaseService {
     // system admin
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Abdullah bin Abdul Samad', 'sa', 'sa', '0123456789', 'systemadmin'],
+      ['Abdullah bin Abdul Samad', '800101103579', 'admin', '0123456789', 'systemadmin'],
     );
 
     // patient
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Muhammad Amin bin Shamsul Anuar', 'a', 'a', '0104081975', 'patient'],
+      ['Muhammad Amin bin Shamsul Anuar', '020630141149', 'amin123', '0104081975', 'patient'],
     );
 
     // homefeed 1
@@ -360,6 +385,18 @@ class DatabaseService {
     return List.generate(maps.length, (index) => Profile.fromMap(maps[index]));
   }
 
+  // Retrieve One Profile Info
+  Future<List<Profile>> profileInfo(int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'Profile',
+      where: 'profile_id = ?',
+      whereArgs: [profileId],
+    );
+    return List.generate(
+        maps.length, (index) => Profile.fromMap(maps[index]));
+  }
+
   // Retrieve profiles based on a list of profile_ids
   Future<List<Profile>> profilesByProfileIds(List<int?> profileIds) async {
     final db = await database;
@@ -459,7 +496,7 @@ class DatabaseService {
     };
 
     await db.update('profile', valuesToUpdate,
-        where: 'maternity = ?', whereArgs: [id]);
+        where: 'profile_id = ?', whereArgs: [id]);
   }
 
 //////////////////////////////////////////////////////////////////////////

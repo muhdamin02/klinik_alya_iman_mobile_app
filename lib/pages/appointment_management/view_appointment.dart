@@ -115,8 +115,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                 Navigator.of(context).pop();
                 // Refresh the appointment
                 _fetchAppointmentInfo();
-                _loadPatientName();
-                _getPractitionerList();
               },
             ),
             ElevatedButton(
