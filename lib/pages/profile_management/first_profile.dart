@@ -41,7 +41,7 @@ class _FirstProfileState extends State<FirstProfile> {
           ),
           title: const Text(
             'TIPS (1/2)',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
           content: const Text(
@@ -71,7 +71,7 @@ class _FirstProfileState extends State<FirstProfile> {
                     'Next',
                     style: TextStyle(
                       fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
@@ -95,7 +95,7 @@ class _FirstProfileState extends State<FirstProfile> {
           ),
           title: const Text(
             'TIPS (2/2)',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
           content: const Text(
@@ -124,7 +124,7 @@ class _FirstProfileState extends State<FirstProfile> {
                     'Okay',
                     style: TextStyle(
                       fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
@@ -197,7 +197,7 @@ class _FirstProfileState extends State<FirstProfile> {
                         'Create Profile',
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 37, 101, 184),
                         ),
                       ),
@@ -244,7 +244,7 @@ class _FirstProfileState extends State<FirstProfile> {
                         'Nevermind',
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 184, 37, 37),
                         ),
                       ),

@@ -64,7 +64,7 @@ class _ViewUserState extends State<ViewUser> {
             children: [
               const Text(
                 'User Details',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16.0),
               // Display appointment details using ListView.builder

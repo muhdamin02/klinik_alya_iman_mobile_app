@@ -186,7 +186,7 @@ class _LoginState extends State<Login> {
                   'Welcome back!',
                   style: TextStyle(
                     fontSize: 32,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     color: Color.fromARGB(255, 0, 76, 104),
                   ),
                 ),
@@ -275,7 +275,7 @@ class _LoginState extends State<Login> {
                         'Continue as Member',
                         style: TextStyle(
                           fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
@@ -331,7 +331,7 @@ class _LoginState extends State<Login> {
                         'Get Started as Guest',
                         style: TextStyle(
                           fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 112, 92, 0),
                         ),
                       ),

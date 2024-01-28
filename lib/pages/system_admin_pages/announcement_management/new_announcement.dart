@@ -221,7 +221,7 @@ class _NewAnnouncementState extends State<NewAnnouncement> {
                   onPressed: _submitForm,
                   child: const Text('Submit',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                          color: Colors.white, fontWeight: FontWeight.w500)),
                 ),
               ),
             ),

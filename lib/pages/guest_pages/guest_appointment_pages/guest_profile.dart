@@ -240,7 +240,7 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
                     child: const Text('Continue',
                         style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold)),
+                            fontWeight: FontWeight.w500)),
                   ),
                 ),
               ),

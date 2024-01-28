@@ -108,7 +108,7 @@ class _CreateProfileState extends State<CreateProfile> {
                 'Success',
                 style: TextStyle(
                   fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -337,7 +337,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   ),
                   child: const Text('Create Profile',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255))),
+                          TextStyle(fontWeight: FontWeight.w500, color: Color.fromARGB(255, 255, 255, 255))),
                 ),
               ),
             ),

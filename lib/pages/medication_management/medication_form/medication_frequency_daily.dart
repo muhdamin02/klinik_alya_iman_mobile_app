@@ -70,7 +70,7 @@ class _MedicationDailyFrequencyPageState
             children: [
               const Text(
                 'How often do you take it?',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16.0),
               const Text(
@@ -99,7 +99,7 @@ class _MedicationDailyFrequencyPageState
                         _setDailyFrequency(dailyFrequency: dailyFrequency);
                       },
                       child: const Text('Once a day',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                     ),
                   )),
                   const SizedBox(width: 8.0),
@@ -122,7 +122,7 @@ class _MedicationDailyFrequencyPageState
                           _setDailyFrequency(dailyFrequency: dailyFrequency);
                         },
                         child: const Text('Twice a day',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.w500)),
                       ),
                     ),
                   ),
@@ -150,7 +150,7 @@ class _MedicationDailyFrequencyPageState
                           _setDailyFrequency(dailyFrequency: dailyFrequency);
                         },
                         child: const Text('Three times a day',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.w500)),
                       ),
                     ),
                   ),
@@ -174,7 +174,7 @@ class _MedicationDailyFrequencyPageState
                           _setDailyFrequency(dailyFrequency: dailyFrequency);
                         },
                         child: const Text('Four times a day',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                            style: TextStyle(fontWeight: FontWeight.w500)),
                       ),
                     ),
                   ),

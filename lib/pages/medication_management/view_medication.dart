@@ -52,7 +52,7 @@ class _ViewMedicationState extends State<ViewMedication> {
             children: [
               const Text(
                 'Medication Details',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16.0),
               // Display medication details using ListView.builder

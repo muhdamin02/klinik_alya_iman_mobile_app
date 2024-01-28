@@ -116,7 +116,7 @@ class _MedicationFrequencyTypePageState
             children: [
               const Text(
                 'How often do you take it?',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16.0),
               const Text(
@@ -141,7 +141,7 @@ class _MedicationFrequencyTypePageState
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
                   child: const Text('Every day',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -162,7 +162,7 @@ class _MedicationFrequencyTypePageState
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
                   child: const Text('Every other day',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -183,7 +183,7 @@ class _MedicationFrequencyTypePageState
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
                   child: const Text('Specific days of the week',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -204,7 +204,7 @@ class _MedicationFrequencyTypePageState
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
                   child: const Text('Every X days',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -225,7 +225,7 @@ class _MedicationFrequencyTypePageState
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
                   child: const Text('Every X weeks',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(height: 8.0),
@@ -246,7 +246,7 @@ class _MedicationFrequencyTypePageState
                     _setMedicationFrequency(frequency: medicationFrequency);
                   },
                   child: const Text('Every X months',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.w500)),
                 ),
               ),
             ],

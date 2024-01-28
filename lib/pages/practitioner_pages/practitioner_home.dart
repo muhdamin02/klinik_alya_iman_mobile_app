@@ -135,7 +135,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                               );
                             },
                             child: const Text('View Appointments',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                style: TextStyle(fontWeight: FontWeight.w500)),
                           ),
                           // Add more details specific to practitioners
                         ),
@@ -192,7 +192,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                               );
                             },
                             child: const Text('View Patients',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                style: TextStyle(fontWeight: FontWeight.w500)),
                           ),
                           // Add more details specific to practitioners
                         ),

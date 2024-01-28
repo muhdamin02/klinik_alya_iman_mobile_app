@@ -67,7 +67,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
             children: [
               const Text(
                 'Choose Medication Type',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16.0),
               const Text(
@@ -110,7 +110,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
                               'Pills',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -151,7 +151,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
                               'Injection',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -196,7 +196,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
                               'Solution',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -238,7 +238,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
                               'Drops',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -283,7 +283,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
                               'Inhaler',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -325,7 +325,7 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
                               'Powder',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),

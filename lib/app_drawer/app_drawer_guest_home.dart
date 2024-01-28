@@ -32,14 +32,14 @@ class AppDrawerGuest extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
-                      fontFamily: 'Rubik'
+                      fontFamily: 'ProductSans'
                     ),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.event),
                   title: const Text('Appointment',
-              style: TextStyle(fontFamily: 'Rubik')),
+              style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
@@ -57,7 +57,7 @@ class AppDrawerGuest extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.login),
             title: const Text('Login',
-              style: TextStyle(fontFamily: 'Rubik')),
+              style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

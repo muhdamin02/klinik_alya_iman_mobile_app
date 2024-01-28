@@ -126,7 +126,7 @@ class _MedicationQuantityPageState extends State<MedicationQuantityPage> {
               children: [
                 const Text(
                   'Enter Medication Quantity',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16.0),
                 const Text(

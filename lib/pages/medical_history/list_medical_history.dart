@@ -87,7 +87,7 @@ class _ListMedicalHistoryState extends State<ListMedicalHistory> {
                             child: ListTile(
                               title: Text(medicalHistory.title,
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.w500)),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

@@ -232,7 +232,7 @@ class _ListProfileState extends State<ListProfile> {
                             child: ListTile(
                               title: Text(profile.name,
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w500,
                                       fontSize: 16)),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

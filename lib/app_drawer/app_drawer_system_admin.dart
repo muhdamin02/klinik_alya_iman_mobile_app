@@ -35,13 +35,13 @@ class AppDrawerSystemAdmin extends StatelessWidget {
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 24, fontFamily: 'Rubik'),
+                        color: Colors.white, fontSize: 24, fontFamily: 'ProductSans'),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.home),
                   title:
-                      const Text('Home', style: TextStyle(fontFamily: 'Rubik')),
+                      const Text('Home', style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -57,7 +57,7 @@ class AppDrawerSystemAdmin extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.person),
                   title: const Text('Manage Users',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -74,7 +74,7 @@ class AppDrawerSystemAdmin extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.event),
                   title: const Text('Manage Appointments',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -93,7 +93,7 @@ class AppDrawerSystemAdmin extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout', style: TextStyle(fontFamily: 'Rubik')),
+            title: const Text('Logout', style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

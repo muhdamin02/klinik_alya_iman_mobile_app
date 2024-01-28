@@ -38,13 +38,13 @@ class AppDrawerProfilesLogout extends StatelessWidget {
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 24, fontFamily: 'Rubik'),
+                        color: Colors.white, fontSize: 24, fontFamily: 'ProductSans'),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.person),
                   title: const Text('My Profile',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -64,7 +64,7 @@ class AppDrawerProfilesLogout extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout', style: TextStyle(fontFamily: 'Rubik')),
+            title: const Text('Logout', style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

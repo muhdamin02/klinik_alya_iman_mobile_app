@@ -37,7 +37,7 @@ class AppDrawerUser extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
-                      fontFamily: 'Rubik'
+                      fontFamily: 'ProductSans'
                     ),
                   ),
                 ),
@@ -47,7 +47,7 @@ class AppDrawerUser extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.group),
             title: const Text('Switch Profile',
-                style: TextStyle(fontFamily: 'Rubik')),
+                style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -62,7 +62,7 @@ class AppDrawerUser extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout', style: TextStyle(fontFamily: 'Rubik')),
+            title: const Text('Logout', style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

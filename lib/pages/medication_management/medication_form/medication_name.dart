@@ -44,7 +44,7 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                     const Text(
                       'Enter Medication Name',
                       style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 16.0),
                     const Text(
@@ -118,7 +118,7 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Please enter a medication name.',
-                              style: TextStyle(fontFamily: 'Rubik')),
+                              style: TextStyle(fontFamily: 'ProductSans')),
                         ),
                       );
                     }

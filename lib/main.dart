@@ -54,35 +54,35 @@ class _MyAppState extends State<MyApp> {
         textTheme: const TextTheme(
           // booking history details text
           bodyMedium: TextStyle(
-            fontFamily: 'Rubik',
+            fontFamily: 'ProductSans',
             fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
 
           // validator texts
           bodySmall: TextStyle(
-            fontFamily: 'Rubik',
+            fontFamily: 'ProductSans',
             fontSize: 12,
             fontWeight: FontWeight.normal,
           ),
 
           // submit and update button
           labelLarge: TextStyle(
-            fontFamily: 'Rubik',
+            fontFamily: 'ProductSans',
             fontSize: 16,
             fontWeight: FontWeight.normal,
           ),
 
           // appbar
           titleLarge: TextStyle(
-            fontFamily: 'Rubik',
+            fontFamily: 'ProductSans',
             fontSize: 23,
             fontWeight: FontWeight.normal,
           ),
 
           // placeholder text in textfields, checkbox tiles, dropdown options
           titleMedium: TextStyle(
-            fontFamily: 'Rubik',
+            fontFamily: 'ProductSans',
             fontSize: 16,
             fontWeight: FontWeight.normal,
           ),

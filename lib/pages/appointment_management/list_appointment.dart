@@ -324,15 +324,15 @@ class TabBarAppointment extends StatelessWidget {
               child: const TabBar(
                 labelStyle: TextStyle(
                   // Set your desired text style for the selected (active) tab here
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  fontFamily: 'Rubik',
+                  fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
                 unselectedLabelStyle: TextStyle(
                   // Set your desired text style for the unselected tabs here
                   fontSize: 16,
-                  fontFamily: 'Rubik',
+                  fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
                 indicatorColor: Color.fromARGB(255, 37, 101, 184),

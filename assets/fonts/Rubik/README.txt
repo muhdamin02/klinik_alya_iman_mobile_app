@@ -1,32 +1,32 @@
-Rubik Variable Font
+ProductSans Variable Font
 ===================
 
-This download contains Rubik as both variable fonts and static fonts.
+This download contains ProductSans as both variable fonts and static fonts.
 
-Rubik is a variable font with this axis:
+ProductSans is a variable font with this axis:
   wght
 
 This means all the styles are contained in these files:
-  Rubik-VariableFont_wght.ttf
-  Rubik-Italic-VariableFont_wght.ttf
+  ProductSans-VariableFont_wght.ttf
+  ProductSans-Italic-VariableFont_wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font files for Rubik:
-  static/Rubik-Light.ttf
-  static/Rubik-Regular.ttf
-  static/Rubik-Medium.ttf
-  static/Rubik-SemiBold.ttf
-  static/Rubik-Bold.ttf
-  static/Rubik-ExtraBold.ttf
-  static/Rubik-Black.ttf
-  static/Rubik-LightItalic.ttf
-  static/Rubik-Italic.ttf
-  static/Rubik-MediumItalic.ttf
-  static/Rubik-SemiBoldItalic.ttf
-  static/Rubik-BoldItalic.ttf
-  static/Rubik-ExtraBoldItalic.ttf
-  static/Rubik-BlackItalic.ttf
+in those cases you can use the static font files for ProductSans:
+  static/ProductSans-Light.ttf
+  static/ProductSans-Regular.ttf
+  static/ProductSans-Medium.ttf
+  static/ProductSans-SemiBold.ttf
+  static/ProductSans-Bold.ttf
+  static/ProductSans-ExtraBold.ttf
+  static/ProductSans-Black.ttf
+  static/ProductSans-LightItalic.ttf
+  static/ProductSans-Italic.ttf
+  static/ProductSans-MediumItalic.ttf
+  static/ProductSans-SemiBoldItalic.ttf
+  static/ProductSans-BoldItalic.ttf
+  static/ProductSans-ExtraBoldItalic.ttf
+  static/ProductSans-BlackItalic.ttf
 
 Get started
 -----------

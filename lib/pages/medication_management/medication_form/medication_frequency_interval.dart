@@ -82,7 +82,7 @@ class _MedicationFrequencyIntervalPageState
               children: [
                 const Text(
                   'How often do you take it?',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16.0),
                 const Text(

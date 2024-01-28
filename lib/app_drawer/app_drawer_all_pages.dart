@@ -43,13 +43,13 @@ class AppDrawerAllPages extends StatelessWidget {
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 24, fontFamily: 'Rubik'),
+                        color: Colors.white, fontSize: 24, fontFamily: 'ProductSans'),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.home),
                   title:
-                      const Text('Home', style: TextStyle(fontFamily: 'Rubik')),
+                      const Text('Home', style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -67,7 +67,7 @@ class AppDrawerAllPages extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.person),
                   title: const Text('My Profile',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -85,7 +85,7 @@ class AppDrawerAllPages extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.event),
                   title: const Text('Appointments',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -103,7 +103,7 @@ class AppDrawerAllPages extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.medication),
                   title: const Text('Medications',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -121,7 +121,7 @@ class AppDrawerAllPages extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.assignment),
                   title: const Text('Medical History',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -139,7 +139,7 @@ class AppDrawerAllPages extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.timeline),
                   title: const Text('Reporting',
-                      style: TextStyle(fontFamily: 'Rubik')),
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -160,7 +160,7 @@ class AppDrawerAllPages extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.group),
             title: const Text('Switch Profile',
-                style: TextStyle(fontFamily: 'Rubik')),
+                style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
@@ -175,7 +175,7 @@ class AppDrawerAllPages extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout', style: TextStyle(fontFamily: 'Rubik')),
+            title: const Text('Logout', style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();

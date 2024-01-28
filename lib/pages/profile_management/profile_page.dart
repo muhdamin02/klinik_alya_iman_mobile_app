@@ -118,7 +118,7 @@ class ProfilePage extends StatelessWidget {
                               'Appointment',
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -169,7 +169,7 @@ class ProfilePage extends StatelessWidget {
                               'Medication',
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -220,7 +220,7 @@ class ProfilePage extends StatelessWidget {
                               'Personal Info',
                               style: TextStyle(
                                 fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 37, 101, 184),
                               ),
                             ),
@@ -292,7 +292,7 @@ class ProfilePage extends StatelessWidget {
                           'Maternity',
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             color: Color.fromARGB(255, 37, 101, 184),
                           ),
                         ),

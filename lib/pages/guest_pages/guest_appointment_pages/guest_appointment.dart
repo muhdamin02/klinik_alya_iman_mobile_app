@@ -370,7 +370,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
                   ),
                   child: const Text('Submit',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                          color: Colors.white, fontWeight: FontWeight.w500)),
                 ),
               ),
             ),

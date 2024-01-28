@@ -347,7 +347,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                   child: const Text('Submit',
                       style: TextStyle(color: Colors.white,
-                      fontWeight: FontWeight.bold)),
+                      fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(height: 16.0),

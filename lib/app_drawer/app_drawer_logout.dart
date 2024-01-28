@@ -29,7 +29,7 @@ class AppDrawerLogout extends StatelessWidget {
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 24, fontFamily: 'Rubik'),
+                        color: Colors.white, fontSize: 24, fontFamily: 'ProductSans'),
                   ),
                 ),
               ],
@@ -39,7 +39,7 @@ class AppDrawerLogout extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text(
               'Logout',
-              style: TextStyle(fontFamily: 'Rubik'),
+              style: TextStyle(fontFamily: 'ProductSans'),
             ),
             onTap: () async {
               Navigator.pop(context);
