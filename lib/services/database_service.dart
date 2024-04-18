@@ -6,6 +6,7 @@ import '../models/homefeed.dart';
 import '../models/medical_history.dart';
 import '../models/medication.dart';
 import '../models/profile.dart';
+import '../models/symptoms.dart';
 import '../models/user.dart';
 
 class DatabaseService {
@@ -114,6 +115,74 @@ class DatabaseService {
   );
 ''');
 
+// temp
+    await db.execute('''
+  CREATE TABLE maternity (
+    maternity_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    maternity_trimester TEXT,
+    symptoms TEXT,
+    educational_resources TEXT,
+    baby_kicks INTEGER,
+    body_changes TEXT,
+    weight_gain TEXT,
+    contractions INTEGER,
+    postpartum_planning TEXT,
+    newborn_care TEXT,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
+// temp
+    await db.execute('''
+  CREATE TABLE health_profile (
+    health_profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    allergies TEXT,
+    current_condition TEXT,
+    blood_sugar_level TEXT,
+    blood_pressure TEXT,
+    surgeries_procedures TEXT,
+    family_medical_history TEXT,
+    immunization_record TEXT,
+    dietary_restrictions TEXT,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
+// temp
+    await db.execute('''
+  CREATE TABLE health_report (
+    health_report_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    appointment_attendance DOUBLE,
+    medication_adherence DOUBLE,
+    health_summary TEXT,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE symptoms (
+    symptom_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    symptom_category TEXT NOT NULL,
+    symptom_name TEXT NOT NULL,
+    symptom_description TEXT NOT NULL,
+    symptom_entry_date TEXT NOT NULL,
+    symptom_last_edit_date TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
     // system guest
     // DO NOT TOUCH
     await db.execute(
@@ -160,13 +229,25 @@ class DatabaseService {
     // system admin
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Abdullah bin Abdul Samad', '800101103579', 'admin', '0123456789', 'systemadmin'],
+      [
+        'Abdullah bin Abdul Samad',
+        'administrator',
+        'admin',
+        '0123456789',
+        'systemadmin'
+      ],
     );
 
     // patient
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Muhammad Amin bin Shamsul Anuar', '020630141149', 'amin123', '0104081975', 'patient'],
+      [
+        'Muhammad Amin bin Shamsul Anuar',
+        '020630141149',
+        'amin123',
+        '0104081975',
+        'patient'
+      ],
     );
 
     // homefeed 1
@@ -219,7 +300,39 @@ class DatabaseService {
 
 //////////////////////////////////////////////////////////////////////////
 //// ---------------------------------------------------------------- ////
-//// MEDICAL HISTORY DATABASE ///////////////////////////////////////////////////
+//// TRACK SYMPTOMS //////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+// Retrieve based on User and Profile
+  Future<List<Symptoms>> retrieveSymptoms(
+      int userId, int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'symptoms',
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
+    );
+    return List.generate(
+        maps.length, (index) => Symptoms.fromMap(maps[index]));
+  }
+
+  // Insert
+  Future<void> newSymptomEntry(Symptoms symptoms) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'symptoms',
+      symptoms.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// MEDICAL HISTORY DATABASE ////////////////////////////////////////////
 //// ---------------------------------------------------------------- ////
 //////////////////////////////////////////////////////////////////////////
 
@@ -393,8 +506,7 @@ class DatabaseService {
       where: 'profile_id = ?',
       whereArgs: [profileId],
     );
-    return List.generate(
-        maps.length, (index) => Profile.fromMap(maps[index]));
+    return List.generate(maps.length, (index) => Profile.fromMap(maps[index]));
   }
 
   // Retrieve profiles based on a list of profile_ids

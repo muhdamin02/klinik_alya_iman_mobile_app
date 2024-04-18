@@ -241,7 +241,7 @@ class _FirstProfileState extends State<FirstProfile> {
                           height:
                               16), // Adjust the spacing between icon and text
                       Text(
-                        'Nevermind',
+                        'Logout',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
