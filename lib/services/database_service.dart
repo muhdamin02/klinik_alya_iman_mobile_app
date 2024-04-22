@@ -183,6 +183,19 @@ class DatabaseService {
   );
 ''');
 
+    await db.execute('''
+  CREATE TABLE babykicks (
+    kick_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    kick_count INTEGER,
+    kick_minutes INTEGER,
+    kick_datetime TEXT,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
     // system guest
     // DO NOT TOUCH
     await db.execute(
@@ -195,8 +208,8 @@ class DatabaseService {
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
         'Muhammad Shahid bin Shamsul Anuar',
-        '881020105137',
-        'doctor',
+        'd',
+        'd',
         '0136281168',
         'practitioner'
       ],
@@ -207,8 +220,8 @@ class DatabaseService {
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
         'Muhammad Syazwan Redza bin Muhammad Sadzalee',
-        '020624140713',
-        'syazwan',
+        'd2',
+        'd2',
         '0136026669',
         'practitioner'
       ],
@@ -217,37 +230,19 @@ class DatabaseService {
     // practitioner 3
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      [
-        'Yasmin Anisah binti Khalid',
-        '010208100836',
-        'yasmin',
-        '01118870942',
-        'practitioner'
-      ],
+      ['Yasmin Anisah binti Khalid', 'd3', 'd3', '01118870942', 'practitioner'],
     );
 
     // system admin
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      [
-        'Abdullah bin Abdul Samad',
-        'administrator',
-        'admin',
-        '0123456789',
-        'systemadmin'
-      ],
+      ['Abdullah bin Abdul Samad', 'sa', 'sa', '0123456789', 'systemadmin'],
     );
 
     // patient
     await db.execute(
       'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      [
-        'Muhammad Amin bin Shamsul Anuar',
-        '020630141149',
-        'amin123',
-        '0104081975',
-        'patient'
-      ],
+      ['Muhammad Amin bin Shamsul Anuar', 'p', 'p', '0104081975', 'patient'],
     );
 
     // homefeed 1
@@ -305,16 +300,14 @@ class DatabaseService {
 //////////////////////////////////////////////////////////////////////////
 
 // Retrieve based on User and Profile
-  Future<List<Symptoms>> retrieveSymptoms(
-      int userId, int? profileId) async {
+  Future<List<Symptoms>> retrieveSymptoms(int userId, int? profileId) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'symptoms',
       where: 'user_id = ? AND profile_id = ?',
       whereArgs: [userId, profileId],
     );
-    return List.generate(
-        maps.length, (index) => Symptoms.fromMap(maps[index]));
+    return List.generate(maps.length, (index) => Symptoms.fromMap(maps[index]));
   }
 
   // Insert
@@ -328,7 +321,6 @@ class DatabaseService {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-
 
 //////////////////////////////////////////////////////////////////////////
 //// ---------------------------------------------------------------- ////

@@ -5,15 +5,18 @@ import '../../models/symptoms.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import 'first_trimester/track_new_symptom.dart';
 
 class FirstTrimester extends StatefulWidget {
   final User user;
   final Profile profile;
+  final bool autoImplyLeading;
 
   const FirstTrimester({
     Key? key,
     required this.user,
     required this.profile,
+    required this.autoImplyLeading,
   }) : super(key: key);
 
   @override
@@ -46,32 +49,32 @@ class _FirstTrimesterState extends State<FirstTrimester> {
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
-        return true;
+        return widget.autoImplyLeading;
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('First Trimester'),
+          automaticallyImplyLeading: widget.autoImplyLeading,
         ),
         body: TabBarFirstTrimester(
-            trackSymptoms: _symptomsList,
-            // educationalResources: _appointmentTodayList,
-            // onViewAppointment: _viewAppointment
-            ),
+          trackSymptoms: _symptomsList,
+          educationalResources: _symptomsList,
+          // onViewAppointment: _viewAppointment
+        ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            // Navigate to the page where you want to appointment form
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => AppointmentForm(
-            //       user: widget.user,
-            //       profile: widget.profile,
-            //     ),
-            //   ),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TrackNewSymptom(
+                  user: widget.user,
+                  profile: widget.profile,
+                ),
+              ),
+            );
           },
           icon: const Icon(Icons.add),
-          label: const Text('Add New Symptom'),
+          label: const Text('Track New Symptom'),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
@@ -81,22 +84,21 @@ class _FirstTrimesterState extends State<FirstTrimester> {
 
 class TabBarFirstTrimester extends StatelessWidget {
   final List<Symptoms> trackSymptoms;
-  // final List<Symptoms> educationalResources;
+  final List<Symptoms> educationalResources;
   // final Function(Symptoms) onViewAppointment;
 
-  const TabBarFirstTrimester(
-      {Key? key,
-      required this.trackSymptoms,
-      // required this.educationalResources,
-      // required this.onViewAppointment
-      })
-      : super(key: key);
+  const TabBarFirstTrimester({
+    Key? key,
+    required this.trackSymptoms,
+    required this.educationalResources,
+    // required this.onViewAppointment
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
-      length: 3,
+      initialIndex: 0,
+      length: 2,
       child: Scaffold(
         body: Column(
           children: [
@@ -124,9 +126,9 @@ class TabBarFirstTrimester extends StatelessWidget {
                   Tab(
                     text: 'Track Symptoms',
                   ),
-                  // Tab(
-                  //   text: 'Educational Resources',
-                  // ),
+                  Tab(
+                    text: 'Educational Resources',
+                  ),
                 ],
               ),
             ),
@@ -134,7 +136,7 @@ class TabBarFirstTrimester extends StatelessWidget {
               child: TabBarView(
                 children: <Widget>[
                   _buildSymptomsList(trackSymptoms),
-                  // _buildAppointmentList(educationalResources),
+                  _buildSymptomsList(educationalResources),
                 ],
               ),
             ),
@@ -169,7 +171,8 @@ class TabBarFirstTrimester extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: ListTile(
                       title: Text(
-                          '${symptoms.symptom_name} - ${DateDisplay(date: symptoms.symptom_entry_date).getStringDate()}'),
+                          '${symptoms.symptom_name} - ${symptoms.symptom_entry_date}'),
+                      // '${symptoms.symptom_name} - ${DateDisplay(date: symptoms.symptom_entry_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

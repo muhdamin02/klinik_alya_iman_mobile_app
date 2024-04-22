@@ -246,6 +246,7 @@ class ProfilePage extends StatelessWidget {
                             builder: (context) => FirstTrimester(
                               user: user,
                               profile: profile,
+                              autoImplyLeading: true,
                             ),
                           ),
                         );
