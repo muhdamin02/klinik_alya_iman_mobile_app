@@ -4,7 +4,7 @@ import 'dart:convert';
 class BabyKicks {
   final int? kick_id;
   final int kick_count;
-  final int kick_minutes;
+  final int kick_duration;
   final String kick_datetime;
   final int user_id;
   final int? profile_id;
@@ -12,7 +12,7 @@ class BabyKicks {
   BabyKicks({
     this.kick_id,
     required this.kick_count,
-    required this.kick_minutes,
+    required this.kick_duration,
     required this.kick_datetime,
     required this.user_id,
     required this.profile_id,
@@ -22,7 +22,7 @@ class BabyKicks {
     return {
       'kick_id': kick_id,
       'kick_count': kick_count,
-      'kick_minutes': kick_minutes,
+      'kick_duration': kick_duration,
       'kick_datetime': kick_datetime,
       'user_id': user_id,
       'profile_id': profile_id,
@@ -33,7 +33,7 @@ class BabyKicks {
     return BabyKicks(
       kick_id: map['kick_id']?.toInt() ?? 0,
       kick_count: map['kick_count'] ?? 0,
-      kick_minutes: map['kick_minutes'] ?? 0,
+      kick_duration: map['kick_duration'] ?? 0,
       kick_datetime: map['kick_datetime'] ?? '',
       user_id: map['user_id']?.toInt() ?? 0,
       profile_id: map['profile_id']?.toInt() ?? 0,
@@ -45,6 +45,6 @@ class BabyKicks {
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {
-    return 'BabyKicks(kick_id: $kick_id, kick_count: $kick_count, kick_minutes: $kick_minutes, kick_datetime: $kick_datetime, user_id: $user_id, profile_id: $profile_id)';
+    return 'BabyKicks(kick_id: $kick_id, kick_count: $kick_count, kick_duration: $kick_duration, kick_datetime: $kick_datetime, user_id: $user_id, profile_id: $profile_id)';
   }
 }

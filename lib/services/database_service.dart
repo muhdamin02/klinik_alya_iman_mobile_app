@@ -2,6 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/appointment.dart';
+import '../models/baby_kicks.dart';
 import '../models/homefeed.dart';
 import '../models/medical_history.dart';
 import '../models/medication.dart';
@@ -187,7 +188,7 @@ class DatabaseService {
   CREATE TABLE babykicks (
     kick_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     kick_count INTEGER,
-    kick_minutes INTEGER,
+    kick_duration INTEGER,
     kick_datetime TEXT,
     user_id INTEGER NOT NULL,
     profile_id INTEGER NOT NULL,
@@ -318,6 +319,35 @@ class DatabaseService {
     await db.insert(
       'symptoms',
       symptoms.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// BABY KICKS //////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+// Retrieve based on User and Profile
+  Future<List<BabyKicks>> retrieveBabyKicks(int userId, int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'babykicks',
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
+    );
+    return List.generate(maps.length, (index) => BabyKicks.fromMap(maps[index]));
+  }
+
+  // Insert
+  Future<void> newBabyKicks(BabyKicks babyKicks) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'babykicks',
+      babyKicks.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
