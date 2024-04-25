@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../models/appointment.dart';
 import '../models/baby_kicks.dart';
+import '../models/body_changes.dart';
 import '../models/homefeed.dart';
 import '../models/medical_history.dart';
 import '../models/medication.dart';
@@ -53,7 +54,7 @@ class DatabaseService {
 
     // profile table
     await db.execute(
-      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, maternity TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, height REAL, weight REAL, body_fat_percentage REAL, activity_level TEXT, belly_size REAL, maternity TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
     );
 
     // appointment table
@@ -190,6 +191,22 @@ class DatabaseService {
     kick_count INTEGER,
     kick_duration INTEGER,
     kick_datetime TEXT,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE bodychanges (
+    body_changes_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    body_changes TEXT,
+    p_body_weight REAL,
+    p_belly_size REAL,
+    c_body_weight REAL,
+    c_belly_size REAL,
+    datetime TEXT,
     user_id INTEGER NOT NULL,
     profile_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
@@ -337,7 +354,8 @@ class DatabaseService {
       where: 'user_id = ? AND profile_id = ?',
       whereArgs: [userId, profileId],
     );
-    return List.generate(maps.length, (index) => BabyKicks.fromMap(maps[index]));
+    return List.generate(
+        maps.length, (index) => BabyKicks.fromMap(maps[index]));
   }
 
   // Insert
@@ -348,6 +366,37 @@ class DatabaseService {
     await db.insert(
       'babykicks',
       babyKicks.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// BODY CHANGES //////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+// Retrieve based on User and Profile
+  Future<List<BodyChanges>> retrieveBodyChanges(
+      int userId, int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'bodychanges',
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
+    );
+    return List.generate(
+        maps.length, (index) => BodyChanges.fromMap(maps[index]));
+  }
+
+  // Insert
+  Future<void> newBodyChanges(BodyChanges bodyChanges) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'bodyChanges',
+      bodyChanges.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -631,6 +680,78 @@ class DatabaseService {
 
     await db.update('profile', valuesToUpdate,
         where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Retrieve Profile Weight
+  Future<double> retrieveProfileWeight(int? profileId) async {
+    final db = await _databaseService.database;
+
+    // Perform the query
+    final List<Map<String, dynamic>> results = await db.query(
+      'profile', // Table name
+      columns: ['weight'], // Columns to retrieve
+      where: 'profile_id = ?', // WHERE clause
+      whereArgs: [profileId], // Arguments for the WHERE clause
+    );
+
+    // Check if any results were returned
+    if (results.isNotEmpty) {
+      // Extract the weight from the first result
+      final double profileWeight = results.first['weight'];
+      return profileWeight;
+    } else {
+      // Return a default value or handle the case where no results were found
+      return 0.0; // Default value
+    }
+  }
+
+  // Retrieve Profile Belly Size
+  Future<double> retrieveProfileBellySize(int? profileId) async {
+    final db = await _databaseService.database;
+
+    // Perform the query
+    final List<Map<String, dynamic>> results = await db.query(
+      'profile', // Table name
+      columns: ['belly_size'], // Columns to retrieve
+      where: 'profile_id = ?', // WHERE clause
+      whereArgs: [profileId], // Arguments for the WHERE clause
+    );
+
+    // Check if any results were returned
+    if (results.isNotEmpty) {
+      // Extract the weight from the first result
+      final double profileBellySize = results.first['belly_size'];
+      return profileBellySize;
+    } else {
+      // Return a default value or handle the case where no results were found
+      return 0.0; // Default value
+    }
+  }
+
+  // Set Belly Size
+  Future<void> setWeight(int? profileId, double weight) async {
+    final db = await _databaseService.database;
+
+    // Perform the query
+    await db.update(
+      'profile', // Table name
+      {'weight': weight}, // Updated values
+      where: 'profile_id = ?', // WHERE clause
+      whereArgs: [profileId], // WHERE clause arguments
+    );
+  }
+
+  // Set Belly Size
+  Future<void> setBellySize(int? profileId, double bellySize) async {
+    final db = await _databaseService.database;
+
+    // Perform the query
+    await db.update(
+      'profile', // Table name
+      {'belly_size': bellySize}, // Updated values
+      where: 'profile_id = ?', // WHERE clause
+      whereArgs: [profileId], // WHERE clause arguments
+    );
   }
 
 //////////////////////////////////////////////////////////////////////////

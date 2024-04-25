@@ -60,6 +60,11 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
         identification: identification,
         dob: dateOfBirth,
         gender: selectedGender,
+        height: 0,
+        weight: 0,
+        body_fat_percentage: 0,
+        activity_level: '',
+        belly_size: 0,
         maternity: 'No',
         user_id: widget.user.user_id!,
       );

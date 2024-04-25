@@ -35,7 +35,7 @@ class MedicalHistory {
       title: map['title'] ?? '',
       body: map['body'] ?? '',
       datetime_posted: map['datetime_posted'] ?? '',
-      user_id: map['user_id'],
+      user_id: map['user_id']?.toInt() ?? 0,
       profile_id: map['profile_id'] ?? 0,
     );
   }

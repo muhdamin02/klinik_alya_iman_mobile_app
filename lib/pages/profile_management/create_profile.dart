@@ -82,6 +82,11 @@ class _CreateProfileState extends State<CreateProfile> {
         identification: editedIdentification,
         dob: dateOfBirth,
         gender: selectedGender,
+        height: 0,
+        weight: 0,
+        body_fat_percentage: 0,
+        activity_level: '',
+        belly_size: 0,
         maternity: 'No',
         user_id: widget.user.user_id!,
       );
@@ -336,8 +341,9 @@ class _CreateProfileState extends State<CreateProfile> {
                     ),
                   ),
                   child: const Text('Create Profile',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, color: Color.fromARGB(255, 255, 255, 255))),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 255, 255, 255))),
                 ),
               ),
             ),

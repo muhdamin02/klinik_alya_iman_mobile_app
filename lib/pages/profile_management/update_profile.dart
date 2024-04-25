@@ -91,6 +91,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
         identification: identification,
         dob: dateOfBirth,
         gender: selectedGender,
+        height: widget.profile.height,
+        weight: widget.profile.weight,
+        body_fat_percentage: widget.profile.body_fat_percentage,
+        activity_level: widget.profile.activity_level,
+        belly_size: widget.profile.belly_size,
         maternity: widget.profile.maternity,
         user_id: widget.profile.user_id,
       );
