@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/pages/medical_history/list_medical_history.dart';
 
 import '../../../models/profile.dart';
 import '../../../models/symptoms.dart';

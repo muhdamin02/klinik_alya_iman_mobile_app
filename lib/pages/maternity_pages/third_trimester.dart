@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/profile.dart';
 import '../../models/user.dart';
+import 'third_trimester/newborn_care.dart';
 
 class ThirdTrimester extends StatefulWidget {
   final User user;
@@ -28,17 +29,67 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Second Trimester'),
+          title: const Text('Third Trimester'),
           automaticallyImplyLeading: false,
         ),
-        body: const Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Second Trimester Page Placeholder',
+              const Text(
+                'Third Trimester Page Placeholder',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.center,
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 90.0,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigate to the page where you want to appointment form
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewbornCare(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(
+                          255, 233, 243, 255), // Set the text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            32.0), // Adjust the value as needed
+                      ),
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.assignment, // Use any icon you want
+                          color: Color.fromARGB(255, 37, 101, 184),
+                          size: 32,
+                        ),
+                        SizedBox(
+                            height:
+                                8), // Adjust the spacing between icon and text
+                        Text(
+                          'Newborn Care Resources',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(255, 37, 101, 184),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
