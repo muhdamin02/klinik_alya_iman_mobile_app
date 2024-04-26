@@ -5,6 +5,7 @@ import '../../../models/body_changes.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../second_trimester.dart';
 
 // ignore: must_be_immutable
 class TrackBodyChanges extends StatefulWidget {
@@ -233,6 +234,19 @@ class _TrackBodyChangesState extends State<TrackBodyChanges> {
         appBar: AppBar(
           title: const Text('Track Body Changes'),
           automaticallyImplyLeading: widget.autoImplyLeading,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Navigate to a specific page when the back button is pressed
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => SecondTrimester(
+                          user: widget.user,
+                          profile: widget.profile,
+                        )),
+              );
+            },
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0), // Add your desired padding

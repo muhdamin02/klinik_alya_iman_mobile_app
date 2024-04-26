@@ -214,7 +214,7 @@ class _FirstProfileState extends State<FirstProfile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => Login(
-                          identificationPlaceholder: widget.user.identification,
+                          usernamePlaceholder: widget.user.username,
                           passwordPlaceholder: widget.user.password,
                         ),
                       ),

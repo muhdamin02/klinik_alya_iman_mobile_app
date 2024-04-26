@@ -63,7 +63,6 @@ class _CreateProfileState extends State<CreateProfile> {
 
     if (profileCount == 0 && !(widget.user.role == 'guest')) {
       _nameController.text = widget.user.name;
-      _identificationController.text = widget.user.identification;
     }
   }
 

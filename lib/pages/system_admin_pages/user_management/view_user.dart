@@ -93,7 +93,7 @@ class _ViewUserState extends State<ViewUser> {
                                 fontSize: 14,
                                 color: Color.fromARGB(255, 121, 121, 121))),
                         const SizedBox(height: 4),
-                        Text(user.identification,
+                        Text(user.username,
                             style: const TextStyle(fontSize: 16)),
                         const SizedBox(height: 24),
                         const Text('PASSWORD',

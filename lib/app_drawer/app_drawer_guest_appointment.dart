@@ -30,13 +30,15 @@ class AppDrawerGuestAppt extends StatelessWidget {
                   child: Text(
                     'Menu Header',
                     style: TextStyle(
-                        color: Colors.white, fontSize: 24, fontFamily: 'ProductSans'),
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: 'ProductSans'),
                   ),
                 ),
                 ListTile(
                   leading: const Icon(Icons.home),
-                  title:
-                      const Text('Home', style: TextStyle(fontFamily: 'ProductSans')),
+                  title: const Text('Home',
+                      style: TextStyle(fontFamily: 'ProductSans')),
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
@@ -54,7 +56,8 @@ class AppDrawerGuestAppt extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.login),
-            title: const Text('Login', style: TextStyle(fontFamily: 'ProductSans')),
+            title: const Text('Login',
+                style: TextStyle(fontFamily: 'ProductSans')),
             onTap: () async {
               Navigator.pop(context);
               NotificationCounter notificationCounter = NotificationCounter();
@@ -65,7 +68,7 @@ class AppDrawerGuestAppt extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const Login(
-                      identificationPlaceholder: '', passwordPlaceholder: ''),
+                      usernamePlaceholder: '', passwordPlaceholder: ''),
                 ),
               );
             },

@@ -18,7 +18,7 @@ class RegisterUser extends StatefulWidget {
 class _RegisterUserState extends State<RegisterUser> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _identificationController =
+  final TextEditingController _usernameController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -30,16 +30,16 @@ class _RegisterUserState extends State<RegisterUser> {
 
   Future<void> _onSave() async {
     final name = _nameController.text;
-    final identification = _identificationController.text;
+    final username = _usernameController.text;
     final password = _passwordController.text;
     final phone = _phoneController.text;
     final role = _selectedRole;
 
     // Check if username or email already exists in the database
-    bool isIdentificationExists =
-        await _databaseService.checkUserExists(identification);
+    bool isUsernameExists =
+        await _databaseService.checkUserExists(username);
 
-    if (isIdentificationExists) {
+    if (isUsernameExists) {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
@@ -64,8 +64,8 @@ class _RegisterUserState extends State<RegisterUser> {
     // Registration successful, insert the user into the database
     await _databaseService.insertUser(
       User(
+        username: username,
         name: name,
-        identification: identification,
         password: password,
         phone: phone,
         role: role,
@@ -145,7 +145,7 @@ class _RegisterUserState extends State<RegisterUser> {
                           vertical: 10.0,
                           horizontal: 16.0,
                         ),
-                        child: buildIdentification(),
+                        child: buildUsername(),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -275,10 +275,10 @@ class _RegisterUserState extends State<RegisterUser> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Identification textfield
+  // username textfield
 
-  Widget buildIdentification() => TextFormField(
-        controller: _identificationController,
+  Widget buildUsername() => TextFormField(
+        controller: _usernameController,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -287,12 +287,12 @@ class _RegisterUserState extends State<RegisterUser> {
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-          labelText: 'Identification',
+          labelText: 'Username',
         ),
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your identification';
+            return 'Please enter your username';
           }
           return null;
         },

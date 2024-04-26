@@ -9,12 +9,12 @@ import '../practitioner_pages/practitioner_home.dart';
 import '../system_admin_pages/system_admin_home.dart';
 
 class Login extends StatefulWidget {
-  final String identificationPlaceholder;
+  final String usernamePlaceholder;
   final String passwordPlaceholder;
 
   const Login(
       {Key? key,
-      required this.identificationPlaceholder,
+      required this.usernamePlaceholder,
       required this.passwordPlaceholder})
       : super(key: key);
 
@@ -24,10 +24,10 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int? userId;
-  String? userName, userIdentification, userPassword, userPhone, userRole;
+  String? userName, userUsername, userPassword, userPhone, userRole;
   bool passwordVisible = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _identificationController =
+  final TextEditingController _usernameController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
     super.initState();
 
     // Prefill the text fields with the user's information
-    _identificationController.text = widget.identificationPlaceholder;
+    _usernameController.text = widget.usernamePlaceholder;
     _passwordController.text = widget.passwordPlaceholder;
   }
 
@@ -48,14 +48,14 @@ class _LoginState extends State<Login> {
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
       // Form is valid, proceed with login
-      final identification = _identificationController.text;
+      final userUsername = _usernameController.text;
       final password = _passwordController.text;
 
       // Call your authentication service to validate login credentials
-      _authService.login(identification, password).then((success) async {
+      _authService.login(userUsername, password).then((success) async {
         if (success) {
           List<Map<String, dynamic>> userData =
-              await getUserData(identification);
+              await getUserData(userUsername);
 
           for (Map<String, dynamic> user in userData) {
             userId = user['user_id'];
@@ -66,8 +66,8 @@ class _LoginState extends State<Login> {
 
           final user = User(
             user_id: userId,
+            username: userUsername,
             name: userName ?? '',
-            identification: identification,
             password: password,
             phone: userPhone ?? '',
             role: userRole ?? '',
@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Login Failed'),
-              content: const Text('Invalid ID or password.'),
+              content: const Text('Invalid username or password.'),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -131,8 +131,8 @@ class _LoginState extends State<Login> {
 
     for (Map<String, dynamic> user in userData) {
       userId = user['user_id'];
+      userUsername = user['username'];
       userName = user['name'];
-      userIdentification = user['identification'];
       userPassword = user['password'];
       userPhone = user['phone'];
       userRole = user['role'];
@@ -140,8 +140,8 @@ class _LoginState extends State<Login> {
 
     final user = User(
       user_id: userId,
+      username: userUsername ?? '',
       name: userName ?? '',
-      identification: userIdentification ?? '',
       password: userPassword ?? '',
       phone: userPhone ?? '',
       role: userRole ?? '',
@@ -194,14 +194,14 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
-                    controller: _identificationController,
+                    controller: _usernameController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      labelText: 'IC or Passport Number',
+                      labelText: 'Username',
                       counterText: '',
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 20.0),
@@ -209,7 +209,7 @@ class _LoginState extends State<Login> {
                     maxLength: 20,
                     validator: (value) {
                       if (value == null || value.isEmpty || value == '') {
-                        return 'Please enter your IC or Passport Number';
+                        return 'Please enter your username';
                       }
                       return null;
                     },
@@ -351,14 +351,14 @@ class _LoginState extends State<Login> {
 // ----------------------------------------------------------------------
 // get user data
 
-Future<List<Map<String, dynamic>>> getUserData(String identification) async {
+Future<List<Map<String, dynamic>>> getUserData(String username) async {
   final db = await DatabaseService().database;
 
-  // Fetch all columns for the user with the given identification
+  // Fetch all columns for the user with the given username
   final List<Map<String, dynamic>> result = await db.query(
     'user',
-    where: 'identification = ?',
-    whereArgs: [identification],
+    where: 'username = ?',
+    whereArgs: [username],
   );
 
   return result;

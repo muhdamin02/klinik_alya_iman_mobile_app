@@ -221,7 +221,7 @@ class TabBarUser extends StatelessWidget {
         User user = userList[index];
         if (searchQuery.isEmpty ||
             user.name.toLowerCase().contains(searchQuery) ||
-            user.identification.toLowerCase().contains(searchQuery)) {
+            user.username.toLowerCase().contains(searchQuery)) {
           return Column(
             children: [
               const SizedBox(height: 12.0),
@@ -245,7 +245,7 @@ class TabBarUser extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 4.0),
-                            Text(user.identification),
+                            Text(user.username),
                           ],
                         ),
                       ),

@@ -3,15 +3,15 @@ import 'dart:convert';
 
 class User {
   final int? user_id;
+  final String username;
   final String name;
-  final String identification;
   final String password;
   final String phone;
   final String role;
   User({
     this.user_id,
+    required this.username,
     required this.name,
-    required this.identification,
     required this.password,
     required this.phone,
     required this.role,
@@ -20,8 +20,8 @@ class User {
   Map<String, dynamic> toMap() {
     return {
       'user_id': user_id,
+      'username': username,
       'name': name,
-      'identification': identification,
       'password': password,
       'phone': phone,
       'role': role,
@@ -31,8 +31,8 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       user_id: map['user_id']?.toInt() ?? 0,
+      username: map['username'] ?? '',
       name: map['name'] ?? '',
-      identification: map['identification'] ?? '',
       password: map['password'] ?? '',
       phone: map['phone'] ?? '',
       role: map['role'] ?? '',
@@ -44,6 +44,6 @@ class User {
   // Implement toString to make it easier to see information about each User when using the print statement.
   @override
   String toString() {
-    return 'User(user_id: $user_id, name: $name, identification: $identification, password: $password, phone: $phone, role: $role)';
+    return 'User(user_id: $user_id, username: $username, name: $name, password: $password, phone: $phone, role: $role)';
   }
 }

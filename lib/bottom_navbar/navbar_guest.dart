@@ -92,7 +92,7 @@ class _GuestNavigationBarState extends State<GuestNavigationBar> {
         context,
         MaterialPageRoute(
           builder: (context) => const Login(
-            identificationPlaceholder: '',
+            usernamePlaceholder: '',
             passwordPlaceholder: '',
           ),
         ),

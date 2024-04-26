@@ -49,7 +49,7 @@ class DatabaseService {
   Future<void> _onCreate(Database db, int version) async {
     // user table
     await db.execute(
-      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, password TEXT NOT NULL, phone TEXT NOT NULL, role TEXT NOT NULL)',
+      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, name TEXT NOT NULL, password TEXT NOT NULL, phone TEXT NOT NULL, role TEXT NOT NULL)',
     );
 
     // profile table
@@ -217,16 +217,16 @@ class DatabaseService {
     // system guest
     // DO NOT TOUCH
     await db.execute(
-      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Guest', '-', '-', '-', 'guest'],
+      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      ['-', 'Guest', '-', '-', 'guest'],
     );
 
     // practitioner 1
     await db.execute(
-      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
-        'Muhammad Shahid bin Shamsul Anuar',
         'd',
+        'Muhammad Shahid bin Shamsul Anuar',
         'd',
         '0136281168',
         'practitioner'
@@ -235,10 +235,10 @@ class DatabaseService {
 
     // practitioner 2
     await db.execute(
-      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
       [
-        'Muhammad Syazwan Redza bin Muhammad Sadzalee',
         'd2',
+        'Muhammad Syazwan Redza bin Muhammad Sadzalee',
         'd2',
         '0136026669',
         'practitioner'
@@ -247,20 +247,20 @@ class DatabaseService {
 
     // practitioner 3
     await db.execute(
-      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Yasmin Anisah binti Khalid', 'd3', 'd3', '01118870942', 'practitioner'],
+      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      ['d3', 'Yasmin Anisah binti Khalid', 'd3', '01118870942', 'practitioner'],
     );
 
     // system admin
     await db.execute(
-      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Abdullah bin Abdul Samad', 'sa', 'sa', '0123456789', 'systemadmin'],
+      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      ['sa', 'Abdullah bin Abdul Samad', 'sa', '0123456789', 'systemadmin'],
     );
 
     // patient
     await db.execute(
-      'INSERT INTO user (name, identification, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['Muhammad Amin bin Shamsul Anuar', 'p', 'p', '0104081975', 'patient'],
+      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      ['p', 'Muhammad Amin bin Shamsul Anuar', 'p', '0104081975', 'patient'],
     );
 
     // homefeed 1
@@ -451,11 +451,11 @@ class DatabaseService {
   }
 
   // check if user exists
-  Future<bool> checkUserExists(String identification) async {
+  Future<bool> checkUserExists(String username) async {
     final db = await _databaseService.database;
     final count = Sqflite.firstIntValue(await db.rawQuery(
-      'SELECT COUNT(*) FROM user WHERE identification = ?',
-      [identification],
+      'SELECT COUNT(*) FROM user WHERE username = ?',
+      [username],
     ));
     return count != null && count > 0;
   }

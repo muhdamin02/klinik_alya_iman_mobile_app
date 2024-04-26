@@ -68,7 +68,7 @@ class AppDrawerGuest extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const Login(
-                      identificationPlaceholder: '', passwordPlaceholder: ''),
+                      usernamePlaceholder: '', passwordPlaceholder: ''),
                 ),
               );
             },

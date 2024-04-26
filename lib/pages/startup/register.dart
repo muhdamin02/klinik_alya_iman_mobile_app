@@ -18,7 +18,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _identificationController =
+  final TextEditingController _usernameController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -29,15 +29,15 @@ class _RegisterState extends State<Register> {
 
   Future<void> _onSave() async {
     final name = _nameController.text;
-    final identification = _identificationController.text;
+    final username = _usernameController.text;
     final password = _passwordController.text;
     final phone = _phoneController.text;
 
-    // Check if identification already exists in the database
-    bool isIdentificationExists =
-        await _databaseService.checkUserExists(identification);
+    // Check if username already exists in the database
+    bool isUsernameExists =
+        await _databaseService.checkUserExists(username);
 
-    if (isIdentificationExists) {
+    if (isUsernameExists) {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
@@ -63,7 +63,7 @@ class _RegisterState extends State<Register> {
     await _databaseService.insertUser(
       User(
         name: name,
-        identification: identification,
+        username: username,
         password: password,
         phone: phone,
         role: 'patient',
@@ -87,7 +87,7 @@ class _RegisterState extends State<Register> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => Login(
-                          identificationPlaceholder: identification,
+                          usernamePlaceholder: username,
                           passwordPlaceholder: password)),
                 );
               },
@@ -132,7 +132,7 @@ class _RegisterState extends State<Register> {
                     vertical: 10.0,
                     horizontal: 16.0,
                   ),
-                  child: buildIdentification(),
+                  child: buildUsername(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -181,7 +181,7 @@ class _RegisterState extends State<Register> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Login(
-                                    identificationPlaceholder: '',
+                                    usernamePlaceholder: '',
                                     passwordPlaceholder: '',
                                   )),
                         );
@@ -233,10 +233,10 @@ class _RegisterState extends State<Register> {
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
-  // Identification textfield
+  // Username textfield
 
-  Widget buildIdentification() => TextFormField(
-        controller: _identificationController,
+  Widget buildUsername() => TextFormField(
+        controller: _usernameController,
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'IC or Passport Number',

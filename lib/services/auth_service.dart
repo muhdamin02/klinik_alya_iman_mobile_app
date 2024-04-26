@@ -3,12 +3,12 @@ import 'package:sqflite/sqflite.dart';
 import 'database_service.dart';
 
 class AuthService {
-  Future<bool> login(String identification, String password) async {
+  Future<bool> login(String username, String password) async {
     Database database = await DatabaseService().database;
     List<Map<String, dynamic>> result = await database.query(
       'user',
-      where: 'identification = ? AND password = ?',
-      whereArgs: [identification, password],
+      where: 'username = ? AND password = ?',
+      whereArgs: [username, password],
       limit: 1,
     );
 
