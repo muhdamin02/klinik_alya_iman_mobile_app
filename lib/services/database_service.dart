@@ -1,12 +1,15 @@
+import 'package:klinik_alya_iman_mobile_app/models/newborn_care.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/appointment.dart';
 import '../models/baby_kicks.dart';
 import '../models/body_changes.dart';
+import '../models/contractions.dart';
 import '../models/homefeed.dart';
 import '../models/medical_history.dart';
 import '../models/medication.dart';
+import '../models/postpartum.dart';
 import '../models/profile.dart';
 import '../models/symptoms.dart';
 import '../models/user.dart';
@@ -214,6 +217,39 @@ class DatabaseService {
   );
 ''');
 
+    await db.execute('''
+  CREATE TABLE newborncare (
+    care_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    care_category INT NOT NULL,
+    care_title TEXT NOT NULL,
+    care_content TEXT NOT NULL,
+    last_edited TEXT NOT NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE postpartum (
+    postpartum_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    postpartum_category INT NOT NULL,
+    postpartum_title TEXT NOT NULL,
+    postpartum_content TEXT NOT NULL,
+    last_edited TEXT NOT NULL
+  );
+''');
+
+    await db.execute('''
+  CREATE TABLE contraction (
+    contraction_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    contraction_duration INTEGER,
+    contraction_rating INTEGER,
+    contraction_datetime TEXT,
+    user_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
     // system guest
     // DO NOT TOUCH
     await db.execute(
@@ -397,6 +433,72 @@ class DatabaseService {
     await db.insert(
       'bodyChanges',
       bodyChanges.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// NEWBORN CARE ////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Retrieve based on User and Profile
+  Future<List<NewbornCare>> retrieveNewbornCareContent(int category) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'newborncare',
+      where: 'care_category = ?',
+      whereArgs: [category],
+    );
+    return List.generate(
+        maps.length, (index) => NewbornCare.fromMap(maps[index]));
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// POSTPARTUM ////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+  // Retrieve based on User and Profile
+  Future<List<Postpartum>> retrievePostpartumContent(int category) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'postpartum',
+      where: 'postpartum_category = ?',
+      whereArgs: [category],
+    );
+    return List.generate(
+        maps.length, (index) => Postpartum.fromMap(maps[index]));
+  }
+
+//////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// CONTRACTION //////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+// Retrieve based on User and Profile
+  Future<List<Contraction>> retrieveContraction(int userId, int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'contraction',
+      where: 'user_id = ? AND profile_id = ?',
+      whereArgs: [userId, profileId],
+    );
+    return List.generate(
+        maps.length, (index) => Contraction.fromMap(maps[index]));
+  }
+
+  // Insert
+  Future<void> newContraction(Contraction contraction) async {
+    // Get a reference to the database.
+    final db = await _databaseService.database;
+
+    await db.insert(
+      'contraction',
+      contraction.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

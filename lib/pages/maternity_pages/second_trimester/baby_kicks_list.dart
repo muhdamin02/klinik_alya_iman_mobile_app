@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../app_drawer/app_drawer_all_pages.dart';
 import '../../../models/baby_kicks.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
@@ -54,6 +55,12 @@ class _BabyKicksListState extends State<BabyKicksList> {
         appBar: AppBar(
           title: const Text('Sec Trimester'),
           automaticallyImplyLeading: widget.autoImplyLeading,
+        ),
+        drawer: AppDrawerAllPages(
+          header: 'Contractions',
+          user: widget.user,
+          profile: widget.profile,
+          autoImplyLeading: true,
         ),
         body: TabBarBabyKicks(
           babyKicksListing: _babyKicksList,
