@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../models/medication.dart';
+import '../models/profile.dart';
 import '../models/user.dart';
 import '../services/database_service.dart';
 import '../services/misc_methods/notification_scheduler.dart';
@@ -11,6 +12,7 @@ import '../services/misc_methods/notification_singleton.dart';
 import '../services/notification_service.dart';
 import 'profile_management/first_profile.dart';
 import 'profile_management/list_profile.dart';
+import 'startup/patient_homepage.dart';
 
 class Home extends StatefulWidget {
   final User user;
@@ -392,14 +394,52 @@ class _HomeState extends State<Home> {
           // Data has been successfully loaded
           int profileCount = snapshot.data!;
 
+          final tempProfile = Profile(
+            name: 'unknown',
+            identification: 'unknown',
+            dob: 'unknown',
+            gender: 'unknown',
+            height: 0,
+            weight: 0,
+            body_fat_percentage: 0,
+            activity_level: 'unknown',
+            belly_size: 0,
+            maternity: 'No',
+            ethnicity: 'unknown',
+            marital_status: 'unknown',
+            occupation: 'unknown',
+            medical_alert: 'unknown',
+            profile_pic: 'unknown',
+            creation_date: 'unknown',
+            user_id: widget.user.user_id!,
+          );
+
           // Decide which page to navigate based on the profile count
           if (profileCount > 0) {
-            return ListProfile(user: widget.user);
-          } else {
-            return FirstProfile(
+            bool hasProfiles = true;
+
+            return PatientHomepage(
               user: widget.user,
-              showTips: true,
+              profile: tempProfile,
+              hasProfiles: hasProfiles,
+              hasChosenProfile: false,
+              autoImplyLeading: false,
             );
+            // return ListProfile(user: widget.user);
+          } else {
+            bool hasProfiles = false;
+
+            return PatientHomepage(
+              user: widget.user,
+              profile: tempProfile,
+              hasProfiles: hasProfiles,
+              hasChosenProfile: false,
+              autoImplyLeading: false,
+            );
+            // return FirstProfile(
+            //   user: widget.user,
+            //   showTips: true,
+            // );
           }
         }
       },

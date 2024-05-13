@@ -51,9 +51,9 @@
     },
     {
       "name": "dbus",
-      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.10",
+      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.3",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.15"
     },
     {
       "name": "fake_async",
@@ -63,9 +63,9 @@
     },
     {
       "name": "ffi",
-      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-2.1.0",
+      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/ffi-1.2.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "file",
@@ -273,9 +273,9 @@
     },
     {
       "name": "xml",
-      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.3.0",
+      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/xml-5.4.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "2.16"
     },
     {
       "name": "klinik_alya_iman_mobile_app",
@@ -284,7 +284,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-01-24T15:20:31.114999Z",
+  "generated": "2024-05-13T03:48:10.326050Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

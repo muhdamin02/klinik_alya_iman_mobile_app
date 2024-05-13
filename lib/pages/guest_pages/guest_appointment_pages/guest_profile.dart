@@ -66,6 +66,12 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
         activity_level: '',
         belly_size: 0,
         maternity: 'No',
+        ethnicity: 'Placeholder',
+        marital_status: 'Placeholder',
+        occupation: 'Placeholder',
+        medical_alert: 'Placeholder',
+        profile_pic: 'Placeholder',
+        creation_date: 'Placeholder',
         user_id: widget.user.user_id!,
       );
 

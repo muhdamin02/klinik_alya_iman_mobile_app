@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/medical_history/create_new_med_history_entry.dart';
 
@@ -6,6 +8,9 @@ import '../../models/medical_history.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../../services/misc_methods/notification_singleton.dart';
+import '../../services/notification_service.dart';
+import '../startup/login.dart';
 
 class ListMedicalHistory extends StatefulWidget {
   final User user;
@@ -53,13 +58,34 @@ class _ListMedicalHistoryState extends State<ListMedicalHistory> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Medical History'),
+          iconTheme: const IconThemeData(
+            color: Color(0xFFEDF2FF),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                NotificationCounter notificationCounter = NotificationCounter();
+                notificationCounter.reset();
+                await NotificationService().cancelAllNotifications();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-        drawer: AppDrawerAllPages(
-          header: 'Medical History',
-          user: widget.user,
-          profile: widget.profile,
-          autoImplyLeading: true,
-        ),
+        // drawer: AppDrawerAllPages(
+        //   header: 'Medical History',
+        //   user: widget.user,
+        //   profile: widget.profile,
+        //   autoImplyLeading: true,
+        // ),
         body: Stack(
           children: [
             ListView.builder(

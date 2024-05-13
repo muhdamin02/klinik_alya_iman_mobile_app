@@ -30,7 +30,7 @@ class AppDrawerUser extends StatelessWidget {
               children: const [
                 DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 37, 101, 184),
+                    color: Color(0xFF6086f6),
                   ),
                   child: Text(
                     'Menu Header',

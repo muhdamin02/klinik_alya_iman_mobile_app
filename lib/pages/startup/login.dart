@@ -27,8 +27,7 @@ class _LoginState extends State<Login> {
   String? userName, userUsername, userPassword, userPhone, userRole;
   bool passwordVisible = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController =
-      TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
 
@@ -54,8 +53,7 @@ class _LoginState extends State<Login> {
       // Call your authentication service to validate login credentials
       _authService.login(userUsername, password).then((success) async {
         if (success) {
-          List<Map<String, dynamic>> userData =
-              await getUserData(userUsername);
+          List<Map<String, dynamic>> userData = await getUserData(userUsername);
 
           for (Map<String, dynamic> user in userData) {
             userId = user['user_id'];
@@ -183,30 +181,32 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 const Text(
-                  'Welcome back!',
+                  'Welcome.',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 0, 76, 104),
+                    color: Color(0xFFEDF2FF),
                   ),
                 ),
-                const SizedBox(height: 48.0),
+                const SizedBox(height: 42.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextFormField(
                     controller: _usernameController,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: const Color(0xFF4D5FC0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       labelText: 'Username',
+                      labelStyle: const TextStyle(color: Color(0xFFB6CBFF)),
                       counterText: '',
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 20.0),
                     ),
                     maxLength: 20,
+                    style: const TextStyle(color: Color(0xFFEDF2FF)),
                     validator: (value) {
                       if (value == null || value.isEmpty || value == '') {
                         return 'Please enter your username';
@@ -217,26 +217,30 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 16.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextFormField(
                     obscureText: passwordVisible,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: const Color(0xFF4D5FC0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       labelText: 'Password',
+                      labelStyle: const TextStyle(color: Color(0xFFB6CBFF)),
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 16.0, horizontal: 20.0),
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(
                             right: 8.0), // Adjust the right padding as needed
                         child: IconButton(
-                          icon: Icon(passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          icon: Icon(
+                            passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: const Color(0xFFB6CBFF),
+                          ),
                           onPressed: () {
                             setState(() {
                               passwordVisible = !passwordVisible;
@@ -246,6 +250,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     keyboardType: TextInputType.visiblePassword,
+                    style: const TextStyle(color: Color(0xFFEDF2FF)),
                     textInputAction: TextInputAction.done,
                     validator: (value) {
                       if (value == null || value.isEmpty || value == '') {
@@ -255,20 +260,24 @@ class _LoginState extends State<Login> {
                     },
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 24.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: SizedBox(
                     height: 60.0,
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _onLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                            255, 115, 176, 255), // Set the text color
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor:
+                            const Color(0xFFC1D3FF), // Set the fill color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              25.0), // Adjust the value as needed
+                              50.0), // Adjust the value as needed
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFF6086f6), // Set the outline color
+                          width: 2.5, // Set the outline width
                         ),
                       ),
                       child: const Text(
@@ -276,7 +285,7 @@ class _LoginState extends State<Login> {
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: Color(0xFF1F3299),
                         ),
                       ),
                     ),
@@ -284,12 +293,12 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 32.0),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 28),
                   child: const Row(
                     children: [
                       Expanded(
                         child: Divider(
-                          color: Color.fromARGB(255, 21, 82, 161),
+                          color: Color(0x92EDF2FF),
                           height: 1,
                         ),
                       ),
@@ -298,13 +307,13 @@ class _LoginState extends State<Login> {
                         child: Text(
                           'or',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 9, 52, 109),
+                            color: Color(0x92EDF2FF),
                           ),
                         ),
                       ),
                       Expanded(
                         child: Divider(
-                          color: Color.fromARGB(255, 21, 82, 161),
+                          color: Color(0x92EDF2FF),
                           height: 1,
                         ),
                       ),
@@ -313,18 +322,18 @@ class _LoginState extends State<Login> {
                 ),
                 const SizedBox(height: 32.0),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: SizedBox(
                     height: 60.0,
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: OutlinedButton(
                       onPressed: _guestLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                            255, 255, 220, 106), // Set the text color
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor:
+                            const Color(0xFF303E8F), // Set the fill color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              25.0), // Adjust the value as needed
+                              50.0), // Adjust the value as needed
                         ),
                       ),
                       child: const Text(
@@ -332,7 +341,7 @@ class _LoginState extends State<Login> {
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 112, 92, 0),
+                          color: Color(0xFFEDF2FF),
                         ),
                       ),
                     ),

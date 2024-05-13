@@ -97,6 +97,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
         activity_level: widget.profile.activity_level,
         belly_size: widget.profile.belly_size,
         maternity: widget.profile.maternity,
+        ethnicity: widget.profile.ethnicity,
+        marital_status: widget.profile.marital_status,
+        occupation: widget.profile.occupation,
+        medical_alert: widget.profile.medical_alert,
+        profile_pic: widget.profile.profile_pic,
+        creation_date: widget.profile.creation_date,
         user_id: widget.profile.user_id,
       );
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/startup/login.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'services/misc_methods/page_transition.dart';
@@ -30,33 +31,14 @@ class _MyAppState extends State<MyApp> {
       title: 'Klinik Alya Iman',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: const MaterialColor(
-            0xFF32a3cb,
-            <int, Color>{
-              50: Color(0xFF32a3cb),
-              100: Color(0xFF32a3cb),
-              200: Color(0xFF32a3cb),
-              300: Color(0xFF32a3cb),
-              400: Color(0xFF32a3cb),
-              500: Color(0xFF32a3cb),
-              600: Color(0xFF32a3cb),
-              700: Color(0xFF32a3cb),
-              800: Color(0xFF32a3cb),
-              900: Color(0xFF32a3cb),
-            },
-          ),
-        ).copyWith(
-          primary: const Color.fromARGB(255, 37, 101, 184),
-          secondary: const Color.fromARGB(255, 37, 101, 184),
-        ),
+        scaffoldBackgroundColor: const Color(0xFF0B1655),
         textTheme: const TextTheme(
           // booking history details text
           bodyMedium: TextStyle(
             fontFamily: 'ProductSans',
             fontSize: 16,
             fontWeight: FontWeight.normal,
+            color: Color(0xFF172470)
           ),
 
           // validator texts
@@ -64,6 +46,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'ProductSans',
             fontSize: 12,
             fontWeight: FontWeight.normal,
+            color: Color(0xFF172470)
           ),
 
           // submit and update button
@@ -71,6 +54,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'ProductSans',
             fontSize: 16,
             fontWeight: FontWeight.normal,
+            color: Color(0xFF172470)
           ),
 
           // appbar
@@ -78,6 +62,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'ProductSans',
             fontSize: 23,
             fontWeight: FontWeight.normal,
+            color: Color(0xFF172470)
           ),
 
           // placeholder text in textfields, checkbox tiles, dropdown options
@@ -85,6 +70,7 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'ProductSans',
             fontSize: 16,
             fontWeight: FontWeight.normal,
+            color: Color(0xFF172470)
           ),
         ),
         pageTransitionsTheme: PageTransitionsTheme(
@@ -92,7 +78,26 @@ class _MyAppState extends State<MyApp> {
             TargetPlatform.android: CustomPageTransitionBuilder(),
             TargetPlatform.iOS: CustomPageTransitionBuilder(),
           },
-        ),
+        ), colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: const MaterialColor(
+            0xFF0A0F2C,
+            <int, Color>{
+              50: Color(0xFF303E8F),
+              100: Color(0xFF303E8F),
+              200: Color(0xFF303E8F),
+              300: Color(0xFF303E8F),
+              400: Color(0xFF303E8F),
+              500: Color(0xFF303E8F),
+              600: Color(0xFF303E8F),
+              700: Color(0xFF303E8F),
+              800: Color(0xFF303E8F),
+              900: Color(0xFF303E8F),
+            },
+          ),
+        ).copyWith(
+          primary: const Color(0xFF0A0F2C),
+          secondary: const Color(0xFF0A0F2C),
+        ).copyWith(error: const Color(0xFFFF6262)),
       ),
       home: const Login(
         usernamePlaceholder: '',

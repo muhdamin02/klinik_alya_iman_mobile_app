@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import '../../app_drawer/app_drawer_profiles_logout_only.dart';
 import '../../models/appointment.dart';
@@ -5,6 +7,12 @@ import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../../services/misc_methods/notification_singleton.dart';
+import '../../services/notification_service.dart';
+import '../medication_management/list_medication.dart';
+import '../profile_management/profile_page.dart';
+import '../startup/login.dart';
+import '../startup/patient_homepage.dart';
 import 'appointment_form.dart';
 import 'update_appointment.dart';
 import 'view_appointment.dart';
@@ -253,7 +261,6 @@ class _ListAppointmentState extends State<ListAppointment> {
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async {
         return widget.autoImplyLeading;
@@ -261,6 +268,112 @@ class _ListAppointmentState extends State<ListAppointment> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('My Appointments'),
+          iconTheme: const IconThemeData(
+            color: Color(0xFFEDF2FF),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                NotificationCounter notificationCounter = NotificationCounter();
+                notificationCounter.reset();
+                await NotificationService().cancelAllNotifications();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+                0xFF0A0F2C), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 27,
+                    onPressed: () {},
+                    color: const Color(0xFF5464BB), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientHomepage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            hasProfiles: true,
+                            hasChosenProfile: true,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.medication),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListMedication(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    iconSize: 23,
+                    onPressed: () {},
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
         ),
         drawer: AppDrawerProfilesLogout(
           header: 'Appointments',

@@ -56,9 +56,29 @@ class DatabaseService {
     );
 
     // profile table
-    await db.execute(
-      'CREATE TABLE profile(profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, identification TEXT NOT NULL, dob TEXT NOT NULL, gender TEXT NOT NULL, height REAL, weight REAL, body_fat_percentage REAL, activity_level TEXT, belly_size REAL, maternity TEXT NOT NULL, user_id INTEGER, FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL)',
+    await db.execute('''
+  CREATE TABLE profile(
+    profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    identification TEXT NOT NULL,
+    dob TEXT NOT NULL,
+    gender TEXT NOT NULL,
+    height REAL,
+    weight REAL,
+    body_fat_percentage REAL,
+    activity_level TEXT,
+    belly_size REAL,
+    maternity TEXT NOT NULL,
+    ethnicity TEXT NOT NULL,
+    marital_status TEXT NOT NULL,
+    occupation TEXT,
+    medical_alert TEXT,
+    profile_pic TEXT,
+    creation_date TEXT,
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL
     );
+      ''');
 
     // appointment table
     await db.execute('''
@@ -480,7 +500,8 @@ class DatabaseService {
 //////////////////////////////////////////////////////////////////////////
 
 // Retrieve based on User and Profile
-  Future<List<Contraction>> retrieveContraction(int userId, int? profileId) async {
+  Future<List<Contraction>> retrieveContraction(
+      int userId, int? profileId) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'contraction',
