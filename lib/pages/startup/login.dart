@@ -298,7 +298,7 @@ class _LoginState extends State<Login> {
                     children: [
                       Expanded(
                         child: Divider(
-                          color: Color(0x92EDF2FF),
+                          color: Color(0xFFB6CBFF),
                           height: 1,
                         ),
                       ),
@@ -307,13 +307,13 @@ class _LoginState extends State<Login> {
                         child: Text(
                           'or',
                           style: TextStyle(
-                            color: Color(0x92EDF2FF),
+                            color: Color(0xFFB6CBFF),
                           ),
                         ),
                       ),
                       Expanded(
                         child: Divider(
-                          color: Color(0x92EDF2FF),
+                          color: Color(0xFFB6CBFF),
                           height: 1,
                         ),
                       ),

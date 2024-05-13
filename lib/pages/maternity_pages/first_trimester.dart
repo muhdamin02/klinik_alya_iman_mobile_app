@@ -5,7 +5,12 @@ import '../../models/symptoms.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../appointment_management/list_appointment.dart';
+import '../medication_management/list_medication.dart';
+import '../profile_management/profile_page.dart';
+import '../startup/patient_homepage.dart';
 import 'first_trimester/track_new_symptom.dart';
+import 'maternity_overview.dart';
 
 class FirstTrimester extends StatefulWidget {
   final User user;
@@ -54,7 +59,114 @@ class _FirstTrimesterState extends State<FirstTrimester> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('First Trimester'),
-          automaticallyImplyLeading: widget.autoImplyLeading,
+          automaticallyImplyLeading: false,
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+                0xFF0A0F2C), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListAppointment(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientHomepage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            hasProfiles: true,
+                            hasChosenProfile: true,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.medication),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListMedication(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.pregnant_woman),
+                    iconSize: 23,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MaternityOverview(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
         ),
         body: TabBarFirstTrimester(
           trackSymptoms: _symptomsList,

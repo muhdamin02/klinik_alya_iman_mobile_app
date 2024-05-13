@@ -249,6 +249,7 @@ class _ListProfileState extends State<ListProfile> {
                         activity_level: 'unknown',
                         belly_size: 0,
                         maternity: 'No',
+                        maternity_week: 0,
                         ethnicity: 'unknown',
                         marital_status: 'unknown',
                         occupation: 'unknown',

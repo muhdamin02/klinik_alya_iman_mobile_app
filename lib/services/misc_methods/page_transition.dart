@@ -9,15 +9,23 @@ class CustomPageTransitionBuilder extends PageTransitionsBuilder {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    const begin = Offset(1.0, 0.0);
-    const end = Offset.zero;
-    const curve = Curves.easeInOut;
-    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    // Define the duration of the fade transition
+    const Duration duration = Duration(milliseconds: 50); // Adjust the duration as needed
 
-    var offsetAnimation = animation.drive(tween);
+    // Create a Tween with the defined duration
+    var tween = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    return SlideTransition(
-      position: offsetAnimation,
+    // Use the Tween to control the opacity of the child widget
+    return FadeTransition(
+      opacity: tween,
       child: child,
     );
   }

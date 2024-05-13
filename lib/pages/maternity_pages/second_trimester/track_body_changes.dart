@@ -243,6 +243,7 @@ class _TrackBodyChangesState extends State<TrackBodyChanges> {
                     builder: (context) => SecondTrimester(
                           user: widget.user,
                           profile: widget.profile,
+                          autoImplyLeading: false,
                         )),
               );
             },

@@ -103,6 +103,7 @@ class _CreateProfileState extends State<CreateProfile> {
         activity_level: '',
         belly_size: 0,
         maternity: 'No',
+        maternity_week: 0,
         ethnicity: selectedEthnicity,
         marital_status: selectedMaritalStatus,
         occupation: 'Placeholder',

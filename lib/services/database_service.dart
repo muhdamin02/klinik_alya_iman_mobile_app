@@ -69,6 +69,7 @@ class DatabaseService {
     activity_level TEXT,
     belly_size REAL,
     maternity TEXT NOT NULL,
+    maternity_week INTEGER,
     ethnicity TEXT NOT NULL,
     marital_status TEXT NOT NULL,
     occupation TEXT,
@@ -121,6 +122,7 @@ class DatabaseService {
     await db.execute('''
   CREATE TABLE homefeed (
     homefeed_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    category TEXT NOT NULL,
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     datetime_posted TEXT NOT NULL
@@ -321,8 +323,9 @@ class DatabaseService {
 
     // homefeed 1
     await db.execute(
-      'INSERT INTO homefeed (title, body, datetime_posted) VALUES (?, ?, ?)',
+      'INSERT INTO homefeed (category, title, body, datetime_posted) VALUES (?, ?, ?, ?)',
       [
+        'News',
         'Holiday Schedule Announcement',
         'In celebration of the upcoming holidays, our clinic will have adjusted hours. Please take note of our special schedule to ensure we can continue to provide excellent care during this festive season. Wishing you all happy and healthy holidays!',
         '12-1-2024'
@@ -331,8 +334,9 @@ class DatabaseService {
 
     // homefeed 2
     await db.execute(
-      'INSERT INTO homefeed (title, body, datetime_posted) VALUES (?, ?, ?)',
+      'INSERT INTO homefeed (category, title, body, datetime_posted) VALUES (?, ?, ?, ?)',
       [
+        'News',
         'Important COVID-19 Update',
         'In response to the latest COVID-19 developments, we want to assure you that we are closely monitoring the situation. Our clinic continues to follow all safety protocols to ensure a safe environment for both patients and staff. Stay informed and stay safe.',
         '13-1-2024'

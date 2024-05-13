@@ -17,7 +17,7 @@ class NewAnnouncement extends StatefulWidget {
 
 class _NewAnnouncementState extends State<NewAnnouncement> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
   // bool _isDateSelected = false;
@@ -59,14 +59,12 @@ class _NewAnnouncementState extends State<NewAnnouncement> {
   // Submit form
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // if (_isDateSelected) {
-      final date = _dateController.text;
-
       // Create a new appointment instance with the form data
       final homeFeed = HomeFeed(
+        category: _categoryController.text,
         title: _titleController.text,
         body: _bodyController.text,
-        datetime_posted: 'aaa',
+        datetime_posted: '${DateTime.now()}',
       );
 
       try {
@@ -85,7 +83,6 @@ class _NewAnnouncementState extends State<NewAnnouncement> {
                 onPressed: () {
                   // Clear the text fields after submitting the form
                   _formKey.currentState!.reset();
-                  _dateController.clear();
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
@@ -144,19 +141,23 @@ class _NewAnnouncementState extends State<NewAnnouncement> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // TextFormField(
-                      //   controller: _dateController,
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //     labelText: 'Date',
-                      //   ),
-                      //   readOnly: true,
-                      //   onTap: () {
-                      //     _selectDate(context);
-                      //   },
-                      //   validator: _requiredValidator,
-                      // ),
-
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'Category',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty || value == '') {
+                            return 'Enter a category';
+                          }
+                          return null;
+                        },
+                      ),
                       TextFormField(
                         controller: _titleController,
                         decoration: InputDecoration(
