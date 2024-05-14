@@ -69,10 +69,9 @@ class _AppointmentFormState extends State<AppointmentForm> {
 
   Future<void> launchMap(double lat, double long, String branch) async {
     try {
-      final coords =
-          Coords(lat, long); // Coordinates of the marker
+      final coords = Coords(lat, long); // Coordinates of the marker
       final title = branch; // Title of the marker
-      final description = 'Clinic'; // Description of the marker
+      const description = 'Clinic'; // Description of the marker
 
       final isGoogleMapsAvailable =
           await MapLauncher.isMapAvailable(MapType.google);
@@ -198,6 +197,52 @@ class _AppointmentFormState extends State<AppointmentForm> {
   // Submit form
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      if (_selectedBranch == -1) {
+        // Show an error message and return if no time is selected
+        // You can customize the error handling based on your requirements
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: const Color(0xFF303E8F),
+            title: const Text('Error'),
+            content: const Text('Please choose a branch.',
+                style: TextStyle(color: Color(0xFFEDF2FF))),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+      if (_appointmentDateController.text.isEmpty) {
+        // Show an error message and return if no time is selected
+        // You can customize the error handling based on your requirements
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: const Color(0xFF303E8F),
+            title: const Text('Error'),
+            content: const Text('Please suggest a date.',
+                style: TextStyle(color: Color(0xFFEDF2FF))),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+        return;
+      }
       // Check if a time has been selected
       if (_selectedTime.isEmpty) {
         // Show an error message and return if no time is selected
@@ -205,11 +250,14 @@ class _AppointmentFormState extends State<AppointmentForm> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
+            backgroundColor: const Color(0xFF303E8F),
             title: const Text('Error'),
-            content: const Text('Please select an appointment time.'),
+            content: const Text('Please pick a timeslot.',
+                style: TextStyle(color: Color(0xFFEDF2FF))),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -222,7 +270,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
 
       final appointmentDate = _appointmentDateController.text;
       final appointmentTime = _selectedTime;
-
+      String branchName = '';
       // Check availability one more time before submitting (just in case)
       bool isAvailable =
           await isTimeAvailable(appointmentDate, appointmentTime);
@@ -232,6 +280,21 @@ class _AppointmentFormState extends State<AppointmentForm> {
         return;
       }
 
+      switch (_selectedBranch){
+        case 0:
+          branchName = 'Karang Darat';
+          break;
+        case 1:
+          branchName = 'Inderapura';
+          break;
+        case 2:
+          branchName = 'Kemaman';
+          break;
+        default:
+          branchName = 'Placeholder';
+          break;
+      }
+
       // Create a new appointment instance with the form data
       final appointment = Appointment(
         appointment_date: _appointmentDateController.text,
@@ -239,6 +302,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
         user_id: widget.user.user_id!,
         profile_id: widget.profile.profile_id,
         status: 'Pending',
+        branch: branchName,
         system_remarks: 'The appointment is pending.',
         patient_remarks: 'No remarks by patient.',
         practitioner_remarks: 'No remarks by practitioner.',
@@ -261,11 +325,14 @@ class _AppointmentFormState extends State<AppointmentForm> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
+            backgroundColor: const Color(0xFF303E8F),
             title: const Text('Success'),
-            content: const Text('Form submitted successfully!'),
+            content: const Text('Appointment booked successfully!',
+                style: TextStyle(color: Color(0xFFEDF2FF))),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
                 onPressed: () {
                   // Clear the text fields after submitting the form
                   _formKey.currentState!.reset();
@@ -298,7 +365,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
             content: Text('An error occurred: $error'),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -417,14 +485,16 @@ class _AppointmentFormState extends State<AppointmentForm> {
                                         ),
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.location_on),
+                                        icon: const Icon(Icons.fmd_good),
                                         iconSize: 20,
                                         color: _selectedBranch == 0
                                             ? const Color(0xFF5F4712)
                                             : const Color(0xFF1F3299),
                                         onPressed: () {
                                           launchMap(
-                                              3.9112965679321294, 103.34899018744197, 'Klinik Alya Iman - Karang Darat');
+                                              3.9112965679321294,
+                                              103.34899018744197,
+                                              'Klinik Alya Iman - Karang Darat');
                                         },
                                       ),
                                     ],
@@ -469,14 +539,16 @@ class _AppointmentFormState extends State<AppointmentForm> {
                                         ),
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.location_on),
+                                        icon: const Icon(Icons.fmd_good),
                                         iconSize: 20,
                                         color: _selectedBranch == 1
                                             ? const Color(0xFF5F4712)
                                             : const Color(0xFF1F3299),
                                         onPressed: () {
                                           launchMap(
-                                              3.7511729280328034, 103.26166483677974, 'Klinik Alya Iman - Inderapura');
+                                              3.7511729280328034,
+                                              103.26166483677974,
+                                              'Klinik Alya Iman - Inderapura');
                                         },
                                       ),
                                     ],
@@ -521,14 +593,16 @@ class _AppointmentFormState extends State<AppointmentForm> {
                                         ),
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.location_on),
+                                        icon: const Icon(Icons.fmd_good),
                                         iconSize: 20,
-                                        color: _selectedBranch == 1
+                                        color: _selectedBranch == 2
                                             ? const Color(0xFF5F4712)
                                             : const Color(0xFF1F3299),
                                         onPressed: () {
                                           launchMap(
-                                              4.257055848607369, 103.40434944427868, 'Klinik Alya Iman - Kemaman');
+                                              4.257055848607369,
+                                              103.40434944427868,
+                                              'Klinik Alya Iman - Kemaman');
                                         },
                                       ),
                                     ],
@@ -571,7 +645,9 @@ class _AppointmentFormState extends State<AppointmentForm> {
                             controller: _appointmentDateController,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: const Color(0xFF4D5FC0),
+                              fillColor: _selectedBranch != -1
+                                  ? const Color(0xFF4D5FC0)
+                                  : const Color(0xFF09124B),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
@@ -584,10 +660,12 @@ class _AppointmentFormState extends State<AppointmentForm> {
                             ),
                             readOnly: true,
                             onTap: () {
-                              _selectDate(context);
+                              if (_selectedBranch != -1) {
+                                _selectDate(context);
+                              }
                             },
-                            validator: _requiredValidator,
                             style: const TextStyle(color: Color(0xFFEDF2FF)),
+                            enabled: _selectedBranch != -1,
                           ),
                           const SizedBox(height: 42.0),
                           Container(

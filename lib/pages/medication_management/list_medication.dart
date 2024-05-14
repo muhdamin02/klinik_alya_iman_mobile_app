@@ -490,6 +490,7 @@ class _ListMedicationState extends State<ListMedication> {
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
+          automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.logout),

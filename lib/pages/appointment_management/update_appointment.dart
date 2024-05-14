@@ -224,6 +224,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
         user_id: widget.appointment.user_id,
         profile_id: widget.appointment.profile_id,
         status: 'Pending',
+        branch: widget.appointment.branch,
         system_remarks:
             'Rescheduled appointment date from $oldAppointmentDateString at ${widget.appointment.appointment_time} to $appointmentDateString at $appointmentTime on $timeNow by the $rescheduler.',
         patient_remarks: widget.appointment.patient_remarks,

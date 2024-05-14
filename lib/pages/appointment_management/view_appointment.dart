@@ -302,6 +302,13 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         const SizedBox(height: 4),
                         Text(appointment.status),
                         const SizedBox(height: 24),
+                        const Text('BRANCH',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 121, 121, 121))),
+                        const SizedBox(height: 4),
+                        Text(appointment.branch),
+                        const SizedBox(height: 24),
                         const Text('REFERENCE NUMBER',
                             style: TextStyle(
                                 fontSize: 14,

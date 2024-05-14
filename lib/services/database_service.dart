@@ -90,6 +90,7 @@ class DatabaseService {
     user_id INTEGER NOT NULL,
     profile_id INTEGER NOT NULL,
     status TEXT NOT NULL,
+    branch TEXT,
     system_remarks TEXT NOT NULL,
     patient_remarks TEXT DEFAULT 'No remarks by patient.',
     practitioner_remarks TEXT DEFAULT 'No remarks by practitioner.',

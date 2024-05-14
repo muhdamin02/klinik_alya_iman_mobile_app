@@ -215,6 +215,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
           user_id: widget.user.user_id!,
           profile_id: profileId,
           status: 'Pending',
+          branch: 'Placeholder',
           system_remarks: 'The appointment is pending.',
           patient_remarks: 'No remarks by patient.',
           practitioner_remarks: 'No remarks by practitioner.',

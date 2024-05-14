@@ -568,25 +568,35 @@ class TabBarAppointment extends StatelessWidget {
                     borderRadius:
                         BorderRadius.circular(25.0), // Adjust the radius
                   ),
-                  elevation: 8, // Set the elevation for the card
-                  color: const Color.fromARGB(255, 238, 238, 238),
+                  elevation: 0,
+                  color: const Color(0xFF303E8F),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ListTile(
                       title: Text(
-                          '${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
+                        '${DateDisplay(date: appointment.appointment_date).getStringDate()} - ${appointment.appointment_time}',
+                        style: const TextStyle(
+                            color: Color(0xFFEDF2FF), fontSize: 18),
+                      ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 4.0),
-                          Text(appointment.status),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            appointment.status,
+                            style: const TextStyle(
+                                color: Color(0xFFB6CBFF), fontSize: 18),
+                          ),
                         ],
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.visibility),
+                            icon: Icon(
+                              _getIconForStatus(appointment.status),
+                              color: const Color(0xFFFFD271),
+                            ),
                             onPressed: () {
                               onViewAppointment(appointment);
                             },
@@ -599,10 +609,24 @@ class TabBarAppointment extends StatelessWidget {
               ),
             ),
             if (index == appointmentList.length - 1)
-              const SizedBox(height: 77.0), // Add SizedBox after the last item
+              const SizedBox(height: 94.0), // Add SizedBox after the last item
           ],
         );
       },
     );
+  }
+}
+
+IconData _getIconForStatus(String status) {
+  if (status == 'Pending') {
+    return Icons.hourglass_empty;
+  } else if (status == 'Confirmed') {
+    return Icons.check_circle_outline_rounded;
+  } else if (status == 'Cancelled') {
+    return Icons.cancel;
+  } else if (status == 'In Progress') {
+    return Icons.timelapse;
+  } else {
+    return Icons.help; // Default icon for unknown statuses
   }
 }

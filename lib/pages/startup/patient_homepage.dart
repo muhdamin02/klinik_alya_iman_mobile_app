@@ -59,197 +59,203 @@ class _PatientHomepageState extends State<PatientHomepage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Information Hub'),
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          iconTheme: const IconThemeData(
-            color: Color(0xFFEDF2FF),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () async {
-                NotificationCounter notificationCounter = NotificationCounter();
-                notificationCounter.reset();
-                await NotificationService().cancelAllNotifications();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Login(
-                        usernamePlaceholder: widget.user.username,
-                        passwordPlaceholder: widget.user.password),
-                  ),
-                );
-              },
+    return WillPopScope(
+      onWillPop: () async {
+        return widget.autoImplyLeading;
+      },
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Information Hub'),
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            iconTheme: const IconThemeData(
+              color: Color(0xFFEDF2FF),
             ),
-          ],
-          bottom: const TabBar(
-            labelStyle: TextStyle(
-              // Set your desired text style for the selected (active) tab here
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              fontFamily: 'ProductSans',
-              // You can set other text style properties as needed
-            ),
-            unselectedLabelStyle: TextStyle(
-              // Set your desired text style for the unselected tabs here
-              fontSize: 16,
-              fontFamily: 'ProductSans',
-              // You can set other text style properties as needed
-            ),
-            indicatorColor: Color(0xFFB6CBFF),
-            indicatorWeight: 6,
-            tabs: [
-              Tab(text: 'Announcements'),
-              Tab(text: 'About Clinic'),
-              // Add more tabs as needed
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () async {
+                  NotificationCounter notificationCounter =
+                      NotificationCounter();
+                  notificationCounter.reset();
+                  await NotificationService().cancelAllNotifications();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(
+                          usernamePlaceholder: widget.user.username,
+                          passwordPlaceholder: widget.user.password),
+                    ),
+                  );
+                },
+              ),
             ],
+            bottom: const TabBar(
+              labelStyle: TextStyle(
+                // Set your desired text style for the selected (active) tab here
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontFamily: 'ProductSans',
+                // You can set other text style properties as needed
+              ),
+              unselectedLabelStyle: TextStyle(
+                // Set your desired text style for the unselected tabs here
+                fontSize: 16,
+                fontFamily: 'ProductSans',
+                // You can set other text style properties as needed
+              ),
+              indicatorColor: Color(0xFFB6CBFF),
+              indicatorWeight: 6,
+              tabs: [
+                Tab(text: 'Announcements'),
+                Tab(text: 'About Clinic'),
+                // Add more tabs as needed
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: SizedBox(
-          height: 56.0, // Adjust the height as needed
-          child: BottomAppBar(
-            color: const Color(
-              0xFF0A0F2C,
-            ), // Set the background color of the BottomAppBar
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  if (widget.hasChosenProfile)
-                    IconButton(
-                      icon: const Icon(Icons.person),
-                      iconSize: 25,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(
-                              user: widget.user,
-                              profile: widget.profile,
-                              autoImplyLeading: false,
-                            ),
-                          ),
-                        );
-                      },
-                      color: const Color(
-                        0xFFEDF2FF,
-                      ), // Set the color of the icon
-                    ),
-                  if (!widget.hasChosenProfile)
-                    IconButton(
-                      icon: const Icon(Icons.group),
-                      iconSize: 25,
-                      onPressed: () {
-                        if (widget.hasProfiles) {
+          bottomNavigationBar: SizedBox(
+            height: 56.0, // Adjust the height as needed
+            child: BottomAppBar(
+              color: const Color(
+                0xFF0A0F2C,
+              ), // Set the background color of the BottomAppBar
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  children: [
+                    const Spacer(),
+                    if (widget.hasChosenProfile)
+                      IconButton(
+                        icon: const Icon(Icons.person),
+                        iconSize: 25,
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ListProfile(
+                              builder: (context) => ProfilePage(
                                 user: widget.user,
+                                profile: widget.profile,
+                                autoImplyLeading: false,
                               ),
                             ),
                           );
-                        } else {
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
+                    if (!widget.hasChosenProfile)
+                      IconButton(
+                        icon: const Icon(Icons.group),
+                        iconSize: 25,
+                        onPressed: () {
+                          if (widget.hasProfiles) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ListProfile(
+                                  user: widget.user,
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FirstProfile(
+                                  user: widget.user,
+                                  showTips: false,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
+                    const Spacer(),
+                    if (widget.hasChosenProfile)
+                      IconButton(
+                        icon: const Icon(Icons.event),
+                        iconSize: 22,
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FirstProfile(
+                              builder: (context) => ListAppointment(
                                 user: widget.user,
-                                showTips: false,
+                                profile: widget.profile,
+                                autoImplyLeading: false,
+                                initialTab: 1,
                               ),
                             ),
                           );
-                        }
-                      },
-                      color: const Color(
-                        0xFFEDF2FF,
-                      ), // Set the color of the icon
-                    ),
-                  const Spacer(),
-                  if (widget.hasChosenProfile)
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
+                    if (widget.hasChosenProfile) const Spacer(),
                     IconButton(
-                      icon: const Icon(Icons.event),
-                      iconSize: 22,
+                      icon: const Icon(Icons.home),
+                      iconSize: 30,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ListAppointment(
-                              user: widget.user,
-                              profile: widget.profile,
-                              autoImplyLeading: false,
-                              initialTab: 1,
-                            ),
-                          ),
-                        );
+                        // Method associated with the home icon
                       },
                       color: const Color(
-                        0xFFEDF2FF,
+                        0xFF5464BB,
                       ), // Set the color of the icon
                     ),
-                  if (widget.hasChosenProfile) const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.home),
-                    iconSize: 30,
-                    onPressed: () {
-                      // Method associated with the home icon
-                    },
-                    color: const Color(
-                      0xFF5464BB,
-                    ), // Set the color of the icon
-                  ),
-                  const Spacer(),
-                  if (widget.hasChosenProfile)
+                    const Spacer(),
+                    if (widget.hasChosenProfile)
+                      IconButton(
+                        icon: const Icon(Icons.medication),
+                        iconSize: 25,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ListMedication(
+                                user: widget.user,
+                                profile: widget.profile,
+                                autoImplyLeading: false,
+                              ),
+                            ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
+                    if (widget.hasChosenProfile) const Spacer(),
                     IconButton(
-                      icon: const Icon(Icons.medication),
-                      iconSize: 25,
+                      icon: const Icon(Icons.settings),
+                      iconSize: 23,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ListMedication(
-                              user: widget.user,
-                              profile: widget.profile,
-                              autoImplyLeading: false,
-                            ),
-                          ),
-                        );
+                        // Method associated with the settings icon
                       },
                       color: const Color(
                         0xFFEDF2FF,
                       ), // Set the color of the icon
                     ),
-                  if (widget.hasChosenProfile) const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    iconSize: 23,
-                    onPressed: () {
-                      // Method associated with the settings icon
-                    },
-                    color: const Color(
-                      0xFFEDF2FF,
-                    ), // Set the color of the icon
-                  ),
-                  const Spacer(),
-                ],
+                    const Spacer(),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
 
-        // drawer: AppDrawerAllPages(
-        //   header: 'Home',
-        //   user: widget.user,
-        //   profile: widget.profile,
-        //   autoImplyLeading: true,
-        // ),
-        body: PatientTabBarView(homeFeed: _homeFeed),
+          // drawer: AppDrawerAllPages(
+          //   header: 'Home',
+          //   user: widget.user,
+          //   profile: widget.profile,
+          //   autoImplyLeading: true,
+          // ),
+          body: PatientTabBarView(homeFeed: _homeFeed),
+        ),
       ),
     );
   }
