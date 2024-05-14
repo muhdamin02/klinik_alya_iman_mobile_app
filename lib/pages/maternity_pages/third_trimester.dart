@@ -79,6 +79,7 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: false,
+                            initialTab: 1,
                           ),
                         ),
                       );

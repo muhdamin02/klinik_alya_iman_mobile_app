@@ -122,6 +122,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "map_launcher",
+      "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/map_launcher-3.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///C:/Users/aminy/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.16",
       "packageUri": "lib/",
@@ -284,7 +290,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2024-05-13T03:48:10.326050Z",
+  "generated": "2024-05-14T02:53:32.270575Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

@@ -548,6 +548,7 @@ class _ListMedicationState extends State<ListMedication> {
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: false,
+                            initialTab: 1,
                           ),
                         ),
                       );

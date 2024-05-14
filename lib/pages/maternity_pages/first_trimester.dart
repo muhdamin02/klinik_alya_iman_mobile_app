@@ -100,6 +100,7 @@ class _FirstTrimesterState extends State<FirstTrimester> {
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: false,
+                            initialTab: 1,
                           ),
                         ),
                       );

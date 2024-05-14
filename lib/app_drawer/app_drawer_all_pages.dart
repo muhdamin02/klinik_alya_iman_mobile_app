@@ -97,6 +97,7 @@ class AppDrawerAllPages extends StatelessWidget {
                           user: user,
                           profile: profile,
                           autoImplyLeading: true,
+                          initialTab: 1,
                         ),
                       ),
                     );

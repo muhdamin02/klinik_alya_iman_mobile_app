@@ -149,6 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: false,
+                            initialTab: 1,
                           ),
                         ),
                       );

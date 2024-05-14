@@ -10,6 +10,7 @@ import '../../services/misc_methods/date_display.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../medication_management/list_medication.dart';
+import '../profile_management/create_profile.dart';
 import '../profile_management/profile_page.dart';
 import '../startup/login.dart';
 import '../startup/patient_homepage.dart';
@@ -21,12 +22,14 @@ class ListAppointment extends StatefulWidget {
   final User user;
   final Profile profile;
   final bool autoImplyLeading;
+  final int initialTab;
 
   const ListAppointment(
       {super.key,
       required this.user,
       required this.profile,
-      required this.autoImplyLeading});
+      required this.autoImplyLeading,
+      required this.initialTab});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -271,6 +274,8 @@ class _ListAppointmentState extends State<ListAppointment> {
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
+          elevation: 0,
+          automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.logout),
@@ -381,28 +386,57 @@ class _ListAppointmentState extends State<ListAppointment> {
           profile: widget.profile,
           autoImplyLeading: widget.autoImplyLeading,
         ),
-        body: TabBarAppointment(
-            appointmentUpcomingList: _appointmentUpcomingList,
-            appointmentTodayList: _appointmentTodayList,
-            appointmentPastList: _appointmentPastList,
-            onViewAppointment: _viewAppointment),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            // Navigate to the page where you want to appointment form
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AppointmentForm(
-                  user: widget.user,
-                  profile: widget.profile,
+        body: Stack(
+          children: [
+            TabBarAppointment(
+              appointmentUpcomingList: _appointmentUpcomingList,
+              appointmentTodayList: _appointmentTodayList,
+              appointmentPastList: _appointmentPastList,
+              onViewAppointment: _viewAppointment,
+              initialTab: widget.initialTab,
+            ),
+            Positioned(
+              bottom: 24.0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SizedBox(
+                  width:
+                      MediaQuery.of(context).size.width - 34, // Adjust padding
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      // Navigate to the page where you want to appointment form
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AppointmentForm(
+                            user: widget.user,
+                            profile: widget.profile,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.event),
+                    label: const Text('Book Appointment'),
+                    elevation: 0,
+                    backgroundColor:
+                        const Color(0xFFC1D3FF), // Set background color here
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(25), // Adjust the border radius
+                      side: const BorderSide(
+                          width: 2.5,
+                          color:
+                              Color(0xFF6086f6)), // Set the outline color here
+                    ),
+                    foregroundColor:
+                        const Color(0xFF1F3299), // Set text and icon color here
+                  ),
                 ),
               ),
-            );
-          },
-          icon: const Icon(Icons.event),
-          label: const Text('Book New Appointment'),
+            ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
@@ -413,26 +447,28 @@ class TabBarAppointment extends StatelessWidget {
   final List<Appointment> appointmentTodayList;
   final List<Appointment> appointmentPastList;
   final Function(Appointment) onViewAppointment;
+  final int initialTab;
 
   const TabBarAppointment(
       {Key? key,
       required this.appointmentUpcomingList,
       required this.appointmentTodayList,
       required this.appointmentPastList,
-      required this.onViewAppointment})
+      required this.onViewAppointment,
+      required this.initialTab})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: initialTab,
       length: 3,
       child: Scaffold(
         body: Column(
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 74, 142, 230),
+                color: Color(0xFF0A0F2C),
               ),
               child: const TabBar(
                 labelStyle: TextStyle(
@@ -448,7 +484,7 @@ class TabBarAppointment extends StatelessWidget {
                   fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
-                indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                indicatorColor: Color(0xFFB6CBFF),
                 indicatorWeight: 6,
                 tabs: <Widget>[
                   Tab(
@@ -466,9 +502,9 @@ class TabBarAppointment extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  _buildAppointmentList(appointmentUpcomingList),
-                  _buildAppointmentList(appointmentTodayList),
-                  _buildAppointmentList(appointmentPastList),
+                  _buildAppointmentList(appointmentUpcomingList, 1),
+                  _buildAppointmentList(appointmentTodayList, 2),
+                  _buildAppointmentList(appointmentPastList, 3),
                 ],
               ),
             ),
@@ -478,7 +514,42 @@ class TabBarAppointment extends StatelessWidget {
     );
   }
 
-  Widget _buildAppointmentList(List<Appointment> appointmentList) {
+  Widget _buildAppointmentList(List<Appointment> appointmentList, int tab) {
+    if (appointmentList.isEmpty) {
+      String noAppointment = 'appointments.';
+      switch (tab) {
+        case 1:
+          noAppointment = 'upcoming appointments.';
+          break;
+        case 2:
+          noAppointment = 'appointments today.';
+          break;
+        case 3:
+          noAppointment = 'past appointments.';
+          break;
+        default:
+          noAppointment = 'appointments.';
+          break;
+      }
+      return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              const Spacer(),
+              Center(
+                child: Text(
+                  'You have no $noAppointment',
+                  style:
+                      const TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 56.0),
+              const Spacer(),
+            ],
+          ));
+    }
+
     return ListView.builder(
       itemCount: appointmentList.length,
       itemBuilder: (context, index) {

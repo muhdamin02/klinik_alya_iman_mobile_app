@@ -255,7 +255,36 @@ class _CreateProfileState extends State<CreateProfile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: 4.0),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Color(0xFFB6CBFF),
+                                height: 1,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                'Patient Information',
+                                style: TextStyle(
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Color(0xFFB6CBFF),
+                                height: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24.0),
                       TextFormField(
                         controller: _nameController,
                         decoration: InputDecoration(

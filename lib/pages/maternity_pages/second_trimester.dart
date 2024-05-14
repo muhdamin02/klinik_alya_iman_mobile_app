@@ -79,6 +79,7 @@ class _SecondTrimesterState extends State<SecondTrimester> {
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: false,
+                            initialTab: 1,
                           ),
                         ),
                       );

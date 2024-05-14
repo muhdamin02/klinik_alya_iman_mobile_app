@@ -139,6 +139,7 @@ class MaternityOverview extends StatelessWidget {
                             user: user,
                             profile: profile,
                             autoImplyLeading: false,
+                            initialTab: 1,
                           ),
                         ),
                       );

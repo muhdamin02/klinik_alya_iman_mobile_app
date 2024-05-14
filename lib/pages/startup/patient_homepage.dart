@@ -184,6 +184,7 @@ class _PatientHomepageState extends State<PatientHomepage> {
                               user: widget.user,
                               profile: widget.profile,
                               autoImplyLeading: false,
+                              initialTab: 1,
                             ),
                           ),
                         );

@@ -21,6 +21,7 @@ INJECTED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test
 INJECTED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:1:1-37:12
 INJECTED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:1:1-37:12
 MERGED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:1:1-37:12
+MERGED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-37:12
 MERGED from [:sqflite] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-31:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\ae81e06d24c799147c26814497a2a305\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
@@ -75,6 +76,8 @@ uses-sdk
 INJECTED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml
+MERGED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:sqflite] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:sqflite] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\sqflite\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
@@ -129,6 +132,108 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\debug\AndroidManifest.xml:6:5-66
 	android:name
 		ADDED from C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\debug\AndroidManifest.xml:6:22-64
+queries
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-35:15
+package#com.google.android.apps.maps
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-64
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-61
+package#com.google.android.apps.mapslite
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-68
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:11:18-65
+package#com.autonavi.minimap
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-56
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:12:18-53
+package#com.baidu.BaiduMap
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-54
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:13:18-51
+package#com.waze
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-44
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:14:18-41
+package#ru.yandex.yandexnavi
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:15:9-56
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:15:18-53
+package#ru.yandex.yandexmaps
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-56
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:16:18-53
+package#com.citymapper.app.release
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-62
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:17:18-59
+package#com.mapswithme.maps.pro
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-59
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:18:18-56
+package#net.osmand
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:19:9-46
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:19:18-43
+package#net.osmand.plus
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-51
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:20:18-48
+package#ru.dublgis.dgismobile
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-57
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:21:18-54
+package#com.tencent.map
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:22:9-51
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:22:18-48
+package#com.here.app.maps
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-53
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:23:18-50
+package#com.huawei.maps.app
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:24:9-55
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:24:18-52
+package#com.alk.copilot.mapviewer
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:25:9-61
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:25:18-58
+package#com.tomtom.gplay.navapp
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-59
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:26:18-56
+package#com.tomtom.gplay.navapp.gofleet
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:27:9-67
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:27:18-64
+package#com.sygic.truck
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-51
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:28:18-48
+package#nl.flitsmeister
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:29:9-51
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:29:18-48
+package#nl.flitsmeister.flux
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:30:9-56
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:30:18-53
+package#com.nhn.android.nmap
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:31:9-56
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:31:18-53
+package#net.daum.android.map
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:32:9-56
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:32:18-53
+package#com.skt.tmap.ku
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:33:9-51
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:33:18-48
+package#cz.seznam.mapy
+ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:34:9-50
+	android:name
+		ADDED from [:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:34:18-47
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
 ADDED from [:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-81
 	android:name
