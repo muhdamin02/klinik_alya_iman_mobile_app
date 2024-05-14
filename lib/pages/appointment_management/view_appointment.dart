@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/appointment.dart';
@@ -83,7 +84,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       });
     } else {
       setState(() {
-        _practitionerName = 'Not yet assigned.';
+        _practitionerName = 'Not yet assigned';
       });
     }
     setState(() {});
@@ -141,6 +142,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: const Color(0xFF303E8F),
           title: const Text('Leave Remarks'),
           content: Builder(
             builder: (BuildContext context) {
@@ -154,6 +156,12 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       controller: remarksController,
                       decoration: const InputDecoration(
                         hintText: 'Enter remarks...',
+                        hintStyle: TextStyle(color: Color(0xFFB6CBFF)),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color(
+                                  0xFFB6CBFF)), // Set the color of the underline
+                        ),
                       ),
                       style: const TextStyle(fontSize: 15),
                       validator: (value) {
@@ -168,8 +176,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
               );
             },
           ),
-          actions: [
-            ElevatedButton(
+          actions: <Widget>[
+            TextButton(
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   if (widget.user.role.toLowerCase() == 'patient') {
@@ -187,13 +195,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   _fetchAppointmentInfo();
                 }
               },
-              child: const Text('Confirm'),
+              child: const Text('Confirm',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
             ),
-            ElevatedButton(
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text('Cancel'),
+              child: const Text('Cancel',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
             ),
           ],
         );
@@ -210,29 +220,32 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Assign Practitioner'),
+          backgroundColor: const Color(0xFF303E8F),
+          title: const Text('Assign Practitioner',
+              style: TextStyle(color: Color(0xFFFFD271))),
           content: Builder(
             builder: (BuildContext context) {
               return Text(
-                  'Are you sure you want to assign ${_selectedPractitioner?.name} to this appointment?');
+                  'Are you sure you want to assign ${_selectedPractitioner?.name} to this appointment?',
+                  style: const TextStyle(height: 1.5));
             },
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: () async {
-                await DatabaseService().assignAppointmentPractitioner(
-                    widget.appointment.appointment_id!, practitionerId);
-                Navigator.pop(context);
-                _fetchAppointmentInfo();
-              },
-              child: const Text('Confirm'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () async {
+                  await DatabaseService().assignAppointmentPractitioner(
+                      widget.appointment.appointment_id!, practitionerId);
+                  Navigator.pop(context);
+                  _fetchAppointmentInfo();
+                },
+                child: const Text('Confirm',
+                    style: TextStyle(color: Color(0xFFEDF2FF)))),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text('Cancel',
+                    style: TextStyle(color: Color(0xFFEDF2FF)))),
           ],
         );
       },
@@ -240,155 +253,673 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    DateTime appointmentDate =
-        DateTime.parse(widget.appointment.appointment_date);
-    String dayOfWeek = DateFormat('EEEE').format(appointmentDate);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appointment Details'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Display appointment details using ListView.builder
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _appointmentInfo.length,
-                itemBuilder: (context, index) {
-                  Appointment appointment = _appointmentInfo[index];
-                  return SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Set width to screen width
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('PATIENT NAME',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text('$_patientName'),
-                        const SizedBox(height: 24),
-                        const Text('APPOINTMENT DATE',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            DateDisplay(date: appointment.appointment_date),
-                            Text(' ($dayOfWeek)'),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        const Text('APPOINTMENT TIME',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.appointment_time),
-                        const SizedBox(height: 24),
-                        const Text('STATUS',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.status),
-                        const SizedBox(height: 24),
-                        const Text('BRANCH',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.branch),
-                        const SizedBox(height: 24),
-                        const Text('REFERENCE NUMBER',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.random_id),
-                        const SizedBox(height: 24),
-                        const Text('PRACTITIONER',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text('$_practitionerName'),
-                        const SizedBox(height: 24),
-                        const Text('SYSTEM-GENERATED REMARKS',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.system_remarks),
-                        const SizedBox(height: 24),
-                        const Text('PATIENT REMARKS',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.patient_remarks),
-                        const SizedBox(height: 24),
-                        const Text('PRACTITIONER REMARKS',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(appointment.practitioner_remarks),
-                        const SizedBox(height: 24),
-                        Visibility(
-                          visible:
-                              widget.user.role.toLowerCase() == 'systemadmin',
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('PRACTITIONER IN CHARGE',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color:
-                                          Color.fromARGB(255, 121, 121, 121))),
-                              DropdownButton<User>(
-                                value: _selectedPractitioner,
-                                items: _practitionerList.map((User user) {
-                                  return DropdownMenuItem<User>(
-                                    value: user,
-                                    child: Text(user.name),
-                                  );
-                                }).toList(),
-                                onChanged: (User? newValue) {
-                                  setState(() {
-                                    _selectedPractitioner = newValue;
-                                    _handlePractitionerSelection(
-                                        _selectedPractitioner!
-                                            .user_id); // Call the method to handle immediate postback
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+  void _showHoveringMessage(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).size.height *
+            0.19, // Adjust position as needed
+        left: MediaQuery.of(context).size.width * 0.25,
+        width: MediaQuery.of(context).size.width * 0.5,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
               ),
-            ],
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    // Remove the overlay entry after 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('View Appointment'),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        shrinkWrap: true,
+        itemCount: _appointmentInfo.length,
+        itemBuilder: (context, index) {
+          Appointment appointment = _appointmentInfo[index];
+          return SizedBox(
+            width:
+                MediaQuery.of(context).size.width, // Set width to screen width
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Reference Number',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF2B3885),
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            onLongPress: () {
+                              Clipboard.setData(
+                                  ClipboardData(text: appointment.random_id));
+                              _showHoveringMessage(
+                                  context, 'Copied to clipboard');
+                            },
+                            child: Text(
+                              appointment.random_id,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 24,
+                                letterSpacing: 8,
+                                color: Color(0xFFFFD271),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 28.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Appointment Details',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF303E8F),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            child: const Text(
+                              "PATIENT",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFB6CBFF),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '$_patientName',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Handle onTap action here
+                                  },
+                                  child: const Text(
+                                    "DATE",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  DateDisplay(
+                                          date: appointment.appointment_date)
+                                      .getStringDate(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Handle onTap action here
+                                  },
+                                  child: const Text(
+                                    "TIME",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  appointment.appointment_time,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (widget.user.role.toLowerCase() == 'systemadmin') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: const Color(0xFF303E8F),
+                                title: const Text('Choose Practitioner'),
+                                content: SizedBox(
+                                  height: 60,
+                                  child: DropdownButton<User>(
+                                    dropdownColor: const Color(0xFF303E8F),
+                                    value: _selectedPractitioner,
+                                    items: _practitionerList.map((User user) {
+                                      return DropdownMenuItem<User>(
+                                        value: user,
+                                        child: Container(
+                                          constraints: const BoxConstraints(
+                                            maxWidth:
+                                                200, // Adjust the maxWidth as needed
+                                          ),
+                                          child: Text(
+                                            user.name,
+                                            style: const TextStyle(
+                                              color: Color(0xFFEDF2FF),
+                                            ),
+                                            softWrap:
+                                                true, // Allows text to wrap to the next line
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (User? newValue) {
+                                      setState(() {
+                                        Navigator.of(context).pop();
+                                        _selectedPractitioner = newValue;
+                                        _handlePractitionerSelection(
+                                            _selectedPractitioner!.user_id);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                // actions: <Widget>[
+                                //   TextButton(
+                                //     onPressed: () async {
+                                //       Navigator.of(context).pop();
+                                //       _handlePractitionerSelection(
+                                //           _selectedPractitioner!.user_id);
+                                //     },
+                                //     child: const Text('Yes',
+                                //         style: TextStyle(
+                                //             color: Color(0xFFEDF2FF))),
+                                //   ),
+                                //   TextButton(
+                                //     onPressed: () {
+                                //       Navigator.of(context).pop();
+                                //     },
+                                //     child: const Text('No',
+                                //         style: TextStyle(
+                                //             color: Color(0xFFEDF2FF))),
+                                //   ),
+                                // ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF4151B1), // Background color of the ElevatedButton
+                        elevation: 0, // Set the elevation for the button
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(20.0), // Adjust the radius
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisSize:
+                                  MainAxisSize.min, // Center the Row content
+                              children: [
+                                const Text(
+                                  'PRACTITIONER',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFB6CBFF),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Visibility(
+                                  visible: widget.user.role.toLowerCase() ==
+                                      'systemadmin',
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Color(0xFFFFD271),
+                                    size: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              '$_practitionerName',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFEDF2FF),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Handle onTap action here
+                                  },
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text(
+                                          "STATUS",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            color: Color(0xFFB6CBFF),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8.0),
+                                        Visibility(
+                                          visible:
+                                              widget.user.role.toLowerCase() ==
+                                                  'systemadmin',
+                                          child: const Icon(
+                                            Icons.edit,
+                                            color: Color(0xFFFFD271),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  appointment.status,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Handle onTap action here
+                                  },
+                                  child: const Text(
+                                    "BRANCH",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  appointment.branch,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF303E8F),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            child: const Text(
+                              'REMARKS BY SYSTEM',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFB6CBFF),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            appointment.system_remarks,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF3848A1),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            child: const Text(
+                              'REMARKS BY PATIENT',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFB6CBFF),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            appointment.patient_remarks,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF4151B1),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            child: const Text(
+                              'REMARKS BY PRACTITIONER',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFB6CBFF),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            appointment.practitioner_remarks,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 60),
+              ],
+            ),
+          );
+        },
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Visibility(
-            visible: widget.user.role.toLowerCase() != 'patient' && widget.appointment.status != 'Confirmed',
+            visible: widget.user.role.toLowerCase() != 'patient' &&
+                widget.appointment.status != 'Confirmed',
             child: FloatingActionButton.extended(
               onPressed: () {
                 _confirmAppointment(widget.appointment);

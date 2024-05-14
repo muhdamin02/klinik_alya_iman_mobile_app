@@ -325,7 +325,7 @@ class _Tab1PageState extends State<Tab1Page> {
                   });
                 },
                 dropdownColor: const Color(
-                    0xFF303E8F), // Set your desired background color
+                    0xFF303E8F),
                 items: <String>['All', 'News', 'Promotion']
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
