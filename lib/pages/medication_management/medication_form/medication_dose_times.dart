@@ -24,53 +24,74 @@ class MedicationDoseTimesPage extends StatefulWidget {
 }
 
 class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
-  final List<TimeOfDay> _selectedTimesList = [];
+  List<TimeOfDay> _selectedTimesList = [];
 
-// Function to show the time picker
-  Future<void> _selectTime(BuildContext context, int index) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
+  @override
+  void initState() {
+    super.initState();
+    _selectedTimesList = List.generate(
+      widget.medication.daily_frequency,
+      (_) => TimeOfDay.now(),
     );
-
-    if (picked != null) {
-      setState(() {
-        // Ensure that _selectedTimesList has enough elements
-        while (_selectedTimesList.length <= index) {
-          _selectedTimesList.add(picked);
-        }
-        _selectedTimesList[index] = picked;
-      });
-    }
   }
 
-// Function to build a list of time pickers based on daily_frequency
   List<Widget> _buildTimePickers() {
     List<Widget> timePickers = [];
 
     for (int i = 0; i < widget.medication.daily_frequency; i++) {
+      int j = i + 1;
+      String buttonText =
+          _selectedTimesList.length > i && _selectedTimesList[i] != null
+              ? _selectedTimesList[i]!.format(context)
+              : 'Time $j';
+
       timePickers.add(
         Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                _selectTime(context, i);
-              },
-              child: const Text('Select Time'),
-            ),
-            // ignore: unnecessary_null_comparison
-            if (_selectedTimesList.length > i && _selectedTimesList[i] != null)
-              Text(
-                'Selected Time ${i + 1}: ${_selectedTimesList[i].format(context)}',
-                style: const TextStyle(fontSize: 18.0),
+            SizedBox(
+              height: 60.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFC1D3FF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6),
+                    width: 2.5,
+                  ),
+                ),
+                onPressed: () async {
+                  await _selectTime(context, i);
+                  setState(() {});
+                },
+                child: Text(
+                  buttonText,
+                  style: const TextStyle(
+                      fontSize: 24, color: Color(0xFF1F3299), letterSpacing: 1),
+                ),
               ),
-            const SizedBox(height: 16.0),
+            ),
+            const SizedBox(height: 12.0),
           ],
         ),
       );
     }
 
     return timePickers;
+  }
+
+  // Function to show the time picker
+  Future<void> _selectTime(BuildContext context, int index) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTimesList[index],
+    );
+
+    if (picked != null) {
+      _selectedTimesList[index] = picked;
+    }
   }
 
   void _setMedicationDoseTimes() {
@@ -107,38 +128,81 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Step 6: Select Dose Times'),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'At what time will you take it?',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+      appBar: AppBar(title: const Text('New Medication'), elevation: 0),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 32.0, horizontal: 44.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Dose Times',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFEDF2FF),
+                          letterSpacing: 1),
+                    ),
+                    const SizedBox(height: 12.0),
+                    const Text(
+                      'At what time will you take your medication?',
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Color(0xFFB6CBFF),
+                          height: 1.5),
+                    ),
+                    const SizedBox(height: 32.0),
+                    ..._buildTimePickers(),
+                    const SizedBox(height: 16.0),
+                  ],
                 ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Choose the time you will take your medication.',
-                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-                const SizedBox(height: 16.0),
-                ..._buildTimePickers(),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  right: 16.0), // Set your desired margin
+              child: SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor:
+                        const Color(0xFFC1D3FF), // Set the fill color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          50.0), // Adjust the value as needed
+                    ),
+                    side: const BorderSide(
+                      color: Color(0xFF6086f6), // Set the outline color
+                      width: 2.5, // Set the outline width
+                    ),
+                  ),
                   onPressed: () {
                     _setMedicationDoseTimes();
                   },
-                  child: const Text('Next'),
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF1F3299)),
+                  ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
