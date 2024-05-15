@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
+import '../../../services/misc_methods/show_hovering_message.dart';
 import 'medication_frequency_type.dart';
 
 class MedicationTypePage extends StatefulWidget {
@@ -51,6 +52,8 @@ class _MedicationTypePageState extends State<MedicationTypePage> {
           ),
         ),
       );
+    } else {
+      showHoveringMessage(context, 'Please choose medication type', 0.82, 0.15, 0.7);
     }
   }
 

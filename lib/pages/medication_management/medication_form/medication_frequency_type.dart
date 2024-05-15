@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
+import '../../../services/misc_methods/show_hovering_message.dart';
 import 'medication_frequency_daily.dart';
 import 'medication_frequency_day.dart';
 import 'medication_frequency_interval.dart';
@@ -106,6 +107,8 @@ class _MedicationFrequencyTypePageState
           ),
         );
       }
+    } else {
+      showHoveringMessage(context, 'Please specify your frequency', 0.82, 0.15, 0.7);
     }
   }
 

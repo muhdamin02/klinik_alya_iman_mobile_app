@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
+import '../../../services/misc_methods/show_hovering_message.dart';
 import 'medication_quantity.dart';
 
 class MedicationDoseTimesPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class MedicationDoseTimesPage extends StatefulWidget {
 
 class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
   List<TimeOfDay> _selectedTimesList = [];
+  List<int> _selectedTimesListBool = [];
 
   @override
   void initState() {
@@ -33,6 +35,10 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
       widget.medication.daily_frequency,
       (_) => TimeOfDay.now(),
     );
+    _selectedTimesListBool = List.generate(
+      widget.medication.daily_frequency,
+      (_) => 0,
+    );
   }
 
   List<Widget> _buildTimePickers() {
@@ -40,10 +46,9 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
 
     for (int i = 0; i < widget.medication.daily_frequency; i++) {
       int j = i + 1;
-      String buttonText =
-          _selectedTimesList.length > i && _selectedTimesList[i] != null
-              ? _selectedTimesList[i]!.format(context)
-              : 'Time $j';
+      String buttonText = _selectedTimesListBool[i] != 0
+          ? _selectedTimesList[i].format(context)
+          : 'Time $j';
 
       timePickers.add(
         Column(
@@ -53,24 +58,32 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFC1D3FF),
+                  backgroundColor: _selectedTimesListBool[i] != 0
+                      ? const Color(0xFFFFE2A2)
+                      : const Color(0xFF303E8F),
+                  fixedSize: const Size.fromHeight(60.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  side: const BorderSide(
-                    color: Color(0xFF6086f6),
-                    width: 2.5,
+                  foregroundColor: const Color(0xFFFFB938),
+                  side: BorderSide(
+                    color: _selectedTimesListBool[i] != 0
+                        ? const Color(0xFF5F4712)
+                        : const Color.fromARGB(0, 255, 255, 255),
+                    width: 2.0,
                   ),
                 ),
                 onPressed: () async {
                   await _selectTime(context, i);
                   setState(() {});
                 },
-                child: Text(
-                  buttonText,
-                  style: const TextStyle(
-                      fontSize: 24, color: Color(0xFF1F3299), letterSpacing: 1),
-                ),
+                child: Text(buttonText,
+                    style: TextStyle(
+                        fontSize: 24,
+                        letterSpacing: 1,
+                        color: _selectedTimesListBool[i] != 0
+                            ? const Color(0xFF5F4712)
+                            : const Color(0xFFEDF2FF))),
               ),
             ),
             const SizedBox(height: 12.0),
@@ -91,38 +104,44 @@ class _MedicationDoseTimesPageState extends State<MedicationDoseTimesPage> {
 
     if (picked != null) {
       _selectedTimesList[index] = picked;
+      _selectedTimesListBool[index] = 1;
     }
   }
 
   void _setMedicationDoseTimes() {
-    final List<String> formattedTimes =
-        _selectedTimesList.map((time) => time.format(context)).toList();
+    if (!_selectedTimesListBool.contains(0)) {
+      final List<String> formattedTimes =
+          _selectedTimesList.map((time) => time.format(context)).toList();
 
-    final medication = Medication(
-      medication_name: widget.medication.medication_name,
-      medication_type: widget.medication.medication_type,
-      frequency_type: widget.medication.frequency_type,
-      frequency_interval: widget.medication.frequency_interval,
-      daily_frequency: widget.medication.daily_frequency,
-      medication_day: widget.medication.medication_day,
-      next_dose_day: widget.medication.next_dose_day,
-      dose_times:
-          formattedTimes.join('; '), // Use a delimiter between time pickers
-      medication_quantity: 0,
-      user_id: widget.user.user_id!,
-      profile_id: widget.profile.profile_id!,
-    );
+      final medication = Medication(
+        medication_name: widget.medication.medication_name,
+        medication_type: widget.medication.medication_type,
+        frequency_type: widget.medication.frequency_type,
+        frequency_interval: widget.medication.frequency_interval,
+        daily_frequency: widget.medication.daily_frequency,
+        medication_day: widget.medication.medication_day,
+        next_dose_day: widget.medication.next_dose_day,
+        dose_times:
+            formattedTimes.join('; '), // Use a delimiter between time pickers
+        medication_quantity: 0,
+        user_id: widget.user.user_id!,
+        profile_id: widget.profile.profile_id!,
+      );
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MedicationQuantityPage(
-          medication: medication,
-          user: widget.user,
-          profile: widget.profile,
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MedicationQuantityPage(
+            medication: medication,
+            user: widget.user,
+            profile: widget.profile,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      showHoveringMessage(
+          context, 'Please specify all the times', 0.82, 0.15, 0.7);
+    }
   }
 
   @override

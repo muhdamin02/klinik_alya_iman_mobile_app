@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:klinik_alya_iman_mobile_app/services/misc_methods/medication_list.dart';
+import 'package:klinik_alya_iman_mobile_app/services/misc_methods/global_medication_list.dart';
 
 import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
+import '../../../services/misc_methods/show_hovering_message.dart';
 import 'medication_type.dart';
 
 class MedicationNamePage extends StatefulWidget {
@@ -25,7 +26,7 @@ class MedicationNamePage extends StatefulWidget {
 }
 
 class _MedicationNamePageState extends State<MedicationNamePage> {
-  final TextEditingController _medicationNameController =
+  final TextEditingController medicationNameController =
       TextEditingController();
 
   final List<String> _medications = globalMedicationList();
@@ -84,16 +85,16 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                             .take(5);
                       },
                       onSelected: (String selection) {
-                        _medicationNameController.text = selection;
+                        medicationNameController.text = selection;
                       },
                       fieldViewBuilder: (
                         BuildContext context,
-                        _medicationNameController,
+                        medicationNameController,
                         FocusNode focusNode,
                         VoidCallback onFieldSubmitted,
                       ) {
                         return TextField(
-                          controller: _medicationNameController,
+                          controller: medicationNameController,
                           focusNode: focusNode,
                           decoration: InputDecoration(
                             filled: true,
@@ -109,10 +110,10 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                             counterText:
                                 '', // This hides the default counter text
                           ),
-                          maxLength: 50,
+                          maxLength: 35,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(
-                                50), // Set the maximum number of characters
+                                35), // Set the maximum number of characters
                           ],
                           buildCounter: (
                             BuildContext context, {
@@ -255,8 +256,8 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                     ),
                   ),
                   onPressed: () {
-                    final medicationName = _medicationNameController.text;
-                    if (medicationName.isNotEmpty) {
+                    final medicationName = medicationNameController.text;
+                    if (medicationNameController.text != '') {
                       final medication = Medication(
                         medication_name: medicationName,
                         medication_type: '',
@@ -281,14 +282,8 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                         ),
                       );
                     } else {
-                      _showHoveringMessage(
-                          context, 'Please enter medication name');
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   const SnackBar(
-                      //     content: Text('Please enter a medication name.',
-                      //         style: TextStyle(fontFamily: 'ProductSans')),
-                      //   ),
-                      // );
+                      showHoveringMessage(context,
+                          'Please enter medication name', 0.82, 0.15, 0.7);
                     }
                   },
                   child: const Text(
@@ -306,41 +301,4 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
       ),
     );
   }
-}
-
-void _showHoveringMessage(BuildContext context, String message) {
-  final overlay = Overlay.of(context);
-  final overlayEntry = OverlayEntry(
-    builder: (context) => Positioned(
-      top: MediaQuery.of(context).size.height *
-          0.37, // Adjust position as needed
-      left: MediaQuery.of(context).size.width * 0.15,
-      width: MediaQuery.of(context).size.width * 0.7,
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            message,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    ),
-  );
-
-  overlay.insert(overlayEntry);
-
-  // Remove the overlay entry after 2 seconds
-  Future.delayed(const Duration(seconds: 2), () {
-    overlayEntry.remove();
-  });
 }

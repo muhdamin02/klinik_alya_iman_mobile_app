@@ -5,6 +5,7 @@ import '../../../models/medication.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/show_hovering_message.dart';
 import '../list_medication.dart';
 
 class MedicationQuantityPage extends StatefulWidget {
@@ -35,7 +36,8 @@ class _MedicationQuantityPageState extends State<MedicationQuantityPage> {
     // Prefill the text fields
     if (widget.medication.medication_type == 'Pills' ||
         widget.medication.medication_type == 'Drops' ||
-        widget.medication.medication_type == 'Inhaler') {
+        widget.medication.medication_type == 'Inhaler' ||
+        widget.medication.medication_type == 'Powder') {
       _medicationQuantityController.text = '1';
     } else {
       _medicationQuantityController.text = '100';
@@ -68,11 +70,13 @@ class _MedicationQuantityPageState extends State<MedicationQuantityPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          backgroundColor: const Color(0xFF303E8F),
           title: const Text('Success'),
           content: const Text('Form submitted successfully!'),
           actions: <Widget>[
             TextButton(
-              child: const Text('OK'),
+              child:
+                  const Text('OK', style: TextStyle(color: Color(0xFFEDF2FF))),
               onPressed: () {
                 // Navigate to the medication list
                 Navigator.push(
@@ -89,6 +93,7 @@ class _MedicationQuantityPageState extends State<MedicationQuantityPage> {
             ),
           ],
         ),
+        barrierDismissible: false,
       );
     } catch (error) {
       // Show error dialog
@@ -100,7 +105,8 @@ class _MedicationQuantityPageState extends State<MedicationQuantityPage> {
           content: Text('An error occurred: $error'),
           actions: <Widget>[
             TextButton(
-              child: const Text('OK'),
+              child:
+                  const Text('OK', style: TextStyle(color: Color(0xFFEDF2FF))),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -114,83 +120,142 @@ class _MedicationQuantityPageState extends State<MedicationQuantityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Step 7: Medication Quantity'),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Enter Medication Quantity',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'How much will you take per dose?',
-                  style: TextStyle(fontSize: 16.0, color: Colors.grey),
-                ),
-                const SizedBox(height: 16.0),
-                SizedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 100.0,
-                        child: TextField(
-                          controller: _medicationQuantityController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            alignLabelWithHint: true,
-                            contentPadding:
-                                EdgeInsets.symmetric(vertical: 10.0),
+      appBar: AppBar(title: const Text('New Medication'), elevation: 0),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 32.0, horizontal: 44.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Quantity',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFEDF2FF),
+                          letterSpacing: 1),
+                    ),
+                    const SizedBox(height: 12.0),
+                    const Text(
+                      'How much will you take per dose?',
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Color(0xFFB6CBFF),
+                          height: 1.5),
+                    ),
+                    const SizedBox(height: 32.0),
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 100.0,
+                            child: TextField(
+                              style: const TextStyle(
+                                  fontSize: 18.0, color: Color(0xFFEDF2FF)),
+                              controller: _medicationQuantityController,
+                              textAlign: TextAlign.center,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              keyboardType: TextInputType.number,
+                              maxLength: 5,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: const Color(0xFF4D5FC0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 20.0),
+                                counterText:
+                                    '', // This hides the default counter text
+                              ),
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          keyboardType: TextInputType.number,
-                        ),
+                          const SizedBox(width: 40.0),
+                          Text(
+                            () {
+                              if (widget.medication.medication_type ==
+                                  'Pills') {
+                                return 'pill(s)';
+                              } else if (widget.medication.medication_type ==
+                                  'Drops') {
+                                return 'drop(s)';
+                              } else if (widget.medication.medication_type ==
+                                  'Inhaler') {
+                                return 'puff(s)';
+                              } else if (widget.medication.medication_type ==
+                                  'Powder') {
+                                return 'packets(s)';
+                              } else {
+                                return 'ml';
+                              }
+                            }(),
+                            style: const TextStyle(
+                                fontSize: 18.0,
+                                color: Color(0xFFEDF2FF),
+                                letterSpacing: 1),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 40.0),
-                      Text(
-                        () {
-                          if (widget.medication.medication_type == 'Pills') {
-                            return 'pill(s)';
-                          } else if (widget.medication.medication_type ==
-                              'Drops') {
-                            return 'drop(s)';
-                          } else if (widget.medication.medication_type ==
-                              'Inhaler') {
-                            return 'puff(s)';
-                          } else if (widget.medication.medication_type ==
-                              'Powder') {
-                            return 'packets(s)';
-                          } else {
-                            return 'ml';
-                          }
-                        }(),
-                        style: const TextStyle(fontSize: 16.0),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    int medicationQuantity =
-                        int.parse(_medicationQuantityController.text);
-                    _submitForm(quantity: medicationQuantity);
-                  },
-                  child: const Text('Next'),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: 16.0,
+                  left: 16.0,
+                  right: 16.0), // Set your desired margin
+              child: SizedBox(
+                height: 60.0,
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor:
+                        const Color(0xFFC1D3FF), // Set the fill color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          50.0), // Adjust the value as needed
+                    ),
+                    side: const BorderSide(
+                      color: Color(0xFF6086f6), // Set the outline color
+                      width: 2.5, // Set the outline width
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_medicationQuantityController.text.isNotEmpty) {
+                      int medicationQuantity =
+                          int.parse(_medicationQuantityController.text);
+                      _submitForm(quantity: medicationQuantity);
+                    } else {
+                      showHoveringMessage(
+                          context, 'Please specify quantity', 0.82, 0.15, 0.7);
+                    }
+                  },
+                  child: const Text(
+                    'Save Medication',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF1F3299)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

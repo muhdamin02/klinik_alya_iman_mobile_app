@@ -8,6 +8,7 @@ import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../../services/misc_methods/show_hovering_message.dart';
 import 'update_appointment.dart';
 
 class ViewAppointment extends StatefulWidget {
@@ -253,43 +254,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     );
   }
 
-  void _showHoveringMessage(BuildContext context, String message) {
-    final overlay = Overlay.of(context);
-    final overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: MediaQuery.of(context).size.height *
-            0.19, // Adjust position as needed
-        left: MediaQuery.of(context).size.width * 0.25,
-        width: MediaQuery.of(context).size.width * 0.5,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              message,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    overlay.insert(overlayEntry);
-
-    // Remove the overlay entry after 2 seconds
-    Future.delayed(const Duration(seconds: 2), () {
-      overlayEntry.remove();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -336,32 +300,33 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 20.0),
                 SizedBox(
                   width: double.infinity, // Adjust padding as needed
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20.0), // Adjust the radius
-                    ),
-                    elevation: 0, // Set the elevation for the card
-                    color: const Color(0xFF2B3885),
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // Handle onTap action here
-                            },
-                            onLongPress: () {
-                              Clipboard.setData(
-                                  ClipboardData(text: appointment.random_id));
-                              _showHoveringMessage(
-                                  context, 'Copied to clipboard');
-                            },
-                            child: Text(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Clipboard.setData(
+                            ClipboardData(text: appointment.random_id));
+                        showHoveringMessage(
+                            context, 'Copied to clipboard', 0.19, 0.25, 0.5);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF2B3885), // Background color of the ElevatedButton
+                        elevation: 0, // Set the elevation for the button
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(20.0), // Adjust the radius
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
                               appointment.random_id,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -370,13 +335,13 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                 color: Color(0xFFFFD271),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 28.0),
+                const SizedBox(height: 32.0),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: const Row(
@@ -613,6 +578,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               );
                             },
                           );
+                        } else {
+                          if (_practitionerName == 'Not yet assigned') {
+                            showHoveringMessage(
+                                context,
+                                'The practitioner has not been assigned yet',
+                                0.82,
+                                0.15,
+                                0.7);
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -641,7 +615,11 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                     color: Color(0xFFB6CBFF),
                                   ),
                                 ),
-                                const SizedBox(width: 8),
+                                Visibility(
+                                  visible: widget.user.role.toLowerCase() ==
+                                      'systemadmin',
+                                  child: const SizedBox(width: 8.0),
+                                ),
                                 Visibility(
                                   visible: widget.user.role.toLowerCase() ==
                                       'systemadmin',
@@ -703,7 +681,12 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                             color: Color(0xFFB6CBFF),
                                           ),
                                         ),
-                                        const SizedBox(width: 8.0),
+                                        Visibility(
+                                          visible:
+                                              widget.user.role.toLowerCase() ==
+                                                  'systemadmin',
+                                          child: const SizedBox(width: 8.0),
+                                        ),
                                         Visibility(
                                           visible:
                                               widget.user.role.toLowerCase() ==
@@ -908,66 +891,214 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 32.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Actions',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                if (widget.user.role.toLowerCase() != 'systemadmin')
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _leaveRemarks(widget.appointment);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.rate_review, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Leave Remarks',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.rate_review, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: SizedBox(
+                    height: 80.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _leaveRemarks(widget.appointment);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor:
+                            const Color(0xFF0B1655), // Set the fill color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              50.0), // Adjust the value as needed
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFFC1D3FF), // Set the outline color
+                          width: 3, // Set the outline width
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(
+                                12.0), // Adjust padding as needed
+                            child: Icon(
+                              Icons.highlight_off, // Use any icon you want
+                              color: Color(0xFFC1D3FF),
+                              size: 28,
+                            ),
+                          ),
+                          Spacer(), // Adjust the spacing between icon and text
+                          Text(
+                            'Cancel Appointment',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFFC1D3FF),
+                            ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.all(
+                                12.0), // Adjust padding as needed
+                            child: Icon(
+                              Icons.highlight_off, // Use any icon you want
+                              color: Color(0xFFC1D3FF),
+                              size: 28,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
               ],
             ),
           );
         },
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Visibility(
-            visible: widget.user.role.toLowerCase() != 'patient' &&
-                widget.appointment.status != 'Confirmed',
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                _confirmAppointment(widget.appointment);
-              },
-              icon: const Icon(Icons.check),
-              label: const Text('Confirm'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Visibility(
-            visible: widget.user.role.toLowerCase() != 'patient',
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UpdateAppointment(
-                      appointment: widget.appointment,
-                      rescheduler: widget.user.role,
-                    ),
-                  ),
-                ).then((result) {
-                  if (result == true) {
-                    // If the appointment was updated, refresh the appointment list
-                    _fetchAppointmentInfo();
-                    _loadPatientName();
-                    _getPractitionerList();
-                  }
-                });
-              },
-              icon: const Icon(Icons.edit),
-              label: const Text('Reschedule'),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Visibility(
-            visible: widget.user.role.toLowerCase() != 'systemadmin',
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                _leaveRemarks(widget.appointment);
-              },
-              icon: const Icon(Icons.rate_review),
-              label: const Text('Leave Remarks'),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: Column(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children: [
+      //     Visibility(
+      //       visible: widget.user.role.toLowerCase() != 'patient' &&
+      //           widget.appointment.status != 'Confirmed',
+      //       child: FloatingActionButton.extended(
+      //         onPressed: () {
+      //           _confirmAppointment(widget.appointment);
+      //         },
+      //         icon: const Icon(Icons.check),
+      //         label: const Text('Confirm'),
+      //       ),
+      //     ),
+      //     const SizedBox(height: 8),
+      //     Visibility(
+      //       visible: widget.user.role.toLowerCase() != 'patient',
+      //       child: FloatingActionButton.extended(
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => UpdateAppointment(
+      //                 appointment: widget.appointment,
+      //                 rescheduler: widget.user.role,
+      //               ),
+      //             ),
+      //           ).then((result) {
+      //             if (result == true) {
+      //               // If the appointment was updated, refresh the appointment list
+      //               _fetchAppointmentInfo();
+      //               _loadPatientName();
+      //               _getPractitionerList();
+      //             }
+      //           });
+      //         },
+      //         icon: const Icon(Icons.edit),
+      //         label: const Text('Reschedule'),
+      //       ),
+      //     ),
+      //     const SizedBox(height: 8),
+      //     Visibility(
+      //       visible: widget.user.role.toLowerCase() != 'systemadmin',
+      //       child: FloatingActionButton.extended(
+      //         onPressed: () {
+      //           _leaveRemarks(widget.appointment);
+      //         },
+      //         icon: const Icon(Icons.rate_review),
+      //         label: const Text('Leave Remarks'),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

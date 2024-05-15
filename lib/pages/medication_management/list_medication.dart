@@ -610,83 +610,181 @@ class _ListMedicationState extends State<ListMedication> {
                 Medication medication = _medicationList[index];
                 return Column(
                   children: [
-                    const SizedBox(height: 16.0),
-                    ListTile(
-                      title: Text(medication.medication_name),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4.0),
-                          Text(
-                              'Medication Type: ${medication.medication_type}'),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.visibility),
-                            onPressed: () {
-                              // Call a method to handle the view functionality
-                              _viewMedication(medication);
-                            },
+                    if (index == 0) // Add SizedBox only for the first item
+                      const SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          _viewMedication(medication);
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                25.0), // Adjust the radius
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              // Call a method to handle the update functionality
-                              _updateMedication(medication);
-                            },
+                          elevation: 0,
+                          color: const Color(0xFF303E8F),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListTile(
+                              title: Text(
+                                medication.medication_name,
+                                style: const TextStyle(
+                                    color: Color(0xFFEDF2FF), fontSize: 18),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    medication.medication_type,
+                                    style: const TextStyle(
+                                        color: Color(0xFFB6CBFF), fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      _getIconForType(
+                                          medication.medication_type),
+                                      color: const Color(0xFFFFD271),
+                                    ),
+                                    onPressed: () {
+                                      _viewMedication(medication);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              // Call a method to handle the delete functionality
-                              _deleteMedication(medication.medication_id);
-                            },
-                          ),
-                        ],
+                        ),
                       ),
                     ),
+                    if (index == _medicationList.length - 1)
+                      const SizedBox(height: 94.0),
+                    // ListTile(
+                    //   title: Text(medication.medication_name),
+                    //   subtitle: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       const SizedBox(height: 4.0),
+                    //       Text(
+                    //           'Medication Type: ${medication.medication_type}'),
+                    //     ],
+                    //   ),
+                    //   trailing: Row(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: [
+                    //       IconButton(
+                    //         icon: const Icon(Icons.visibility),
+                    //         onPressed: () {
+                    //           // Call a method to handle the view functionality
+                    //           _viewMedication(medication);
+                    //         },
+                    //       ),
+                    //       IconButton(
+                    //         icon: const Icon(Icons.edit),
+                    //         onPressed: () {
+                    //           // Call a method to handle the update functionality
+                    //           _updateMedication(medication);
+                    //         },
+                    //       ),
+                    //       IconButton(
+                    //         icon: const Icon(Icons.delete),
+                    //         onPressed: () {
+                    //           // Call a method to handle the delete functionality
+                    //           _deleteMedication(medication.medication_id);
+                    //         },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 );
               },
             ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            final medication = Medication(
-              medication_name: '',
-              medication_type: '',
-              frequency_type: '',
-              frequency_interval: 0,
-              daily_frequency: 0,
-              medication_day: '',
-              next_dose_day: '',
-              dose_times: '',
-              medication_quantity: 0,
-              user_id: widget.user.user_id!,
-              profile_id: widget.profile.profile_id!,
-            );
+            Positioned(
+              bottom: 24.0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SizedBox(
+                  width:
+                      MediaQuery.of(context).size.width - 34, // Adjust padding
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      final medication = Medication(
+                        medication_name: '',
+                        medication_type: '',
+                        frequency_type: '',
+                        frequency_interval: 0,
+                        daily_frequency: 0,
+                        medication_day: '',
+                        next_dose_day: '',
+                        dose_times: '',
+                        medication_quantity: 0,
+                        user_id: widget.user.user_id!,
+                        profile_id: widget.profile.profile_id!,
+                      );
 
-            // Navigate to the page where you want to medication form
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MedicationNamePage(
-                  user: widget.user,
-                  profile: widget.profile,
-                  medication: medication,
+                      // Navigate to the page where you want to medication form
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MedicationNamePage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            medication: medication,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.medication),
+                    label: const Text('Add New Medication'),
+                    elevation: 0,
+                    backgroundColor:
+                        const Color(0xFFC1D3FF), // Set background color here
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(25), // Adjust the border radius
+                      side: const BorderSide(
+                          width: 2.5,
+                          color:
+                              Color(0xFF6086f6)), // Set the outline color here
+                    ),
+                    foregroundColor:
+                        const Color(0xFF1F3299), // Set text and icon color here
+                  ),
                 ),
               ),
-            );
-          },
-          icon: const Icon(Icons.medication),
-          label: const Text('Add New Medication'),
+            ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
+  }
+}
+
+IconData _getIconForType(String type) {
+  switch (type) {
+    case 'Pills':
+      return Icons.medication;
+    case 'Injection':
+      return Icons.vaccines_outlined;
+    case 'Solution':
+      return Icons.water_outlined;
+    case 'Drops':
+      return Icons.water_drop_outlined;
+    case 'Inhaler':
+      return Icons.air;
+    case 'Powder':
+      return Icons.auto_awesome_rounded;
+    default:
+      return Icons.help;
   }
 }
