@@ -4,6 +4,7 @@ import '../../app_drawer/app_drawer_guest_home.dart';
 import '../../models/homefeed.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../profile_management/create_profile.dart';
 import '../startup/login.dart';
 import 'guest_appointment_pages/guest_profile.dart';
 
@@ -90,21 +91,6 @@ class _GuestHomeState extends State<GuestHome> {
             iconTheme: const IconThemeData(
               color: Color(0xFFEDF2FF),
             ),
-            // actions: <Widget>[
-            //   IconButton(
-            //     icon: const Icon(Icons.login),
-            //     onPressed: () async {
-            //       Navigator.pushReplacement(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => Login(
-            //               usernamePlaceholder: widget.user.username,
-            //               passwordPlaceholder: widget.user.password),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ],
             bottom: const TabBar(
               labelStyle: TextStyle(
                 // Set your desired text style for the selected (active) tab here

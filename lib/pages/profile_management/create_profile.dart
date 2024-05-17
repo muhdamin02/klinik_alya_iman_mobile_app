@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../appointment_management/appointment_form.dart';
 import 'list_profile.dart';
 
 class CreateProfile extends StatefulWidget {
@@ -132,72 +133,44 @@ class _CreateProfileState extends State<CreateProfile> {
             onWillPop: () async => false,
             child: AlertDialog(
               backgroundColor: const Color(0xFF303E8F),
-              title: const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Success',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFFEDF2FF),
-                  ),
-                ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
               ),
+              title: const Text('Success'),
               content: Text(
                 'Profile for $editedName has been created!',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFFEDF2FF),
-                ),
               ),
               actions: <Widget>[
-                Container(
-                  margin:
-                      const EdgeInsets.only(bottom: 16.0), // Set bottom margin
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _formKey.currentState!.reset();
-                        _dateOfBirthController.clear();
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ListProfile(
-                              user: widget.user,
-                            ),
+                TextButton(
+                  child: const Text('OK',
+                      style: TextStyle(color: Color(0xFFEDF2FF))),
+                  onPressed: () {
+                    _formKey.currentState!.reset();
+                    _dateOfBirthController.clear();
+                    Navigator.of(context).pop();
+                    if (widget.user.role == 'patient') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListProfile(
+                            user: widget.user,
                           ),
-                        );
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.only(
-                            left: 32.0, right: 32.0, top: 16.0, bottom: 16.0),
-                        backgroundColor:
-                            const Color(0xFFC1D3FF), // Set the fill color
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              50.0), // Adjust the value as needed
                         ),
-                        side: const BorderSide(
-                          color: Color(0xFF6086f6), // Set the outline color
-                          width: 2.5, // Set the outline width
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AppointmentForm(
+                            user: widget.user,
+                            profile: profile,
+                          ),
                         ),
-                      ),
-                      child: const Text(
-                        'Okay',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Color(0xFF1F3299),
-                        ),
-                      ),
-                    ),
-                  ),
+                      );
+                    }
+                  },
                 ),
               ],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(48.0), // Adjust the radius
-              ),
             ),
           ),
           barrierDismissible: false,
@@ -240,9 +213,19 @@ class _CreateProfileState extends State<CreateProfile> {
 
   @override
   Widget build(BuildContext context) {
+    String appbarText;
+    String buttonText;
+    if (widget.user.role == 'patient') {
+      appbarText = 'Create Profile';
+      buttonText = 'Create Profile';
+    } else {
+      appbarText = 'Book Appointment';
+      buttonText = 'Continue';
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Profile'),
+        title: Text(appbarText),
       ),
       body: Column(
         children: [
@@ -540,8 +523,8 @@ class _CreateProfileState extends State<CreateProfile> {
                       width: 2.5, // Set the outline width
                     ),
                   ),
-                  child: const Text('Create Profile',
-                      style: TextStyle(
+                  child: Text(buttonText,
+                      style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF1F3299))),

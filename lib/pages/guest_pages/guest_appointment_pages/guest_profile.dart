@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../app_drawer/app_drawer_guest_appointment.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
+import '../../appointment_management/appointment_form.dart';
+import '../../startup/login.dart';
+import '../guest_home.dart';
 import 'guest_appointment.dart';
 
 class CreateTempProfile extends StatefulWidget {
@@ -25,9 +28,23 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
       TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
 
-  String? _selectedGender;
+  String? _selectedGender, _selectedEthnicity, _selectedMaritalStatus;
   final List<String> _genderOptions = ['Male', 'Female'];
+  final List<String> _ethnicityOptions = [
+    'Malay',
+    'Chinese',
+    'Indian',
+    'Others'
+  ];
+  final List<String> _maritalStatusOptions = [
+    'Single',
+    'Married',
+    'Divorced',
+    'Widowed'
+  ];
   bool _genderError = false;
+  bool _ethnicityError = false;
+  bool _maritalStatusError = false;
 
   // Date of Birth picker
   Future<void> _selectDate(BuildContext context) async {
@@ -54,6 +71,8 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
       final String identification = _identificationController.text;
       final String dateOfBirth = _dateOfBirthController.text;
       final String? selectedGender = _selectedGender;
+      final String? selectedEthnicity = _selectedEthnicity;
+      final String? selectedMaritalStatus = _selectedMaritalStatus;
 
       var profile = Profile(
         name: name,
@@ -67,8 +86,8 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
         belly_size: 0,
         maternity: 'No',
         maternity_week: 0,
-        ethnicity: 'Placeholder',
-        marital_status: 'Placeholder',
+        ethnicity: selectedEthnicity,
+        marital_status: selectedMaritalStatus,
         occupation: 'Placeholder',
         medical_alert: 'Placeholder',
         profile_pic: 'Placeholder',
@@ -119,11 +138,70 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Enter Patient Details'),
+          title: const Text('Book Appointment'),
+          elevation: 0,
+          automaticallyImplyLeading: false,
         ),
-        drawer: AppDrawerGuestAppt(
-          header: 'Guest Appointment',
-          user: widget.user,
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 27,
+                    onPressed: () {},
+                    color: const Color(
+                      0xFF5464BB,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GuestHome(
+                            user: widget.user,
+                            showTips: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.login),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Login(
+                              usernamePlaceholder: '', passwordPlaceholder: ''),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
         ),
         body: Column(
           children: [
@@ -136,76 +214,139 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 16.0),
+                        const SizedBox(height: 4.0),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          child: const Row(
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  color: Color(0xFFB6CBFF),
+                                  height: 1,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  'Patient Information',
+                                  style: TextStyle(
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  color: Color(0xFFB6CBFF),
+                                  height: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 24.0),
                         TextFormField(
                           controller: _nameController,
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color(0xFF4D5FC0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                             ),
+                            labelText: 'Full Name',
+                            labelStyle:
+                                const TextStyle(color: Color(0xFFB6CBFF)),
+                            counterText: '',
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 20.0),
-                            labelText: 'Full Name',
                           ),
                           validator: _requiredValidator,
+                          style: const TextStyle(color: Color(0xFFEDF2FF)),
                         ),
                         const SizedBox(height: 16.0),
                         TextFormField(
                           controller: _identificationController,
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color(0xFF4D5FC0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                             ),
+                            labelText: 'IC or Passport',
+                            labelStyle:
+                                const TextStyle(color: Color(0xFFB6CBFF)),
+                            counterText: '',
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 20.0),
-                            labelText: 'IC or Passport',
                           ),
                           validator: _requiredValidator,
+                          style: const TextStyle(color: Color(0xFFEDF2FF)),
                         ),
                         const SizedBox(height: 16.0),
                         TextFormField(
                           controller: _dateOfBirthController,
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color(0xFF4D5FC0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                             ),
+                            labelText: 'Date of Birth',
+                            labelStyle:
+                                const TextStyle(color: Color(0xFFB6CBFF)),
+                            counterText: '',
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 20.0),
-                            labelText: 'Date of Birth',
                           ),
                           readOnly: true,
                           onTap: () {
                             _selectDate(context);
                           },
                           validator: _requiredValidator,
+                          style: const TextStyle(color: Color(0xFFEDF2FF)),
                         ),
-                        const SizedBox(height: 16.0),
+                        const SizedBox(height: 32.0),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Select Gender:',
-                                style: TextStyle(fontSize: 20)),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  left: 8.0), // Adjust the value as needed
+                              child: Text(
+                                'Gender:',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 8.0),
                             Row(
                               children: [
                                 for (String gender in _genderOptions)
                                   Expanded(
-                                    child: RadioListTile<String>(
-                                      title: Text(gender),
-                                      value: gender,
-                                      groupValue: _selectedGender,
-                                      onChanged: (String? value) {
-                                        setState(() {
-                                          _selectedGender = value;
-                                          _genderError = false;
-                                        });
-                                      },
+                                    child: Theme(
+                                      data: ThemeData(
+                                        unselectedWidgetColor: const Color(
+                                            0xFFEDF2FF), // Change the color to your desired unselected color
+                                      ),
+                                      child: RadioListTile<String>(
+                                        title: Text(
+                                          gender,
+                                          style: const TextStyle(
+                                            color: Color(0xFFEDF2FF),
+                                            fontFamily: 'ProductSans',
+                                          ),
+                                        ),
+                                        activeColor: const Color(0xFFABBFFF),
+                                        value: gender,
+                                        groupValue: _selectedGender,
+                                        onChanged: (String? value) {
+                                          setState(() {
+                                            _selectedGender = value;
+                                            _genderError = false;
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                               ],
@@ -216,14 +357,121 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
                                 child: Text(
                                   'Please select a gender',
                                   style: TextStyle(
-                                    color: Color.fromRGBO(197, 44, 44, 1),
+                                    color: Color(0xFFFF6262),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        const SizedBox(height: 24.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  left: 8.0), // Adjust the value as needed
+                              child: Text(
+                                'Ethnicity:',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            for (String ethnicity in _ethnicityOptions)
+                              Theme(
+                                data: ThemeData(
+                                  unselectedWidgetColor: const Color(
+                                      0xFFEDF2FF), // Change the color to your desired unselected color
+                                ),
+                                child: RadioListTile<String>(
+                                  title: Text(
+                                    ethnicity,
+                                    style: const TextStyle(
+                                      color: Color(0xFFEDF2FF),
+                                      fontFamily: 'ProductSans',
+                                    ),
+                                  ),
+                                  activeColor: const Color(0xFFABBFFF),
+                                  value: ethnicity,
+                                  groupValue: _selectedEthnicity,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _selectedEthnicity = value;
+                                      _ethnicityError = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                            if (_ethnicityError)
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Please select an ethnicity',
+                                  style: TextStyle(
+                                    color: Color(0xFFFF6262),
                                     fontSize: 14,
                                   ),
                                 ),
                               ),
                           ],
                         ),
-                        const SizedBox(height: 16.0),
+                        const SizedBox(height: 24.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                  left: 8.0), // Adjust the value as needed
+                              child: Text(
+                                'Marital Status:',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            for (String maritalStatus in _maritalStatusOptions)
+                              Theme(
+                                data: ThemeData(
+                                  unselectedWidgetColor: const Color(
+                                      0xFFEDF2FF), // Change the color to your desired unselected color
+                                ),
+                                child: RadioListTile<String>(
+                                  title: Text(
+                                    maritalStatus,
+                                    style: const TextStyle(
+                                      color: Color(0xFFEDF2FF),
+                                      fontFamily: 'ProductSans',
+                                    ),
+                                  ),
+                                  activeColor: const Color(0xFFABBFFF),
+                                  value: maritalStatus,
+                                  groupValue: _selectedMaritalStatus,
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _selectedMaritalStatus = value;
+                                      _maritalStatusError = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                            if (_maritalStatusError)
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Please select marital status',
+                                  style: TextStyle(
+                                    color: Color(0xFFFF6262),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -242,17 +490,23 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _submitForm,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 115, 176, 255),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor:
+                          const Color(0xFFC1D3FF), // Set the fill color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            25.0), // Adjust the value as needed
+                            50.0), // Adjust the value as needed
+                      ),
+                      side: const BorderSide(
+                        color: Color(0xFF6086f6), // Set the outline color
+                        width: 2.5, // Set the outline width
                       ),
                     ),
                     child: const Text('Continue',
                         style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.w500)),
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF1F3299))),
                   ),
                 ),
               ),

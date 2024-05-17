@@ -8,6 +8,7 @@ import '../../models/appointment.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../guest_pages/guest_appointment_pages/guest_complete_book.dart';
 import 'list_appointment.dart';
 
 class AppointmentForm extends StatefulWidget {
@@ -280,7 +281,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
         return;
       }
 
-      switch (_selectedBranch){
+      switch (_selectedBranch) {
         case 0:
           branchName = 'Karang Darat';
           break;
@@ -334,10 +335,10 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 child: const Text('OK',
                     style: TextStyle(color: Color(0xFFEDF2FF))),
                 onPressed: () {
-                  // Clear the text fields after submitting the form
                   _formKey.currentState!.reset();
                   _appointmentDateController.clear();
                   Navigator.of(context).pop();
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -398,6 +399,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Appointment'),
+        elevation: 0,
       ),
       body: Stack(
         children: [
@@ -707,40 +709,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ),
                 ),
               ),
-
-              // Align(
-              //   alignment: Alignment.bottomCenter,
-              //   child: Container(
-              //     margin: const EdgeInsets.only(
-              //         bottom: 16.0,
-              //         left: 16.0,
-              //         right: 16.0), // Set your desired margin
-              //     child: SizedBox(
-              //       height: 60.0,
-              //       width: double.infinity,
-              //       child: ElevatedButton(
-              //         onPressed: _submitForm,
-              //         style: OutlinedButton.styleFrom(
-              //           backgroundColor:
-              //               const Color(0xFFC1D3FF), // Set the fill color
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(
-              //                 50.0), // Adjust the value as needed
-              //           ),
-              //           side: const BorderSide(
-              //             color: Color(0xFF6086f6), // Set the outline color
-              //             width: 2.5, // Set the outline width
-              //           ),
-              //         ),
-              //         child: const Text('Continue',
-              //             style: TextStyle(
-              //                 fontSize: 18.0,
-              //                 fontWeight: FontWeight.w500,
-              //                 color: Color(0xFF1F3299))),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
           Positioned(
