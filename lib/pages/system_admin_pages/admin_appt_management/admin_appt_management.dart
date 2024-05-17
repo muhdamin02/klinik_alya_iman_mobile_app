@@ -362,7 +362,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 8.0),
             Expanded(
               child: TabBarView(
                 children: <Widget>[
@@ -437,7 +437,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
             appointment.random_id.toLowerCase().contains(widget.searchQuery)) {
           return Column(
             children: [
-              const SizedBox(height: 12.0),
+              const SizedBox(height: 4.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GestureDetector(
@@ -455,7 +455,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
                         title: Text(
-                          '${DateDisplay(date: appointment.appointment_date).getStringDate()} - ${appointment.appointment_time}',
+                          appointment.random_id,
                           style: const TextStyle(
                               color: Color(0xFFEDF2FF), fontSize: 18),
                         ),
@@ -464,7 +464,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                           children: [
                             const SizedBox(height: 8.0),
                             Text(
-                              appointment.status,
+                              '${DateDisplay(date: appointment.appointment_date).getStringDate()} - ${appointment.appointment_time}',
                               style: const TextStyle(
                                   color: Color(0xFFB6CBFF), fontSize: 18),
                             ),

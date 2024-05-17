@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
                 color: Color(0xFFB6CBFF),
                 width:
                     2.0), // Set the color and width of the border when focused
-            borderRadius: BorderRadius.circular(15.0), // Set the border radius
+            borderRadius: BorderRadius.circular(25.0), // Set the border radius
           ),
         ),
         scaffoldBackgroundColor: const Color(0xFF0B1655),

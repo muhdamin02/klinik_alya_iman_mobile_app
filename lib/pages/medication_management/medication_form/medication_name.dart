@@ -89,12 +89,12 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                       },
                       fieldViewBuilder: (
                         BuildContext context,
-                        medicationNameController,
+                        TextEditingController fieldController,
                         FocusNode focusNode,
                         VoidCallback onFieldSubmitted,
                       ) {
                         return TextField(
-                          controller: medicationNameController,
+                          controller: fieldController,
                           focusNode: focusNode,
                           decoration: InputDecoration(
                             filled: true,
@@ -111,6 +111,9 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                                 '', // This hides the default counter text
                           ),
                           maxLength: 35,
+                          onChanged: (text) {
+                            medicationNameController.text = text;
+                          },
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(
                                 35), // Set the maximum number of characters
@@ -190,42 +193,6 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                         );
                       },
                     ),
-
-                    // TextField(
-                    //   controller: _medicationNameController,
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: const Color(0xFF4D5FC0),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(25.0),
-                    //     ),
-                    //     contentPadding: const EdgeInsets.symmetric(
-                    //         vertical: 16.0, horizontal: 20.0),
-                    //     labelText: 'Medication Name',
-                    //     labelStyle: const TextStyle(color: Color(0xFFB6CBFF)),
-                    //   ),
-                    //   maxLength: 50,
-                    //   inputFormatters: [
-                    //     LengthLimitingTextInputFormatter(
-                    //         50), // Set the maximum number of characters
-                    //   ],
-                    //   buildCounter: (
-                    //     BuildContext context, {
-                    //     required int currentLength,
-                    //     required int? maxLength,
-                    //     required bool isFocused,
-                    //   }) {
-                    //     return Text(
-                    //       '$currentLength / $maxLength',
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         color: isFocused
-                    //             ? const Color(0xFFB6CBFF)
-                    //             : const Color(0x00FFFFFF),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
                     const SizedBox(height: 16.0),
                   ],
                 ),
@@ -257,6 +224,7 @@ class _MedicationNamePageState extends State<MedicationNamePage> {
                   ),
                   onPressed: () {
                     final medicationName = medicationNameController.text;
+                    print(medicationName);
                     if (medicationNameController.text != '') {
                       final medication = Medication(
                         medication_name: medicationName,

@@ -493,6 +493,7 @@ class TabBarAppointment extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 8.0),
             Expanded(
               child: TabBarView(
                 children: <Widget>[
@@ -550,7 +551,7 @@ class TabBarAppointment extends StatelessWidget {
         Appointment appointment = appointmentList[index];
         return Column(
           children: [
-            const SizedBox(height: 12.0),
+            const SizedBox(height: 4.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: GestureDetector(

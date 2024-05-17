@@ -4,6 +4,7 @@ import 'package:klinik_alya_iman_mobile_app/app_drawer/app_drawer_system_admin.d
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
 import '../../startup/login.dart';
+import '../admin_appt_management/admin_appt_management.dart';
 import '../system_admin_home.dart';
 import 'register_user.dart';
 import 'view_user.dart';
@@ -116,7 +117,17 @@ class _ManageUserState extends State<ManageUser> {
                   IconButton(
                     icon: const Icon(Icons.event),
                     iconSize: 22,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageAppointmentAdmin(
+                            user: widget.user,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
                     color: const Color(
                       0xFFEDF2FF,
                     ), // Set the color of the icon
@@ -239,7 +250,7 @@ class TabBarUser extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 74, 142, 230),
+                color: Color(0xFF0A0F2C),
               ),
               child: const TabBar(
                 labelStyle: TextStyle(
@@ -255,7 +266,7 @@ class TabBarUser extends StatelessWidget {
                   fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
-                indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                indicatorColor: Color(0xFFB6CBFF),
                 indicatorWeight: 6,
                 tabs: <Widget>[
                   Tab(
@@ -273,9 +284,12 @@ class TabBarUser extends StatelessWidget {
               child: TextField(
                 onChanged: onSearchQueryChanged,
                 decoration: const InputDecoration(
-                  hintText: 'Search by name or IC/passport',
+                  hintText: 'Search by full name or username',
+                  hintStyle: TextStyle(
+                    color: Color(0xFFB6CBFF), // Set the hint text color here
+                  ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Color(0xFF4D5FC0),
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -286,11 +300,12 @@ class TabBarUser extends StatelessWidget {
                   prefixIcon: Padding(
                     padding:
                         EdgeInsets.only(left: 10.0), // Adjust the left padding
-                    child: Icon(Icons.search),
+                    child: Icon(Icons.search, color: Color(0xFFB6CBFF)),
                   ),
                 ),
               ),
             ),
+            const SizedBox(height: 8.0),
             Expanded(
               child: TabBarView(
                 children: <Widget>[
@@ -315,7 +330,7 @@ class TabBarUser extends StatelessWidget {
             user.username.toLowerCase().contains(searchQuery)) {
           return Column(
             children: [
-              const SizedBox(height: 12.0),
+              const SizedBox(height: 4.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GestureDetector(
@@ -324,19 +339,28 @@ class TabBarUser extends StatelessWidget {
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
+                      borderRadius:
+                          BorderRadius.circular(25.0), // Adjust the radius
                     ),
-                    elevation: 8,
-                    color: const Color.fromARGB(255, 238, 238, 238),
+                    elevation: 0,
+                    color: const Color(0xFF303E8F),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
-                        title: Text(user.name),
+                        title: Text(
+                          _getFirstTwoWords(user.name),
+                          style: const TextStyle(
+                              color: Color(0xFFEDF2FF), fontSize: 18),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 4.0),
-                            Text(user.username),
+                            Text(
+                              user.username,
+                              style: const TextStyle(
+                                  color: Color(0xFFB6CBFF), fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
@@ -353,4 +377,13 @@ class TabBarUser extends StatelessWidget {
       },
     );
   }
+}
+
+// Function to get the first two words from a string
+String _getFirstTwoWords(String fullName) {
+  // Split the string into words
+  List<String> words = fullName.split(' ');
+
+  // Take the first two words and join them back into a string
+  return words.take(2).join(' ');
 }

@@ -207,12 +207,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        // drawer: AppDrawerAllPages(
-        //   header: 'Profile Page',
-        //   user: user,
-        //   profile: profile,
-        //   autoImplyLeading: true,
-        // ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
