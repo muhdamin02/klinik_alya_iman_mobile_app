@@ -161,94 +161,51 @@ class _SystemAdminHomeState extends State<SystemAdminHome> {
               ),
             ),
           ),
-          body: PatientTabBarView(homeFeed: _homeFeed),
+          body: Stack(
+            children: [
+              PatientTabBarView(homeFeed: _homeFeed),
+              Positioned(
+                bottom: 24.0,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width -
+                        34, // Adjust padding
+                    child: FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NewAnnouncement(
+                              user: widget.user,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.announcement),
+                      label: const Text('Add New Announcement'),
+                      elevation: 0,
+                      backgroundColor:
+                          const Color(0xFFC1D3FF), // Set background color here
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            25), // Adjust the border radius
+                        side: const BorderSide(
+                            width: 2.5,
+                            color: Color(
+                                0xFF6086f6)), // Set the outline color here
+                      ),
+                      foregroundColor: const Color(
+                          0xFF1F3299), // Set text and icon color here
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      // child: Scaffold(
-      //   appBar: AppBar(
-      //     title: const Text(
-      //       'Home',
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //     iconTheme: const IconThemeData(
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //   drawer: AppDrawerSystemAdmin(
-      //     header: 'System Admin Home',
-      //     user: widget.user,
-      //   ),
-      //   body: Stack(
-      //     children: [
-      //       ListView.builder(
-      //         itemCount: _homeFeed.length,
-      //         itemBuilder: (context, index) {
-      //           HomeFeed homeFeed = _homeFeed[index];
-      //           return Column(
-      //             children: [
-      //               const SizedBox(height: 12.0),
-      //               Padding(
-      //                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      //                 child: GestureDetector(
-      //                   onTap: () {
-      //                     // function
-      //                   },
-      //                   child: Card(
-      //                     shape: RoundedRectangleBorder(
-      //                       borderRadius: BorderRadius.circular(
-      //                           25.0), // Adjust the radius
-      //                     ),
-      //                     elevation: 8, // Set the elevation for the card
-      //                     color: const Color.fromARGB(255, 238, 238, 238),
-      //                     child: Padding(
-      //                       padding: const EdgeInsets.all(16.0),
-      //                       child: ListTile(
-      //                         title: Text(
-      //                           homeFeed.title,
-      //                           style: const TextStyle(
-      //                             fontWeight: FontWeight
-      //                                 .bold, // You can adjust other font styles as well
-      //                           ),
-      //                         ),
-      //                         subtitle: Column(
-      //                           crossAxisAlignment: CrossAxisAlignment.start,
-      //                           children: [
-      //                             const SizedBox(height: 4.0),
-      //                             Text(
-      //                               homeFeed.body,
-      //                               maxLines: 3,
-      //                               overflow: TextOverflow.ellipsis,
-      //                             ),
-      //                           ],
-      //                         ),
-      //                       ),
-      //                     ),
-      //                   ),
-      //                 ),
-      //               ),
-      //             ],
-      //           );
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      //   floatingActionButton: FloatingActionButton.extended(
-      //     onPressed: () {
-      //       // Navigate to the page where you want to medication form
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(
-      //           builder: (context) => NewAnnouncement(
-      //             user: widget.user,
-      //           ),
-      //         ),
-      //       );
-      //     },
-      //     icon: const Icon(Icons.announcement),
-      //     label: const Text('Add New Announcement'),
-      //   ),
-      //   floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      // ),
     );
   }
 }

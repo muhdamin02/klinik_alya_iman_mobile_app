@@ -980,7 +980,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ),
                     ),
                   ),
-                const SizedBox(height: 10),
+                if (widget.user.role.toLowerCase() != 'systemadmin')
+                  const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: SizedBox(

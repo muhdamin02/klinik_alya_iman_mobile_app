@@ -3,6 +3,8 @@ import 'package:klinik_alya_iman_mobile_app/app_drawer/app_drawer_system_admin.d
 
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../startup/login.dart';
+import '../system_admin_home.dart';
 import 'register_user.dart';
 import 'view_user.dart';
 
@@ -78,44 +80,133 @@ class _ManageUserState extends State<ManageUser> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'User List',
-            style: TextStyle(color: Colors.white),
-          ),
+          title: const Text('Users'),
           iconTheme: const IconThemeData(
-            color: Colors.white,
+            color: Color(0xFFEDF2FF),
+          ),
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {},
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SystemAdminHome(
+                            user: widget.user,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.group),
+                    iconSize: 30,
+                    onPressed: () {},
+                    color: const Color(
+                      0xFF5464BB,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
           ),
         ),
-        drawer: AppDrawerSystemAdmin(
-          header: 'Manage User',
-          user: widget.user,
-        ),
-        body: TabBarUser(
-          patientList: _patientList,
-          practitionerList: _practitionerList,
-          onViewUser: _viewUser,
-          onSearchQueryChanged: (value) {
-            setState(() {
-              _searchQuery = value.toLowerCase();
-            });
-          },
-          searchQuery: _searchQuery,
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            // Navigate to the page where you want to appointment form
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RegisterUser(
-                  user: widget.user,
-                  willPopScopeBool: true,
+        body: Stack(
+          children: [
+            TabBarUser(
+              patientList: _patientList,
+              practitionerList: _practitionerList,
+              onViewUser: _viewUser,
+              onSearchQueryChanged: (value) {
+                setState(() {
+                  _searchQuery = value.toLowerCase();
+                });
+              },
+              searchQuery: _searchQuery,
+            ),
+            Positioned(
+              bottom: 24.0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: SizedBox(
+                  width:
+                      MediaQuery.of(context).size.width - 34, // Adjust padding
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterUser(
+                            user: widget.user,
+                            willPopScopeBool: true,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.person_add_alt),
+                    label: const Text('Register New User'),
+                    elevation: 0,
+                    backgroundColor:
+                        const Color(0xFFC1D3FF), // Set background color here
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(25), // Adjust the border radius
+                      side: const BorderSide(
+                          width: 2.5,
+                          color:
+                              Color(0xFF6086f6)), // Set the outline color here
+                    ),
+                    foregroundColor:
+                        const Color(0xFF1F3299), // Set text and icon color here
+                  ),
                 ),
               ),
-            );
-          },
-          icon: const Icon(Icons.person_2_outlined),
-          label: const Text('Register New User'),
+            ),
+          ],
         ),
       ),
     );

@@ -6,6 +6,9 @@ import '../../../models/user.dart';
 import '../../../services/database_service.dart';
 import '../../../services/misc_methods/date_display.dart';
 import '../../appointment_management/view_appointment.dart';
+import '../../startup/login.dart';
+import '../system_admin_home.dart';
+import '../user_management/manage_user.dart';
 
 class ManageAppointmentAdmin extends StatefulWidget {
   final User user;
@@ -25,6 +28,7 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
   List<Appointment> _appointmentUpcomingList = [];
   List<Appointment> _appointmentTodayList = [];
   List<Appointment> _appointmentPastList = [];
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -99,6 +103,14 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
     );
   }
 
+  // -----
+
+  void onSearchQueryChanged(String value) {
+    setState(() {
+      _searchQuery = value.toLowerCase();
+    });
+  }
+
   // ----------------------------------------------------------------------
   // Builder
 
@@ -110,24 +122,102 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Appointment List',
-            style: TextStyle(color: Colors.white),
-          ),
-          automaticallyImplyLeading: true,
+          title: const Text('Appointments'),
           iconTheme: const IconThemeData(
-            color: Colors.white,
+            color: Color(0xFFEDF2FF),
           ),
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-        drawer: AppDrawerSystemAdmin(
-          header: 'Manage Appointment',
-          user: widget.user,
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 27,
+                    onPressed: () {},
+                    color: const Color(
+                      0xFF5464BB,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SystemAdminHome(
+                            user: widget.user,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.group),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageUser(
+                            user: widget.user,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
         ),
         body: TabBarAppointment(
-            appointmentUpcomingList: _appointmentUpcomingList,
-            appointmentTodayList: _appointmentTodayList,
-            appointmentPastList: _appointmentPastList,
-            onViewAppointment: _viewAppointment),
+          appointmentUpcomingList: _appointmentUpcomingList,
+          appointmentTodayList: _appointmentTodayList,
+          appointmentPastList: _appointmentPastList,
+          onViewAppointment: _viewAppointment,
+          onSearchQueryChanged: (value) {
+            setState(() {
+              _searchQuery = value.toLowerCase();
+            });
+          },
+          searchQuery: _searchQuery,
+        ),
       ),
     );
   }
@@ -138,13 +228,17 @@ class TabBarAppointment extends StatefulWidget {
   final List<Appointment> appointmentTodayList;
   final List<Appointment> appointmentPastList;
   final Function(Appointment) onViewAppointment;
+  final Function(String) onSearchQueryChanged;
+  final String searchQuery;
 
   const TabBarAppointment(
       {Key? key,
       required this.appointmentUpcomingList,
       required this.appointmentTodayList,
       required this.appointmentPastList,
-      required this.onViewAppointment})
+      required this.onViewAppointment,
+      required this.onSearchQueryChanged,
+      required this.searchQuery})
       : super(key: key);
 
   @override
@@ -165,81 +259,116 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 74, 142, 230),
+                color: Color(0xFF0A0F2C),
               ),
-              child: const Column(
-                children: [
-                  SizedBox(height: 8),
-                  TabBar(
-                    labelStyle: TextStyle(
-                      // Set your desired text style for the selected (active) tab here
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      fontFamily: 'ProductSans',
-                      // You can set other text style properties as needed
-                    ),
-                    unselectedLabelStyle: TextStyle(
-                      // Set your desired text style for the unselected tabs here
-                      fontSize: 16,
-                      fontFamily: 'ProductSans',
-                      // You can set other text style properties as needed
-                    ),
-                    indicatorColor: Color.fromARGB(255, 37, 101, 184),
-                    indicatorWeight: 6,
-                    tabs: <Widget>[
-                      Tab(
-                        text: 'Upcoming',
-                      ),
-                      Tab(
-                        text: 'Today',
-                      ),
-                      Tab(
-                        text: 'Past',
-                      ),
-                    ],
+              child: const TabBar(
+                labelStyle: TextStyle(
+                  // Set your desired text style for the selected (active) tab here
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  fontFamily: 'ProductSans',
+                  // You can set other text style properties as needed
+                ),
+                unselectedLabelStyle: TextStyle(
+                  // Set your desired text style for the unselected tabs here
+                  fontSize: 16,
+                  fontFamily: 'ProductSans',
+                  // You can set other text style properties as needed
+                ),
+                indicatorColor: Color(0xFFB6CBFF),
+                indicatorWeight: 6,
+                tabs: <Widget>[
+                  Tab(
+                    text: 'Upcoming',
+                  ),
+                  Tab(
+                    text: 'Today',
+                  ),
+                  Tab(
+                    text: 'Past',
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Filter:',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 16.0, left: 19.0, right: 0.0, bottom: 0.0),
+                    child: TextField(
+                      onChanged: widget.onSearchQueryChanged,
+                      decoration: const InputDecoration(
+                        hintText: 'Ref Number',
+                        hintStyle: TextStyle(
+                          color:
+                              Color(0xFFB6CBFF), // Set the hint text color here
+                        ),
+                        filled: true,
+                        fillColor: Color(0xFF4D5FC0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 20.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25.0),
+                          ),
+                        ),
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.only(
+                              left: 10.0), // Adjust the left padding
+                          child: Icon(Icons.search, color: Color(0xFFB6CBFF)),
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  DropdownButton<String>(
-                    value: _selectedFilter,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedFilter = value!;
-                      });
-                    },
-                    items: ['All', 'Assigned', 'Unassigned']
-                        .map<DropdownMenuItem<String>>(
-                      (String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      },
-                    ).toList(),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 25, top: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Icon(Icons.filter_list_rounded,
+                            color: Color(0xFFB6CBFF)),
+                        // const Text(
+                        //   'Filter by ',
+                        //   style: TextStyle(
+                        //     color: Color(0xFFB6CBFF),
+                        //     fontSize: 16, // Set your desired font size
+                        //   ),
+                        // ),
+                        const SizedBox(width: 10),
+                        DropdownButton<String>(
+                          value: _selectedFilter,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedFilter = value!;
+                            });
+                          },
+                          dropdownColor: const Color(0xFF303E8F),
+                          items: ['All', 'Assigned', 'Unassigned']
+                              .map<DropdownMenuItem<String>>(
+                            (String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            const SizedBox(height: 4),
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  _buildAppointmentList(widget.appointmentUpcomingList),
-                  _buildAppointmentList(widget.appointmentTodayList),
-                  _buildAppointmentList(widget.appointmentPastList),
+                  _buildAppointmentList(widget.appointmentUpcomingList, 1),
+                  _buildAppointmentList(widget.appointmentTodayList, 2),
+                  _buildAppointmentList(widget.appointmentPastList, 3),
                 ],
               ),
             ),
@@ -249,8 +378,43 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
     );
   }
 
-  Widget _buildAppointmentList(List<Appointment> appointmentList) {
+  Widget _buildAppointmentList(List<Appointment> appointmentList, int tab) {
     List<Appointment> filteredList;
+
+    if (appointmentList.isEmpty) {
+      String noAppointment = 'appointments.';
+      switch (tab) {
+        case 1:
+          noAppointment = 'upcoming appointments.';
+          break;
+        case 2:
+          noAppointment = 'appointments today.';
+          break;
+        case 3:
+          noAppointment = 'past appointments.';
+          break;
+        default:
+          noAppointment = 'appointments.';
+          break;
+      }
+      return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              const Spacer(),
+              Center(
+                child: Text(
+                  'There are no $noAppointment',
+                  style:
+                      const TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 56.0),
+              const Spacer(),
+            ],
+          ));
+    }
 
     if (_selectedFilter == 'Assigned') {
       filteredList = appointmentList
@@ -268,55 +432,86 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
       itemCount: filteredList.length,
       itemBuilder: (context, index) {
         Appointment appointment = filteredList[index];
-        return Column(
-          children: [
-            const SizedBox(height: 12.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: GestureDetector(
-                onTap: () {
-                  widget.onViewAppointment(appointment);
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(25.0), // Adjust the radius
-                  ),
-                  elevation: 8, // Set the elevation for the card
-                  color: const Color.fromARGB(255, 238, 238, 238),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ListTile(
-                      title: Text(
-                          '${appointment.appointment_time} - ${DateDisplay(date: appointment.appointment_date).getStringDate()}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 4.0),
-                          Text(appointment.status),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.visibility),
-                            onPressed: () {
-                              widget.onViewAppointment(appointment);
-                            },
-                          ),
-                        ],
+        if (widget.searchQuery.isEmpty ||
+            appointment.random_id.toLowerCase().contains(widget.searchQuery) ||
+            appointment.random_id.toLowerCase().contains(widget.searchQuery)) {
+          return Column(
+            children: [
+              const SizedBox(height: 12.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    widget.onViewAppointment(appointment);
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(25.0), // Adjust the radius
+                    ),
+                    elevation: 0,
+                    color: const Color(0xFF303E8F),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ListTile(
+                        title: Text(
+                          '${DateDisplay(date: appointment.appointment_date).getStringDate()} - ${appointment.appointment_time}',
+                          style: const TextStyle(
+                              color: Color(0xFFEDF2FF), fontSize: 18),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8.0),
+                            Text(
+                              appointment.status,
+                              style: const TextStyle(
+                                  color: Color(0xFFB6CBFF), fontSize: 18),
+                            ),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                _getIconForStatus(appointment.status),
+                                color: const Color(0xFFFFD271),
+                              ),
+                              onPressed: () {
+                                widget.onViewAppointment(appointment);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            if (index == filteredList.length - 1)
-              const SizedBox(height: 77.0), // Add SizedBox after the last item
-          ],
-        );
+              if (index == filteredList.length - 1)
+                const SizedBox(
+                    height: 77.0), // Add SizedBox after the last item
+            ],
+          );
+        } else {
+          return Container();
+        }
       },
     );
+  }
+}
+
+IconData _getIconForStatus(String status) {
+  if (status == 'Pending') {
+    return Icons.hourglass_empty;
+  } else if (status == 'Confirmed') {
+    return Icons.check_circle_outline_rounded;
+  } else if (status == 'Cancelled') {
+    return Icons.cancel;
+  } else if (status == 'In Progress') {
+    return Icons.timelapse;
+  } else {
+    return Icons.help; // Default icon for unknown statuses
   }
 }

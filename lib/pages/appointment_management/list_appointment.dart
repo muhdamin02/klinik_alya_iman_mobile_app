@@ -380,12 +380,6 @@ class _ListAppointmentState extends State<ListAppointment> {
             ),
           ),
         ),
-        drawer: AppDrawerProfilesLogout(
-          header: 'Appointments',
-          user: widget.user,
-          profile: widget.profile,
-          autoImplyLeading: widget.autoImplyLeading,
-        ),
         body: Stack(
           children: [
             TabBarAppointment(
