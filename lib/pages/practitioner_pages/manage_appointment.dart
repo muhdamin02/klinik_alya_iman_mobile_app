@@ -6,6 +6,9 @@ import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
 import '../appointment_management/update_appointment.dart';
 import '../appointment_management/view_appointment.dart';
+import '../startup/login.dart';
+import 'patient_pages/view_patients_list.dart';
+import 'practitioner_home.dart';
 
 class ManageAppointment extends StatefulWidget {
   final User user;
@@ -292,20 +295,122 @@ class _ManageAppointmentState extends State<ManageAppointment> {
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async {
-        return widget.autoImplyLeading;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Appointment List',
-            style: TextStyle(color: Colors.white),
-          ),
-          automaticallyImplyLeading: widget.autoImplyLeading,
+          title: const Text('My Appointments'),
           iconTheme: const IconThemeData(
-            color: Colors.white,
+            color: Color(0xFFEDF2FF),
+          ),
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      // PROFILE PAGE FOR PRACTITIONER
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 27,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageAppointment(
+                            user: widget.user,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFF5464BB,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerHome(
+                            user: widget.user,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.group),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientsList(
+                            user: widget.user,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    iconSize: 23,
+                    onPressed: () {},
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
           ),
         ),
         body: TabBarAppointment(

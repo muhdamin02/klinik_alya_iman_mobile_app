@@ -4,6 +4,7 @@ import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../startup/login.dart';
 import 'manage_appointment.dart';
 import 'patient_pages/view_patients_list.dart';
 
@@ -22,12 +23,16 @@ class PractitionerHome extends StatefulWidget {
 
 class _PractitionerHomeState extends State<PractitionerHome> {
   List<Appointment> _appointmentTodayList = [];
+  List<Appointment> _appointmentUpcomingList = [];
+  List<Appointment> _appointmentPastList = [];
   List<Appointment> _patientsUnderCareList = [];
 
   @override
   void initState() {
     super.initState();
     _fetchAppointmentTodayList();
+    _fetchAppointmentUpcomingList();
+    _fetchAppointmentPastList();
     _fetchPatientsUnderCareList();
     print(_appointmentTodayList);
     print(_patientsUnderCareList);
@@ -46,6 +51,38 @@ class _PractitionerHomeState extends State<PractitionerHome> {
 
     setState(() {
       _appointmentTodayList = appointmentTodayList;
+    });
+  }
+
+  // ----------------------------------------------------------------------
+  // Get list of upcoming appointments
+
+  Future<void> _fetchAppointmentUpcomingList() async {
+    List<Appointment> appointmentUpcomingList = await DatabaseService()
+        .appointmentUpcomingPractitioner(widget.user.user_id!);
+
+    // Sort the list by appointment date in ascending order
+    appointmentUpcomingList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
+    setState(() {
+      _appointmentUpcomingList = appointmentUpcomingList;
+    });
+  }
+
+  // ----------------------------------------------------------------------
+  // Get list of past appointments
+
+  Future<void> _fetchAppointmentPastList() async {
+    List<Appointment> appointmentPastList = await DatabaseService()
+        .pastAppointmentsPractitioner(widget.user.user_id!);
+
+    // Sort the list by appointment date in ascending order
+    appointmentPastList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+
+    setState(() {
+      _appointmentPastList = appointmentPastList;
     });
   }
 
@@ -71,132 +108,527 @@ class _PractitionerHomeState extends State<PractitionerHome> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Home',
-            style: TextStyle(color: Colors.white),
+            'Dashboard',
           ),
+          elevation: 0,
           iconTheme: const IconThemeData(
-            color: Colors.white,
+            color: Color(0xFFEDF2FF),
+          ),
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      // PROFILE PAGE FOR PRACTITIONER
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageAppointment(
+                            user: widget.user,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 30,
+                    onPressed: () {
+                      // Method associated with the home icon
+                    },
+                    color: const Color(
+                      0xFF5464BB,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.group),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientsList(
+                            user: widget.user,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    iconSize: 23,
+                    onPressed: () {},
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
           ),
         ),
-        drawer: AppDrawerLogout(
-          header: 'Practitioner Home',
-          user: widget.user,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(25.0), // Adjust the radius
-                  ),
-                  elevation: 8.0, // You can adjust the elevation as needed
-                  color: const Color.fromARGB(255, 238, 238, 238),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 32.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('APPOINTMENTS TODAY',
-                            style: TextStyle(fontSize: 20)),
-                        const SizedBox(height: 16.0),
-                        Text(
-                          '${_appointmentTodayList.length}',
-                          style: const TextStyle(fontSize: 64),
+                const SizedBox(height: 8.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
                         ),
-                        const SizedBox(height: 24.0),
-                        SizedBox(
-                          height: 60.0,
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 115, 176, 255),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(
-                                      25.0), // Set the value to 0 for a sharp corner
-                                  bottomRight: Radius.circular(
-                                      25.0), // Set the value to 0 for a sharp corner
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'My Appointments',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManageAppointment(
+                              user: widget.user,
+                              autoImplyLeading: true,
+                            ),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF303E8F), // Background color of the ElevatedButton
+                        elevation: 0, // Set the elevation for the button
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(20.0), // Adjust the radius
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Handle onTap action here
+                              },
+                              child: const Text(
+                                "TODAY",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFB6CBFF),
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ManageAppointment(
-                                    user: widget.user,
-                                    autoImplyLeading: true,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: const Text('View Appointments',
-                                style: TextStyle(fontWeight: FontWeight.w500)),
-                          ),
-                          // Add more details specific to practitioners
+                            const SizedBox(height: 8),
+                            Text(
+                              '${_appointmentTodayList.length}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 48,
+                                color: Color(0xFFEDF2FF),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(25.0), // Adjust the radius
-                  ),
-                  elevation: 8.0, // You can adjust the elevation as needed
-                  color: const Color.fromARGB(255, 238, 238, 238),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 32.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('PATIENTS UNDER CARE',
-                            style: TextStyle(fontSize: 20)),
-                        const SizedBox(height: 16.0),
-                        Text(
-                          '${_patientsUnderCareList.length}',
-                          style: const TextStyle(fontSize: 64),
-                        ),
-                        const SizedBox(height: 24.0),
-                        SizedBox(
-                          height: 60.0,
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 115, 176, 255),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(
-                                      25.0), // Set the value to 0 for a sharp corner
-                                  bottomRight: Radius.circular(
-                                      25.0), // Set the value to 0 for a sharp corner
-                                ),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PatientsList(
-                                    user: widget.user,
-                                    autoImplyLeading: true,
+                const SizedBox(height: 8.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ManageAppointment(
+                                          user: widget.user,
+                                          autoImplyLeading: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "UPCOMING",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
-                            child: const Text('View Patients',
-                                style: TextStyle(fontWeight: FontWeight.w500)),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${_appointmentUpcomingList.length}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          // Add more details specific to practitioners
                         ),
-                      ],
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ManageAppointment(
+                                          user: widget.user,
+                                          autoImplyLeading: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "PAST",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${_appointmentPastList.length}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'My Patients',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PatientsList(
+                                          user: widget.user,
+                                          autoImplyLeading: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "TOTAL",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${_patientsUnderCareList.length}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF3848A1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PatientsList(
+                                          user: widget.user,
+                                          autoImplyLeading: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    "MATERNITY",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${_patientsUnderCareList.length}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'My Profile',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManageAppointment(
+                              user: widget.user,
+                              autoImplyLeading: true,
+                            ),
+                          ),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor:
+                            const Color(0xFFDBE5FF), // Set the fill color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              50.0), // Adjust the value as needed
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFF6086f6), // Set the outline color
+                          width: 2.5, // Set the outline width
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              _getFirstTwoWords(widget.user.name),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -207,4 +639,13 @@ class _PractitionerHomeState extends State<PractitionerHome> {
       ),
     );
   }
+}
+
+// Function to get the first two words from a string
+String _getFirstTwoWords(String fullName) {
+  // Split the string into words
+  List<String> words = fullName.split(' ');
+
+  // Take the first two words and join them back into a string
+  return words.take(2).join(' ');
 }
