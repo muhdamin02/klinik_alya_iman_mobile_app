@@ -25,6 +25,8 @@ class ViewPatient extends StatefulWidget {
 class _ViewPatientState extends State<ViewPatient> {
   List<Profile> _profileInfo = [];
   String _maternityValue = 'No';
+  bool viewMore = false;
+  bool viewLess = true;
 
   @override
   void initState() {
@@ -89,96 +91,838 @@ class _ViewPatientState extends State<ViewPatient> {
     DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(cleanedDate);
     String formattedDate = DateFormat('dd MMMM yyyy').format(parsedDate);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Patient Details'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0), // Add your desired padding
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _profileInfo.length,
-                itemBuilder: (context, index) {
-                  Profile profile = _profileInfo[index];
-                  return SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Set width to screen width
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('NAME',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(profile.name,
-                            style: const TextStyle(fontSize: 16)),
-                        const SizedBox(height: 24),
-                        const Text('IC/PASSPORT',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(profile.identification,
-                            style: const TextStyle(fontSize: 16)),
-                        const SizedBox(height: 24),
-                        const Text('DATE OF BIRTH',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(
-                          formattedDate,
-                          style: const TextStyle(fontSize: 16),
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to prevent the user from navigating back
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_getFirstTwoWords(widget.profile.name)),
+          elevation: 0,
+          iconTheme: const IconThemeData(
+            color: Color(0xFFEDF2FF),
+          ),
+          automaticallyImplyLeading: true,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 8.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
                         ),
-                        const SizedBox(height: 24),
-                        const Text('GENDER',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        Text(profile.gender!,
-                            style: const TextStyle(fontSize: 16)),
-                        const SizedBox(height: 24),
-                        const Text('MATERNITY STATUS',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 121, 121, 121))),
-                        const SizedBox(height: 4),
-                        DropdownButton<String>(
-                          value: _maternityValue,
-                          onChanged: (newValue) {
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Profile',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(30.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF303E8F),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            child: const Row(
+                              children: [
+                                Text(
+                                  "FULL NAME",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFB6CBFF),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width:
+                                        8), // Add some spacing between text and icon
+                                Icon(
+                                  Icons.lock,
+                                  color: Color(
+                                      0xFFB6CBFF), // Set the color of the icon
+                                  size:
+                                      16, // Adjust the size of the icon as needed
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            widget.profile.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                SizedBox(
+                  width: double.infinity, // Adjust padding as needed
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(30.0), // Adjust the radius
+                    ),
+                    elevation: 0, // Set the elevation for the card
+                    color: const Color(0xFF303E8F),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle onTap action here
+                            },
+                            child: const Row(
+                              children: [
+                                Text(
+                                  "IC/PASSPORT",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFB6CBFF),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width:
+                                        8), // Add some spacing between text and icon
+                                Icon(
+                                  Icons.lock,
+                                  color: Color(
+                                      0xFFB6CBFF), // Set the color of the icon
+                                  size:
+                                      16, // Adjust the size of the icon as needed
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            widget.profile.identification,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                30.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF303E8F),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Handle onTap action here
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Text(
+                                        "BIRTH DATE",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: Color(0xFFB6CBFF),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          width:
+                                              8), // Add some spacing between text and icon
+                                      Icon(
+                                        Icons.lock,
+                                        color: Color(
+                                            0xFFB6CBFF), // Set the color of the icon
+                                        size:
+                                            16, // Adjust the size of the icon as needed
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  formattedDate,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity, // Adjust padding as needed
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                30.0), // Adjust the radius
+                          ),
+                          elevation: 0, // Set the elevation for the card
+                          color: const Color(0xFF303E8F),
+                          child: Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    // Handle onTap action here
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Text(
+                                        "GENDER",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: Color(0xFFB6CBFF),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          width:
+                                              8), // Add some spacing between text and icon
+                                      Icon(
+                                        Icons.lock,
+                                        color: Color(
+                                            0xFFB6CBFF), // Set the color of the icon
+                                        size:
+                                            16, // Adjust the size of the icon as needed
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${widget.profile.gender}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: viewLess,
+                  child: const SizedBox(height: 8.0),
+                ),
+                AnimatedOpacity(
+                  opacity: viewLess ? 1.0 : 0.0,
+                  duration: const Duration(
+                      milliseconds: 300), // Adjust the duration as needed
+                  curve: Curves.easeInOut, // Adjust the curve as needed
+                  child: Visibility(
+                    visible: viewLess,
+                    child: SizedBox(
+                      width: double.infinity, // Adjust padding as needed
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ElevatedButton(
+                          onPressed: () {
                             setState(() {
-                              _maternityValue = newValue!;
-                              _handleMaternitySelection(_maternityValue);
+                              viewLess = !viewLess;
+                              viewMore = true;
                             });
                           },
-                          items: <String>[
-                            'No',
-                            'First Trimester',
-                            'Second Trimester',
-                            'Third Trimester'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            backgroundColor: const Color(0xFF222E75),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: Color(
+                                      0xFFB6CBFF), // Set the color of the icon
+                                  size:
+                                      20, // Adjust the size of the icon as needed
+                                ),
+                                Spacer(),
+                                Text(
+                                  "view more",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFB6CBFF),
+                                  ),
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: Color(
+                                      0xFFB6CBFF), // Set the color of the icon
+                                  size:
+                                      20, // Adjust the size of the icon as needed
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
                     ),
-                  );
-                },
-              ),
-            ],
+                  ),
+                ),
+                Visibility(
+                  visible: viewMore,
+                  child: const SizedBox(height: 4),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AnimatedOpacity(
+                        opacity: viewMore ? 1.0 : 0.0,
+                        duration: const Duration(
+                            milliseconds: 500), // Adjust the duration as needed
+                        curve: Curves.easeInOut, // Adjust the curve as needed
+                        child: Visibility(
+                          visible: viewMore,
+                          child: SizedBox(
+                            width: double.infinity, // Adjust padding as needed
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    30.0), // Adjust the radius
+                              ),
+                              elevation: 0, // Set the elevation for the card
+                              color: const Color(0xFF303E8F),
+                              child: Padding(
+                                padding: const EdgeInsets.all(28.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Handle onTap action here
+                                      },
+                                      child: const Row(
+                                        children: [
+                                          Text(
+                                            "ETHNICITY",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color(0xFFB6CBFF),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              width:
+                                                  8), // Add some spacing between text and icon
+                                          Icon(
+                                            Icons.lock,
+                                            color: Color(
+                                                0xFFB6CBFF), // Set the color of the icon
+                                            size:
+                                                16, // Adjust the size of the icon as needed
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '${widget.profile.ethnicity}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: viewMore,
+                      child: const SizedBox(width: 4),
+                    ),
+                    Expanded(
+                      child: AnimatedOpacity(
+                        opacity: viewMore ? 1.0 : 0.0,
+                        duration: const Duration(
+                            milliseconds: 600), // Adjust the duration as needed
+                        curve: Curves.easeInOut, // Adjust the curve as needed
+                        child: Visibility(
+                          visible: viewMore,
+                          child: SizedBox(
+                            width: double.infinity, // Adjust padding as needed
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    30.0), // Adjust the radius
+                              ),
+                              elevation: 0, // Set the elevation for the card
+                              color: const Color(0xFF303E8F),
+                              child: Padding(
+                                padding: const EdgeInsets.all(28.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Handle onTap action here
+                                      },
+                                      child: const Row(
+                                        children: [
+                                          Text(
+                                            "STATUS",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color(0xFFB6CBFF),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              width:
+                                                  8), // Add some spacing between text and icon
+                                          Icon(
+                                            Icons.lock,
+                                            color: Color(
+                                                0xFFB6CBFF), // Set the color of the icon
+                                            size:
+                                                16, // Adjust the size of the icon as needed
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '${widget.profile.marital_status}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: viewMore,
+                  child: const SizedBox(height: 4),
+                ),
+                AnimatedOpacity(
+                  opacity: viewMore ? 1.0 : 0.0,
+                  duration: const Duration(
+                      milliseconds: 700), // Adjust the duration as needed
+                  curve: Curves.easeInOut, // Adjust the curve as needed
+                  child: Visibility(
+                    visible: viewMore,
+                    child: SizedBox(
+                      width: double.infinity, // Adjust padding as needed
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(30.0), // Adjust the radius
+                        ),
+                        elevation: 0, // Set the elevation for the card
+                        color: const Color(0xFF303E8F),
+                        child: Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle onTap action here
+                                },
+                                child: const Row(
+                                  children: [
+                                    Text(
+                                      "OCCUPATION",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            8), // Add some spacing between text and icon
+                                    Icon(
+                                      Icons.lock,
+                                      color: Color(
+                                          0xFFB6CBFF), // Set the color of the icon
+                                      size:
+                                          16, // Adjust the size of the icon as needed
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                widget.profile.occupation,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewMore,
+                  child: const SizedBox(height: 8),
+                ),
+                AnimatedOpacity(
+                  opacity: viewMore ? 1.0 : 0.0,
+                  duration: const Duration(
+                      milliseconds: 800), // Adjust the duration as needed
+                  curve: Curves.easeInOut, // Adjust the curve as needed
+                  child: Visibility(
+                    visible: viewMore,
+                    child: SizedBox(
+                      width: double.infinity, // Adjust padding as needed
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              viewMore = !viewMore;
+                              viewLess = true;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            backgroundColor: const Color(0xFF222E75),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 16.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.keyboard_arrow_up_rounded,
+                                  color: Color(
+                                      0xFFB6CBFF), // Set the color of the icon
+                                  size:
+                                      20, // Adjust the size of the icon as needed
+                                ),
+                                Spacer(),
+                                Text(
+                                  "view less",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFB6CBFF),
+                                  ),
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_up_rounded,
+                                  color: Color(
+                                      0xFFB6CBFF), // Set the color of the icon
+                                  size:
+                                      20, // Adjust the size of the icon as needed
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // actions
+
+                const SizedBox(height: 36.0),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Actions',
+                          style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: SizedBox(
+                    height: 60.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        //
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor:
+                            const Color(0xFFDBE5FF), // Set the fill color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              50.0), // Adjust the value as needed
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFF6086f6), // Set the outline color
+                          width: 2.5, // Set the outline width
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(
+                                12.0), // Adjust padding as needed
+                            child: Icon(
+                              Icons.event, // Use any icon you want
+                              color: Color(0xFF1F3299),
+                              size: 24,
+                            ),
+                          ),
+                          Spacer(), // Adjust the spacing between icon and text
+                          Text(
+                            'Shared Appointments',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF1F3299),
+                            ),
+                          ),
+                          Spacer(),
+                          Padding(
+                            padding: EdgeInsets.all(
+                                12.0), // Adjust padding as needed
+                            child: Icon(
+                              Icons.event, // Use any icon you want
+                              color: Color(0xFF1F3299),
+                              size: 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if (widget.profile.gender == 'Female')
+                  const SizedBox(height: 8.0),
+                if (widget.profile.gender == 'Female')
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 60.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //
+                        },
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor:
+                              const Color(0xFFCBD9FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons
+                                    .pregnant_woman_rounded, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 24,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Update Maternity',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons
+                                    .pregnant_woman_rounded, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 20.0),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _profileInfo.length,
+                  itemBuilder: (context, index) {
+                    Profile profile = _profileInfo[index];
+                    return SizedBox(
+                      width: MediaQuery.of(context)
+                          .size
+                          .width, // Set width to screen width
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('MATERNITY STATUS',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromARGB(255, 121, 121, 121))),
+                          const SizedBox(height: 4),
+                          DropdownButton<String>(
+                            value: _maternityValue,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _maternityValue = newValue!;
+                                _handleMaternitySelection(_maternityValue);
+                              });
+                            },
+                            items: <String>[
+                              'No',
+                              'First Trimester',
+                              'Second Trimester',
+                              'Third Trimester'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+// Function to get the first two words from a string
+String _getFirstTwoWords(String fullName) {
+  // Split the string into words
+  List<String> words = fullName.split(' ');
+
+  // Take the first two words and join them back into a string
+  return words.take(2).join(' ');
 }

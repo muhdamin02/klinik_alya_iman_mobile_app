@@ -92,7 +92,7 @@ class _ViewUserState extends State<ViewUser> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20.0),
               SizedBox(
                 width: double.infinity, // Adjust padding as needed
                 child: Padding(

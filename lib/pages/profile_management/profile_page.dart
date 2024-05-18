@@ -1,19 +1,15 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/medical_history/list_medical_history.dart';
 
-import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../appointment_management/list_appointment.dart';
-import '../maternity_pages/first_trimester.dart';
 import '../maternity_pages/maternity_overview.dart';
-import '../maternity_pages/second_trimester.dart';
-import '../maternity_pages/third_trimester.dart';
 import '../medication_management/list_medication.dart';
 import '../startup/login.dart';
 import '../startup/patient_homepage.dart';
@@ -212,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(8.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: 12.0),
+              const SizedBox(height: 8.0),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: const Row(
@@ -838,7 +834,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
 
               // =============== FEATURES ============== //
-              const SizedBox(height: 42.0),
+              const SizedBox(height: 36.0),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: const Row(

@@ -4,6 +4,9 @@ import '../../../models/appointment.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../startup/login.dart';
+import '../manage_appointment.dart';
+import '../practitioner_home.dart';
 import 'view_patient.dart';
 
 class PatientsList extends StatefulWidget {
@@ -61,17 +64,122 @@ class _PatientsListState extends State<PatientsList> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return widget.autoImplyLeading;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Patient List',
-            style: TextStyle(color: Colors.white),
+            'My Patients',
           ),
-          automaticallyImplyLeading: widget.autoImplyLeading,
+          elevation: 0,
           iconTheme: const IconThemeData(
-            color: Colors.white,
+            color: Color(0xFFEDF2FF),
+          ),
+          automaticallyImplyLeading: false,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(
+                        usernamePlaceholder: widget.user.username,
+                        passwordPlaceholder: widget.user.password),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      // PROFILE PAGE FOR PRACTITIONER
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageAppointment(
+                              user: widget.user,
+                              autoImplyLeading: true,
+                              initialTab: 1),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerHome(
+                            user: widget.user,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.group),
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientsList(
+                            user: widget.user,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFF5464BB,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    iconSize: 23,
+                    onPressed: () {},
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
           ),
         ),
         body: TabBarPatient(
@@ -116,7 +224,7 @@ class TabBarPatient extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 74, 142, 230),
+                color: Color(0xFF0A0F2C),
               ),
               child: const TabBar(
                 labelStyle: TextStyle(
@@ -132,7 +240,7 @@ class TabBarPatient extends StatelessWidget {
                   fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
-                indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                indicatorColor: Color(0xFFB6CBFF),
                 indicatorWeight: 6,
                 tabs: <Widget>[
                   Tab(
@@ -146,13 +254,16 @@ class TabBarPatient extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                  top: 16.0, left: 16.0, right: 16.0, bottom: 0.0),
+                  top: 16.0, left: 19.0, right: 19.0, bottom: 0.0),
               child: TextField(
                 onChanged: onSearchQueryChanged,
                 decoration: const InputDecoration(
                   hintText: 'Search by name or IC/passport',
+                  hintStyle: TextStyle(
+                    color: Color(0xFFB6CBFF), // Set the hint text color here
+                  ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Color(0xFF4D5FC0),
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                   border: OutlineInputBorder(
@@ -163,7 +274,7 @@ class TabBarPatient extends StatelessWidget {
                   prefixIcon: Padding(
                     padding:
                         EdgeInsets.only(left: 10.0), // Adjust the left padding
-                    child: Icon(Icons.search),
+                    child: Icon(Icons.search, color: Color(0xFFB6CBFF)),
                   ),
                 ),
               ),
@@ -183,6 +294,24 @@ class TabBarPatient extends StatelessWidget {
   }
 
   Widget _buildPatientList(List<Profile> patientList, searchQuery, User user) {
+    if (patientList.isEmpty) {
+      return const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              Spacer(),
+              Center(
+                child: Text(
+                  'You have no patients.',
+                  style: TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 56.0),
+              Spacer(),
+            ],
+          ));
+    }
     return ListView.builder(
       itemCount: patientList.length,
       itemBuilder: (context, index) {
@@ -192,7 +321,9 @@ class TabBarPatient extends StatelessWidget {
             patient.identification.toLowerCase().contains(searchQuery)) {
           return Column(
             children: [
-              const SizedBox(height: 12.0),
+              if (index == 0) // Add SizedBox only for the first item
+                const SizedBox(height: 8.0),
+              const SizedBox(height: 4.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GestureDetector(
@@ -210,19 +341,28 @@ class TabBarPatient extends StatelessWidget {
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
+                      borderRadius:
+                          BorderRadius.circular(25.0), // Adjust the radius
                     ),
-                    elevation: 8,
-                    color: const Color.fromARGB(255, 238, 238, 238),
+                    elevation: 0,
+                    color: const Color(0xFF303E8F),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
-                        title: Text(patient.name),
+                        title: Text(
+                          _getFirstTwoWords(patient.name),
+                          style: const TextStyle(
+                              color: Color(0xFFEDF2FF), fontSize: 18),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 4.0),
-                            Text(patient.identification),
+                            Text(
+                              patient.identification,
+                              style: const TextStyle(
+                                  color: Color(0xFFB6CBFF), fontSize: 18),
+                            ),
                           ],
                         ),
                       ),
@@ -239,4 +379,13 @@ class TabBarPatient extends StatelessWidget {
       },
     );
   }
+}
+
+// Function to get the first two words from a string
+String _getFirstTwoWords(String fullName) {
+  // Split the string into words
+  List<String> words = fullName.split(' ');
+
+  // Take the first two words and join them back into a string
+  return words.take(2).join(' ');
 }

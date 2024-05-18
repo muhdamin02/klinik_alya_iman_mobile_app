@@ -457,7 +457,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                         title: Text(
                           appointment.random_id,
                           style: const TextStyle(
-                              color: Color(0xFFEDF2FF), fontSize: 18),
+                              color: Color(0xFFEDF2FF), fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 2),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -466,7 +466,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                             Text(
                               '${DateDisplay(date: appointment.appointment_date).getStringDate()} - ${appointment.appointment_time}',
                               style: const TextStyle(
-                                  color: Color(0xFFB6CBFF), fontSize: 18),
+                                  color: Color(0xFFB6CBFF), fontSize: 16),
                             ),
                           ],
                         ),

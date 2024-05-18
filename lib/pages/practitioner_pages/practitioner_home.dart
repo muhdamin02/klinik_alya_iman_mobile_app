@@ -161,9 +161,9 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ManageAppointment(
-                            user: widget.user,
-                            autoImplyLeading: true,
-                          ),
+                              user: widget.user,
+                              autoImplyLeading: true,
+                              initialTab: 1),
                         ),
                       );
                     },
@@ -262,6 +262,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                             builder: (context) => ManageAppointment(
                               user: widget.user,
                               autoImplyLeading: true,
+                              initialTab: 1,
                             ),
                           ),
                         );
@@ -298,7 +299,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                               '${_appointmentTodayList.length}',
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
-                                fontSize: 48,
+                                fontSize: 36,
                                 color: Color(0xFFEDF2FF),
                               ),
                               textAlign: TextAlign.center,
@@ -309,55 +310,66 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8.0),
+                const SizedBox(height: 12.0),
                 Row(
                   children: [
                     Expanded(
                       child: SizedBox(
                         width: double.infinity, // Adjust padding as needed
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Adjust the radius
-                          ),
-                          elevation: 0, // Set the elevation for the card
-                          color: const Color(0xFF3848A1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(28.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ManageAppointment(
-                                          user: widget.user,
-                                          autoImplyLeading: true,
-                                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ManageAppointment(
+                                    user: widget.user,
+                                    autoImplyLeading: true,
+                                    initialTab: 0,
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(
+                                  0xFF303E8F), // Background color of the ElevatedButton
+                              elevation: 0, // Set the elevation for the button
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Adjust the radius
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(28.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Handle onTap action here
+                                    },
+                                    child: const Text(
+                                      "UPCOMING",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
                                       ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "UPCOMING",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  '${_appointmentUpcomingList.length}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFEDF2FF),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${_appointmentUpcomingList.length}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 24,
+                                      color: Color(0xFFEDF2FF),
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -367,49 +379,60 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                     Expanded(
                       child: SizedBox(
                         width: double.infinity, // Adjust padding as needed
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Adjust the radius
-                          ),
-                          elevation: 0, // Set the elevation for the card
-                          color: const Color(0xFF3848A1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(28.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ManageAppointment(
-                                          user: widget.user,
-                                          autoImplyLeading: true,
-                                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ManageAppointment(
+                                    user: widget.user,
+                                    autoImplyLeading: true,
+                                    initialTab: 2,
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(
+                                  0xFF303E8F), // Background color of the ElevatedButton
+                              elevation: 0, // Set the elevation for the button
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Adjust the radius
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(28.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Handle onTap action here
+                                    },
+                                    child: const Text(
+                                      "PAST",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
                                       ),
-                                    );
-                                  },
-                                  child: const Text(
-                                    "PAST",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  '${_appointmentPastList.length}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFEDF2FF),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${_appointmentPastList.length}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 24,
+                                      color: Color(0xFFEDF2FF),
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -489,7 +512,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                                 Text(
                                   '${_patientsUnderCareList.length}',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 24,
                                     color: Color(0xFFEDF2FF),
                                   ),
@@ -541,7 +564,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                                 Text(
                                   '${_patientsUnderCareList.length}',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 24,
                                     color: Color(0xFFEDF2FF),
                                   ),
@@ -590,15 +613,15 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ManageAppointment(
-                              user: widget.user,
-                              autoImplyLeading: true,
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ManageAppointment(
+                        //       user: widget.user,
+                        //       autoImplyLeading: true,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       style: OutlinedButton.styleFrom(
                         elevation: 0,
