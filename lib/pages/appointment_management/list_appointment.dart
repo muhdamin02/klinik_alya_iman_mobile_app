@@ -7,6 +7,7 @@ import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../../services/misc_methods/get_icon_status.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../medication_management/list_medication.dart';
@@ -124,23 +125,24 @@ class _ListAppointmentState extends State<ListAppointment> {
   // ----------------------------------------------------------------------
   // Update Appointment
 
-  void _updateAppointment(Appointment appointment) {
-    // Navigate to the update appointment page with the selected appointment
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => UpdateAppointment(
-          appointment: appointment,
-          rescheduler: widget.user.role,
-        ),
-      ),
-    ).then((result) {
-      if (result == true) {
-        // If the appointment was updated, refresh the appointment list
-        _fetchAppointmentUpcomingList();
-      }
-    });
-  }
+  // void _updateAppointment(Appointment appointment) {
+
+  //   // Navigate to the update appointment page with the selected appointment
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => UpdateAppointment(
+  //         appointment: appointment,
+  //         rescheduler: widget.user.role,
+  //       ),
+  //     ),
+  //   ).then((result) {
+  //     if (result == true) {
+  //       // If the appointment was updated, refresh the appointment list
+  //       _fetchAppointmentUpcomingList();
+  //     }
+  //   });
+  // }
 
   // ----------------------------------------------------------------------
 
@@ -589,7 +591,7 @@ class TabBarAppointment extends StatelessWidget {
                         children: [
                           IconButton(
                             icon: Icon(
-                              _getIconForStatus(appointment.status),
+                              getIconForStatus(appointment.status),
                               color: const Color(0xFFFFD271),
                             ),
                             onPressed: () {
@@ -609,19 +611,5 @@ class TabBarAppointment extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-IconData _getIconForStatus(String status) {
-  if (status == 'Pending') {
-    return Icons.hourglass_empty;
-  } else if (status == 'Confirmed') {
-    return Icons.check_circle_outline_rounded;
-  } else if (status == 'Cancelled') {
-    return Icons.cancel;
-  } else if (status == 'In Progress') {
-    return Icons.timelapse;
-  } else {
-    return Icons.help; // Default icon for unknown statuses
   }
 }

@@ -4,6 +4,7 @@ import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../../services/misc_methods/get_icon_status.dart';
 import '../appointment_management/update_appointment.dart';
 import '../appointment_management/view_appointment.dart';
 import '../startup/login.dart';
@@ -116,6 +117,22 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   // Update Appointment
 
   void _updateAppointment(Appointment appointment) {
+    int branch;
+
+    switch (appointment.branch) {
+      case 'Karang Darat':
+        branch = 0;
+        break;
+      case 'Inderapura':
+        branch = 1;
+        break;
+      case 'Kemaman':
+        branch = 2;
+        break;
+      default:
+        branch = 0;
+    }
+
     // Navigate to the update appointment page with the selected appointment
     Navigator.push(
       context,
@@ -123,6 +140,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
         builder: (context) => UpdateAppointment(
           appointment: appointment,
           rescheduler: widget.user.role,
+          appointmentBranch: branch,
         ),
       ),
     ).then((result) {
@@ -632,7 +650,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
           return Column(
             children: [
               if (index == 0) // Add SizedBox only for the first item
-                        const SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
               const SizedBox(height: 4.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -653,7 +671,10 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                         title: Text(
                           appointment.random_id,
                           style: const TextStyle(
-                              color: Color(0xFFEDF2FF), fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 2),
+                              color: Color(0xFFEDF2FF),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 2),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -671,7 +692,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                           children: [
                             IconButton(
                               icon: Icon(
-                                _getIconForStatus(appointment.status),
+                                getIconForStatus(appointment.status),
                                 color: const Color(0xFFFFD271),
                               ),
                               onPressed: () {
@@ -695,19 +716,5 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
         }
       },
     );
-  }
-}
-
-IconData _getIconForStatus(String status) {
-  if (status == 'Pending') {
-    return Icons.hourglass_empty;
-  } else if (status == 'Confirmed') {
-    return Icons.check_circle_outline_rounded;
-  } else if (status == 'Cancelled') {
-    return Icons.cancel;
-  } else if (status == 'In Progress') {
-    return Icons.timelapse;
-  } else {
-    return Icons.help; // Default icon for unknown statuses
   }
 }

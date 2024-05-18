@@ -30,6 +30,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   List<User> _practitionerList = [];
   String? _patientName, _practitionerName;
   User? _selectedPractitioner;
+  bool viewConfirm = false;
 
   @override
   void initState() {
@@ -50,6 +51,10 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       if (_appointmentInfo.isNotEmpty) {
         // Call _getPractitionerName with the practitioner_id from the first appointment in the list
         _getPractitionerName(_appointmentInfo[0].practitioner_id);
+        if (widget.user.role.toLowerCase() == 'systemadmin' &&
+            _appointmentInfo[0].practitioner_id != 0) {
+          viewConfirm = true;
+        }
       }
     });
   }
@@ -160,6 +165,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     );
   }
 
+  // --------------------------------------------------------------------
+
   void _leaveRemarks(Appointment appointment) async {
     TextEditingController remarksController = TextEditingController();
     final int? appointmentId = appointment.appointment_id;
@@ -240,7 +247,10 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     );
   }
 
-  void _handlePractitionerSelection(practitionerId) async {
+  void _handlePractitionerSelection(
+      practitionerId, Appointment appointment) async {
+    String status = appointment.status;
+    String remarks = appointment.system_remarks;
     print(
         'Selected Practitioner: ${_selectedPractitioner?.user_id} ${_selectedPractitioner?.name}');
 
@@ -263,8 +273,17 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                 onPressed: () async {
                   await DatabaseService().assignAppointmentPractitioner(
                       widget.appointment.appointment_id!, practitionerId);
+                  status = 'Assigned';
+                  remarks =
+                      'The appointment has been assigned to practitioner ${_selectedPractitioner?.name} at ${DateFormat('yyyy-MM-dd, h:mm a').format(DateTime.now())}.';
+                  // Call the deleteAppointment method and pass the appointmentId
+                  await DatabaseService().updateAppointmentStatus(
+                      appointment.appointment_id!, status, remarks);
                   Navigator.pop(context);
-                  _fetchAppointmentInfo();
+                  // Refresh the appointment
+                  setState(() {
+                    _fetchAppointmentInfo();
+                  });
                 },
                 child: const Text('Confirm',
                     style: TextStyle(color: Color(0xFFEDF2FF)))),
@@ -584,7 +603,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                         Navigator.of(context).pop();
                                         _selectedPractitioner = newValue;
                                         _handlePractitionerSelection(
-                                            _selectedPractitioner!.user_id);
+                                            _selectedPractitioner!.user_id,
+                                            appointment);
                                       });
                                     },
                                   ),
@@ -686,35 +706,14 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Center(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Text(
-                                          "STATUS",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            color: Color(0xFFB6CBFF),
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible:
-                                              widget.user.role.toLowerCase() ==
-                                                  'systemadmin',
-                                          child: const SizedBox(width: 8.0),
-                                        ),
-                                        Visibility(
-                                          visible:
-                                              widget.user.role.toLowerCase() ==
-                                                  'systemadmin',
-                                          child: const Icon(
-                                            Icons.edit,
-                                            color: Color(0xFFFFD271),
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ],
+                                  const Center(
+                                    child: Text(
+                                      "STATUS",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -1038,6 +1037,104 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   ),
                 if (widget.user.role.toLowerCase() != 'systemadmin')
                   const SizedBox(height: 10),
+                Visibility(
+                  visible: viewConfirm,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          int branch;
+
+                          switch (appointment.branch) {
+                            case 'Karang Darat':
+                              branch = 0;
+                              break;
+                            case 'Inderapura':
+                              branch = 1;
+                              break;
+                            case 'Kemaman':
+                              branch = 2;
+                              break;
+                            default:
+                              branch = 0;
+                          }
+
+                          // Navigate to the update appointment page with the selected appointment
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateAppointment(
+                                appointment: appointment,
+                                rescheduler: widget.user.role,
+                                appointmentBranch: branch,
+                              ),
+                            ),
+                          ).then((result) {
+                            if (result == true) {
+                              // If the appointment was updated, refresh the appointment history
+                              _fetchAppointmentInfo();
+                              _loadPatientName();
+                              _getPractitionerList();
+                            }
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.edit, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Edit Appointment',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.edit, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewConfirm,
+                  child: const SizedBox(height: 10),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: SizedBox(
@@ -1045,7 +1142,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        _leaveRemarks(widget.appointment);
+                        // SET APPOINTMENT STATUS TO CANCELLED
                       },
                       style: OutlinedButton.styleFrom(
                         elevation: 0,
