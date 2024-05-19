@@ -30,7 +30,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   List<User> _practitionerList = [];
   String? _patientName, _practitionerName;
   User? _selectedPractitioner;
-  bool viewConfirm = false;
+  bool viewEditButtonForSystemAdmin = false;
+  bool viewConfirmButtonForPractitioner = false;
+  bool viewAttendanceButtons = false;
 
   @override
   void initState() {
@@ -51,13 +53,46 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       if (_appointmentInfo.isNotEmpty) {
         // Call _getPractitionerName with the practitioner_id from the first appointment in the list
         _getPractitionerName(_appointmentInfo[0].practitioner_id);
+        print(_appointmentInfo[0].appointment_time);
         if (widget.user.role.toLowerCase() == 'systemadmin' &&
             _appointmentInfo[0].practitioner_id != 0) {
-          viewConfirm = true;
+          viewEditButtonForSystemAdmin = true;
+        }
+        if (widget.user.role.toLowerCase() == 'practitioner' &&
+            _appointmentInfo[0].status == 'Assigned') {
+          viewConfirmButtonForPractitioner = true;
+        }
+        if (widget.user.role.toLowerCase() == 'practitioner' &&
+            _appointmentInfo[0].status == 'Confirmed' &&
+            isAppointmentPast(_appointmentInfo[0].appointment_date)) {
+          viewAttendanceButtons = true;
         }
       }
     });
   }
+  // ----------------------------------------------------------------------
+
+  bool isAppointmentPast(String appointmentDate) {
+    try {
+      // Trim the appointment date string
+      appointmentDate = appointmentDate.trim();
+
+      // Parse the appointment date
+      DateTime parsedDate = DateTime.parse(appointmentDate);
+
+      // Get the current date (without time)
+      DateTime currentDate = DateTime.now();
+      currentDate =
+          DateTime(currentDate.year, currentDate.month, currentDate.day);
+
+      // Compare the appointment date with the current date
+      return !parsedDate.isBefore(currentDate);
+    } catch (e) {
+      print('Error parsing date: $e');
+      return false; // Return false if there's an error
+    }
+  }
+
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
@@ -133,27 +168,30 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: const Color(0xFF303E8F),
           title: const Text('Confirm Appointment'),
           content:
               const Text('Are you sure you want to confirm this appointment?'),
           actions: <Widget>[
-            ElevatedButton(
-              child:
-                  const Text('Confirm', style: TextStyle(color: Colors.white)),
+            TextButton(
+              child: const Text('Confirm',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
               onPressed: () async {
                 status = 'Confirmed';
-                remarks = 'The appointment has been confirmed.';
+                remarks =
+                    'The appointment has been confirmed by $practitionerName at at ${DateFormat('yyyy-MM-dd, h:mm a').format(DateTime.now())}.';
                 // Call the deleteAppointment method and pass the appointmentId
                 await DatabaseService().updateAppointmentStatus(
                     appointment.appointment_id!, status, remarks);
                 Navigator.of(context).pop();
-                // Refresh the appointment
-                _fetchAppointmentInfo();
+                setState(() {
+                  _fetchAppointmentInfo();
+                });
               },
             ),
-            ElevatedButton(
-              child:
-                  const Text('Cancel', style: TextStyle(color: Colors.white)),
+            TextButton(
+              child: const Text('Cancel',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -161,7 +199,96 @@ class _ViewAppointmentState extends State<ViewAppointment> {
           ],
         );
       },
-      barrierDismissible: false,
+    );
+  }
+
+  // --------------------------------------------------------------------
+
+  void _attendAppointment(Appointment appointment) {
+    String status = appointment.status;
+    String remarks = appointment.system_remarks;
+    String practitionerName = widget.user.name;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF303E8F),
+          title: const Text('Mark as Attended'),
+          content: const Text(
+              'Are you sure you want to mark this appointment as attended?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Confirm',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
+              onPressed: () async {
+                status = 'Attended';
+                remarks =
+                    'The appointment has been marked as attended by $practitionerName at at ${DateFormat('yyyy-MM-dd, h:mm a').format(DateTime.now())}.';
+                // Call the deleteAppointment method and pass the appointmentId
+                await DatabaseService().updateAppointmentStatus(
+                    appointment.appointment_id!, status, remarks);
+                Navigator.of(context).pop();
+                setState(() {
+                  _fetchAppointmentInfo();
+                });
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // --------------------------------------------------------------------
+
+  void _absentAppointment(Appointment appointment) {
+    String status = appointment.status;
+    String remarks = appointment.system_remarks;
+    String practitionerName = widget.user.name;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF303E8F),
+          title: const Text('Mark as Absent'),
+          content: const Text(
+              'Are you sure you want to mark this appointment as absent?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Confirm',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
+              onPressed: () async {
+                status = 'Absent';
+                remarks =
+                    'The appointment has been marked as absent by $practitionerName at at ${DateFormat('yyyy-MM-dd, h:mm a').format(DateTime.now())}.';
+                // Call the deleteAppointment method and pass the appointmentId
+                await DatabaseService().updateAppointmentStatus(
+                    appointment.appointment_id!, status, remarks);
+                Navigator.of(context).pop();
+                setState(() {
+                  _fetchAppointmentInfo();
+                });
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel',
+                  style: TextStyle(color: Color(0xFFEDF2FF))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -976,6 +1103,268 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
+                Visibility(
+                  visible: viewAttendanceButtons,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _attendAppointment(appointment);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.event_available, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Mark as Attended',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.event_available, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewAttendanceButtons,
+                  child: const SizedBox(height: 10),
+                ),
+                Visibility(
+                  visible: viewAttendanceButtons,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _absentAppointment(appointment);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.event_busy, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Mark as Absent',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.event_busy, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewAttendanceButtons,
+                  child: const SizedBox(height: 10),
+                ),
+                Visibility(
+                  visible: viewAttendanceButtons,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.delete, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Void Appointment',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.delete, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewAttendanceButtons,
+                  child: const SizedBox(height: 10),
+                ),
+                Visibility(
+                  visible: viewConfirmButtonForPractitioner,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _confirmAppointment(appointment);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons
+                                    .check_box_rounded, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Confirm Appointment',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons
+                                    .check_box_rounded, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewConfirmButtonForPractitioner,
+                  child: const SizedBox(height: 10),
+                ),
                 if (widget.user.role.toLowerCase() != 'systemadmin')
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -1038,7 +1427,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                 if (widget.user.role.toLowerCase() != 'systemadmin')
                   const SizedBox(height: 10),
                 Visibility(
-                  visible: viewConfirm,
+                  visible: viewEditButtonForSystemAdmin,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: SizedBox(
@@ -1132,7 +1521,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                   ),
                 ),
                 Visibility(
-                  visible: viewConfirm,
+                  visible: viewEditButtonForSystemAdmin,
                   child: const SizedBox(height: 10),
                 ),
                 Padding(

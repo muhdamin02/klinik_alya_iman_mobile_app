@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -532,6 +534,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                                 ElevatedButton(
                                   onPressed: () {
                                     _onBranchPressed(0);
+                                    _selectedTime = '';
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _selectedBranch == 0
@@ -586,6 +589,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                                 ElevatedButton(
                                   onPressed: () {
                                     _onBranchPressed(1);
+                                    _selectedTime = '';
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _selectedBranch == 1
@@ -640,6 +644,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                                 ElevatedButton(
                                   onPressed: () {
                                     _onBranchPressed(2);
+                                    _selectedTime = '';
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _selectedBranch == 2
