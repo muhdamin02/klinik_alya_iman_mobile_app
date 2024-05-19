@@ -182,20 +182,6 @@ class DatabaseService {
   );
 ''');
 
-// temp
-    await db.execute('''
-  CREATE TABLE health_report (
-    health_report_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    appointment_attendance DOUBLE,
-    medication_adherence DOUBLE,
-    health_summary TEXT,
-    user_id INTEGER NOT NULL,
-    profile_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
-    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
-  );
-''');
-
     await db.execute('''
   CREATE TABLE symptoms (
     symptom_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -1203,6 +1189,17 @@ class DatabaseService {
     final String patientName = maps.first['name'];
 
     return patientName;
+  }
+
+  // appointment count by status
+  Future<int> getAppointmentCountStatus(int? profileId, String status) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'profile_id = ? AND status = ?',
+      whereArgs: [profileId, status],
+    );
+    return maps.length;
   }
 
 //////////////////////////////////////////////////////////////////////////

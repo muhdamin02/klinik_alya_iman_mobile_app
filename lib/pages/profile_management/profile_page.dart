@@ -9,6 +9,7 @@ import '../../models/user.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../appointment_management/list_appointment.dart';
+import '../health_reporting/health_reporting.dart';
 import '../maternity_pages/maternity_overview.dart';
 import '../medication_management/list_medication.dart';
 import '../startup/login.dart';
@@ -1008,16 +1009,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ListMedicalHistory(
-                      //       user: user,
-                      //       profile: profile,
-                      //       autoImplyLeading: true,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HealthReportingPage(
+                            user: widget.user,
+                            profile: widget.profile,
+                          ),
+                        ),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor:

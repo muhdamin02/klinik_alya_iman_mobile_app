@@ -5,6 +5,7 @@ import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
 import '../../services/misc_methods/get_icon_status.dart';
+import '../../services/misc_methods/get_icon_status_color.dart';
 import '../appointment_management/update_appointment.dart';
 import '../appointment_management/view_appointment.dart';
 import '../startup/login.dart';
@@ -693,7 +694,8 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                             IconButton(
                               icon: Icon(
                                 getIconForStatus(appointment.status),
-                                color: const Color(0xFFFFD271),
+                                color:
+                                    getIconColorForStatus(appointment.status),
                               ),
                               onPressed: () {
                                 widget.onViewAppointment(appointment);

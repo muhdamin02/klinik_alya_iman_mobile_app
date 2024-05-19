@@ -1218,7 +1218,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               padding: EdgeInsets.all(
                                   12.0), // Adjust padding as needed
                               child: Icon(
-                                Icons.event_busy, // Use any icon you want
+                                Icons.event_busy_rounded, // Use any icon you want
                                 color: Color(0xFF1F3299),
                                 size: 28,
                               ),
