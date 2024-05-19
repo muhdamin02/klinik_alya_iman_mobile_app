@@ -26,10 +26,18 @@ class _HealthReportingPageState extends State<HealthReportingPage> {
   int _totalAppointments = 0;
   double _appointmentAttendancePercentage = 0.0;
 
+  List<dynamic> _appointmentStats = [];
+
   @override
   void initState() {
     super.initState();
     _calculateAppointmentAttendance();
+    _appointmentStats = [
+      _appointmentsAttend,
+      _appointmentsAbsent,
+      _totalAppointments,
+      _appointmentAttendancePercentage
+    ];
   }
 
   // ----------------------------------------------------------------------
@@ -50,6 +58,7 @@ class _HealthReportingPageState extends State<HealthReportingPage> {
     } else {
       appointmentAttendancePercentage = 0.0;
     }
+
     setState(() {
       _appointmentsAttend = appointmentsAttend;
       _appointmentsAbsent = appointmentsAbsent;
@@ -68,7 +77,7 @@ class _HealthReportingPageState extends State<HealthReportingPage> {
           IconButton(
             icon: const Icon(Icons.download_rounded),
             onPressed: () async {
-              generateAndSavePDF(context);
+              generateAndSavePDF(context, _appointmentStats);
             },
           ),
         ],
