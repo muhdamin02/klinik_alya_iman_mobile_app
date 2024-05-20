@@ -490,6 +490,7 @@ class _ListMedicationState extends State<ListMedication> {
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
+          elevation: 0,
           automaticallyImplyLeading: false,
           actions: <Widget>[
             IconButton(
@@ -604,110 +605,131 @@ class _ListMedicationState extends State<ListMedication> {
         ),
         body: Stack(
           children: [
-            ListView.builder(
-              itemCount: _medicationList.length,
-              itemBuilder: (context, index) {
-                Medication medication = _medicationList[index];
-                return Column(
+            if (_medicationList.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
                   children: [
-                    if (index == 0) // Add SizedBox only for the first item
+                    Spacer(),
+                    Center(
+                      child: Text(
+                        'You have no medication.',
+                        style:
+                            TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 56.0),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            if (_medicationList.isNotEmpty)
+              ListView.builder(
+                itemCount: _medicationList.length,
+                itemBuilder: (context, index) {
+                  Medication medication = _medicationList[index];
+                  return Column(
+                    children: [
+                      if (index == 0) // Add SizedBox only for the first item
+                        const SizedBox(height: 8.0),
                       const SizedBox(height: 8.0),
-                    const SizedBox(height: 8.0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          _viewMedication(medication);
-                        },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                25.0), // Adjust the radius
-                          ),
-                          elevation: 0,
-                          color: const Color(0xFF303E8F),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: ListTile(
-                              title: Text(
-                                medication.medication_name,
-                                style: const TextStyle(
-                                    color: Color(0xFFEDF2FF), fontSize: 18),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 8.0),
-                                  Text(
-                                    medication.medication_type,
-                                    style: const TextStyle(
-                                        color: Color(0xFFB6CBFF), fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      _getIconForType(
-                                          medication.medication_type),
-                                      color: const Color(0xFFFFD271),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            _viewMedication(medication);
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  25.0), // Adjust the radius
+                            ),
+                            elevation: 0,
+                            color: const Color(0xFF303E8F),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: ListTile(
+                                title: Text(
+                                  medication.medication_name,
+                                  style: const TextStyle(
+                                      color: Color(0xFFEDF2FF), fontSize: 18),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 8.0),
+                                    Text(
+                                      medication.medication_type,
+                                      style: const TextStyle(
+                                          color: Color(0xFFB6CBFF),
+                                          fontSize: 18),
                                     ),
-                                    onPressed: () {
-                                      _viewMedication(medication);
-                                    },
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(
+                                        _getIconForType(
+                                            medication.medication_type),
+                                        color: const Color(0xFFFFD271),
+                                      ),
+                                      onPressed: () {
+                                        _viewMedication(medication);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    if (index == _medicationList.length - 1)
-                      const SizedBox(height: 94.0),
-                    // ListTile(
-                    //   title: Text(medication.medication_name),
-                    //   subtitle: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       const SizedBox(height: 4.0),
-                    //       Text(
-                    //           'Medication Type: ${medication.medication_type}'),
-                    //     ],
-                    //   ),
-                    //   trailing: Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //       IconButton(
-                    //         icon: const Icon(Icons.visibility),
-                    //         onPressed: () {
-                    //           // Call a method to handle the view functionality
-                    //           _viewMedication(medication);
-                    //         },
-                    //       ),
-                    //       IconButton(
-                    //         icon: const Icon(Icons.edit),
-                    //         onPressed: () {
-                    //           // Call a method to handle the update functionality
-                    //           _updateMedication(medication);
-                    //         },
-                    //       ),
-                    //       IconButton(
-                    //         icon: const Icon(Icons.delete),
-                    //         onPressed: () {
-                    //           // Call a method to handle the delete functionality
-                    //           _deleteMedication(medication.medication_id);
-                    //         },
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                  ],
-                );
-              },
-            ),
+                      if (index == _medicationList.length - 1)
+                        const SizedBox(height: 94.0),
+                      // ListTile(
+                      //   title: Text(medication.medication_name),
+                      //   subtitle: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       const SizedBox(height: 4.0),
+                      //       Text(
+                      //           'Medication Type: ${medication.medication_type}'),
+                      //     ],
+                      //   ),
+                      //   trailing: Row(
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     children: [
+                      //       IconButton(
+                      //         icon: const Icon(Icons.visibility),
+                      //         onPressed: () {
+                      //           // Call a method to handle the view functionality
+                      //           _viewMedication(medication);
+                      //         },
+                      //       ),
+                      //       IconButton(
+                      //         icon: const Icon(Icons.edit),
+                      //         onPressed: () {
+                      //           // Call a method to handle the update functionality
+                      //           _updateMedication(medication);
+                      //         },
+                      //       ),
+                      //       IconButton(
+                      //         icon: const Icon(Icons.delete),
+                      //         onPressed: () {
+                      //           // Call a method to handle the delete functionality
+                      //           _deleteMedication(medication.medication_id);
+                      //         },
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ],
+                  );
+                },
+              ),
             Positioned(
               bottom: 24.0,
               left: 0,

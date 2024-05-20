@@ -21,6 +21,10 @@ class NotificationService {
     return now.add(Duration(days: daysUntilNextDay));
   }
 
+  void onNotificationReceived(String? payload) {
+    print('Hello World'); // Placeholder for your action
+  }
+
   Future<void> initNotification() async {
     // Android initialization
     final AndroidInitializationSettings initializationSettingsAndroid =
@@ -31,7 +35,12 @@ class NotificationService {
       android: initializationSettingsAndroid,
     );
     // the initialization settings are initialized after they are setted
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: (String? payload) async {
+        onNotificationReceived(payload);
+      }
+    );
   }
 
   Future<void> showNotification(
@@ -84,11 +93,10 @@ class NotificationService {
       body,
       _dailyInstanceOfScheduledTime(scheduledTime),
       platformChannelSpecifics,
-      // Type of time interpretation
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle:
-          true, // To show notification even when the app is closed
+      androidAllowWhileIdle: true,
+      matchDateTimeComponents: DateTimeComponents.time,
     );
   }
 
@@ -142,7 +150,8 @@ class NotificationService {
       id,
       title,
       body,
-      _calculateSpecificDayNotificationTime(scheduledTime, repeatInterval, dayOfWeek),
+      _calculateSpecificDayNotificationTime(
+          scheduledTime, repeatInterval, dayOfWeek),
       platformChannelSpecifics,
       // Type of time interpretation
       uiLocalNotificationDateInterpretation:
@@ -170,7 +179,8 @@ class NotificationService {
       id,
       title,
       body,
-      _xDaysInstanceOfScheduledTime(scheduledTime, initialDate, frequencyInterval),
+      _xDaysInstanceOfScheduledTime(
+          scheduledTime, initialDate, frequencyInterval),
       platformChannelSpecifics,
       // Type of time interpretation
       uiLocalNotificationDateInterpretation:
@@ -197,7 +207,8 @@ class NotificationService {
       id,
       title,
       body,
-      _xWeeksInstanceOfScheduledTime(scheduledTime, initialDate, frequencyInterval),
+      _xWeeksInstanceOfScheduledTime(
+          scheduledTime, initialDate, frequencyInterval),
       platformChannelSpecifics,
       // Type of time interpretation
       uiLocalNotificationDateInterpretation:
@@ -224,7 +235,8 @@ class NotificationService {
       id,
       title,
       body,
-      _xMonthsInstanceOfScheduledTime(scheduledTime, initialDate, frequencyInterval),
+      _xMonthsInstanceOfScheduledTime(
+          scheduledTime, initialDate, frequencyInterval),
       platformChannelSpecifics,
       // Type of time interpretation
       uiLocalNotificationDateInterpretation:
@@ -334,7 +346,8 @@ class NotificationService {
     print('scheduled date time: $scheduledDateTime');
 
     if (scheduledDateTime.isBefore(now)) {
-      scheduledDateTime = scheduledDateTime.add(Duration(days: frequencyInterval));
+      scheduledDateTime =
+          scheduledDateTime.add(Duration(days: frequencyInterval));
       print('the notification will arrive in $frequencyInterval days');
       print('scheduled date time after add: $scheduledDateTime');
     }
@@ -367,7 +380,8 @@ class NotificationService {
     print('scheduled date time: $scheduledDateTime');
 
     if (scheduledDateTime.isBefore(now)) {
-      scheduledDateTime = scheduledDateTime.add(Duration(days: frequencyInterval));
+      scheduledDateTime =
+          scheduledDateTime.add(Duration(days: frequencyInterval));
       print('the notification will arrive in $frequencyInterval weeks');
       print('scheduled date time after add: $scheduledDateTime');
     }
@@ -400,7 +414,8 @@ class NotificationService {
     print('scheduled date time: $scheduledDateTime');
 
     if (scheduledDateTime.isBefore(now)) {
-      scheduledDateTime = scheduledDateTime.add(Duration(days: frequencyInterval));
+      scheduledDateTime =
+          scheduledDateTime.add(Duration(days: frequencyInterval));
       print('the notification will arrive in $frequencyInterval months');
       print('scheduled date time after add: $scheduledDateTime');
     }

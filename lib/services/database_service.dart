@@ -259,6 +259,17 @@ class DatabaseService {
   );
 ''');
 
+    await db.execute('''
+  CREATE TABLE medicationadherence (
+    adherence_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    adherence_status TEXT NOT NULL,
+    medication_id INTEGER NOT NULL,
+    profile_id INTEGER NOT NULL,
+    FOREIGN KEY (medication_id) REFERENCES medication(medication_id) ON DELETE SET NULL,
+    FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
+  );
+''');
+
     // system guest
     // DO NOT TOUCH
     await db.execute(

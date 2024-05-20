@@ -71,12 +71,19 @@ class _HealthReportingPageState extends State<HealthReportingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('View Appointment'),
+        title: const Text('Health Report'),
         elevation: 0,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.download_rounded),
-            onPressed: () async {
+            onPressed: () {
+              _calculateAppointmentAttendance();
+              _appointmentStats = [
+                _appointmentsAttend,
+                _appointmentsAbsent,
+                _totalAppointments,
+                _appointmentAttendancePercentage
+              ];
               generateAndSavePDF(context, _appointmentStats);
             },
           ),
