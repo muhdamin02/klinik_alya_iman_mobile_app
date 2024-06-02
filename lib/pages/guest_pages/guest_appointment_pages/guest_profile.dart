@@ -85,7 +85,7 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
         activity_level: '',
         belly_size: 0,
         maternity: 'No',
-        maternity_week: 0,
+        maternity_due: 'Not set',
         ethnicity: selectedEthnicity,
         marital_status: selectedMaritalStatus,
         occupation: 'Placeholder',

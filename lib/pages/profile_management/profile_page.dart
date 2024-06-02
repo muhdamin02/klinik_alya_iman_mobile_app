@@ -9,6 +9,7 @@ import '../../models/user.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../appointment_management/list_appointment.dart';
+import '../health_profile/health_profile_page.dart';
 import '../health_reporting/health_reporting.dart';
 import '../maternity_pages/maternity_overview.dart';
 import '../medication_management/list_medication.dart';
@@ -875,10 +876,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ListMedicalHistory(
+                          builder: (context) => HealthProfilePage(
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: true,
+                            initialTabOthers: false,
                           ),
                         ),
                       );
@@ -902,7 +904,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding:
                               EdgeInsets.all(12.0), // Adjust padding as needed
                           child: Icon(
-                            Icons.assignment, // Use any icon you want
+                            Icons.health_and_safety_outlined, // Use any icon you want
                             color: Color(0xFF1F3299),
                             size: 28,
                           ),
@@ -921,7 +923,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding:
                               EdgeInsets.all(12.0), // Adjust padding as needed
                           child: Icon(
-                            Icons.assignment, // Use any icon you want
+                            Icons.health_and_safety_outlined, // Use any icon you want
                             color: Color(0xFF1F3299),
                             size: 28,
                           ),

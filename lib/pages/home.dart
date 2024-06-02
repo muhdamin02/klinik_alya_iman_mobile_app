@@ -405,7 +405,7 @@ class _HomeState extends State<Home> {
             activity_level: 'unknown',
             belly_size: 0,
             maternity: 'No',
-            maternity_week: 0,
+            maternity_due: 'unknown',
             ethnicity: 'unknown',
             marital_status: 'unknown',
             occupation: 'unknown',

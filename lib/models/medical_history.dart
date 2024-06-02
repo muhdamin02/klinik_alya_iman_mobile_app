@@ -46,6 +46,6 @@ class MedicalHistory {
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {
-    return 'MedicalHistory(medical_history_id: $medical_history_id, title: $title, body: $body, datetime_posted: $datetime_posted)';
+    return 'MedicalHistory(medical_history_id: $medical_history_id, title: $title, body: $body, datetime_posted: $datetime_posted, user_id: $user_id, profile_id: $profile_id)';
   }
 }

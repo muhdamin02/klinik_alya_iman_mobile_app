@@ -71,7 +71,7 @@ class _CreateNewMedHistoryEntryState extends State<CreateNewMedHistoryEntry> {
       final medicalHistory = MedicalHistory(
         title: _titleController.text,
         body: _bodyController.text,
-        datetime_posted: 'aaa',
+        datetime_posted: DateTime.now().toString(),
         user_id: widget.user.user_id!,
         profile_id: widget.profile.profile_id,
       );
@@ -83,49 +83,67 @@ class _CreateNewMedHistoryEntryState extends State<CreateNewMedHistoryEntry> {
         // ignore: use_build_context_synchronously
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Form submitted successfully!'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  // Clear the text fields after submitting the form
-                  _formKey.currentState!.reset();
-                  _dateController.clear();
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ListMedicalHistory(
-                        user: widget.user,
-                        profile: widget.profile,
-                        autoImplyLeading: false,
-                      ),
-                    ),
-                  );
-                },
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              backgroundColor: const Color(0xFF303E8F),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
               ),
-            ],
+              title: const Text('Success'),
+              content: const Text('Diary entry has been added!'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK',
+                      style: TextStyle(color: Color(0xFFEDF2FF))),
+                  onPressed: () {
+                    // Clear the text fields after submitting the form
+                    _formKey.currentState!.reset();
+                    _dateController.clear();
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ListMedicalHistory(
+                          user: widget.user,
+                          profile: widget.profile,
+                          autoImplyLeading: false,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
+          barrierDismissible: false,
         );
       } catch (error) {
         // Handle any errors that occur during the database operation
         // ignore: use_build_context_synchronously
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Error'),
-            content: Text('An error occurred: $error'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              backgroundColor: const Color(0xFF303E8F),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
               ),
-            ],
+              title: const Text('Error'),
+              content: Text('An error occurred: $error'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK',
+                      style: TextStyle(color: Color(0xFFEDF2FF))),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
           ),
+          barrierDismissible: false,
         );
         // }
       }
@@ -141,93 +159,119 @@ class _CreateNewMedHistoryEntryState extends State<CreateNewMedHistoryEntry> {
       appBar: AppBar(
         title: const Text('New Entry'),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // TextFormField(
-                      //   controller: _dateController,
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //     labelText: 'Date',
-                      //   ),
-                      //   readOnly: true,
-                      //   onTap: () {
-                      //     _selectDate(context);
-                      //   },
-                      //   validator: _requiredValidator,
-                      // ),
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+          Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // TextFormField(
+                          //   controller: _dateController,
+                          //   decoration: const InputDecoration(
+                          //     border: OutlineInputBorder(),
+                          //     labelText: 'Date',
+                          //   ),
+                          //   readOnly: true,
+                          //   onTap: () {
+                          //     _selectDate(context);
+                          //   },
+                          //   validator: _requiredValidator,
+                          // ),
+                          TextFormField(
+                            controller: _titleController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: const Color(0xFF4D5FC0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              labelText: 'Entry Title',
+                              labelStyle:
+                                  const TextStyle(color: Color(0xFFB6CBFF)),
+                              counterText: '',
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                            ),
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value == '') {
+                                return 'Enter an entry title';
+                              }
+                              return null;
+                            },
+                            style: const TextStyle(color: Color(0xFFEDF2FF)),
                           ),
-                          labelText: 'Entry Title',
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty || value == '') {
-                            return 'Enter an entry title';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _bodyController,
-                        minLines: 20,
-                        maxLines: null, // Set to null for multiline
-                        maxLength: 1500, // Set the maximum number of characters
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                          const SizedBox(height: 16.0),
+                          TextFormField(
+                            controller: _bodyController,
+                            minLines: 20,
+                            maxLines: null, // Set to null for multiline
+                            maxLength:
+                                1500, // Set the maximum number of characters
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: const Color(0xFF4D5FC0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              labelText: 'Entry Body',
+                              labelStyle:
+                                  const TextStyle(color: Color(0xFFB6CBFF)),
+                              counterText: '',
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 16.0, horizontal: 20.0),
+                              alignLabelWithHint: true,
+                            ),
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value == '') {
+                                return 'Enter some text';
+                              }
+                              return null;
+                            },
+                            style: const TextStyle(color: Color(0xFFEDF2FF)),
                           ),
-                          labelText: 'Entry Body',
-                          alignLabelWithHint: true,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty || value == '') {
-                            return 'Enter some text';
-                          }
-                          return null;
-                        },
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin:
-                  const EdgeInsets.only(bottom: 16.0, left: 16.0, right: 16.0),
+          Positioned(
+            bottom: 20.0,
+            left: 0,
+            right: 0,
+            child: Center(
               child: SizedBox(
                 height: 60.0,
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 115, 176, 255),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          25.0), // Adjust the value as needed
-                    ),
-                  ),
+                width: MediaQuery.of(context).size.width - 34, // Adjust padding
+                child: FloatingActionButton.extended(
                   onPressed: _submitForm,
-                  child: const Text('Submit',
-                      style: TextStyle(color: Colors.white)),
+                  icon: const Icon(Icons.edit_document),
+                  label: const Text('Create Entry'),
+                  elevation: 0,
+                  backgroundColor:
+                      const Color(0xFFC1D3FF), // Set background color here
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(25), // Adjust the border radius
+                    side: const BorderSide(
+                        width: 2.5,
+                        color: Color(0xFF6086f6)), // Set the outline color here
+                  ),
+                  foregroundColor:
+                      const Color(0xFF1F3299), // Set text and icon color here
                 ),
               ),
             ),

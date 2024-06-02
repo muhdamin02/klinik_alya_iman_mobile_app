@@ -6,6 +6,7 @@ import '../models/appointment.dart';
 import '../models/baby_kicks.dart';
 import '../models/body_changes.dart';
 import '../models/contractions.dart';
+import '../models/health_profile.dart';
 import '../models/homefeed.dart';
 import '../models/medical_history.dart';
 import '../models/medication.dart';
@@ -69,7 +70,7 @@ class DatabaseService {
     activity_level TEXT,
     belly_size REAL,
     maternity TEXT NOT NULL,
-    maternity_week INTEGER,
+    maternity_due TEXT,
     ethnicity TEXT NOT NULL,
     marital_status TEXT NOT NULL,
     occupation TEXT,
@@ -131,7 +132,7 @@ class DatabaseService {
 ''');
 
     await db.execute('''
-  CREATE TABLE medical_history (
+  CREATE TABLE medicalhistory (
     medical_history_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     title TEXT NOT NULL,
     body TEXT NOT NULL,
@@ -165,16 +166,12 @@ class DatabaseService {
 
 // temp
     await db.execute('''
-  CREATE TABLE health_profile (
+  CREATE TABLE healthprofile (
     health_profile_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     allergies TEXT,
+    blood_sugar_level REAL,
     current_condition TEXT,
-    blood_sugar_level TEXT,
     blood_pressure TEXT,
-    surgeries_procedures TEXT,
-    family_medical_history TEXT,
-    immunization_record TEXT,
-    dietary_restrictions TEXT,
     user_id INTEGER NOT NULL,
     profile_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
@@ -532,12 +529,25 @@ class DatabaseService {
 //// ---------------------------------------------------------------- ////
 //////////////////////////////////////////////////////////////////////////
 
+// health profile
+// Retrieve One Appointment Info
+  Future<List<HealthProfile>> healthInfo(int? profileId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'healthprofile',
+      where: 'profile_id = ?',
+      whereArgs: [profileId],
+    );
+    return List.generate(
+        maps.length, (index) => HealthProfile.fromMap(maps[index]));
+  }
+
   // Retrieve based on User and Profile
   Future<List<MedicalHistory>> retrieveMedHistory(
       int userId, int? profileId) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
-      'medical_history',
+      'medicalhistory',
       where: 'user_id = ? AND profile_id = ?',
       whereArgs: [userId, profileId],
     );
@@ -551,7 +561,7 @@ class DatabaseService {
     final db = await _databaseService.database;
 
     await db.insert(
-      'medical_history',
+      'medicalhistory',
       medicalHistory.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -671,14 +681,38 @@ class DatabaseService {
 //// ---------------------------------------------------------------- ////
 //////////////////////////////////////////////////////////////////////////
 
-  // Insert
+  // Create profile
   Future<void> insertProfile(Profile profile) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
 
-    await db.insert(
+    // Insert the profile and get the profile_id of the inserted row
+    int profileId = await db.insert(
       'profile',
       profile.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    // Create the health profile with the retrieved profile_id
+    createHealthProfile(profile, profileId);
+  }
+
+// Create health profile
+  Future<void> createHealthProfile(Profile profile, int profileId) async {
+    final db = await _databaseService.database;
+
+    HealthProfile health = HealthProfile(
+      allergies: 'Not specified',
+      blood_sugar_level: 0,
+      current_condition: 'Not specified',
+      blood_pressure: 'Not set',
+      user_id: profile.user_id,
+      profile_id: profileId,
+    );
+
+    await db.insert(
+      'healthprofile',
+      health.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

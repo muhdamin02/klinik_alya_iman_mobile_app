@@ -232,94 +232,50 @@ class MaternityOverview extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      elevation: 0,
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle onTap action here
-                              },
-                              child: const Text(
-                                "TRIMESTER",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  color: Color(0xFFB6CBFF),
-                                ),
-                              ),
+              Expanded(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  elevation: 0,
+                  color: const Color(0xFF303E8F),
+                  child: Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Handle onTap action here
+                          },
+                          child: const Text(
+                            "TRIMESTER",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xFFB6CBFF),
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              profile.maternity == 'First Trimester'
-                                  ? '1'
-                                  : profile.maternity == 'Second Trimester'
-                                      ? '2'
-                                      : profile.maternity == 'Third Trimester'
-                                          ? '3'
-                                          : '', // Default text if none of the conditions are met
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 24,
-                                color: Color(0xFFEDF2FF),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          profile.maternity == 'First Trimester'
+                              ? '1'
+                              : profile.maternity == 'Second Trimester'
+                                  ? '2'
+                                  : profile.maternity == 'Third Trimester'
+                                      ? '3'
+                                      : '', // Default text if none of the conditions are met
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 36,
+                            color: Color(0xFFEDF2FF),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 4), // Add spacing between the cards
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      elevation: 0,
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle onTap action here
-                              },
-                              child: const Text(
-                                "WEEK",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  color: Color(0xFFB6CBFF),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '${profile.maternity_week}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 24,
-                                color: Color(0xFFEDF2FF),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
               const SizedBox(height: 4.0),
               SizedBox(

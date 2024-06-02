@@ -68,7 +68,7 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="klinik_alya_iman_mobile_app" >
+        android:label="Alya Iman" >
         <activity
             android:name="com.example.klinik_alya_iman_mobile_app.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

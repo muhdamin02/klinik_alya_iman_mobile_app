@@ -328,7 +328,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
           builder: (context) => AlertDialog(
             backgroundColor: const Color(0xFF303E8F),
             title: const Text('Success'),
-            content: const Text('Appointment booked successfully!',
+            content: const Text('Appointment has been booked!',
                 style: TextStyle(color: Color(0xFFEDF2FF))),
             actions: <Widget>[
               TextButton(

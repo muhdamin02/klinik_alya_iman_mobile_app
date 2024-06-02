@@ -392,7 +392,7 @@ class _Tab1PageState extends State<Tab1Page> {
                                           color: Color(0xFFB6CBFF)),
                                     ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           ),

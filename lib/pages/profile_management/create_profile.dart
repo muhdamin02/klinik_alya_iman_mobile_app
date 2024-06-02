@@ -104,7 +104,7 @@ class _CreateProfileState extends State<CreateProfile> {
         activity_level: '',
         belly_size: 0,
         maternity: 'No',
-        maternity_week: 0,
+        maternity_due: 'Not set',
         ethnicity: selectedEthnicity,
         marital_status: selectedMaritalStatus,
         occupation: 'Placeholder',
@@ -184,7 +184,8 @@ class _CreateProfileState extends State<CreateProfile> {
             content: Text('An error occurred: $error'),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

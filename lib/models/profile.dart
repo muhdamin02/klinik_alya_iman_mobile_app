@@ -13,7 +13,7 @@ class Profile {
   final String activity_level;
   final double belly_size;
   final String maternity;
-  final int maternity_week;
+  final String maternity_due;
   final String? ethnicity;
   final String? marital_status;
   final String occupation;
@@ -35,7 +35,7 @@ class Profile {
     required this.activity_level,
     required this.belly_size,
     required this.maternity,
-    required this.maternity_week,
+    required this.maternity_due,
     required this.ethnicity,
     required this.marital_status,
     required this.occupation,
@@ -58,7 +58,7 @@ class Profile {
       'activity_level': activity_level,
       'belly_size': belly_size,
       'maternity': maternity,
-      'maternity_week': maternity_week,
+      'maternity_due': maternity_due,
       'ethnicity': ethnicity,
       'marital_status': marital_status,
       'occupation': occupation,
@@ -82,7 +82,7 @@ class Profile {
       activity_level: map['activity_level'] ?? '',
       belly_size: map['belly_size'] ?? 0,
       maternity: map['maternity'] ?? '',
-      maternity_week: map['maternity_week'] ?? 0,
+      maternity_due: map['maternity_due'] ?? '',
       ethnicity: map['ethnicity'] ?? '',
       marital_status: map['marital_status'] ?? '',
       occupation: map['occupation'] ?? '',
@@ -99,6 +99,6 @@ class Profile {
   // Implement toString to make it easier to see information about each profile when using the print statement.
   @override
   String toString() {
-    return 'User(profile_id: $profile_id, name: $name, identification: $identification, dob: $dob, gender: $gender, height: $height, weight: $weight, body_fat_percentage: $body_fat_percentage, activity_level: $activity_level, belly_size: $belly_size, maternity: $maternity, maternity_week: $maternity_week, ethnicity: $ethnicity, marital_status: $marital_status, occupation: $occupation, medical_alert: $medical_alert, profile_pic: $profile_pic, creation_date: $creation_date, user_id: $user_id)';
+    return 'User(profile_id: $profile_id, name: $name, identification: $identification, dob: $dob, gender: $gender, height: $height, weight: $weight, body_fat_percentage: $body_fat_percentage, activity_level: $activity_level, belly_size: $belly_size, maternity: $maternity, maternity_due: $maternity_due, ethnicity: $ethnicity, marital_status: $marital_status, occupation: $occupation, medical_alert: $medical_alert, profile_pic: $profile_pic, creation_date: $creation_date, user_id: $user_id)';
   }
 }
