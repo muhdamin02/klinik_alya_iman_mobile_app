@@ -34,6 +34,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   bool viewConfirmButtonForPractitioner = false;
   bool viewAttendanceButtons = false;
   bool viewEditButtonForPractitioner = false;
+  bool viewEditButtonForPatient = false;
   bool viewCancelButton = true;
 
   @override
@@ -41,7 +42,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
     super.initState();
     _fetchAppointmentInfo();
     _loadPatientName();
-    _getPractitionerList();
   }
 
   // ----------------------------------------------------------------------
@@ -72,19 +72,31 @@ class _ViewAppointmentState extends State<ViewAppointment> {
         }
         if (widget.user.role.toLowerCase() == 'practitioner' &&
             _appointmentInfo[0].status == 'Confirmed' &&
-            isAppointmentPast(_appointmentInfo[0].appointment_date)) {
+            isAppointmentTodayOrPast(_appointmentInfo[0].appointment_date)) {
           viewAttendanceButtons = true;
           viewEditButtonForPractitioner = true;
+          viewCancelButton = false;
+        }
+        if (widget.user.role.toLowerCase() == 'patient' &&
+            _appointmentInfo[0].status == 'Pending') {
+          viewEditButtonForPatient = true;
+        }
+        if (widget.user.role.toLowerCase() == 'patient' &&
+            _appointmentInfo[0].status == 'Confirmed' &&
+            isAppointmentTodayOrPast(_appointmentInfo[0].appointment_date)) {
+          viewEditButtonForPatient = false;
+          viewCancelButton = false;
         }
         if (_appointmentInfo[0].status == 'Cancelled') {
           viewCancelButton = false;
         }
+        _getPractitionerList(_appointmentInfo[0].branch);
       }
     });
   }
   // ----------------------------------------------------------------------
 
-  bool isAppointmentPast(String appointmentDate) {
+  bool isAppointmentTodayOrPast(String appointmentDate) {
     try {
       // Trim the appointment date string
       appointmentDate = appointmentDate.trim();
@@ -98,7 +110,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
           DateTime(currentDate.year, currentDate.month, currentDate.day);
 
       // Compare the appointment date with the current date
-      return !parsedDate.isBefore(currentDate);
+      // Return true if the appointment date is today or in the past
+      return parsedDate.isBefore(currentDate) ||
+          parsedDate.isAtSameMomentAs(currentDate);
     } catch (e) {
       print('Error parsing date: $e');
       return false; // Return false if there's an error
@@ -110,8 +124,9 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   // ----------------------------------------------------------------------
   // Fetch details
 
-  Future<void> _getPractitionerList() async {
-    List<User> practitionerList = await DatabaseService().getPractitionerDDL();
+  Future<void> _getPractitionerList(String appointmentBranch) async {
+    List<User> practitionerList =
+        await DatabaseService().getPractitionersByBranch(appointmentBranch);
     setState(() {
       _practitionerList = practitionerList;
     });
@@ -1503,7 +1518,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               // If the appointment was updated, refresh the appointment history
                               _fetchAppointmentInfo();
                               _loadPatientName();
-                              _getPractitionerList();
+                              _getPractitionerList(appointment.branch);
                             }
                           });
                         },
@@ -1559,6 +1574,104 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                 ),
                 Visibility(
                   visible: viewEditButtonForPractitioner,
+                  child: const SizedBox(height: 10),
+                ),
+                Visibility(
+                  visible: viewEditButtonForPatient,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      height: 80.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          int branch;
+
+                          switch (appointment.branch) {
+                            case 'Karang Darat':
+                              branch = 0;
+                              break;
+                            case 'Inderapura':
+                              branch = 1;
+                              break;
+                            case 'Kemaman':
+                              branch = 2;
+                              break;
+                            default:
+                              branch = 0;
+                          }
+
+                          // Navigate to the update appointment page with the selected appointment
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateAppointment(
+                                appointment: appointment,
+                                rescheduler: widget.user.role,
+                                appointmentBranch: branch,
+                              ),
+                            ),
+                          ).then((result) {
+                            if (result == true) {
+                              // If the appointment was updated, refresh the appointment history
+                              _fetchAppointmentInfo();
+                              _loadPatientName();
+                              _getPractitionerList(appointment.branch);
+                            }
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                              const Color(0xFFDBE5FF), // Set the fill color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the value as needed
+                          ),
+                          side: const BorderSide(
+                            color: Color(0xFF6086f6), // Set the outline color
+                            width: 2.5, // Set the outline width
+                          ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.edit, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                            Spacer(), // Adjust the spacing between icon and text
+                            Text(
+                              'Edit Appointment',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  12.0), // Adjust padding as needed
+                              child: Icon(
+                                Icons.edit, // Use any icon you want
+                                color: Color(0xFF1F3299),
+                                size: 28,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: viewEditButtonForPatient,
                   child: const SizedBox(height: 10),
                 ),
                 if (widget.user.role.toLowerCase() != 'systemadmin')
@@ -1662,7 +1775,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               // If the appointment was updated, refresh the appointment history
                               _fetchAppointmentInfo();
                               _loadPatientName();
-                              _getPractitionerList();
+                              _getPractitionerList(appointment.branch);
                             }
                           });
                         },

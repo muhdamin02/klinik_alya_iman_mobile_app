@@ -33,6 +33,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
   bool _isDateSelected = false;
   String _selectedTime = '';
   int _selectedBranch = -1;
+  String _selectedBranchString = '';
 
   @override
   void initState() {
@@ -65,6 +66,20 @@ class _AppointmentFormState extends State<AppointmentForm> {
   void _onBranchPressed(int index) {
     setState(() {
       _selectedBranch = index;
+      switch (index){
+        case 0:
+          _selectedBranchString = 'Karang Darat';
+          break;
+        case 1:
+          _selectedBranchString = 'Inderapura';
+          break;
+        case 2:
+          _selectedBranchString = 'Kemaman';
+          break;
+        default:
+          _selectedBranchString = 'Unknown';
+          break;
+      }
     });
   }
 
@@ -127,7 +142,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 5.0),
         child: FutureBuilder<bool>(
           future:
-              isTimeAvailable(_appointmentDateController.text, selectedTime),
+              isTimeAvailable(_appointmentDateController.text, selectedTime, _selectedBranchString),
           builder: (context, snapshot) {
             final isAvailable = snapshot.data ?? false;
             return ElevatedButton(
@@ -184,9 +199,9 @@ class _AppointmentFormState extends State<AppointmentForm> {
   // ----------------------------------------------------------------------
   // Check if TimeAvailable
 
-  Future<bool> isTimeAvailable(String selectedDate, String selectedTime) async {
+  Future<bool> isTimeAvailable(String selectedDate, String selectedTime, String branch) async {
     if (await DatabaseService()
-        .isAppointmentDateConfirmed(selectedDate, selectedTime)) {
+        .isAppointmentDateConfirmedBranch(selectedDate, selectedTime, branch)) {
       return false; // Time slot is booked
     }
     return true; // Time slot is available
@@ -274,7 +289,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
       String branchName = '';
       // Check availability one more time before submitting (just in case)
       bool isAvailable =
-          await isTimeAvailable(appointmentDate, appointmentTime);
+          await isTimeAvailable(appointmentDate, appointmentTime, _selectedBranchString);
       if (!isAvailable) {
         // Handle the case where the selected time became unavailable
         // (Maybe show an error message to the user)

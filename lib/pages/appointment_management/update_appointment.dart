@@ -35,6 +35,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
   bool _isDateSelected = false;
   String _selectedTime = '';
   int _selectedBranch = -1;
+  String _selectedBranchString = '';
 
   final List<String> availableTimeSlots = [
     '09:00 AM',
@@ -59,6 +60,20 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
     _appointmentDateController.text = widget.appointment.appointment_date;
     _selectedTime = widget.appointment.appointment_time;
     _selectedBranch = widget.appointmentBranch;
+    switch (_selectedBranch) {
+      case 0:
+        _selectedBranchString = 'Karang Darat';
+        break;
+      case 1:
+        _selectedBranchString = 'Inderapura';
+        break;
+      case 2:
+        _selectedBranchString = 'Kemaman';
+        break;
+      default:
+        _selectedBranchString = 'Unknown';
+        break;
+    }
   }
 
   // ----------------------------------------------------------------------
@@ -76,6 +91,20 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
   void _onBranchPressed(int index) {
     setState(() {
       _selectedBranch = index;
+      switch (index) {
+        case 0:
+          _selectedBranchString = 'Karang Darat';
+          break;
+        case 1:
+          _selectedBranchString = 'Inderapura';
+          break;
+        case 2:
+          _selectedBranchString = 'Kemaman';
+          break;
+        default:
+          _selectedBranchString = 'Unknown';
+          break;
+      }
     });
   }
 
@@ -203,8 +232,8 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 5.0),
         child: FutureBuilder<bool>(
-          future:
-              isTimeAvailable(_appointmentDateController.text, selectedTime),
+          future: isTimeAvailable(_appointmentDateController.text, selectedTime,
+              _selectedBranchString),
           builder: (context, snapshot) {
             final isAvailable = snapshot.data ?? false;
             return ElevatedButton(
@@ -261,9 +290,10 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
   // ----------------------------------------------------------------------
   // Check if TimeAvailable
 
-  Future<bool> isTimeAvailable(String selectedDate, String selectedTime) async {
+  Future<bool> isTimeAvailable(
+      String selectedDate, String selectedTime, String branch) async {
     if (await DatabaseService()
-        .isAppointmentDateConfirmed(selectedDate, selectedTime)) {
+        .isAppointmentDateConfirmedBranch(selectedDate, selectedTime, branch)) {
       return false; // Time slot is booked
     }
     return true; // Time slot is available
@@ -325,10 +355,10 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
 
       final appointmentDate = _appointmentDateController.text;
       final appointmentTime = _selectedTime;
-      String branchName = '';
+      String branchName = _selectedBranchString;
       // Check availability one more time before submitting (just in case)
       bool isAvailable =
-          await isTimeAvailable(appointmentDate, appointmentTime);
+          await isTimeAvailable(appointmentDate, appointmentTime, branchName);
       if (!isAvailable) {
         // Handle the case where the selected time became unavailable
         // (Maybe show an error message to the user)
@@ -532,10 +562,14 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {
-                                    _onBranchPressed(0);
-                                    _selectedTime = '';
-                                  },
+                                  onPressed: (widget.rescheduler == 'patient' &&
+                                          widget.appointment.practitioner_id ==
+                                              0)
+                                      ? () {
+                                          _onBranchPressed(0);
+                                          _selectedTime = '';
+                                        }
+                                      : null,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _selectedBranch == 0
                                         ? const Color(0xFFFFE2A2)
@@ -587,10 +621,14 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
-                                  onPressed: () {
-                                    _onBranchPressed(1);
-                                    _selectedTime = '';
-                                  },
+                                  onPressed: (widget.rescheduler == 'patient' &&
+                                          widget.appointment.practitioner_id ==
+                                              0)
+                                      ? () {
+                                          _onBranchPressed(1);
+                                          _selectedTime = '';
+                                        }
+                                      : null,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _selectedBranch == 1
                                         ? const Color(0xFFFFE2A2)
@@ -642,10 +680,14 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
-                                  onPressed: () {
-                                    _onBranchPressed(2);
-                                    _selectedTime = '';
-                                  },
+                                  onPressed: (widget.rescheduler == 'patient' &&
+                                          widget.appointment.practitioner_id ==
+                                              0)
+                                      ? () {
+                                          _onBranchPressed(2);
+                                          _selectedTime = '';
+                                        }
+                                      : null,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _selectedBranch == 2
                                         ? const Color(0xFFFFE2A2)

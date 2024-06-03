@@ -329,15 +329,15 @@ class _RegisterUserState extends State<RegisterUser> {
                             dropdownColor: const Color(0xFF303E8F),
                             items: const [
                               DropdownMenuItem<String>(
-                                value: 'kd',
+                                value: 'Karang Darat',
                                 child: Text('Karang Darat'),
                               ),
                               DropdownMenuItem<String>(
-                                value: 'ip',
+                                value: 'Inderapura',
                                 child: Text('Inderapura'),
                               ),
                               DropdownMenuItem<String>(
-                                value: 'km',
+                                value: 'Kemaman',
                                 child: Text('Kemaman'),
                               ),
                             ],

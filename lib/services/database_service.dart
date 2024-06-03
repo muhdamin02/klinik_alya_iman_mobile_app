@@ -286,7 +286,7 @@ class DatabaseService {
         '0136281168',
         'shahid@gmail.com',
         'practitioner',
-        'kd'
+        'Karang Darat'
       ],
     );
 
@@ -300,7 +300,7 @@ class DatabaseService {
         '0136026669',
         'syazwan@gmail.com',
         'practitioner',
-        'ip'
+        'Inderapura'
       ],
     );
 
@@ -314,7 +314,7 @@ class DatabaseService {
         '01118870942',
         'yasmin@gmail.com',
         'practitioner',
-        'km'
+        'Kemaman'
       ],
     );
 
@@ -705,6 +705,19 @@ class DatabaseService {
     return List.generate(maps.length, (index) => User.fromMap(maps[index]));
   }
 
+  // Retrieve List of Practitioners with the same branch as the given appointment branch
+  Future<List<User>> getPractitionersByBranch(String appointmentBranch) async {
+    final db = await _databaseService.database;
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user',
+      where: 'role = ? AND branch = ?',
+      whereArgs: ['practitioner', appointmentBranch],
+    );
+
+    return List.generate(maps.length, (index) => User.fromMap(maps[index]));
+  }
+
 //////////////////////////////////////////////////////////////////////////
 //// ---------------------------------------------------------------- ////
 //// PROFILE DATABASE ////////////////////////////////////////////////////
@@ -969,6 +982,37 @@ class DatabaseService {
       'appointment',
       where: 'appointment_date = ? AND appointment_time = ? AND status = ?',
       whereArgs: [appointmentDate, appointmentTime, 'Confirmed'],
+    );
+
+    return maps.isNotEmpty;
+  }
+
+  // Check if an appointment already exists for a given date, time, and branch
+  // Check if an appointment already exists for a given date, time, and branch with specific statuses
+  Future<bool> isAppointmentDateConfirmedBranch(
+      String appointmentDate, String appointmentTime, String branch) async {
+    final db = await _databaseService.database;
+
+    // Construct the where clause
+    const String whereClause = '''
+    appointment_date = ? AND
+    appointment_time = ? AND
+    branch = ? AND
+    status IN (?, ?, ?)
+  ''';
+
+    // Execute the query
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: whereClause,
+      whereArgs: [
+        appointmentDate,
+        appointmentTime,
+        branch,
+        'Confirmed',
+        'Assigned',
+        'Updated'
+      ],
     );
 
     return maps.isNotEmpty;
