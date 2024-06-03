@@ -176,56 +176,6 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
     }
   }
 
-  //
-
-  // ----------------------------------------------------------------------
-  // Time Picker
-
-  // Widget _buildTimeButton(String selectedTime) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(4.0),
-  //       child: FutureBuilder<bool>(
-  //         future:
-  //             isTimeAvailable(_appointmentDateController.text, selectedTime),
-  //         builder: (context, snapshot) {
-  //           final isAvailable = snapshot.data ?? false;
-
-  //           return ElevatedButton(
-  //             onPressed: _isDateSelected && isAvailable
-  //                 ? () {
-  //                     setState(() {
-  //                       _selectedTime = selectedTime;
-  //                     });
-  //                   }
-  //                 : null,
-  //             style: ElevatedButton.styleFrom(
-  //               foregroundColor: const Color(0xFF32a3cb),
-  //               backgroundColor: _selectedTime == selectedTime
-  //                   ? Colors.white // White fill when selected
-  //                   : const Color(0xFF32a3cb), // Text color
-  //               side: BorderSide(
-  //                 color: _selectedTime == selectedTime
-  //                     ? const Color(0xFF32a3cb) // Blue outline when selected
-  //                     : const Color.fromARGB(
-  //                         0, 255, 255, 255), // No outline by default
-  //                 width: 3.0,
-  //               ),
-  //             ),
-  //             child: Text(
-  //               selectedTime,
-  //               style: TextStyle(
-  //                 color: _selectedTime == selectedTime
-  //                     ? const Color(0xFF32a3cb) // Blue text when selected
-  //                     : Colors.white, // White text by default
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildTimeButton(String selectedTime) {
     return Expanded(

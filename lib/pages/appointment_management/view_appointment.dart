@@ -10,14 +10,22 @@ import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
 import '../../services/misc_methods/show_hovering_message.dart';
+import '../system_admin_pages/admin_appt_management/admin_appt_management.dart';
+import '../system_admin_pages/system_admin_home.dart';
+import '../system_admin_pages/user_management/manage_user.dart';
+import 'assign_practitioner.dart';
 import 'update_appointment.dart';
 
 class ViewAppointment extends StatefulWidget {
   final Appointment appointment;
   final User user;
+  final bool autoImplyLeading;
 
   const ViewAppointment(
-      {Key? key, required this.appointment, required this.user})
+      {Key? key,
+      required this.appointment,
+      required this.user,
+      required this.autoImplyLeading})
       : super(key: key);
 
   @override
@@ -156,7 +164,6 @@ class _ViewAppointmentState extends State<ViewAppointment> {
         _practitionerName = 'Not yet assigned';
       });
     }
-    setState(() {});
   }
   // ----------------------------------------------------------------------
 
@@ -541,136 +548,625 @@ class _ViewAppointmentState extends State<ViewAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('View Appointment'),
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        shrinkWrap: true,
-        itemCount: _appointmentInfo.length,
-        itemBuilder: (context, index) {
-          Appointment appointment = _appointmentInfo[index];
-          return SizedBox(
-            width:
-                MediaQuery.of(context).size.width, // Set width to screen width
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Color(0xFFB6CBFF),
-                          height: 1,
+    return WillPopScope(
+      onWillPop: () async {
+        return widget.autoImplyLeading;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('View Appointment'),
+          automaticallyImplyLeading: widget.autoImplyLeading,
+        ),
+        bottomNavigationBar: widget.user.role == 'systemadmin'
+            ? SizedBox(
+                height: 56.0, // Adjust the height as needed
+                child: BottomAppBar(
+                  color: const Color(
+                    0xFF0A0F2C,
+                  ), // Set the background color of the BottomAppBar
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.event),
+                          iconSize: 22,
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ManageAppointmentAdmin(
+                                  user: widget.user,
+                                  autoImplyLeading: false,
+                                ),
+                              ),
+                            );
+                          },
+                          color: const Color(
+                            0xFFEDF2FF,
+                          ), // Set the color of the icon
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          'Reference Number',
-                          style: TextStyle(
-                            color: Color(0xFFEDF2FF),
-                          ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.home),
+                          iconSize: 25,
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SystemAdminHome(
+                                  user: widget.user,
+                                ),
+                              ),
+                            );
+                          },
+                          color: const Color(
+                            0xFFEDF2FF,
+                          ), // Set the color of the icon
                         ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Color(0xFFB6CBFF),
-                          height: 1,
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.group),
+                          iconSize: 25,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ManageUser(
+                                  user: widget.user,
+                                  autoImplyLeading: false,
+                                ),
+                              ),
+                            );
+                          },
+                          color: const Color(
+                            0xFFEDF2FF,
+                          ), // Set the color of the icon
                         ),
-                      ),
-                    ],
+                        const Spacer(),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20.0),
-                SizedBox(
-                  width: double.infinity, // Adjust padding as needed
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Clipboard.setData(
-                            ClipboardData(text: appointment.random_id));
-                        showHoveringMessage(
-                            context, 'Copied to clipboard', 0.19, 0.25, 0.5);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF2B3885), // Background color of the ElevatedButton
-                        elevation: 0, // Set the elevation for the button
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(20.0), // Adjust the radius
+              )
+            : null,
+        body: ListView.builder(
+          padding: const EdgeInsets.all(16.0),
+          shrinkWrap: true,
+          itemCount: _appointmentInfo.length,
+          itemBuilder: (context, index) {
+            Appointment appointment = _appointmentInfo[index];
+            return SizedBox(
+              width: MediaQuery.of(context)
+                  .size
+                  .width, // Set width to screen width
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Color(0xFFB6CBFF),
+                            height: 1,
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              appointment.random_id,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 24,
-                                letterSpacing: 8,
-                                color: Color(0xFFFFD271),
-                              ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Reference Number',
+                            style: TextStyle(
+                              color: Color(0xFFEDF2FF),
                             ),
-                          ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Color(0xFFB6CBFF),
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    width: double.infinity, // Adjust padding as needed
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Clipboard.setData(
+                              ClipboardData(text: appointment.random_id));
+                          showHoveringMessage(
+                              context, 'Copied to clipboard', 0.19, 0.25, 0.5);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                              0xFF2B3885), // Background color of the ElevatedButton
+                          elevation: 0, // Set the elevation for the button
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                appointment.random_id,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 24,
+                                  letterSpacing: 8,
+                                  color: Color(0xFFFFD271),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 32.0),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Color(0xFFB6CBFF),
-                          height: 1,
+                  const SizedBox(height: 32.0),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Color(0xFFB6CBFF),
+                            height: 1,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          'Appointment Details',
-                          style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Appointment Details',
+                            style: TextStyle(
+                              color: Color(0xFFEDF2FF),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Color(0xFFB6CBFF),
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  SizedBox(
+                    width: double.infinity, // Adjust padding as needed
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                              0xFF303E8F), // Background color of the ElevatedButton
+                          elevation: 0, // Set the elevation for the button
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle onTap action here
+                                },
+                                child: const Text(
+                                  "PATIENT",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: Color(0xFFB6CBFF),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '$_patientName',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
                       Expanded(
-                        child: Divider(
-                          color: Color(0xFFB6CBFF),
-                          height: 1,
+                        child: SizedBox(
+                          width: double.infinity, // Adjust padding as needed
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  20.0), // Adjust the radius
+                            ),
+                            elevation: 0, // Set the elevation for the card
+                            color: const Color(0xFF3848A1),
+                            child: Padding(
+                              padding: const EdgeInsets.all(28.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Handle onTap action here
+                                    },
+                                    child: const Text(
+                                      "DATE",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    DateDisplay(
+                                            date: appointment.appointment_date)
+                                        .getStringDate(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFEDF2FF),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity, // Adjust padding as needed
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  20.0), // Adjust the radius
+                            ),
+                            elevation: 0, // Set the elevation for the card
+                            color: const Color(0xFF3848A1),
+                            child: Padding(
+                              padding: const EdgeInsets.all(28.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Handle onTap action here
+                                    },
+                                    child: const Text(
+                                      "TIME",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    appointment.appointment_time,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFEDF2FF),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                SizedBox(
-                  width: double.infinity, // Adjust padding as needed
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF303E8F), // Background color of the ElevatedButton
-                        elevation: 0, // Set the elevation for the button
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(20.0), // Adjust the radius
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (widget.user.role.toLowerCase() == 'systemadmin') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AssignPractitioner(
+                                  appointment: appointment,
+                                  user: widget.user,
+                                  practitionerId: appointment.practitioner_id,
+                                ),
+                              ),
+                            );
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       backgroundColor: const Color(0xFF303E8F),
+                            //       title: const Text('Choose Practitioner'),
+                            //       content: SizedBox(
+                            //         height: 60,
+                            //         child: DropdownButton<User>(
+                            //           dropdownColor: const Color(0xFF303E8F),
+                            //           value: _selectedPractitioner,
+                            //           items: _practitionerList.map((User user) {
+                            //             return DropdownMenuItem<User>(
+                            //               value: user,
+                            //               child: Container(
+                            //                 constraints: const BoxConstraints(
+                            //                   maxWidth:
+                            //                       200, // Adjust the maxWidth as needed
+                            //                 ),
+                            //                 child: Text(
+                            //                   user.name,
+                            //                   style: const TextStyle(
+                            //                     color: Color(0xFFEDF2FF),
+                            //                   ),
+                            //                   softWrap:
+                            //                       true, // Allows text to wrap to the next line
+                            //                 ),
+                            //               ),
+                            //             );
+                            //           }).toList(),
+                            //           onChanged: (User? newValue) {
+                            //             setState(() {
+                            //               Navigator.of(context).pop();
+                            //               _selectedPractitioner = newValue;
+                            //               _handlePractitionerSelection(
+                            //                   _selectedPractitioner!.user_id,
+                            //                   appointment);
+                            //             });
+                            //           },
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            // );
+                          } else {
+                            if (_practitionerName == 'Not yet assigned') {
+                              showHoveringMessage(
+                                  context,
+                                  'The practitioner has not been assigned yet',
+                                  0.82,
+                                  0.15,
+                                  0.7);
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                              0xFF4151B1), // Background color of the ElevatedButton
+                          elevation: 0, // Set the elevation for the button
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Adjust the radius
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(28.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize:
+                                    MainAxisSize.min, // Center the Row content
+                                children: [
+                                  const Text(
+                                    'PRACTITIONER',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Color(0xFFB6CBFF),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: widget.user.role.toLowerCase() ==
+                                        'systemadmin',
+                                    child: const SizedBox(width: 8.0),
+                                  ),
+                                  Visibility(
+                                    visible: widget.user.role.toLowerCase() ==
+                                        'systemadmin',
+                                    child: const Icon(
+                                      Icons.edit,
+                                      color: Color(0xFFFFD271),
+                                      size: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                '$_practitionerName',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity, // Adjust padding as needed
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(
+                                    0xFF3848A1), // Background color of the ElevatedButton
+                                elevation:
+                                    0, // Set the elevation for the button
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0), // Adjust the radius
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0, horizontal: 14.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Center(
+                                      child: Text(
+                                        "STATUS",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          color: Color(0xFFB6CBFF),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      appointment.status,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: SizedBox(
+                          width: double.infinity, // Adjust padding as needed
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                switch (appointment.branch) {
+                                  case 'Karang Darat':
+                                    launchMap(
+                                        3.9112965679321294,
+                                        103.34899018744197,
+                                        'Klinik Alya Iman - Karang Darat');
+                                    break;
+                                  case 'Kemaman':
+                                    launchMap(
+                                        4.257055848607369,
+                                        103.40434944427868,
+                                        'Klinik Alya Iman - Kemaman');
+                                    break;
+                                  case 'Inderapura':
+                                    launchMap(
+                                        3.7511729280328034,
+                                        103.26166483677974,
+                                        'Klinik Alya Iman - Inderapura');
+                                    break;
+                                  default:
+                                    print('map doesnt work');
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(
+                                    0xFF3848A1), // Background color of the ElevatedButton
+                                elevation:
+                                    0, // Set the elevation for the button
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0), // Adjust the radius
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0, horizontal: 14.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Center(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "BRANCH",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color(0xFFB6CBFF),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8.0),
+                                          Icon(
+                                            Icons.fmd_good,
+                                            color: Color(0xFFB6CBFF),
+                                            size: 16,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      appointment.branch,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity, // Adjust padding as needed
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Adjust the radius
+                      ),
+                      elevation: 0, // Set the elevation for the card
+                      color: const Color(0xFF303E8F),
                       child: Padding(
                         padding: const EdgeInsets.all(28.0),
                         child: Column(
@@ -681,7 +1177,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                 // Handle onTap action here
                               },
                               child: const Text(
-                                "PATIENT",
+                                'REMARKS BY SYSTEM',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
@@ -691,7 +1187,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              '$_patientName',
+                              appointment.system_remarks,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
@@ -704,209 +1200,37 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: double.infinity, // Adjust padding as needed
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Adjust the radius
-                          ),
-                          elevation: 0, // Set the elevation for the card
-                          color: const Color(0xFF3848A1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(28.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // Handle onTap action here
-                                  },
-                                  child: const Text(
-                                    "DATE",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  DateDisplay(
-                                          date: appointment.appointment_date)
-                                      .getStringDate(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: Color(0xFFEDF2FF),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: double.infinity, // Adjust padding as needed
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Adjust the radius
                       ),
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: SizedBox(
-                        width: double.infinity, // Adjust padding as needed
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Adjust the radius
-                          ),
-                          elevation: 0, // Set the elevation for the card
-                          color: const Color(0xFF3848A1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(28.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    // Handle onTap action here
-                                  },
-                                  child: const Text(
-                                    "TIME",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  appointment.appointment_time,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: Color(0xFFEDF2FF),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (widget.user.role.toLowerCase() == 'systemadmin') {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: const Color(0xFF303E8F),
-                                title: const Text('Choose Practitioner'),
-                                content: SizedBox(
-                                  height: 60,
-                                  child: DropdownButton<User>(
-                                    dropdownColor: const Color(0xFF303E8F),
-                                    value: _selectedPractitioner,
-                                    items: _practitionerList.map((User user) {
-                                      return DropdownMenuItem<User>(
-                                        value: user,
-                                        child: Container(
-                                          constraints: const BoxConstraints(
-                                            maxWidth:
-                                                200, // Adjust the maxWidth as needed
-                                          ),
-                                          child: Text(
-                                            user.name,
-                                            style: const TextStyle(
-                                              color: Color(0xFFEDF2FF),
-                                            ),
-                                            softWrap:
-                                                true, // Allows text to wrap to the next line
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (User? newValue) {
-                                      setState(() {
-                                        Navigator.of(context).pop();
-                                        _selectedPractitioner = newValue;
-                                        _handlePractitionerSelection(
-                                            _selectedPractitioner!.user_id,
-                                            appointment);
-                                      });
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          if (_practitionerName == 'Not yet assigned') {
-                            showHoveringMessage(
-                                context,
-                                'The practitioner has not been assigned yet',
-                                0.82,
-                                0.15,
-                                0.7);
-                          }
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                            0xFF4151B1), // Background color of the ElevatedButton
-                        elevation: 0, // Set the elevation for the button
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(20.0), // Adjust the radius
-                        ),
-                      ),
+                      elevation: 0, // Set the elevation for the card
+                      color: const Color(0xFF3848A1),
                       child: Padding(
                         padding: const EdgeInsets.all(28.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              mainAxisSize:
-                                  MainAxisSize.min, // Center the Row content
-                              children: [
-                                const Text(
-                                  'PRACTITIONER',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: Color(0xFFB6CBFF),
-                                  ),
+                            GestureDetector(
+                              onTap: () {
+                                // Handle onTap action here
+                              },
+                              child: const Text(
+                                'REMARKS BY PATIENT',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFB6CBFF),
                                 ),
-                                Visibility(
-                                  visible: widget.user.role.toLowerCase() ==
-                                      'systemadmin',
-                                  child: const SizedBox(width: 8.0),
-                                ),
-                                Visibility(
-                                  visible: widget.user.role.toLowerCase() ==
-                                      'systemadmin',
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: Color(0xFFFFD271),
-                                    size: 16,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              '$_practitionerName',
+                              appointment.patient_remarks,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
@@ -919,986 +1243,766 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: double.infinity, // Adjust padding as needed
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Adjust the radius
+                      ),
+                      elevation: 0, // Set the elevation for the card
+                      color: const Color(0xFF4151B1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Handle onTap action here
+                              },
+                              child: const Text(
+                                'REMARKS BY PRACTITIONER',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFB6CBFF),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              appointment.practitioner_remarks,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFEDF2FF),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32.0),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Color(0xFFB6CBFF),
+                            height: 1,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Actions',
+                            style: TextStyle(
+                              color: Color(0xFFEDF2FF),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Color(0xFFB6CBFF),
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  Visibility(
+                    visible: viewAttendanceButtons,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: SizedBox(
-                        width: double.infinity, // Adjust padding as needed
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(
-                                  0xFF3848A1), // Background color of the ElevatedButton
-                              elevation: 0, // Set the elevation for the button
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0), // Adjust the radius
-                              ),
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _attendAppointment(appointment);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 28.0, horizontal: 14.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Center(
-                                    child: Text(
-                                      "STATUS",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        color: Color(0xFFB6CBFF),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    appointment.status,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFEDF2FF),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
                             ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons
+                                      .event_available, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Mark as Attended',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons
+                                      .event_available, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    Expanded(
+                  ),
+                  Visibility(
+                    visible: viewAttendanceButtons,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: viewAttendanceButtons,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: SizedBox(
-                        width: double.infinity, // Adjust padding as needed
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              switch (appointment.branch) {
-                                case 'Karang Darat':
-                                  launchMap(
-                                      3.9112965679321294,
-                                      103.34899018744197,
-                                      'Klinik Alya Iman - Karang Darat');
-                                  break;
-                                case 'Kemaman':
-                                  launchMap(
-                                      4.257055848607369,
-                                      103.40434944427868,
-                                      'Klinik Alya Iman - Kemaman');
-                                  break;
-                                case 'Inderapura':
-                                  launchMap(
-                                      3.7511729280328034,
-                                      103.26166483677974,
-                                      'Klinik Alya Iman - Inderapura');
-                                  break;
-                                default:
-                                  print('map doesnt work');
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _absentAppointment(appointment);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
+                            ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.event_busy, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Mark as Absent',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons
+                                      .event_busy_rounded, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: viewAttendanceButtons,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: viewAttendanceButtons,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            //
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
+                            ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.delete, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Void Appointment',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.delete, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: viewAttendanceButtons,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: viewConfirmButtonForPractitioner,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _confirmAppointment(appointment);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
+                            ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons
+                                      .check_box_rounded, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Confirm Appointment',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons
+                                      .check_box_rounded, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: viewConfirmButtonForPractitioner,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: viewEditButtonForPractitioner,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            int branch;
+
+                            switch (appointment.branch) {
+                              case 'Karang Darat':
+                                branch = 0;
+                                break;
+                              case 'Inderapura':
+                                branch = 1;
+                                break;
+                              case 'Kemaman':
+                                branch = 2;
+                                break;
+                              default:
+                                branch = 0;
+                            }
+
+                            // Navigate to the update appointment page with the selected appointment
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UpdateAppointment(
+                                  appointment: appointment,
+                                  rescheduler: widget.user.role,
+                                  appointmentBranch: branch,
+                                ),
+                              ),
+                            ).then((result) {
+                              if (result == true) {
+                                // If the appointment was updated, refresh the appointment history
+                                _fetchAppointmentInfo();
+                                _loadPatientName();
+                                _getPractitionerList(appointment.branch);
                               }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(
-                                  0xFF3848A1), // Background color of the ElevatedButton
-                              elevation: 0, // Set the elevation for the button
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20.0), // Adjust the radius
-                              ),
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 28.0, horizontal: 14.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Center(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          "BRANCH",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            color: Color(0xFFB6CBFF),
-                                          ),
-                                        ),
-                                        SizedBox(width: 8.0),
-                                        Icon(
-                                          Icons.fmd_good,
-                                          color: Color(0xFFB6CBFF),
-                                          size: 16,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    appointment.branch,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFEDF2FF),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
                             ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.edit, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Edit Appointment',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.edit, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity, // Adjust padding as needed
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20.0), // Adjust the radius
-                    ),
-                    elevation: 0, // Set the elevation for the card
-                    color: const Color(0xFF303E8F),
+                  ),
+                  Visibility(
+                    visible: viewEditButtonForPractitioner,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: viewEditButtonForPatient,
                     child: Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // Handle onTap action here
-                            },
-                            child: const Text(
-                              'REMARKS BY SYSTEM',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFB6CBFF),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            appointment.system_remarks,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Color(0xFFEDF2FF),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                SizedBox(
-                  width: double.infinity, // Adjust padding as needed
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20.0), // Adjust the radius
-                    ),
-                    elevation: 0, // Set the elevation for the card
-                    color: const Color(0xFF3848A1),
-                    child: Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // Handle onTap action here
-                            },
-                            child: const Text(
-                              'REMARKS BY PATIENT',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFB6CBFF),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            appointment.patient_remarks,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Color(0xFFEDF2FF),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                SizedBox(
-                  width: double.infinity, // Adjust padding as needed
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20.0), // Adjust the radius
-                    ),
-                    elevation: 0, // Set the elevation for the card
-                    color: const Color(0xFF4151B1),
-                    child: Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // Handle onTap action here
-                            },
-                            child: const Text(
-                              'REMARKS BY PRACTITIONER',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFB6CBFF),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            appointment.practitioner_remarks,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Color(0xFFEDF2FF),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32.0),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Color(0xFFB6CBFF),
-                          height: 1,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          'Actions',
-                          style: TextStyle(
-                            color: Color(0xFFEDF2FF),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Color(0xFFB6CBFF),
-                          height: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                Visibility(
-                  visible: viewAttendanceButtons,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _attendAppointment(appointment);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.event_available, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Mark as Attended',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.event_available, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: viewAttendanceButtons,
-                  child: const SizedBox(height: 10),
-                ),
-                Visibility(
-                  visible: viewAttendanceButtons,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _absentAppointment(appointment);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.event_busy, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Mark as Absent',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons
-                                    .event_busy_rounded, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: viewAttendanceButtons,
-                  child: const SizedBox(height: 10),
-                ),
-                Visibility(
-                  visible: viewAttendanceButtons,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          //
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.delete, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Void Appointment',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.delete, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: viewAttendanceButtons,
-                  child: const SizedBox(height: 10),
-                ),
-                Visibility(
-                  visible: viewConfirmButtonForPractitioner,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _confirmAppointment(appointment);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons
-                                    .check_box_rounded, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Confirm Appointment',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons
-                                    .check_box_rounded, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: viewConfirmButtonForPractitioner,
-                  child: const SizedBox(height: 10),
-                ),
-                Visibility(
-                  visible: viewEditButtonForPractitioner,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          int branch;
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            int branch;
 
-                          switch (appointment.branch) {
-                            case 'Karang Darat':
-                              branch = 0;
-                              break;
-                            case 'Inderapura':
-                              branch = 1;
-                              break;
-                            case 'Kemaman':
-                              branch = 2;
-                              break;
-                            default:
-                              branch = 0;
-                          }
-
-                          // Navigate to the update appointment page with the selected appointment
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UpdateAppointment(
-                                appointment: appointment,
-                                rescheduler: widget.user.role,
-                                appointmentBranch: branch,
-                              ),
-                            ),
-                          ).then((result) {
-                            if (result == true) {
-                              // If the appointment was updated, refresh the appointment history
-                              _fetchAppointmentInfo();
-                              _loadPatientName();
-                              _getPractitionerList(appointment.branch);
+                            switch (appointment.branch) {
+                              case 'Karang Darat':
+                                branch = 0;
+                                break;
+                              case 'Inderapura':
+                                branch = 1;
+                                break;
+                              case 'Kemaman':
+                                branch = 2;
+                                break;
+                              default:
+                                branch = 0;
                             }
-                          });
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
+
+                            // Navigate to the update appointment page with the selected appointment
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UpdateAppointment(
+                                  appointment: appointment,
+                                  rescheduler: widget.user.role,
+                                  appointmentBranch: branch,
+                                ),
+                              ),
+                            ).then((result) {
+                              if (result == true) {
+                                // If the appointment was updated, refresh the appointment history
+                                _fetchAppointmentInfo();
+                                _loadPatientName();
+                                _getPractitionerList(appointment.branch);
+                              }
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
+                            ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
+                            ),
                           ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.edit, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Edit Appointment',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.edit, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.edit, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Edit Appointment',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.edit, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
                   ),
-                ),
-                Visibility(
-                  visible: viewEditButtonForPractitioner,
-                  child: const SizedBox(height: 10),
-                ),
-                Visibility(
-                  visible: viewEditButtonForPatient,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          int branch;
-
-                          switch (appointment.branch) {
-                            case 'Karang Darat':
-                              branch = 0;
-                              break;
-                            case 'Inderapura':
-                              branch = 1;
-                              break;
-                            case 'Kemaman':
-                              branch = 2;
-                              break;
-                            default:
-                              branch = 0;
-                          }
-
-                          // Navigate to the update appointment page with the selected appointment
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UpdateAppointment(
-                                appointment: appointment,
-                                rescheduler: widget.user.role,
-                                appointmentBranch: branch,
-                              ),
+                  Visibility(
+                    visible: viewEditButtonForPatient,
+                    child: const SizedBox(height: 10),
+                  ),
+                  if (widget.user.role.toLowerCase() != 'systemadmin')
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _leaveRemarks(widget.appointment);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
                             ),
-                          ).then((result) {
-                            if (result == true) {
-                              // If the appointment was updated, refresh the appointment history
-                              _fetchAppointmentInfo();
-                              _loadPatientName();
-                              _getPractitionerList(appointment.branch);
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.rate_review, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Leave Remarks',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.rate_review, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (widget.user.role.toLowerCase() != 'systemadmin')
+                    const SizedBox(height: 10),
+                  Visibility(
+                    visible: viewEditButtonForSystemAdmin,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            int branch;
+
+                            switch (appointment.branch) {
+                              case 'Karang Darat':
+                                branch = 0;
+                                break;
+                              case 'Inderapura':
+                                branch = 1;
+                                break;
+                              case 'Kemaman':
+                                branch = 2;
+                                break;
+                              default:
+                                branch = 0;
                             }
-                          });
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
+
+                            // Navigate to the update appointment page with the selected appointment
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UpdateAppointment(
+                                  appointment: appointment,
+                                  rescheduler: widget.user.role,
+                                  appointmentBranch: branch,
+                                ),
+                              ),
+                            ).then((result) {
+                              if (result == true) {
+                                // If the appointment was updated, refresh the appointment history
+                                _fetchAppointmentInfo();
+                                _loadPatientName();
+                                _getPractitionerList(appointment.branch);
+                              }
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFFDBE5FF), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
+                            ),
+                            side: const BorderSide(
+                              color: Color(0xFF6086f6), // Set the outline color
+                              width: 2.5, // Set the outline width
+                            ),
                           ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.edit, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Edit Appointment',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF1F3299),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.edit, // Use any icon you want
+                                  color: Color(0xFF1F3299),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.edit, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Edit Appointment',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.edit, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
                   ),
-                ),
-                Visibility(
-                  visible: viewEditButtonForPatient,
-                  child: const SizedBox(height: 10),
-                ),
-                if (widget.user.role.toLowerCase() != 'systemadmin')
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _leaveRemarks(widget.appointment);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
+                  Visibility(
+                    visible: viewEditButtonForSystemAdmin,
+                    child: const SizedBox(height: 10),
+                  ),
+                  Visibility(
+                    visible: viewCancelButton,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: SizedBox(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _cancelAppointment(appointment);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                const Color(0xFF0B1655), // Set the fill color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  50.0), // Adjust the value as needed
+                            ),
+                            side: const BorderSide(
+                              color: Color(0xFFC1D3FF), // Set the outline color
+                              width: 3, // Set the outline width
+                            ),
                           ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.highlight_off, // Use any icon you want
+                                  color: Color(0xFFC1D3FF),
+                                  size: 28,
+                                ),
+                              ),
+                              Spacer(), // Adjust the spacing between icon and text
+                              Text(
+                                'Cancel Appointment',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFFC1D3FF),
+                                ),
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    12.0), // Adjust padding as needed
+                                child: Icon(
+                                  Icons.highlight_off, // Use any icon you want
+                                  color: Color(0xFFC1D3FF),
+                                  size: 28,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.rate_review, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Leave Remarks',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.rate_review, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ),
                   ),
-                if (widget.user.role.toLowerCase() != 'systemadmin')
                   const SizedBox(height: 10),
-                Visibility(
-                  visible: viewEditButtonForSystemAdmin,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          int branch;
-
-                          switch (appointment.branch) {
-                            case 'Karang Darat':
-                              branch = 0;
-                              break;
-                            case 'Inderapura':
-                              branch = 1;
-                              break;
-                            case 'Kemaman':
-                              branch = 2;
-                              break;
-                            default:
-                              branch = 0;
-                          }
-
-                          // Navigate to the update appointment page with the selected appointment
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UpdateAppointment(
-                                appointment: appointment,
-                                rescheduler: widget.user.role,
-                                appointmentBranch: branch,
-                              ),
-                            ),
-                          ).then((result) {
-                            if (result == true) {
-                              // If the appointment was updated, refresh the appointment history
-                              _fetchAppointmentInfo();
-                              _loadPatientName();
-                              _getPractitionerList(appointment.branch);
-                            }
-                          });
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFFDBE5FF), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFF6086f6), // Set the outline color
-                            width: 2.5, // Set the outline width
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.edit, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Edit Appointment',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF1F3299),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.edit, // Use any icon you want
-                                color: Color(0xFF1F3299),
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: viewEditButtonForSystemAdmin,
-                  child: const SizedBox(height: 10),
-                ),
-                Visibility(
-                  visible: viewCancelButton,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: SizedBox(
-                      height: 80.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _cancelAppointment(appointment);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              const Color(0xFF0B1655), // Set the fill color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the value as needed
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFFC1D3FF), // Set the outline color
-                            width: 3, // Set the outline width
-                          ),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.highlight_off, // Use any icon you want
-                                color: Color(0xFFC1D3FF),
-                                size: 28,
-                              ),
-                            ),
-                            Spacer(), // Adjust the spacing between icon and text
-                            Text(
-                              'Cancel Appointment',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFFC1D3FF),
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  12.0), // Adjust padding as needed
-                              child: Icon(
-                                Icons.highlight_off, // Use any icon you want
-                                color: Color(0xFFC1D3FF),
-                                size: 28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -107,6 +107,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
         builder: (context) => ViewAppointment(
           appointment: appointment,
           user: widget.user,
+          autoImplyLeading: false,
         ),
       ),
     );

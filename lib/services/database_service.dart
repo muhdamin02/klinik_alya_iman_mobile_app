@@ -987,7 +987,6 @@ class DatabaseService {
     return maps.isNotEmpty;
   }
 
-  // Check if an appointment already exists for a given date, time, and branch
   // Check if an appointment already exists for a given date, time, and branch with specific statuses
   Future<bool> isAppointmentDateConfirmedBranch(
       String appointmentDate, String appointmentTime, String branch) async {
@@ -1016,6 +1015,40 @@ class DatabaseService {
     );
 
     return maps.isNotEmpty;
+  }
+
+  // check if time is available for the practitioner
+  // Check if an appointment already exists for a given date, time, branch, and practitioner_id with specific statuses
+  Future<bool> isPractitionerFree(
+    String appointmentDate,
+    String appointmentTime,
+    int? practitionerId,
+  ) async {
+    final db = await _databaseService.database;
+
+    // Construct the where clause
+    const String whereClause = '''
+    appointment_date = ? AND
+    appointment_time = ? AND
+    practitioner_id = ? AND
+    status IN (?, ?, ?)
+  ''';
+
+    // Execute the query
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: whereClause,
+      whereArgs: [
+        appointmentDate,
+        appointmentTime,
+        practitionerId,
+        'Confirmed',
+        'Assigned',
+        'Updated'
+      ],
+    );
+
+    return maps.isEmpty;
   }
 
   // Retrieve All (upcoming)

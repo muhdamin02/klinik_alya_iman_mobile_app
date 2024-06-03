@@ -100,7 +100,7 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            ViewAppointment(appointment: appointment, user: widget.user),
+            ViewAppointment(appointment: appointment, user: widget.user, autoImplyLeading: false,),
       ),
     );
   }
