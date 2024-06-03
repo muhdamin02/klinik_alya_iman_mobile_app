@@ -25,7 +25,8 @@ class _PractitionerHomeState extends State<PractitionerHome> {
   List<Appointment> _appointmentTodayList = [];
   List<Appointment> _appointmentUpcomingList = [];
   List<Appointment> _appointmentPastList = [];
-  List<Appointment> _patientsUnderCareList = [];
+  int _patientsUnderCareList = 0;
+  int _maternityPatientsUnderCareList = 0;
 
   @override
   void initState() {
@@ -90,11 +91,15 @@ class _PractitionerHomeState extends State<PractitionerHome> {
   // Get list of patients under care
 
   Future<void> _fetchPatientsUnderCareList() async {
-    List<Appointment> patientsUnderCareList =
-        await DatabaseService().patientsUnderCare(widget.user.user_id!);
+    int patientsUnderCareList =
+        await DatabaseService().countPatientsUnderCare(widget.user.user_id!);
+
+    int maternityPatientsUnderCareList = await DatabaseService()
+        .countMaternityPatientsUnderCare(widget.user.user_id!);
 
     setState(() {
       _patientsUnderCareList = patientsUnderCareList;
+      _maternityPatientsUnderCareList = maternityPatientsUnderCareList;
     });
   }
 
@@ -510,7 +515,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '${_patientsUnderCareList.length}',
+                                  '$_patientsUnderCareList',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 24,
@@ -562,7 +567,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '${_patientsUnderCareList.length}',
+                                  '$_maternityPatientsUnderCareList',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 24,

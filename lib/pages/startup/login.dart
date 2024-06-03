@@ -24,7 +24,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   int? userId;
-  String? userName, userUsername, userPassword, userPhone, userRole;
+  String? userName, userUsername, userPassword, userPhone, userEmail, userRole, userBranch;
   bool passwordVisible = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
@@ -59,7 +59,9 @@ class _LoginState extends State<Login> {
             userId = user['user_id'];
             userName = user['name'];
             userPhone = user['phone'];
+            userEmail = user['email'];
             userRole = user['role'];
+            userBranch = user['branch'];
           }
 
           final user = User(
@@ -68,7 +70,9 @@ class _LoginState extends State<Login> {
             name: userName ?? '',
             password: password,
             phone: userPhone ?? '',
+            email: userEmail ?? '',
             role: userRole ?? '',
+            branch: userBranch ?? '',
           );
 
           if (userRole == 'patient') {
@@ -142,7 +146,9 @@ class _LoginState extends State<Login> {
       name: userName ?? '',
       password: userPassword ?? '',
       phone: userPhone ?? '',
+      email: userEmail ?? '',
       role: userRole ?? '',
+      branch: userBranch ?? ''
     );
 
     // ignore: use_build_context_synchronously

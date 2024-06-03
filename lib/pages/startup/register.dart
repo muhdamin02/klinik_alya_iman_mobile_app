@@ -18,9 +18,9 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _usernameController =
-      TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final DatabaseService _databaseService = DatabaseService();
 
@@ -31,11 +31,11 @@ class _RegisterState extends State<Register> {
     final name = _nameController.text;
     final username = _usernameController.text;
     final password = _passwordController.text;
+    final email = _emailController.text;
     final phone = _phoneController.text;
 
     // Check if username already exists in the database
-    bool isUsernameExists =
-        await _databaseService.checkUserExists(username);
+    bool isUsernameExists = await _databaseService.checkUserExists(username);
 
     if (isUsernameExists) {
       // ignore: use_build_context_synchronously
@@ -66,7 +66,9 @@ class _RegisterState extends State<Register> {
         username: username,
         password: password,
         phone: phone,
+        email: email,
         role: 'patient',
+        branch: 'none',
       ),
     );
 
@@ -140,6 +142,13 @@ class _RegisterState extends State<Register> {
                     horizontal: 16.0,
                   ),
                   child: buildPhone(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 16.0,
+                  ),
+                  child: buildEmail(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -239,13 +248,13 @@ class _RegisterState extends State<Register> {
         controller: _usernameController,
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            labelText: 'IC or Passport Number',
+            labelText: 'Username',
             counterText: ''),
         maxLength: 20,
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your IC or password number';
+            return 'Please enter your username';
           }
           return null;
         },
@@ -298,6 +307,25 @@ class _RegisterState extends State<Register> {
           return null;
         },
       );
+
+// ----------------------------------------------------------------------
+  // Email textfield
+
+  Widget buildEmail() => TextFormField(
+        controller: _emailController,
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(), labelText: 'Email', counterText: ''),
+        maxLength: 20,
+        validator: (value) {
+          // Validate Input
+          if (value == null || value.isEmpty) {
+            return 'Please enter your email';
+          }
+          return null;
+        },
+      );
+
+  // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
 }

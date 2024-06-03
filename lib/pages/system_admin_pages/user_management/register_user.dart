@@ -21,8 +21,10 @@ class _RegisterUserState extends State<RegisterUser> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final DatabaseService _databaseService = DatabaseService();
   String _selectedRole = 'patient';
+  String _selectedBranch = 'kd';
 
   bool passwordVisible = true;
 
@@ -34,7 +36,9 @@ class _RegisterUserState extends State<RegisterUser> {
     final username = _usernameController.text;
     final password = _passwordController.text;
     final phone = _phoneController.text;
+    final email = _emailController.text;
     final role = _selectedRole;
+    final branch = _selectedBranch;
 
     // Check if username or email already exists in the database
     bool isUsernameExists = await _databaseService.checkUserExists(username);
@@ -70,7 +74,9 @@ class _RegisterUserState extends State<RegisterUser> {
         name: name,
         password: password,
         phone: phone,
+        email: email,
         role: role,
+        branch: branch,
       ),
     );
 
@@ -196,6 +202,13 @@ class _RegisterUserState extends State<RegisterUser> {
                             vertical: 6.0,
                             horizontal: 3.0,
                           ),
+                          child: buildEmail(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 6.0,
+                            horizontal: 3.0,
+                          ),
                           child: buildPassword(),
                         ),
                         const SizedBox(height: 40.0),
@@ -262,6 +275,83 @@ class _RegisterUserState extends State<RegisterUser> {
                                 horizontal: 20.0,
                               ),
                               labelText: 'User Role',
+                              labelStyle:
+                                  const TextStyle(color: Color(0xFFB6CBFF)),
+                            ),
+                            style: const TextStyle(
+                                color: Color(0xFFEDF2FF),
+                                fontFamily: 'ProductSans',
+                                fontSize: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 40.0),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          child: const Row(
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  color: Color(0xFFB6CBFF),
+                                  height: 1,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  'Branch (practitioners only)',
+                                  style: TextStyle(
+                                    color: Color(0xFFEDF2FF),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  color: Color(0xFFB6CBFF),
+                                  height: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 6.0,
+                            horizontal: 3.0,
+                          ),
+                          child: DropdownButtonFormField<String>(
+                            value: _selectedBranch,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedBranch = newValue!;
+                              });
+                            },
+                            dropdownColor: const Color(0xFF303E8F),
+                            items: const [
+                              DropdownMenuItem<String>(
+                                value: 'kd',
+                                child: Text('Karang Darat'),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: 'ip',
+                                child: Text('Inderapura'),
+                              ),
+                              DropdownMenuItem<String>(
+                                value: 'km',
+                                child: Text('Kemaman'),
+                              ),
+                            ],
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: const Color(0xFF4D5FC0),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 20.0,
+                                horizontal: 20.0,
+                              ),
+                              labelText: 'Branch',
                               labelStyle:
                                   const TextStyle(color: Color(0xFFB6CBFF)),
                             ),
@@ -343,7 +433,7 @@ class _RegisterUserState extends State<RegisterUser> {
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your full name';
+            return 'Please enter full name';
           }
           return null;
         },
@@ -371,7 +461,7 @@ class _RegisterUserState extends State<RegisterUser> {
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your username';
+            return 'Please enter username';
           }
           return null;
         },
@@ -404,9 +494,37 @@ class _RegisterUserState extends State<RegisterUser> {
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your phone number';
+            return 'Please enter phone number';
           }
 
+          return null;
+        },
+        style: const TextStyle(color: Color(0xFFEDF2FF)),
+      );
+
+  // ----------------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // username textfield
+
+  Widget buildEmail() => TextFormField(
+        controller: _emailController,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xFF4D5FC0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+          labelText: 'Email',
+          labelStyle: const TextStyle(color: Color(0xFFB6CBFF)),
+        ),
+        validator: (value) {
+          // Validate Input
+          if (value == null || value.isEmpty) {
+            return 'Please enter email';
+          }
           return null;
         },
         style: const TextStyle(color: Color(0xFFEDF2FF)),
@@ -449,7 +567,7 @@ class _RegisterUserState extends State<RegisterUser> {
         validator: (value) {
           // Validate Input
           if (value == null || value.isEmpty) {
-            return 'Please enter your password';
+            return 'Please enter password';
           }
           return null;
         },

@@ -7,14 +7,18 @@ class User {
   final String name;
   final String password;
   final String phone;
+  final String email;
   final String role;
+  final String branch;
   User({
     this.user_id,
     required this.username,
     required this.name,
     required this.password,
     required this.phone,
+    required this.email,
     required this.role,
+    required this.branch
   });
 
   Map<String, dynamic> toMap() {
@@ -24,7 +28,9 @@ class User {
       'name': name,
       'password': password,
       'phone': phone,
+      'email': email,
       'role': role,
+      'branch': branch,
     };
   }
 
@@ -35,7 +41,9 @@ class User {
       name: map['name'] ?? '',
       password: map['password'] ?? '',
       phone: map['phone'] ?? '',
+      email: map['email'] ?? '',
       role: map['role'] ?? '',
+      branch: map['branch'] ?? '',
     );
   }
   
@@ -44,6 +52,6 @@ class User {
   // Implement toString to make it easier to see information about each User when using the print statement.
   @override
   String toString() {
-    return 'User(user_id: $user_id, username: $username, name: $name, password: $password, phone: $phone, role: $role)';
+    return 'User(user_id: $user_id, username: $username, name: $name, password: $password, phone: $phone, email: $email, role: $role, branch: $branch)';
   }
 }

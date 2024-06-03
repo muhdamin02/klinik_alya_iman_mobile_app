@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../../../models/contractions.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
@@ -20,6 +19,7 @@ class TrackContractions extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _TrackContractionsState createState() => _TrackContractionsState();
 }
 
@@ -103,9 +103,10 @@ class _TrackContractionsState extends State<TrackContractions> {
                       });
                       Navigator.of(context).pop();
                       _showRatingSnackBar();
+                      _saveContraction();
                     },
                     child: Container(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _contractionIntensity == index + 1
@@ -159,28 +160,37 @@ class _TrackContractionsState extends State<TrackContractions> {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Success'),
-          content: const Text('Form submitted successfully!'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ContractionsList(
-                      user: widget.user,
-                      profile: widget.profile,
-                      autoImplyLeading: false,
-                    ),
-                  ),
-                );
-              },
+        builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: const Color(0xFF303E8F),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
             ),
-          ],
+            title: const Text('Done'),
+            content: const Text('Contractions have been saved!'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContractionsList(
+                        user: widget.user,
+                        profile: widget.profile,
+                        autoImplyLeading: false,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
+        barrierDismissible: false,
       );
     } catch (error) {
       // Handle any errors that occur during the database operation
@@ -318,32 +328,67 @@ class _TrackContractionsState extends State<TrackContractions> {
                   ),
                 ),
               ),
-            if (!_isRunning && _milliseconds > 0)
-              ElevatedButton(
-                onPressed: _saveContraction,
-                style: OutlinedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor:
-                      const Color(0xFFDBE5FF), // Set the fill color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        20.0), // Adjust the value as needed
-                  ),
-                  side: const BorderSide(
-                    color: Color(0xFF6086f6), // Set the outline color
-                    width: 3, // Set the outline width
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Icon(
-                    Icons.save_rounded,
-                    size: 32,
-                    color: Color(0xFF1F3299),
-                  ),
+            const SizedBox(height: 64.0),
+            if (_isRunning && _milliseconds > 0)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: Color(0xFFB6CBFF),
+                        height: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'Stop the timer when the\ncontractions have subsided!',
+                        style: TextStyle(
+                          color: Color(0xFFB6CBFF),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Color(0xFFB6CBFF),
+                        height: 1,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
+            if (!_isRunning && _milliseconds == 0)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: Color(0xFFB6CBFF),
+                        height: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'Start the timer immediately if\nyou feel contractions!',
+                        style: TextStyle(
+                          color: Color(0xFFB6CBFF),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Color(0xFFB6CBFF),
+                        height: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             // ElevatedButton(
             //   onPressed: () {
             //     if (!_isRunning && _milliseconds == 0) {

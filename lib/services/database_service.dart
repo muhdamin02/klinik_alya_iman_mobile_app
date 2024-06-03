@@ -53,7 +53,7 @@ class DatabaseService {
   Future<void> _onCreate(Database db, int version) async {
     // user table
     await db.execute(
-      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, name TEXT NOT NULL, password TEXT NOT NULL, phone TEXT NOT NULL, role TEXT NOT NULL)',
+      'CREATE TABLE user(user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, name TEXT NOT NULL, password TEXT NOT NULL, phone TEXT NOT NULL, email TEXT, role TEXT NOT NULL, branch TEXT)',
     );
 
     // profile table
@@ -272,50 +272,78 @@ class DatabaseService {
     // system guest
     // DO NOT TOUCH
     await db.execute(
-      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['-', 'Guest', '-', '-', 'guest'],
+      'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      ['-', 'Guest', '-', '-', '-', 'guest', '-'],
     );
 
     // practitioner 1
     await db.execute(
-      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
         'd',
         'Muhammad Shahid bin Shamsul Anuar',
         'd',
         '0136281168',
-        'practitioner'
+        'shahid@gmail.com',
+        'practitioner',
+        'kd'
       ],
     );
 
     // practitioner 2
     await db.execute(
-      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
         'd2',
         'Muhammad Syazwan Redza bin Muhammad Sadzalee',
         'd2',
         '0136026669',
-        'practitioner'
+        'syazwan@gmail.com',
+        'practitioner',
+        'ip'
       ],
     );
 
     // practitioner 3
     await db.execute(
-      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['d3', 'Yasmin Anisah binti Khalid', 'd3', '01118870942', 'practitioner'],
+      'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [
+        'd3',
+        'Yasmin Anisah binti Khalid',
+        'd3',
+        '01118870942',
+        'yasmin@gmail.com',
+        'practitioner',
+        'km'
+      ],
     );
 
     // system admin
     await db.execute(
-      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['sa', 'Abdullah bin Abdul Samad', 'sa', '0123456789', 'systemadmin'],
+      'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [
+        'sa',
+        'Abdullah bin Abdul Samad',
+        'sa',
+        '0123456789',
+        'abu@gmail.com',
+        'systemadmin',
+        '-'
+      ],
     );
 
     // patient
     await db.execute(
-      'INSERT INTO user (username, name, password, phone, role) VALUES (?, ?, ?, ?, ?)',
-      ['p', 'Muhammad Amin bin Shamsul Anuar', 'p', '0104081975', 'patient'],
+      'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [
+        'p',
+        'Muhammad Amin bin Shamsul Anuar',
+        'p',
+        '0104081975',
+        'amin@gmail.com',
+        'patient',
+        '-'
+      ],
     );
 
     // homefeed 1
@@ -1107,6 +1135,48 @@ class DatabaseService {
     );
   }
 
+  Future<int> countPatientsUnderCare(int practitionerId) async {
+    final db = await _databaseService.database;
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'appointment',
+      where: 'practitioner_id = ?',
+      whereArgs: [practitionerId],
+    );
+
+    final Set<int> uniqueProfileIds = <int>{};
+
+    for (final map in maps) {
+      final Appointment appointment = Appointment.fromMap(map);
+      final int profileId = appointment.profile_id!;
+
+      uniqueProfileIds.add(profileId);
+    }
+
+    return uniqueProfileIds.length;
+  }
+
+  Future<int> countMaternityPatientsUnderCare(int practitionerId) async {
+    final db = await _databaseService.database;
+
+    // Perform a raw query to join the appointment and profile tables
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT DISTINCT a.profile_id 
+      FROM appointment a
+      JOIN profile p ON a.profile_id = p.profile_id
+      WHERE a.practitioner_id = ? AND p.maternity <> ?
+    ''', [practitionerId, 'No']);
+
+    // Use a set to ensure unique profile IDs
+    final Set<int> uniqueProfileIds = <int>{};
+
+    for (final map in results) {
+      uniqueProfileIds.add(map['profile_id'] as int);
+    }
+
+    return uniqueProfileIds.length;
+  }
+
   // Retrieve based on User and Profile (all) for practitioners
   Future<List<Appointment>> patientsUnderCare(
     int? practitionerId,
@@ -1134,6 +1204,34 @@ class DatabaseService {
 
     return uniqueAppointments;
   }
+
+  // // Retrieve based on User and Profile (all) for practitioners
+  // Future<List<Appointment>> maternityPatientsUnderCare(
+  //   int? practitionerId,
+  // ) async {
+  //   final db = await _databaseService.database;
+
+  //   final List<Map<String, dynamic>> maps = await db.query(
+  //     'appointment',
+  //     where: 'practitioner_id = ?',
+  //     whereArgs: [practitionerId],
+  //   );
+
+  //   final Set<int> uniqueProfileIds = <int>{};
+  //   final List<Appointment> uniqueAppointments = [];
+
+  //   for (final map in maps) {
+  //     final Appointment appointment = Appointment.fromMap(map);
+  //     final int profileId = appointment.profile_id!;
+
+  //     if (!uniqueProfileIds.contains(profileId)) {
+  //       uniqueProfileIds.add(profileId);
+  //       uniqueAppointments.add(appointment);
+  //     }
+  //   }
+
+  //   return uniqueAppointments;
+  // }
 
   // Retrieve One Appointment Info
   Future<List<Appointment>> appointmentInfo(int? appointmentId) async {
