@@ -176,7 +176,7 @@ class _SecondTrimesterState extends State<SecondTrimester> {
                           const Color(0xFFC1D3FF), // Set the text color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            64.0), // Adjust the value as needed
+                            32.0), // Adjust the value as needed
                       ),
                       side: const BorderSide(
                         color: Color(0xFF6086f6), // Set the outline color
@@ -223,6 +223,7 @@ class _SecondTrimesterState extends State<SecondTrimester> {
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: true,
+                            initialIndex: 0,
                           ),
                         ),
                       );
@@ -232,7 +233,7 @@ class _SecondTrimesterState extends State<SecondTrimester> {
                           const Color(0xFFC1D3FF), // Set the text color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            64.0), // Adjust the value as needed
+                            32.0), // Adjust the value as needed
                       ),
                       side: const BorderSide(
                         color: Color(0xFF6086f6), // Set the outline color

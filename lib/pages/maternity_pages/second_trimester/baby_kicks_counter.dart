@@ -8,6 +8,7 @@ import '../../../models/baby_kicks.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/show_hovering_message.dart';
 
 class BabyKickCounter extends StatefulWidget {
   final User user;
@@ -34,6 +35,7 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
 
   bool _timerStarted = false;
   bool _timerStopped = false;
+  bool _timerPaused = false;
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
           timer.cancel();
         } else {
           _secondsRemaining--;
-          _elapsedTime += Duration(seconds: 1);
+          _elapsedTime += const Duration(seconds: 1);
         }
       });
     });
@@ -73,6 +75,35 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
     }
   }
 
+  void _resumeTimer() {
+    if (_timerPaused) {
+      _startTimerManually();
+      _timerStarted = true;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Timer resumed.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      setState(() {
+        _timerPaused = false;
+      });
+    }
+  }
+
+  void _pauseTimer() {
+    _timer.cancel();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Timer paused.'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+    setState(() {
+      _timerPaused = true;
+    });
+  }
+
   void _stopTimer() {
     _timer.cancel();
     String totalDuration = _formatDuration(_elapsedTime);
@@ -89,17 +120,21 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
 
   void _addTime() {
     const int maxSeconds = 7200; // 2 hours in seconds
-    if (_secondsRemaining + 300 <= maxSeconds) {
-      setState(() {
-        _secondsRemaining += 300; // 300 seconds = 5 minutes
-      });
+    if (!_timerStarted && !_timerStopped) {
+      showHoveringMessage(context, 'Timer hasn\'t started', 0.915, 0.25, 0.5);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Timer should not exceed 2 hours.'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      if (_secondsRemaining + 300 <= maxSeconds) {
+        setState(() {
+          _secondsRemaining += 300; // 300 seconds = 5 minutes
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Timer should not exceed 2 hours.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
@@ -130,7 +165,7 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
     final babyKicks = BabyKicks(
       kick_count: kickCount,
       kick_duration: _elapsedTime.inSeconds,
-      kick_datetime: DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+      kick_datetime: DateTime.now().toString(),
       user_id: widget.user.user_id!,
       profile_id: widget.profile.profile_id,
     );
@@ -142,28 +177,37 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Success'),
-          content: const Text('Form submitted successfully!'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BabyKicksList(
-                      user: widget.user,
-                      profile: widget.profile,
-                      autoImplyLeading: false,
-                    ),
-                  ),
-                );
-              },
+        builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: const Color(0xFF303E8F),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
             ),
-          ],
+            title: const Text('Done'),
+            content: const Text('Baby kicks recorded!'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK',
+                    style: TextStyle(color: Color(0xFFEDF2FF))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BabyKicksList(
+                        user: widget.user,
+                        profile: widget.profile,
+                        autoImplyLeading: false,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
+        barrierDismissible: false,
       );
     } catch (error) {
       // Handle any errors that occur during the database operation
@@ -193,71 +237,404 @@ class _BabyKickCounterState extends State<BabyKickCounter> {
       appBar: AppBar(
         title: const Text('Baby Kick Counter'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Baby Kick Count:',
-              style: TextStyle(fontSize: 24.0),
-            ),
-            Text(
-              '$kickCount',
-              style: const TextStyle(fontSize: 48.0),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Time Remaining:',
-              style: TextStyle(fontSize: 24.0),
-            ),
-            Text(
-              _formatDuration(Duration(seconds: _secondsRemaining)),
-              style: const TextStyle(fontSize: 48.0),
-            ),
-            const SizedBox(height: 16),
-            if (_timerStarted && !_timerStopped)
-              FloatingActionButton(
-                onPressed: _stopTimer,
-                tooltip: 'Stop Timer',
-                child: const Icon(Icons.stop),
-              ),
-            if (!_timerStarted && !_timerStopped)
-              ElevatedButton(
-                onPressed: _startTimer,
-                child: const Text('Start Timer'),
-              ),
-            if (_timerStopped)
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: ElevatedButton(
-                  onPressed: _saveKicks,
-                  child: const Text('Save'),
+      body: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 36),
+              SizedBox(
+                width: double.infinity, // Adjust padding as needed
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(
+                          0xFF3848A1), // Background color of the ElevatedButton
+                      elevation: 0, // Set the elevation for the button
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Adjust the radius
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 28.0, horizontal: 14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Text(
+                              "KICK COUNT",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 24,
+                                color: Color(0xFFB6CBFF),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '$kickCount',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 56,
+                              color: Color(0xFFFFD271),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-          ],
-        ),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                kickCount++;
-              });
-            },
-            tooltip: 'Add Kick',
-            child: const Icon(Icons.add),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity, // Adjust padding as needed
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(
+                          0xFF3848A1), // Background color of the ElevatedButton
+                      elevation: 0, // Set the elevation for the button
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Adjust the radius
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 28.0, horizontal: 14.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Text(
+                              "TIME REMAINING",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 24,
+                                color: Color(0xFFB6CBFF),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            _formatDuration(
+                                Duration(seconds: _secondsRemaining)),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 56,
+                              color: Color(0xFFEDF2FF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              if (_timerPaused && !_timerStopped)
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 84),
+                        child: SizedBox(
+                          width: 200, // Adjust padding as needed
+                          child: ElevatedButton(
+                            onPressed: _resumeTimer,
+                            style: OutlinedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  const Color(0xFFDBE5FF), // Set the fill color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Adjust the value as needed
+                              ),
+                              side: const BorderSide(
+                                color:
+                                    Color(0xFF6086f6), // Set the outline color
+                                width: 3, // Set the outline width
+                              ),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Icon(
+                                Icons.play_arrow_rounded,
+                                size: 32,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 84),
+                        child: SizedBox(
+                          width: 200, // Adjust padding as needed
+                          child: ElevatedButton(
+                            onPressed: _stopTimer,
+                            style: OutlinedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  const Color(0xFFDBE5FF), // Set the fill color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Adjust the value as needed
+                              ),
+                              side: const BorderSide(
+                                color:
+                                    Color(0xFF6086f6), // Set the outline color
+                                width: 3, // Set the outline width
+                              ),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Icon(
+                                Icons.stop_rounded,
+                                size: 32,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              if (_timerStarted && !_timerStopped && !_timerPaused)
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 84),
+                        child: SizedBox(
+                          width: 200, // Adjust padding as needed
+                          child: ElevatedButton(
+                            onPressed: _pauseTimer,
+                            style: OutlinedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  const Color(0xFFDBE5FF), // Set the fill color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Adjust the value as needed
+                              ),
+                              side: const BorderSide(
+                                color:
+                                    Color(0xFF6086f6), // Set the outline color
+                                width: 3, // Set the outline width
+                              ),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Icon(
+                                Icons.pause_rounded,
+                                size: 32,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 84),
+                        child: SizedBox(
+                          width: 200, // Adjust padding as needed
+                          child: ElevatedButton(
+                            onPressed: _stopTimer,
+                            style: OutlinedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  const Color(0xFFDBE5FF), // Set the fill color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20.0), // Adjust the value as needed
+                              ),
+                              side: const BorderSide(
+                                color:
+                                    Color(0xFF6086f6), // Set the outline color
+                                width: 3, // Set the outline width
+                              ),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Icon(
+                                Icons.stop_rounded,
+                                size: 32,
+                                color: Color(0xFF1F3299),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              if (!_timerStarted && !_timerStopped)
+                ElevatedButton(
+                  onPressed: _startTimer,
+                  style: OutlinedButton.styleFrom(
+                    elevation: 0,
+                    backgroundColor:
+                        const Color(0xFFDBE5FF), // Set the fill color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          20.0), // Adjust the value as needed
+                    ),
+                    side: const BorderSide(
+                      color: Color(0xFF6086f6), // Set the outline color
+                      width: 3, // Set the outline width
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Icon(
+                      Icons.play_arrow_rounded,
+                      size: 32,
+                      color: Color(0xFF1F3299),
+                    ),
+                  ),
+                ),
+              if (_timerStopped)
+                ElevatedButton(
+                    onPressed: _saveKicks,
+                    style: OutlinedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor:
+                          const Color(0xFFDBE5FF), // Set the fill color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            20.0), // Adjust the value as needed
+                      ),
+                      side: const BorderSide(
+                        color: Color(0xFF6086f6), // Set the outline color
+                        width: 3, // Set the outline width
+                      ),
+                    ),
+                    child: const Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Icon(Icons.save_rounded,
+                            size: 32, color: Color(0xFF1F3299)))),
+            ],
           ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
-            onPressed: _addTime,
-            tooltip: 'Add 5 Minutes',
-            child: const Icon(Icons.timer),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    height: 70.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (!_timerStarted && !_timerStopped) {
+                          showHoveringMessage(context, 'Timer hasn\'t started',
+                              0.81, 0.25, 0.5);
+                        }
+                        if (_timerStarted) {
+                          setState(() {
+                            kickCount++;
+                          });
+                        }
+                      },
+                      style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor:
+                            const Color(0xFFFFE2A2), // Set the fill color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Adjust the value as needed
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFF5F4712), // Set the outline color
+                          width: 2.5, // Set the outline width
+                        ),
+                      ),
+                      child: const Text(
+                        'Kick',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0xFF5F4712),
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1 // Text color
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    height: 70.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _addTime,
+                      style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor:
+                            const Color(0xFF0B1655), // Set the fill color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Adjust the value as needed
+                        ),
+                        side: const BorderSide(
+                          color: Color(0xFFC1D3FF), // Set the outline color
+                          width: 3, // Set the outline width
+                        ),
+                      ),
+                      child: const Text(
+                        '+ 5 minutes',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xFFC1D3FF), // Text color
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 }
+
+// floatingActionButton: Column(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         crossAxisAlignment: CrossAxisAlignment.end,
+//         children: [
+//           FloatingActionButton(
+//             onPressed: () {
+              // setState(() {
+              //   kickCount++;
+              // });
+//             },
+//             tooltip: 'Add Kick',
+//             child: const Icon(Icons.add),
+//           ),
+//           const SizedBox(height: 16),
+//           FloatingActionButton(
+//             onPressed: _addTime,
+//             tooltip: 'Add 5 Minutes',
+//             child: const Icon(Icons.timer),
+//           ),
+//         ],
+//       )

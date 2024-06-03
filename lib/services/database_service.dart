@@ -210,6 +210,8 @@ class DatabaseService {
     await db.execute('''
   CREATE TABLE bodychanges (
     body_changes_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    weightbelly INT,
+    increased INT,
     body_changes TEXT,
     p_body_weight REAL,
     p_belly_size REAL,
@@ -433,12 +435,12 @@ class DatabaseService {
 
 // Retrieve based on User and Profile
   Future<List<BodyChanges>> retrieveBodyChanges(
-      int userId, int? profileId) async {
+      int userId, int? profileId, int weightbelly) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'bodychanges',
-      where: 'user_id = ? AND profile_id = ?',
-      whereArgs: [userId, profileId],
+      where: 'user_id = ? AND profile_id = ? AND weightbelly = ?',
+      whereArgs: [userId, profileId, weightbelly],
     );
     return List.generate(
         maps.length, (index) => BodyChanges.fromMap(maps[index]));

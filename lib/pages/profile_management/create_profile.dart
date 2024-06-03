@@ -134,7 +134,7 @@ class _CreateProfileState extends State<CreateProfile> {
             child: AlertDialog(
               backgroundColor: const Color(0xFF303E8F),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(15.0),
               ),
               title: const Text('Success'),
               content: Text(

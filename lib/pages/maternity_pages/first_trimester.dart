@@ -217,7 +217,7 @@ class TabBarFirstTrimester extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 74, 142, 230),
+                color: Color(0xFF0A0F2C),
               ),
               child: const TabBar(
                 labelStyle: TextStyle(
@@ -233,7 +233,7 @@ class TabBarFirstTrimester extends StatelessWidget {
                   fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
-                indicatorColor: Color.fromARGB(255, 37, 101, 184),
+                indicatorColor: Color(0xFFB6CBFF),
                 indicatorWeight: 6,
                 tabs: <Widget>[
                   Tab(
@@ -260,13 +260,33 @@ class TabBarFirstTrimester extends StatelessWidget {
   }
 
   Widget _buildSymptomsList(List<Symptoms> symptomsList) {
+    if (symptomsList.isEmpty) {
+      return const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              Spacer(),
+              Center(
+                child: Text(
+                  'You have no tracked symptoms.',
+                  style: TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(height: 56.0),
+              Spacer(),
+            ],
+          ));
+    }
+
     return ListView.builder(
       itemCount: symptomsList.length,
       itemBuilder: (context, index) {
         Symptoms symptoms = symptomsList[index];
         return Column(
           children: [
-            const SizedBox(height: 12.0),
+            if (index == 0) const SizedBox(height: 8),
+            const SizedBox(height: 4.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: GestureDetector(
@@ -275,32 +295,46 @@ class TabBarFirstTrimester extends StatelessWidget {
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(25.0), // Adjust the radius
+                    borderRadius: BorderRadius.circular(25.0),
                   ),
-                  elevation: 8, // Set the elevation for the card
-                  color: const Color.fromARGB(255, 238, 238, 238),
+                  elevation: 0,
+                  color: const Color(0xFF303E8F),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ListTile(
                       title: Text(
-                          '${symptoms.symptom_name} - ${symptoms.symptom_entry_date}'),
+                        symptoms.symptom_name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFFFD271),
+                        ),
+                      ),
                       // '${symptoms.symptom_name} - ${DateDisplay(date: symptoms.symptom_entry_date).getStringDate()}'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 4.0),
-                          Text(symptoms.symptom_category),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.visibility),
-                            onPressed: () {
-                              // onViewAppointment(appointment);
-                            },
+                          const SizedBox(height: 8.0),
+                          Text(
+                            symptoms.symptom_description,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(height: 1.4),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Row(
+                            children: [
+                              Text(
+                                symptoms.symptom_category,
+                                style:
+                                    const TextStyle(color: Color(0xFFB6CBFF)),
+                              ),
+                              const Spacer(),
+                              Text(
+                                DateDisplay(date: symptoms.symptom_entry_date).getStringDate(),
+                                style:
+                                    const TextStyle(color: Color(0xFFB6CBFF)),
+                              ),
+                            ],
                           ),
                         ],
                       ),

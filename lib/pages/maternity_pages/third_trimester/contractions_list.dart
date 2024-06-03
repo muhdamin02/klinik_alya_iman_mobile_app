@@ -7,6 +7,13 @@ import '../../../models/contractions.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/datetime_display.dart';
+import '../../../services/misc_methods/format_duration.dart';
+import '../../appointment_management/list_appointment.dart';
+import '../../medication_management/list_medication.dart';
+import '../../profile_management/profile_page.dart';
+import '../../startup/patient_homepage.dart';
+import '../maternity_overview.dart';
 
 class ContractionsList extends StatefulWidget {
   final User user;
@@ -41,7 +48,7 @@ class _ContractionsListState extends State<ContractionsList> {
         .retrieveContraction(widget.user.user_id!, widget.profile.profile_id);
 
     setState(() {
-      _contractionList = contractionList;
+      _contractionList = contractionList.reversed.toList();
     });
   }
 
@@ -57,18 +64,217 @@ class _ContractionsListState extends State<ContractionsList> {
           title: const Text('Contractions'),
           automaticallyImplyLeading: widget.autoImplyLeading,
         ),
-        drawer: AppDrawerAllPages(
-          header: 'Contractions',
-          user: widget.user,
-          profile: widget.profile,
-          autoImplyLeading: true,
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+                0xFF0A0F2C), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListAppointment(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                            initialTab: 1,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientHomepage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            hasProfiles: true,
+                            hasChosenProfile: true,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.medication),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListMedication(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.pregnant_woman),
+                    iconSize: 23,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MaternityOverview(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
         ),
-        body: TabBarContraction(
-          contractionListing: _contractionList,
-          contractionListing2: _contractionList,
+        body: Stack(
+          children: [
+            if (_contractionList.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    Spacer(),
+                    Center(
+                      child: Text(
+                        'You have not tracked any contractions.',
+                        style:
+                            TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(height: 56.0),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ListView.builder(
+              itemCount: _contractionList.length,
+              itemBuilder: (context, index) {
+                Contraction contraction = _contractionList[index];
+                return Column(
+                  children: [
+                    if (index == 0) const SizedBox(height: 8),
+                    const SizedBox(height: 4.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          // onViewAppointment(appointment);
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          elevation: 0,
+                          color: const Color(0xFF303E8F),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 20.0),
+                            child: ListTile(
+                              title: Text(
+                                  _getContractionLabel(
+                                      contraction.contraction_rating),
+                                  style: const TextStyle(
+                                      color: Color(0xFFFFD271),
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1,
+                                      fontSize: 18)),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 6.0),
+                                  Text(
+                                      'Duration: ${formatDuration(contraction.contraction_duration)}'),
+                                  const SizedBox(height: 12.0),
+                                  Text(
+                                    '${DateTimeDisplay(datetime: contraction.contraction_datetime).getStringDate()} - ${DateTimeDisplay(datetime: contraction.contraction_datetime).getStringTime()}',
+                                    style: const TextStyle(
+                                        color: Color(0xFFB6CBFF)),
+                                  ),
+                                ],
+                              ),
+                              trailing: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, right: 5),
+                                child: Text(
+                                  '${contraction.contraction_rating}',
+                                  style: const TextStyle(
+                                      color: Color(0xFFFFD271),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 32),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (index == _contractionList.length - 1)
+                      const SizedBox(
+                          height: 77.0), // Add SizedBox after the last item
+                  ],
+                );
+              },
+            ),
+          ],
           // onViewAppointment: _viewAppointment
         ),
         floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: const Color(0xFFC1D3FF), // Set background color here
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25), // Adjust the border radius
+            side: const BorderSide(
+                width: 2.5,
+                color: Color(0xFF6086f6)), // Set the outline color here
+          ),
+          foregroundColor: const Color(0xFF1F3299),
+          elevation: 0,
           onPressed: () {
             Navigator.push(
               context,
@@ -170,11 +376,10 @@ class TabBarContraction extends StatelessWidget {
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(25.0), // Adjust the radius
+                    borderRadius: BorderRadius.circular(25.0),
                   ),
-                  elevation: 8, // Set the elevation for the card
-                  color: const Color.fromARGB(255, 238, 238, 238),
+                  elevation: 0,
+                  color: const Color(0xFF303E8F),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: ListTile(

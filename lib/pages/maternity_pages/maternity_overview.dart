@@ -232,7 +232,8 @@ class MaternityOverview extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Expanded(
+              SizedBox(
+                width: double.infinity,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),

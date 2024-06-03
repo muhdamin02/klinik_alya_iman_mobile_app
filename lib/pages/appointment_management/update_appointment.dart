@@ -408,7 +408,7 @@ class _UpdateAppointmentState extends State<UpdateAppointment> {
         patient_remarks: widget.appointment.patient_remarks,
         practitioner_remarks: widget.appointment.practitioner_remarks,
         random_id: widget.appointment.random_id,
-        practitioner_id: 0,
+        practitioner_id: widget.appointment.practitioner_id,
       );
 
       try {

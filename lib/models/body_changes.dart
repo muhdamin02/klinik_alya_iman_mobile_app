@@ -3,6 +3,8 @@ import 'dart:convert';
 
 class BodyChanges {
   final int? body_changes_id;
+  final int weightbelly;
+  final int increased;
   final String body_changes;
   final double p_body_weight;
   final double p_belly_size;
@@ -14,6 +16,8 @@ class BodyChanges {
 
   BodyChanges({
     this.body_changes_id,
+    required this.weightbelly,
+    required this.increased,
     required this.body_changes,
     required this.p_body_weight,
     required this.p_belly_size,
@@ -27,6 +31,8 @@ class BodyChanges {
   Map<String, dynamic> toMap() {
     return {
       'body_changes_id': body_changes_id,
+      'weightbelly': weightbelly,
+      'increased': increased,
       'body_changes': body_changes,
       'p_body_weight': p_body_weight,
       'p_belly_size': p_belly_size,
@@ -41,6 +47,8 @@ class BodyChanges {
   factory BodyChanges.fromMap(Map<String, dynamic> map) {
     return BodyChanges(
       body_changes_id: map['body_changes_id']?.toInt() ?? 0,
+      weightbelly: map['weightbelly'] ?? 0,
+      increased: map['increased'] ?? 0,
       body_changes: map['body_changes'] ?? '',
       p_body_weight: map['p_body_weight'] ?? 0,
       p_belly_size: map['p_belly_size'] ?? 0,
@@ -58,6 +66,6 @@ class BodyChanges {
   // Implement toString to make it easier to see information about each appointment when using the print statement.
   @override
   String toString() {
-    return 'BodyChanges(body_changes_id: $body_changes_id, body_changes: $body_changes, p_body_weight: $p_body_weight, p_belly_size: $p_belly_size, c_body_weight: $c_body_weight, c_belly_size: $c_belly_size, datetime: $datetime)';
+    return 'BodyChanges(body_changes_id: $body_changes_id, weightbelly: $weightbelly, increased: $increased, body_changes: $body_changes, p_body_weight: $p_body_weight, p_belly_size: $p_belly_size, c_body_weight: $c_body_weight, c_belly_size: $c_belly_size, datetime: $datetime)';
   }
 }

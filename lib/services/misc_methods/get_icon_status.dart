@@ -16,6 +16,8 @@ IconData getIconForStatus(String status) {
       return Icons.event_available_rounded;
     case 'Absent':
       return Icons.event_busy_rounded;
+    case 'Updated':
+      return Icons.update;
     default:
       return Icons.help;
   }

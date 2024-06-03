@@ -148,15 +148,11 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
             ),
           ),
         ),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(32.0), // Add your desired padding
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Third Trimester Page Placeholder',
-                style: TextStyle(fontSize: 18.0),
-                textAlign: TextAlign.center,
-              ),
               Expanded(
                 child: SizedBox(
                   height: 90.0,
@@ -176,30 +172,35 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(
-                          255, 233, 243, 255), // Set the text color
+                      backgroundColor:
+                          const Color(0xFFC1D3FF), // Set the text color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             32.0), // Adjust the value as needed
                       ),
+                      side: const BorderSide(
+                        color: Color(0xFF6086f6), // Set the outline color
+                        width: 6, // Set the outline width
+                      ),
+                      elevation: 0,
                     ),
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.assignment, // Use any icon you want
-                          color: Color.fromARGB(255, 37, 101, 184),
-                          size: 32,
+                          color: Color(0xFF1F3299),
+                          size: 100,
                         ),
                         SizedBox(
                             height:
-                                8), // Adjust the spacing between icon and text
+                                42), // Adjust the spacing between icon and text
                         Text(
                           'Newborn Care Resources',
                           style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 37, 101, 184),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF1F3299),
                           ),
                         ),
                       ],
@@ -207,6 +208,7 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                   ),
                 ),
               ),
+              const SizedBox(height: 32),
               Expanded(
                 child: SizedBox(
                   height: 90.0,
@@ -226,30 +228,35 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(
-                          255, 233, 243, 255), // Set the text color
+                      backgroundColor:
+                          const Color(0xFFC1D3FF), // Set the text color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             32.0), // Adjust the value as needed
                       ),
+                      side: const BorderSide(
+                        color: Color(0xFF6086f6), // Set the outline color
+                        width: 6, // Set the outline width
+                      ),
+                      elevation: 0,
                     ),
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.pregnant_woman, // Use any icon you want
-                          color: Color.fromARGB(255, 37, 101, 184),
-                          size: 32,
+                          color: Color(0xFF1F3299),
+                          size: 100,
                         ),
                         SizedBox(
                             height:
-                                8), // Adjust the spacing between icon and text
+                                42), // Adjust the spacing between icon and text
                         Text(
                           'Track Contractions',
                           style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 37, 101, 184),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF1F3299),
                           ),
                         ),
                       ],
