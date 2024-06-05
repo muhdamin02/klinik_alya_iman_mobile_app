@@ -112,7 +112,8 @@ class _PatientsListState extends State<PatientsList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => PractitionerProfilePage(
-                            user: widget.user,
+                            actualUser: widget.user,
+                            practitionerUser: widget.user,
                             autoImplyLeading: false,
                           ),
                         ),

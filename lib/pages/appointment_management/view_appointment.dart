@@ -6,25 +6,40 @@ import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../models/appointment.dart';
+import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/misc_methods/show_hovering_message.dart';
+import '../../services/notification_service.dart';
+import '../medication_management/list_medication.dart';
+import '../practitioner_pages/manage_appointment.dart';
+import '../practitioner_pages/patient_pages/view_patient.dart';
+import '../practitioner_pages/patient_pages/view_patients_list.dart';
+import '../practitioner_pages/practitioner_home.dart';
+import '../practitioner_pages/practitioner_profile_page.dart';
+import '../profile_management/profile_page.dart';
+import '../startup/login.dart';
+import '../startup/patient_homepage.dart';
 import '../system_admin_pages/admin_appt_management/admin_appt_management.dart';
 import '../system_admin_pages/system_admin_home.dart';
 import '../system_admin_pages/user_management/manage_user.dart';
 import 'assign_practitioner.dart';
+import 'list_appointment.dart';
 import 'update_appointment.dart';
 
 class ViewAppointment extends StatefulWidget {
   final Appointment appointment;
   final User user;
+  final Profile profile;
   final bool autoImplyLeading;
 
   const ViewAppointment(
       {Key? key,
       required this.appointment,
       required this.user,
+      required this.profile,
       required this.autoImplyLeading})
       : super(key: key);
 
@@ -36,6 +51,8 @@ class ViewAppointment extends StatefulWidget {
 class _ViewAppointmentState extends State<ViewAppointment> {
   List<Appointment> _appointmentInfo = [];
   List<User> _practitionerList = [];
+  List<User> _practitionerInfo = [];
+  List<Profile> _patientInfo = [];
   String? _patientName, _practitionerName;
   User? _selectedPractitioner;
   bool viewEditButtonForSystemAdmin = false;
@@ -63,6 +80,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       if (_appointmentInfo.isNotEmpty) {
         // Call _getPractitionerName with the practitioner_id from the first appointment in the list
         _getPractitionerName(_appointmentInfo[0].practitioner_id);
+        _getPractitionerInfo(_appointmentInfo[0].practitioner_id);
+        _getPatientInfo(_appointmentInfo[0].profile_id!);
         print(_appointmentInfo[0].appointment_time);
         if (widget.user.role.toLowerCase() == 'systemadmin' &&
             _appointmentInfo[0].practitioner_id != 0) {
@@ -165,6 +184,23 @@ class _ViewAppointmentState extends State<ViewAppointment> {
       });
     }
   }
+  // ----------------------------------------------------------------------
+
+  Future<void> _getPractitionerInfo(int practitionerId) async {
+    List<User> practitionerInfo =
+        await DatabaseService().userInfo(practitionerId);
+    setState(() {
+      _practitionerInfo = practitionerInfo;
+    });
+  }
+
+  Future<void> _getPatientInfo(int profileId) async {
+    List<Profile> patientInfo = await DatabaseService().profileInfo(profileId);
+    setState(() {
+      _patientInfo = patientInfo;
+    });
+  }
+
   // ----------------------------------------------------------------------
 
   Future<void> launchMap(double lat, double long, String branch) async {
@@ -556,81 +592,306 @@ class _ViewAppointmentState extends State<ViewAppointment> {
         appBar: AppBar(
           title: const Text('View Appointment'),
           automaticallyImplyLeading: widget.autoImplyLeading,
-        ),
-        bottomNavigationBar: widget.user.role == 'systemadmin'
-            ? SizedBox(
-                height: 56.0, // Adjust the height as needed
-                child: BottomAppBar(
-                  color: const Color(
-                    0xFF0A0F2C,
-                  ), // Set the background color of the BottomAppBar
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.event),
-                          iconSize: 22,
-                          onPressed: () {
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                // Show a dialog to confirm logout
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: const Color(0xFF303E8F),
+                      title: const Text('Confirm Logout'),
+                      content: const Text('Are you sure you want to log out?',
+                          style: TextStyle(color: Color(0xFFEDF2FF))),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () async {
+                            // Perform logout actions
+                            NotificationCounter notificationCounter =
+                                NotificationCounter();
+                            notificationCounter.reset();
+                            await NotificationService()
+                                .cancelAllNotifications();
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ManageAppointmentAdmin(
-                                  user: widget.user,
-                                  autoImplyLeading: false,
+                                builder: (context) => Login(
+                                  usernamePlaceholder: widget.user.username,
+                                  passwordPlaceholder: widget.user.password,
                                 ),
                               ),
                             );
                           },
-                          color: const Color(
-                            0xFFEDF2FF,
-                          ), // Set the color of the icon
+                          child: const Text('Yes',
+                              style: TextStyle(color: Color(0xFFEDF2FF))),
                         ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.home),
-                          iconSize: 25,
+                        TextButton(
                           onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SystemAdminHome(
-                                  user: widget.user,
-                                ),
-                              ),
-                            );
+                            // Close the dialog
+                            Navigator.of(context).pop();
                           },
-                          color: const Color(
-                            0xFFEDF2FF,
-                          ), // Set the color of the icon
+                          child: const Text('No',
+                              style: TextStyle(color: Color(0xFFEDF2FF))),
                         ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.group),
-                          iconSize: 25,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ManageUser(
-                                  user: widget.user,
-                                  autoImplyLeading: false,
-                                ),
-                              ),
-                            );
-                          },
-                          color: const Color(
-                            0xFFEDF2FF,
-                          ), // Set the color of the icon
-                        ),
-                        const Spacer(),
                       ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  if (widget.user.role == 'systemadmin') ...[
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.event),
+                      iconSize: 22,
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManageAppointmentAdmin(
+                              user: widget.user,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
                     ),
-                  ),
-                ),
-              )
-            : null,
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.home),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SystemAdminHome(
+                              user: widget.user,
+                            ),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.group),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManageUser(
+                              user: widget.user,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                  ] else if (widget.user.role == 'practitioner') ...[
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.person),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PractitionerProfilePage(
+                              actualUser: widget.user,
+                              practitionerUser: widget.user,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.event),
+                      iconSize: 22,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManageAppointment(
+                                user: widget.user,
+                                autoImplyLeading: false,
+                                initialTab: 1),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.home),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PractitionerHome(
+                              user: widget.user,
+                            ),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.group),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PatientsList(
+                              user: widget.user,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color: const Color(
+                        0xFFEDF2FF,
+                      ), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.settings),
+                      iconSize: 23,
+                      onPressed: () {},
+                      color:
+                          const Color(0xFFEDF2FF), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                  ] else if (widget.user.role == 'patient') ...[
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.person),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(
+                              user: widget.user,
+                              profile: widget.profile,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color:
+                          const Color(0xFFEDF2FF), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.event),
+                      iconSize: 22,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ListAppointment(
+                              user: widget.user,
+                              profile: widget.profile,
+                              autoImplyLeading: false,
+                              initialTab: 1,
+                            ),
+                          ),
+                        );
+                      },
+                      color:
+                          const Color(0xFFEDF2FF), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.home),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PatientHomepage(
+                              user: widget.user,
+                              profile: widget.profile,
+                              hasProfiles: true,
+                              hasChosenProfile: true,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color:
+                          const Color(0xFFEDF2FF), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.medication),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ListMedication(
+                              user: widget.user,
+                              profile: widget.profile,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
+                      },
+                      color:
+                          const Color(0xFFEDF2FF), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      icon: const Icon(Icons.settings),
+                      iconSize: 23,
+                      onPressed: () {},
+                      color:
+                          const Color(0xFFEDF2FF), // Set the color of the icon
+                    ),
+                    const Spacer(),
+                  ]
+                ],
+              ),
+            ),
+          ),
+        ),
         body: ListView.builder(
           padding: const EdgeInsets.all(16.0),
           shrinkWrap: true,
@@ -748,7 +1009,42 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (widget.user.role == 'patient') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProfilePage(
+                                  user: widget.user,
+                                  profile: widget.profile,
+                                  autoImplyLeading: true,
+                                ),
+                              ),
+                            );
+                          } else if (widget.user.role == 'practitioner') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewPatient(
+                                  user: widget.user,
+                                  profile: _patientInfo[0],
+                                  autoImplyLeading: true,
+                                ),
+                              ),
+                            );
+                          } else {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ViewPatient(
+                            //       user: widget.user,
+                            //       profile: widget.profile,
+                            //       autoImplyLeading: true,
+                            //     ),
+                            //   ),
+                            // );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(
                               0xFF303E8F), // Background color of the ElevatedButton
@@ -956,6 +1252,17 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                   0.82,
                                   0.15,
                                   0.7);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PractitionerProfilePage(
+                                    actualUser: widget.user,
+                                    practitionerUser: _practitionerInfo[0],
+                                    autoImplyLeading: true,
+                                  ),
+                                ),
+                              );
                             }
                           }
                         },

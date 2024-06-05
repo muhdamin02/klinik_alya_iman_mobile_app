@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/appointment.dart';
+import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
@@ -101,6 +102,26 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   // View Appointment
 
   void _viewAppointment(Appointment appointment) {
+    final tempProfile = Profile(
+      name: 'unknown',
+      identification: 'unknown',
+      dob: 'unknown',
+      gender: 'unknown',
+      height: 0,
+      weight: 0,
+      body_fat_percentage: 0,
+      activity_level: 'unknown',
+      belly_size: 0,
+      maternity: 'No',
+      maternity_due: 'unknown',
+      ethnicity: 'unknown',
+      marital_status: 'unknown',
+      occupation: 'unknown',
+      medical_alert: 'unknown',
+      profile_pic: 'unknown',
+      creation_date: 'unknown',
+      user_id: widget.user.user_id!,
+    );
     // Navigate to the view appointment details page with the selected appointment
     Navigator.push(
       context,
@@ -108,6 +129,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
         builder: (context) => ViewAppointment(
           appointment: appointment,
           user: widget.user,
+          profile: tempProfile,
           autoImplyLeading: false,
         ),
       ),
@@ -368,7 +390,8 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => PractitionerProfilePage(
-                            user: widget.user,
+                            actualUser: widget.user,
+                            practitionerUser: widget.user,
                             autoImplyLeading: false,
                           ),
                         ),

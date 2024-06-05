@@ -13,11 +13,15 @@ import 'patient_pages/view_patients_list.dart';
 import 'practitioner_home.dart';
 
 class PractitionerProfilePage extends StatefulWidget {
-  final User user;
+  final User actualUser;
+  final User practitionerUser;
   final bool autoImplyLeading;
 
   const PractitionerProfilePage(
-      {Key? key, required this.user, required this.autoImplyLeading})
+      {Key? key,
+      required this.actualUser,
+      required this.practitionerUser,
+      required this.autoImplyLeading})
       : super(key: key);
 
   @override
@@ -35,8 +39,8 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
   }
 
   Future<void> _fetchPractitionerInfo() async {
-    List<PractitionerProfile> practitionerInfo =
-        await DatabaseService().practitionerInfo(widget.user.user_id);
+    List<PractitionerProfile> practitionerInfo = await DatabaseService()
+        .practitionerInfo(widget.practitionerUser.user_id);
     setState(() {
       _practitionerInfo = practitionerInfo;
     });
@@ -51,153 +55,159 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_getFirstTwoWords(widget.user.name)),
+          title: Text(_getFirstTwoWords(widget.practitionerUser.name)),
           elevation: 0,
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: widget.autoImplyLeading,
           actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () async {
-                // Show a dialog to confirm logout
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: const Color(0xFF303E8F),
-                      title: const Text('Confirm Logout'),
-                      content: const Text('Are you sure you want to log out?',
-                          style: TextStyle(color: Color(0xFFEDF2FF))),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            // Perform logout actions
-                            NotificationCounter notificationCounter =
-                                NotificationCounter();
-                            notificationCounter.reset();
-                            await NotificationService()
-                                .cancelAllNotifications();
+            if (widget.actualUser.role == 'practitioner')
+              IconButton(
+                icon: const Icon(Icons.logout),
+                onPressed: () async {
+                  // Show a dialog to confirm logout
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: const Color(0xFF303E8F),
+                        title: const Text('Confirm Logout'),
+                        content: const Text('Are you sure you want to log out?',
+                            style: TextStyle(color: Color(0xFFEDF2FF))),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () async {
+                              // Perform logout actions
+                              NotificationCounter notificationCounter =
+                                  NotificationCounter();
+                              notificationCounter.reset();
+                              await NotificationService()
+                                  .cancelAllNotifications();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(
+                                    usernamePlaceholder:
+                                        widget.actualUser.username,
+                                    passwordPlaceholder:
+                                        widget.actualUser.password,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Text('Yes',
+                                style: TextStyle(color: Color(0xFFEDF2FF))),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Close the dialog
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('No',
+                                style: TextStyle(color: Color(0xFFEDF2FF))),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+          ],
+        ),
+        bottomNavigationBar: widget.actualUser.role == 'practitioner'
+            ? SizedBox(
+                height: 56.0, // Adjust the height as needed
+                child: BottomAppBar(
+                  color: const Color(
+                    0xFF0A0F2C,
+                  ), // Set the background color of the BottomAppBar
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.person),
+                          iconSize: 30,
+                          onPressed: () {
+                            // PROFILE PAGE FOR PRACTITIONER
+                          },
+                          color: const Color(
+                            0xFF5464BB,
+                          ), // Set the color of the icon
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.event),
+                          iconSize: 22,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ManageAppointment(
+                                    user: widget.actualUser,
+                                    autoImplyLeading: false,
+                                    initialTab: 1),
+                              ),
+                            );
+                          },
+                          color: const Color(
+                            0xFFEDF2FF,
+                          ), // Set the color of the icon
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.home),
+                          iconSize: 25,
+                          onPressed: () {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Login(
-                                  usernamePlaceholder: widget.user.username,
-                                  passwordPlaceholder: widget.user.password,
+                                builder: (context) => PractitionerHome(
+                                  user: widget.actualUser,
                                 ),
                               ),
                             );
                           },
-                          child: const Text('Yes',
-                              style: TextStyle(color: Color(0xFFEDF2FF))),
+                          color: const Color(
+                            0xFFEDF2FF,
+                          ), // Set the color of the icon
                         ),
-                        TextButton(
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.group),
+                          iconSize: 25,
                           onPressed: () {
-                            // Close the dialog
-                            Navigator.of(context).pop();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PatientsList(
+                                  user: widget.actualUser,
+                                  autoImplyLeading: false,
+                                ),
+                              ),
+                            );
                           },
-                          child: const Text('No',
-                              style: TextStyle(color: Color(0xFFEDF2FF))),
+                          color: const Color(
+                            0xFFEDF2FF,
+                          ), // Set the color of the icon
                         ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.settings),
+                          iconSize: 23,
+                          onPressed: () {},
+                          color: const Color(
+                              0xFFEDF2FF), // Set the color of the icon
+                        ),
+                        const Spacer(),
                       ],
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-        bottomNavigationBar: SizedBox(
-          height: 56.0, // Adjust the height as needed
-          child: BottomAppBar(
-            color: const Color(
-              0xFF0A0F2C,
-            ), // Set the background color of the BottomAppBar
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.person),
-                    iconSize: 30,
-                    onPressed: () {
-                      // PROFILE PAGE FOR PRACTITIONER
-                    },
-                    color: const Color(
-                      0xFF5464BB,
-                    ), // Set the color of the icon
+                    ),
                   ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.event),
-                    iconSize: 22,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ManageAppointment(
-                              user: widget.user,
-                              autoImplyLeading: false,
-                              initialTab: 1),
-                        ),
-                      );
-                    },
-                    color: const Color(
-                      0xFFEDF2FF,
-                    ), // Set the color of the icon
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.home),
-                    iconSize: 30,
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PractitionerHome(
-                            user: widget.user,
-                          ),
-                        ),
-                      );
-                    },
-                    color: const Color(
-                      0xFFEDF2FF,
-                    ), // Set the color of the icon
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.group),
-                    iconSize: 25,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PatientsList(
-                            user: widget.user,
-                            autoImplyLeading: false,
-                          ),
-                        ),
-                      );
-                    },
-                    color: const Color(
-                      0xFFEDF2FF,
-                    ), // Set the color of the icon
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    iconSize: 23,
-                    onPressed: () {},
-                    color: const Color(0xFFEDF2FF), // Set the color of the icon
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            ),
-          ),
-        ),
+                ),
+              )
+            : null,
         body: ListView.builder(
           padding: const EdgeInsets.all(16.0),
           shrinkWrap: true,

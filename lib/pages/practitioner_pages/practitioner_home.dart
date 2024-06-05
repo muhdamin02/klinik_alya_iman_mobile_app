@@ -153,7 +153,8 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => PractitionerProfilePage(
-                            user: widget.user,
+                            actualUser: widget.user,
+                            practitionerUser: widget.user,
                             autoImplyLeading: false,
                           ),
                         ),
@@ -624,15 +625,16 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ManageAppointment(
-                        //       user: widget.user,
-                        //       autoImplyLeading: true,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PractitionerProfilePage(
+                              actualUser: widget.user,
+                              practitionerUser: widget.user,
+                              autoImplyLeading: false,
+                            ),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         elevation: 0,

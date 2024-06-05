@@ -115,8 +115,11 @@ class _ListAppointmentState extends State<ListAppointment> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            ViewAppointment(appointment: appointment, user: widget.user, autoImplyLeading: false),
+        builder: (context) => ViewAppointment(
+            appointment: appointment,
+            user: widget.user,
+            profile: widget.profile,
+            autoImplyLeading: false),
       ),
     );
   }
