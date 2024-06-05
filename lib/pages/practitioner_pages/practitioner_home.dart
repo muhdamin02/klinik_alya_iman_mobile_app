@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../startup/login.dart';
 import 'manage_appointment.dart';
 import 'patient_pages/view_patients_list.dart';
+import 'practitioner_profile_page.dart';
 
 class PractitionerHome extends StatefulWidget {
   final User user;
@@ -35,8 +35,6 @@ class _PractitionerHomeState extends State<PractitionerHome> {
     _fetchAppointmentUpcomingList();
     _fetchAppointmentPastList();
     _fetchPatientsUnderCareList();
-    print(_appointmentTodayList);
-    print(_patientsUnderCareList);
   }
 
   // ----------------------------------------------------------------------
@@ -151,7 +149,15 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                     icon: const Icon(Icons.person),
                     iconSize: 25,
                     onPressed: () {
-                      // PROFILE PAGE FOR PRACTITIONER
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerProfilePage(
+                            user: widget.user,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
                     },
                     color: const Color(
                       0xFFEDF2FF,
@@ -167,7 +173,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         MaterialPageRoute(
                           builder: (context) => ManageAppointment(
                               user: widget.user,
-                              autoImplyLeading: true,
+                              autoImplyLeading: false,
                               initialTab: 1),
                         ),
                       );
@@ -197,7 +203,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         MaterialPageRoute(
                           builder: (context) => PatientsList(
                             user: widget.user,
-                            autoImplyLeading: true,
+                            autoImplyLeading: false,
                           ),
                         ),
                       );

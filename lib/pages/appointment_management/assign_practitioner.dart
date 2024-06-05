@@ -1,20 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
-import '../../services/misc_methods/date_display.dart';
 import '../../services/misc_methods/datetime_display.dart';
-import '../../services/misc_methods/show_hovering_message.dart';
-import '../system_admin_pages/admin_appt_management/admin_appt_management.dart';
-import '../system_admin_pages/system_admin_home.dart';
-import '../system_admin_pages/user_management/manage_user.dart';
-import 'update_appointment.dart';
 import 'view_appointment.dart';
 
 class AssignPractitioner extends StatefulWidget {

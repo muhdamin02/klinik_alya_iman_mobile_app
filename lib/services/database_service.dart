@@ -11,6 +11,7 @@ import '../models/homefeed.dart';
 import '../models/medical_history.dart';
 import '../models/medication.dart';
 import '../models/postpartum.dart';
+import '../models/practitioner_profile.dart';
 import '../models/profile.dart';
 import '../models/symptoms.dart';
 import '../models/user.dart';
@@ -75,6 +76,25 @@ class DatabaseService {
     marital_status TEXT NOT NULL,
     occupation TEXT,
     medical_alert TEXT,
+    profile_pic TEXT,
+    creation_date TEXT,
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL
+    );
+      ''');
+
+    // profile table
+    await db.execute('''
+  CREATE TABLE practitionerprofile(
+    practitioner_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name TEXT NOT NULL,
+    dob TEXT NOT NULL,
+    gender TEXT NOT NULL,
+    branch TEXT,
+    email TEXT,
+    phone TEXT,
+    specialization TEXT,
+    qualifications TEXT,
     profile_pic TEXT,
     creation_date TEXT,
     user_id INTEGER,
@@ -290,17 +310,53 @@ class DatabaseService {
       ],
     );
 
+    // practitioner 1
+    await db.execute(
+      'INSERT INTO practitionerprofile (name, dob, gender, branch, email, phone, specialization, qualifications, profile_pic, creation_date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        'Muhammad Shahid bin Shamsul Anuar',
+        '1/10/1988',
+        'Male',
+        'Karang Darat',
+        'shahid@gmail.com',
+        '0136281168',
+        'ABC',
+        'DEF',
+        'noprofilepic',
+        'creationdate',
+        '2'
+      ],
+    );
+
     // practitioner 2
     await db.execute(
       'INSERT INTO user (username, name, password, phone, email, role, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
         'd2',
-        'Muhammad Syazwan Redza bin Muhammad Sadzalee',
+        'Syazwan Redza bin Sadzalee',
         'd2',
         '0136026669',
         'syazwan@gmail.com',
         'practitioner',
         'Inderapura'
+      ],
+    );
+
+    // practitioner 2
+    await db.execute(
+      'INSERT INTO practitionerprofile (name, dob, gender, branch, email, phone, specialization, qualifications, profile_pic, creation_date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        'Syazwan Redza bin Sadzalee',
+        '24/6/2002',
+        'Male',
+        'Inderapura',
+        'syazwan@gmail.com',
+        '0136026669',
+        'ABC',
+        'DEF',
+        'noprofilepic',
+        'creationdate',
+        '3'
       ],
     );
 
@@ -315,6 +371,24 @@ class DatabaseService {
         'yasmin@gmail.com',
         'practitioner',
         'Kemaman'
+      ],
+    );
+
+    // practitioner 3
+    await db.execute(
+      'INSERT INTO practitionerprofile (name, dob, gender, branch, email, phone, specialization, qualifications, profile_pic, creation_date, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [
+        'Yasmin Anisah binti Khalid',
+        '8/2/2001',
+        'Female',
+        'Kemaman',
+        'yasmin@gmail.com',
+        '01118870942',
+        'ABC',
+        'DEF',
+        'noprofilepic',
+        'creationdate',
+        '4'
       ],
     );
 
@@ -367,6 +441,24 @@ class DatabaseService {
         '13-1-2024'
       ],
     );
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//// PRACTITIONER PROFILE ///////////////////////////////////////////////////
+//// ---------------------------------------------------------------- ////
+//////////////////////////////////////////////////////////////////////////
+
+// Retrieve One Practitioner Info
+  Future<List<PractitionerProfile>> practitionerInfo(int? userId) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'practitionerprofile',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+    return List.generate(
+        maps.length, (index) => PractitionerProfile.fromMap(maps[index]));
   }
 
 //////////////////////////////////////////////////////////////////////////

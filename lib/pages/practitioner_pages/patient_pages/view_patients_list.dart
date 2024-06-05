@@ -7,6 +7,7 @@ import '../../../services/database_service.dart';
 import '../../startup/login.dart';
 import '../manage_appointment.dart';
 import '../practitioner_home.dart';
+import '../practitioner_profile_page.dart';
 import 'view_patient.dart';
 
 class PatientsList extends StatefulWidget {
@@ -107,7 +108,15 @@ class _PatientsListState extends State<PatientsList> {
                     icon: const Icon(Icons.person),
                     iconSize: 25,
                     onPressed: () {
-                      // PROFILE PAGE FOR PRACTITIONER
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerProfilePage(
+                            user: widget.user,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
                     },
                     color: const Color(
                       0xFFEDF2FF,
@@ -123,7 +132,7 @@ class _PatientsListState extends State<PatientsList> {
                         MaterialPageRoute(
                           builder: (context) => ManageAppointment(
                               user: widget.user,
-                              autoImplyLeading: true,
+                              autoImplyLeading: false,
                               initialTab: 1),
                         ),
                       );
@@ -154,17 +163,7 @@ class _PatientsListState extends State<PatientsList> {
                   IconButton(
                     icon: const Icon(Icons.group),
                     iconSize: 30,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PatientsList(
-                            user: widget.user,
-                            autoImplyLeading: true,
-                          ),
-                        ),
-                      );
-                    },
+                    onPressed: () {},
                     color: const Color(
                       0xFF5464BB,
                     ), // Set the color of the icon
