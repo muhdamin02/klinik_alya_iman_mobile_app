@@ -670,7 +670,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         );
                       },
                       color: const Color(
-                        0xFFEDF2FF,
+                        0xFFFFD271,
                       ), // Set the color of the icon
                     ),
                     const Spacer(),
@@ -748,7 +748,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         );
                       },
                       color: const Color(
-                        0xFFEDF2FF,
+                        0xFFFFD271,
                       ), // Set the color of the icon
                     ),
                     const Spacer(),
@@ -835,7 +835,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         );
                       },
                       color:
-                          const Color(0xFFEDF2FF), // Set the color of the icon
+                          const Color(0xFFFFD271), // Set the color of the icon
                     ),
                     const Spacer(),
                     IconButton(

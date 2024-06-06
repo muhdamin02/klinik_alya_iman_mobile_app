@@ -12,6 +12,7 @@ import '../../medication_management/list_medication.dart';
 import '../../profile_management/profile_page.dart';
 import '../../startup/patient_homepage.dart';
 import '../maternity_overview.dart';
+import '../second_trimester.dart';
 import 'baby_kicks_counter.dart';
 
 class BabyKicksList extends StatefulWidget {
@@ -62,6 +63,7 @@ class _BabyKicksListState extends State<BabyKicksList> {
         appBar: AppBar(
           title: const Text('Baby Kicks History'),
           automaticallyImplyLeading: widget.autoImplyLeading,
+          elevation: 0,
         ),
         bottomNavigationBar: SizedBox(
           height: 56.0, // Adjust the height as needed
@@ -149,21 +151,21 @@ class _BabyKicksListState extends State<BabyKicksList> {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: const Icon(Icons.pregnant_woman),
-                    iconSize: 23,
+                    icon: const Icon(Icons.looks_two),
+                    iconSize: 25,
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MaternityOverview(
+                          builder: (context) => SecondTrimester(
                             user: widget.user,
                             profile: widget.profile,
-                            autoImplyLeading: false,
+                            autoImplyLeading: true,
                           ),
                         ),
                       );
                     },
-                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                    color: const Color(0xFFFFD271), // Set the color of the icon
                   ),
                   const Spacer(),
                 ],

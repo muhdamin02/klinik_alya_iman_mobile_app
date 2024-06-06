@@ -430,57 +430,6 @@ class _TrackNewSymptomState extends State<TrackNewSymptom> {
                               );
                             },
                           ),
-                          // TextFormField(
-                          //   controller: _categoryController,
-                          //   decoration: InputDecoration(
-                          //     filled: true,
-                          //     fillColor: const Color(0xFF4D5FC0),
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(25.0),
-                          //     ),
-                          //     labelText: 'Symptom Category',
-                          //     labelStyle:
-                          //         const TextStyle(color: Color(0xFFB6CBFF)),
-                          //     counterText: '',
-                          //     contentPadding: const EdgeInsets.symmetric(
-                          //         vertical: 20.0, horizontal: 20.0),
-                          //   ),
-                          //   validator: (value) {
-                          //     if (value == null ||
-                          //         value.isEmpty ||
-                          //         value == '') {
-                          //       return 'Enter a category';
-                          //     }
-                          //     return null;
-                          //   },
-                          //   style: const TextStyle(color: Color(0xFFEDF2FF)),
-                          // ),
-                          // const SizedBox(height: 16.0),
-                          // TextFormField(
-                          //   controller: _nameController,
-                          //   decoration: InputDecoration(
-                          //     filled: true,
-                          //     fillColor: const Color(0xFF4D5FC0),
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(25.0),
-                          //     ),
-                          //     labelText: 'Symptom Name',
-                          //     labelStyle:
-                          //         const TextStyle(color: Color(0xFFB6CBFF)),
-                          //     counterText: '',
-                          //     contentPadding: const EdgeInsets.symmetric(
-                          //         vertical: 20.0, horizontal: 20.0),
-                          //   ),
-                          //   validator: (value) {
-                          //     if (value == null ||
-                          //         value.isEmpty ||
-                          //         value == '') {
-                          //       return 'Enter a symptom';
-                          //     }
-                          //     return null;
-                          //   },
-                          //   style: const TextStyle(color: Color(0xFFEDF2FF)),
-                          // ),
                           const SizedBox(height: 8.0),
                           TextFormField(
                             controller: _descriptionController,

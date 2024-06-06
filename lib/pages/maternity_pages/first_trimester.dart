@@ -161,7 +161,7 @@ class _FirstTrimesterState extends State<FirstTrimester> {
                         ),
                       );
                     },
-                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                    color: const Color(0xFFFFD271), // Set the color of the icon
                   ),
                   const Spacer(),
                 ],
@@ -175,6 +175,14 @@ class _FirstTrimesterState extends State<FirstTrimester> {
           // onViewAppointment: _viewAppointment
         ),
         floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: const Color(0xFFC1D3FF), // Set background color here
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25), // Adjust the border radius
+            side: const BorderSide(
+                width: 2.5,
+                color: Color(0xFF6086f6)), // Set the outline color here
+          ),
+          foregroundColor: const Color(0xFF1F3299),
           onPressed: () {
             Navigator.push(
               context,
@@ -330,7 +338,8 @@ class TabBarFirstTrimester extends StatelessWidget {
                               ),
                               const Spacer(),
                               Text(
-                                DateDisplay(date: symptoms.symptom_entry_date).getStringDate(),
+                                DateDisplay(date: symptoms.symptom_entry_date)
+                                    .getStringDate(),
                                 style:
                                     const TextStyle(color: Color(0xFFB6CBFF)),
                               ),

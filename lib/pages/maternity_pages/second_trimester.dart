@@ -140,7 +140,7 @@ class _SecondTrimesterState extends State<SecondTrimester> {
                         ),
                       );
                     },
-                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                    color: const Color(0xFFFFD271), // Set the color of the icon
                   ),
                   const Spacer(),
                 ],

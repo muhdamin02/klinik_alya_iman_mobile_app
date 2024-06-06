@@ -14,6 +14,7 @@ import '../../medication_management/list_medication.dart';
 import '../../profile_management/profile_page.dart';
 import '../../startup/patient_homepage.dart';
 import '../maternity_overview.dart';
+import '../third_trimester.dart';
 
 class ContractionsList extends StatefulWidget {
   final User user;
@@ -57,12 +58,13 @@ class _ContractionsListState extends State<ContractionsList> {
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
-        return widget.autoImplyLeading;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Contractions'),
-          automaticallyImplyLeading: widget.autoImplyLeading,
+          automaticallyImplyLeading: false,
+          elevation: 0,
         ),
         bottomNavigationBar: SizedBox(
           height: 56.0, // Adjust the height as needed
@@ -150,13 +152,13 @@ class _ContractionsListState extends State<ContractionsList> {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: const Icon(Icons.pregnant_woman),
-                    iconSize: 23,
+                    icon: const Icon(Icons.looks_3),
+                    iconSize: 25,
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MaternityOverview(
+                          builder: (context) => ThirdTrimester(
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: false,
@@ -164,7 +166,7 @@ class _ContractionsListState extends State<ContractionsList> {
                         ),
                       );
                     },
-                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                    color: const Color(0xFFFFD271), // Set the color of the icon
                   ),
                   const Spacer(),
                 ],
@@ -243,7 +245,7 @@ class _ContractionsListState extends State<ContractionsList> {
                                 padding:
                                     const EdgeInsets.only(top: 5, right: 5),
                                 child: Text(
-                                  '${contraction.contraction_rating}',
+                                  '${contraction.contraction_rating}/5',
                                   style: const TextStyle(
                                       color: Color(0xFFFFD271),
                                       fontWeight: FontWeight.w600,

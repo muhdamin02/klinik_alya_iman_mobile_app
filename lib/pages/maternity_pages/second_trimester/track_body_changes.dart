@@ -6,6 +6,10 @@ import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
 import '../../../services/misc_methods/datetime_display.dart';
+import '../../appointment_management/list_appointment.dart';
+import '../../medication_management/list_medication.dart';
+import '../../profile_management/profile_page.dart';
+import '../../startup/patient_homepage.dart';
 import '../second_trimester.dart';
 
 // ignore: must_be_immutable
@@ -194,7 +198,7 @@ class _TrackBodyChangesState extends State<TrackBodyChanges> {
         increasedBool = 2;
       }
       bodyChanges = BodyChanges(
-        body_changes: '{$_profileWeight}kg updated to ${changedValue}kg.',
+        body_changes: '${_profileWeight}kg updated to ${changedValue}kg.',
         weightbelly: 0,
         increased: increasedBool,
         p_body_weight: _profileWeight,
@@ -254,34 +258,6 @@ class _TrackBodyChangesState extends State<TrackBodyChanges> {
           ),
         ),
       );
-
-      // // ignore: use_build_context_synchronously
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertDialog(
-      //     title: const Text('Success'),
-      //     content: const Text('Form submitted successfully!'),
-      //     actions: <Widget>[
-      //       TextButton(
-      //         child: const Text('OK'),
-      //         onPressed: () {
-      //           Navigator.of(context).pop();
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (context) => TrackBodyChanges(
-      //                 user: widget.user,
-      //                 profile: widget.profile,
-      //                 autoImplyLeading: true,
-      //                 initialIndex: initialIndexByChoice,
-      //               ),
-      //             ),
-      //           );
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // );
     } catch (error) {
       // Handle any errors that occur during the database operation
       // ignore: use_build_context_synchronously
@@ -309,25 +285,120 @@ class _TrackBodyChangesState extends State<TrackBodyChanges> {
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
-        return widget.autoImplyLeading;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Track Body Changes'),
-          automaticallyImplyLeading: widget.autoImplyLeading,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              // Navigate to a specific page when the back button is pressed
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                    builder: (context) => SecondTrimester(
-                          user: widget.user,
-                          profile: widget.profile,
-                          autoImplyLeading: false,
-                        )),
-              );
-            },
+          elevation: 0,
+          automaticallyImplyLeading: false,
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+                0xFF0A0F2C), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListAppointment(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                            initialTab: 1,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientHomepage(
+                            user: widget.user,
+                            profile: widget.profile,
+                            hasProfiles: true,
+                            hasChosenProfile: true,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.medication),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListMedication(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.looks_two),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SecondTrimester(
+                            user: widget.user,
+                            profile: widget.profile,
+                            autoImplyLeading: true,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(0xFFFFD271), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
           ),
         ),
         body: Column(

@@ -39,6 +39,7 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
         appBar: AppBar(
           title: const Text('Third Trimester'),
           automaticallyImplyLeading: false,
+          elevation: 0,
         ),
         bottomNavigationBar: SizedBox(
           height: 56.0, // Adjust the height as needed
@@ -140,7 +141,7 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                         ),
                       );
                     },
-                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                    color: const Color(0xFFFFD271), // Set the color of the icon
                   ),
                   const Spacer(),
                 ],

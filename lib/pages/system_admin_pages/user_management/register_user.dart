@@ -24,7 +24,7 @@ class _RegisterUserState extends State<RegisterUser> {
   final TextEditingController _emailController = TextEditingController();
   final DatabaseService _databaseService = DatabaseService();
   String _selectedRole = 'patient';
-  String _selectedBranch = 'kd';
+  String _selectedBranch = 'Karang Darat';
 
   bool passwordVisible = true;
 
