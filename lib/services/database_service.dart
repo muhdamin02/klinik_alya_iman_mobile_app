@@ -852,6 +852,54 @@ class DatabaseService {
     );
   }
 
+  // edit BSL
+  Future<void> editBSL(int id, double bsl) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'blood_sugar_level': bsl,
+    };
+
+    await db.update('healthprofile', valuesToUpdate,
+        where: 'health_profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit BP
+  Future<void> editBP(int id, String bp) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'blood_pressure': bp,
+    };
+
+    await db.update('healthprofile', valuesToUpdate,
+        where: 'health_profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit allergieas
+  Future<void> editAllergies(int id, String allergies) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'allergies': allergies,
+    };
+
+    await db.update('healthprofile', valuesToUpdate,
+        where: 'health_profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit condition
+  Future<void> editCondition(int id, String condition) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'current_condition': condition,
+    };
+
+    await db.update('healthprofile', valuesToUpdate,
+        where: 'health_profile_id = ?', whereArgs: [id]);
+  }
+
   // Retrieve
   Future<List<Profile>> profile(int id) async {
     final db = await _databaseService.database;
@@ -872,6 +920,78 @@ class DatabaseService {
       whereArgs: [profileId],
     );
     return List.generate(maps.length, (index) => Profile.fromMap(maps[index]));
+  }
+
+  // Edit occupation
+  Future<void> editOccupation(int id, String newOccupation) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'occupation': newOccupation,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit marital status
+  Future<void> editMaritalStatus(int id, String newStatus) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'marital_status': newStatus,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit height
+  Future<void> editHeight(int id, double height) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'height': height,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit weight
+  Future<void> editWeight(int id, double weight) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'weight': weight,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit bfp
+  Future<void> editBFP(int id, double bfp) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'body_fat_percentage': bfp,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'profile_id = ?', whereArgs: [id]);
+  }
+
+  // Edit activity level
+  Future<void> editActivityLevel(int id, String activityLevel) async {
+    final db = await _databaseService.database;
+
+    Map<String, dynamic> valuesToUpdate = {
+      'activity_level': activityLevel,
+    };
+
+    await db.update('profile', valuesToUpdate,
+        where: 'profile_id = ?', whereArgs: [id]);
   }
 
   // Retrieve profiles based on a list of profile_ids
