@@ -7,6 +7,7 @@ import 'package:klinik_alya_iman_mobile_app/pages/medical_history/list_medical_h
 import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
+import '../../services/misc_methods/get_color_maternity.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../appointment_management/list_appointment.dart';
@@ -268,9 +269,9 @@ class MaternityOverview extends StatelessWidget {
                                       ? '3'
                                       : '', // Default text if none of the conditions are met
                           style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 36,
-                            color: Color(0xFFEDF2FF),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 48,
+                            color: Color(0xFFFFD271),
                           ),
                         ),
                       ],
@@ -369,45 +370,49 @@ class MaternityOverview extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor:
-                          const Color(0xFFC1D3FF), // Set the fill color
+                      backgroundColor: getColorForMaternity('First Trimester',
+                          profile.maternity, 'button'), // Set the fill color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             50.0), // Adjust the value as needed
                       ),
-                      side: const BorderSide(
-                        color: Color(0xFF6086f6), // Set the outline color
+                      side: BorderSide(
+                        color: getColorForMaternity(
+                            'First Trimester', profile.maternity, 'outline'),
                         width: 2.5, // Set the outline width
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.all(12.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(
+                              12.0), // Adjust padding as needed
                           child: Icon(
                             Icons.looks_one, // Use any icon you want
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('First Trimester',
+                                profile.maternity, 'texticon'),
                             size: 28,
                           ),
                         ),
-                        Spacer(), // Adjust the spacing between icon and text
+                        const Spacer(), // Adjust the spacing between icon and text
                         Text(
                           'First Trimester',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('First Trimester',
+                                profile.maternity, 'texticon'),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
-                          padding:
-                              EdgeInsets.all(12.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(
+                              12.0), // Adjust padding as needed
                           child: Icon(
                             Icons.looks_one, // Use any icon you want
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('First Trimester',
+                                profile.maternity, 'texticon'),
                             size: 28,
                           ),
                         ),
@@ -436,45 +441,51 @@ class MaternityOverview extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor:
-                          const Color(0xFFC1D3FF), // Set the fill color
+                      backgroundColor: getColorForMaternity('Second Trimester',
+                          profile.maternity, 'button'), // Set the fill color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             50.0), // Adjust the value as needed
                       ),
-                      side: const BorderSide(
-                        color: Color(0xFF6086f6), // Set the outline color
+                      side: BorderSide(
+                        color: getColorForMaternity(
+                            'Second Trimester',
+                            profile.maternity,
+                            'outline'), // Set the outline color
                         width: 2.5, // Set the outline width
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.all(12.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(
+                              12.0), // Adjust padding as needed
                           child: Icon(
                             Icons.looks_two, // Use any icon you want
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('Second Trimester',
+                                profile.maternity, 'texticon'),
                             size: 28,
                           ),
                         ),
-                        Spacer(), // Adjust the spacing between icon and text
+                        const Spacer(), // Adjust the spacing between icon and text
                         Text(
                           'Second Trimester',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('Second Trimester',
+                                profile.maternity, 'texticon'),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
-                          padding:
-                              EdgeInsets.all(12.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(
+                              12.0), // Adjust padding as needed
                           child: Icon(
                             Icons.looks_two, // Use any icon you want
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('Second Trimester',
+                                profile.maternity, 'texticon'),
                             size: 28,
                           ),
                         ),
@@ -503,45 +514,51 @@ class MaternityOverview extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor:
-                          const Color(0xFFC1D3FF), // Set the fill color
+                      backgroundColor: getColorForMaternity('Third Trimester',
+                          profile.maternity, 'button'), // Set the fill color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             50.0), // Adjust the value as needed
                       ),
-                      side: const BorderSide(
-                        color: Color(0xFF6086f6), // Set the outline color
+                      side: BorderSide(
+                        color: getColorForMaternity(
+                            'Third Trimester',
+                            profile.maternity,
+                            'outline'), // Set the outline color
                         width: 2.5, // Set the outline width
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.all(12.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(
+                              12.0), // Adjust padding as needed
                           child: Icon(
                             Icons.looks_3, // Use any icon you want
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('Third Trimester',
+                                profile.maternity, 'texticon'),
                             size: 28,
                           ),
                         ),
-                        Spacer(), // Adjust the spacing between icon and text
+                        const Spacer(), // Adjust the spacing between icon and text
                         Text(
                           'Third Trimester',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('Third Trimester',
+                                profile.maternity, 'texticon'),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
-                          padding:
-                              EdgeInsets.all(12.0), // Adjust padding as needed
+                          padding: const EdgeInsets.all(
+                              12.0), // Adjust padding as needed
                           child: Icon(
                             Icons.looks_3, // Use any icon you want
-                            color: Color(0xFF1F3299),
+                            color: getColorForMaternity('Third Trimester',
+                                profile.maternity, 'texticon'),
                             size: 28,
                           ),
                         ),
