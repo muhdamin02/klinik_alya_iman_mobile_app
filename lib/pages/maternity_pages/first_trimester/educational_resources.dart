@@ -7,6 +7,7 @@ import '../../medication_management/list_medication.dart';
 import '../../profile_management/profile_page.dart';
 import '../../startup/patient_homepage.dart';
 import '../first_trimester.dart';
+import 'educational_resources/vitamins_nutritions/essential_nutrients.dart';
 
 class EducationalResources extends StatefulWidget {
   final User user;
@@ -264,7 +265,7 @@ class VitaminNutrition extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and tips to manage morning sickness.',
+              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and how to deal with food aversions.',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -274,7 +275,12 @@ class VitaminNutrition extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  //
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EssentialNutrients(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -301,7 +307,7 @@ class VitaminNutrition extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Educational Resources',
+                      'Essential Nutrients',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -322,7 +328,7 @@ class VitaminNutrition extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             SizedBox(
               height: 70.0,
               width: double.infinity,
@@ -348,14 +354,14 @@ class VitaminNutrition extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.book_outlined,
+                        Icons.question_mark_rounded,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Educational Resources',
+                      'Healthy Diet',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -367,7 +373,7 @@ class VitaminNutrition extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.book_outlined,
+                        Icons.question_mark_rounded,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -509,7 +515,7 @@ class PrenatalCare extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           SizedBox(
             height: 70.0,
             width: double.infinity,
@@ -694,7 +700,7 @@ class SymptomsChanges extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           SizedBox(
             height: 70.0,
             width: double.infinity,
@@ -879,7 +885,7 @@ class Vaccinations extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           SizedBox(
             height: 70.0,
             width: double.infinity,
@@ -1064,7 +1070,7 @@ class MentalHealth extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           SizedBox(
             height: 70.0,
             width: double.infinity,
