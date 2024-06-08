@@ -52,7 +52,7 @@ class _SymptomsListState extends State<SymptomsList> {
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
-        return false;
+        return widget.autoImplyLeading;
       },
       child: Scaffold(
         appBar: AppBar(
