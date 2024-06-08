@@ -79,7 +79,7 @@ class _ViewUserState extends State<ViewUser> {
                       child: Text(
                         'User Information',
                         style: TextStyle(
-                          color: Color(0xFFEDF2FF),
+                          color: Color(0xFFEDF2FF), letterSpacing: 2
                         ),
                       ),
                     ),
@@ -430,7 +430,7 @@ class _ViewUserState extends State<ViewUser> {
                       child: Text(
                         'Actions',
                         style: TextStyle(
-                          color: Color(0xFFEDF2FF),
+                          color: Color(0xFFEDF2FF), letterSpacing: 2
                         ),
                       ),
                     ),

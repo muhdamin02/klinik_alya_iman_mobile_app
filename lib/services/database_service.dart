@@ -840,7 +840,7 @@ class DatabaseService {
       allergies: 'Not specified',
       blood_sugar_level: 0,
       current_condition: 'Not specified',
-      blood_pressure: 'Not set',
+      blood_pressure: '0 / 0',
       user_id: profile.user_id,
       profile_id: profileId,
     );

@@ -920,7 +920,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: Text(
                             'Reference Number',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2
                             ),
                           ),
                         ),
@@ -990,7 +990,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: Text(
                             'Appointment Details',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2
                             ),
                           ),
                         ),
@@ -1609,7 +1609,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: Text(
                             'Actions',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2
                             ),
                           ),
                         ),

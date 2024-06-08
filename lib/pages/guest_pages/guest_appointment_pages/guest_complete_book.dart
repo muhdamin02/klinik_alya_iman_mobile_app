@@ -143,7 +143,7 @@ class _GuestCompleteBookState extends State<GuestCompleteBook>
                               child: Text(
                                 'Reference Number',
                                 style: TextStyle(
-                                  color: Color(0xFFEDF2FF),
+                                  color: Color(0xFFEDF2FF), letterSpacing: 2
                                 ),
                               ),
                             ),
@@ -213,7 +213,7 @@ class _GuestCompleteBookState extends State<GuestCompleteBook>
                               child: Text(
                                 'Appointment Summary',
                                 style: TextStyle(
-                                  color: Color(0xFFEDF2FF),
+                                  color: Color(0xFFEDF2FF), letterSpacing: 2
                                 ),
                               ),
                             ),
@@ -384,7 +384,7 @@ class _GuestCompleteBookState extends State<GuestCompleteBook>
                               child: Text(
                                 'Screenshot this Page',
                                 style: TextStyle(
-                                  color: Color(0xFFB6CBFF), fontSize: 24,
+                                  color: Color(0xFFB6CBFF), fontSize: 24, letterSpacing: 2
                                 ),
                               ),
                             ),

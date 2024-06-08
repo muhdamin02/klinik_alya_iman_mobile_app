@@ -127,7 +127,7 @@ class _ViewPatientState extends State<ViewPatient> {
                         child: Text(
                           'Profile',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),
@@ -733,7 +733,7 @@ class _ViewPatientState extends State<ViewPatient> {
                         child: Text(
                           'Actions',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),

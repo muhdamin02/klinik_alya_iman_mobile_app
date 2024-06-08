@@ -219,7 +219,7 @@ class MaternityOverview extends StatelessWidget {
                       child: Text(
                         'Overview',
                         style: TextStyle(
-                          color: Color(0xFFEDF2FF),
+                          color: Color(0xFFEDF2FF), letterSpacing: 2
                         ),
                       ),
                     ),
@@ -337,7 +337,7 @@ class MaternityOverview extends StatelessWidget {
                       child: Text(
                         'Resources',
                         style: TextStyle(
-                          color: Color(0xFFEDF2FF),
+                          color: Color(0xFFEDF2FF), letterSpacing: 2
                         ),
                       ),
                     ),

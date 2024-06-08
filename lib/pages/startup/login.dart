@@ -313,7 +313,7 @@ class _LoginState extends State<Login> {
                         child: Text(
                           'or',
                           style: TextStyle(
-                            color: Color(0xFFB6CBFF),
+                            color: Color(0xFFB6CBFF), letterSpacing: 2
                           ),
                         ),
                       ),

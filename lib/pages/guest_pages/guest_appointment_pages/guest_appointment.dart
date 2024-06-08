@@ -553,7 +553,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
                                   child: Text(
                                     'Choose a Branch',
                                     style: TextStyle(
-                                      color: Color(0xFFEDF2FF),
+                                      color: Color(0xFFEDF2FF), letterSpacing: 2
                                     ),
                                   ),
                                 ),
@@ -752,7 +752,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
                                   child: Text(
                                     'Suggest a Date',
                                     style: TextStyle(
-                                      color: Color(0xFFEDF2FF),
+                                      color: Color(0xFFEDF2FF), letterSpacing: 2
                                     ),
                                   ),
                                 ),
@@ -808,7 +808,7 @@ class _GuestAppointmentFormState extends State<GuestAppointmentForm> {
                                   child: Text(
                                     'Pick a Timeslot',
                                     style: TextStyle(
-                                      color: Color(0xFFEDF2FF),
+                                      color: Color(0xFFEDF2FF), letterSpacing: 2
                                     ),
                                   ),
                                 ),

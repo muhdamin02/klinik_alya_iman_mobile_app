@@ -113,7 +113,7 @@ class _ViewMedicationState extends State<ViewMedication> {
                         child: Text(
                           'Medication Details',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),

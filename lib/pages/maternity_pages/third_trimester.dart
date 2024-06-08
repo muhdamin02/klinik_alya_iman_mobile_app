@@ -149,18 +149,88 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(32.0), // Add your desired padding
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 90.0,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 24.0, vertical: 16.0), // Add your desired padding
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Divider(
+                  color: Color(0xFFB6CBFF),
+                ),
+                const SizedBox(height: 8.0),
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Trimester 3',
+                      style: TextStyle(
+                          fontSize: 28.0,
+                          color: Color(0xFFFFD271),
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.3),
+                    ),
+                    Spacer(),
+                    Text(
+                      'Week 27-?',
+                      style:
+                          TextStyle(fontSize: 28.0, color: Color(0xFFB6CBFF)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8.0),
+                const Divider(
+                  color: Color(0xFFB6CBFF),
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'What to expect?',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.5),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'The third trimester is the final stretch before your baby arrives. It\'s a time of significant growth and preparation, both physically and emotionally. As you approach your due date, you\'ll focus more on birth plans and postpartum readiness.',
+                  style: TextStyle(
+                      fontSize: 18.0, height: 2, color: Color(0xFFC5D6FF)),
+                ),
+                const SizedBox(height: 48),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 0),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Explore',
+                          style: TextStyle(
+                              color: Color(0xFFEDF2FF), letterSpacing: 2),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFB6CBFF),
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  height: 70.0,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigate to the page where you want to appointment form
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -172,51 +242,58 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                         ),
                       );
                     },
-                    style: ElevatedButton.styleFrom(
+                    style: OutlinedButton.styleFrom(
                       backgroundColor:
-                          const Color(0xFFC1D3FF), // Set the text color
+                          const Color(0xFFDBE5FF), // Set the fill color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            32.0), // Adjust the value as needed
+                            25.0), // Adjust the value as needed
                       ),
                       side: const BorderSide(
                         color: Color(0xFF6086f6), // Set the outline color
-                        width: 6, // Set the outline width
+                        width: 2.5, // Set the outline width
                       ),
-                      elevation: 0,
                     ),
-                    child: const Column(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.assignment, // Use any icon you want
-                          color: Color(0xFF1F3299),
-                          size: 100,
-                        ),
-                        SizedBox(
-                            height:
-                                42), // Adjust the spacing between icon and text
-                        Text(
-                          'Newborn Care Resources',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Icon(
+                            Icons.assignment_outlined,
                             color: Color(0xFF1F3299),
+                            size: 28,
+                          ),
+                        ),
+                        Spacer(), // Adjust the spacing between icon and text
+                        Text(
+                          'Newborn Care',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1F3299),
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Icon(
+                            Icons.assignment_outlined,
+                            color: Color(0xFF1F3299),
+                            size: 28,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              Expanded(
-                child: SizedBox(
-                  height: 90.0,
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 70.0,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigate to the page where you want to appointment form
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -228,44 +305,54 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                         ),
                       );
                     },
-                    style: ElevatedButton.styleFrom(
+                    style: OutlinedButton.styleFrom(
                       backgroundColor:
-                          const Color(0xFFC1D3FF), // Set the text color
+                          const Color(0xFFC4D6FF), // Set the fill color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            32.0), // Adjust the value as needed
+                            25.0), // Adjust the value as needed
                       ),
                       side: const BorderSide(
                         color: Color(0xFF6086f6), // Set the outline color
-                        width: 6, // Set the outline width
+                        width: 2.5, // Set the outline width
                       ),
-                      elevation: 0,
                     ),
-                    child: const Column(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.pregnant_woman, // Use any icon you want
-                          color: Color(0xFF1F3299),
-                          size: 100,
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Icon(
+                            Icons.track_changes,
+                            color: Color(0xFF1F3299),
+                            size: 28,
+                          ),
                         ),
-                        SizedBox(
-                            height:
-                                42), // Adjust the spacing between icon and text
+                        Spacer(), // Adjust the spacing between icon and text
                         Text(
                           'Track Contractions',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                             color: Color(0xFF1F3299),
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Icon(
+                            Icons.track_changes,
+                            color: Color(0xFF1F3299),
+                            size: 28,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

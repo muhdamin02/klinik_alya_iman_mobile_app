@@ -57,12 +57,12 @@ class _BabyKicksListState extends State<BabyKicksList> {
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
-        return widget.autoImplyLeading;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Baby Kicks History'),
-          automaticallyImplyLeading: widget.autoImplyLeading,
+          automaticallyImplyLeading: false,
           elevation: 0,
         ),
         bottomNavigationBar: SizedBox(

@@ -318,7 +318,7 @@ class _AssignPractitionerState extends State<AssignPractitioner> {
                                 child: Text(
                                   'Choose Practitioner',
                                   style: TextStyle(
-                                    color: Color(0xFFEDF2FF),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2
                                   ),
                                 ),
                               ),
@@ -447,7 +447,7 @@ class _AssignPractitionerState extends State<AssignPractitioner> {
                                 child: Text(
                                   'Availability for ${DateTimeDisplay(datetime: appointment.appointment_date).getStringDate()}',
                                   style: const TextStyle(
-                                    color: Color(0xFFEDF2FF),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2
                                   ),
                                 ),
                               ),

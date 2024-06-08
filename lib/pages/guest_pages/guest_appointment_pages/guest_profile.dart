@@ -230,7 +230,7 @@ class _CreateTempProfileState extends State<CreateTempProfile> {
                                 child: Text(
                                   'Patient Information',
                                   style: TextStyle(
-                                    color: Color(0xFFEDF2FF),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2
                                   ),
                                 ),
                               ),

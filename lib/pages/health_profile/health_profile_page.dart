@@ -929,7 +929,7 @@ class TabBarHealthProfile extends StatelessWidget {
 
   Widget _buildGeneral(List<Profile> profileInfo) {
     String bmiRounded = '0.00';
-    String activity_level = 'Not specified';
+    String activityLevel = 'Not specified';
     return ListView.builder(
       shrinkWrap: true,
       itemCount: profileInfo.length,
@@ -943,7 +943,7 @@ class TabBarHealthProfile extends StatelessWidget {
         }
 
         if (profile.activity_level != '') {
-          activity_level = profile.activity_level;
+          activityLevel = profile.activity_level;
         }
 
         return SingleChildScrollView(
@@ -1261,7 +1261,7 @@ class TabBarHealthProfile extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            activity_level,
+                            activityLevel,
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,

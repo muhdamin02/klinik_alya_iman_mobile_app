@@ -248,7 +248,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         child: Text(
                           'My Appointments',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),
@@ -468,7 +468,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         child: Text(
                           'My Patients',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),
@@ -605,7 +605,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         child: Text(
                           'My Profile',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),

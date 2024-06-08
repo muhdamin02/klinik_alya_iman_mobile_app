@@ -237,7 +237,7 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                           child: Text(
                             'Profile',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2
                             ),
                           ),
                         ),

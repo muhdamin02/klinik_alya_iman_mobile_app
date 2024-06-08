@@ -162,7 +162,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                 child: Text(
                                   'User Information',
                                   style: TextStyle(
-                                    color: Color(0xFFEDF2FF),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2
                                   ),
                                 ),
                               ),
@@ -227,7 +227,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                 child: Text(
                                   'Role',
                                   style: TextStyle(
-                                    color: Color(0xFFEDF2FF),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2
                                   ),
                                 ),
                               ),
@@ -300,7 +300,7 @@ class _RegisterUserState extends State<RegisterUser> {
                                 child: Text(
                                   'Branch (practitioners only)',
                                   style: TextStyle(
-                                    color: Color(0xFFEDF2FF),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2
                                   ),
                                 ),
                               ),

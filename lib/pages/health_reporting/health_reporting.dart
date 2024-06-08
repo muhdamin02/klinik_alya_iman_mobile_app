@@ -115,7 +115,7 @@ class _HealthReportingPageState extends State<HealthReportingPage> {
                         child: Text(
                           'Appointment',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),
@@ -286,7 +286,7 @@ class _HealthReportingPageState extends State<HealthReportingPage> {
                         child: Text(
                           'Medication',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF),
+                            color: Color(0xFFEDF2FF), letterSpacing: 2
                           ),
                         ),
                       ),

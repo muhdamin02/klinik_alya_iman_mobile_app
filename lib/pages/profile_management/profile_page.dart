@@ -398,7 +398,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Text(
                                 'Profile',
                                 style: TextStyle(
-                                  color: Color(0xFFEDF2FF),
+                                  color: Color(0xFFEDF2FF), letterSpacing: 2
                                 ),
                               ),
                             ),
@@ -1054,7 +1054,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Text(
                                 'Features',
                                 style: TextStyle(
-                                  color: Color(0xFFEDF2FF),
+                                  color: Color(0xFFEDF2FF), letterSpacing: 2
                                 ),
                               ),
                             ),
