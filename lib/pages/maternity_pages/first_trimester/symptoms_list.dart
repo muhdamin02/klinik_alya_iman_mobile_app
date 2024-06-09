@@ -168,78 +168,102 @@ class _SymptomsListState extends State<SymptomsList> {
             ),
           ),
         ),
-        body: ListView.builder(
-          itemCount: _symptomsList.length,
-          itemBuilder: (context, index) {
-            Symptoms symptoms = _symptomsList[index];
-            return Column(
-              children: [
-                if (index == 0) const SizedBox(height: 8),
-                const SizedBox(height: 4.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      // onViewAppointment(appointment);
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+        body: Stack(
+          children: [
+            if (_symptomsList.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    Spacer(),
+                    Center(
+                      child: Text(
+                        'You have not tracked any symptoms.',
+                        style:
+                            TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
+                        textAlign: TextAlign.center,
                       ),
-                      elevation: 0,
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: ListTile(
-                          title: Text(
-                            symptoms.symptom_name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFFFD271),
-                            ),
+                    ),
+                    SizedBox(height: 56.0),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ListView.builder(
+              itemCount: _symptomsList.length,
+              itemBuilder: (context, index) {
+                Symptoms symptoms = _symptomsList[index];
+                return Column(
+                  children: [
+                    if (index == 0) const SizedBox(height: 8),
+                    const SizedBox(height: 4.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          // onViewAppointment(appointment);
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-                          // '${symptoms.symptom_name} - ${DateDisplay(date: symptoms.symptom_entry_date).getStringDate()}'),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 8.0),
-                              Text(
-                                symptoms.symptom_description,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(height: 1.4),
+                          elevation: 0,
+                          color: const Color(0xFF303E8F),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListTile(
+                              title: Text(
+                                symptoms.symptom_name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFFFD271),
+                                ),
                               ),
-                              const SizedBox(height: 20.0),
-                              Row(
+                              // '${symptoms.symptom_name} - ${DateDisplay(date: symptoms.symptom_entry_date).getStringDate()}'),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const SizedBox(height: 8.0),
                                   Text(
-                                    symptoms.symptom_category,
-                                    style: const TextStyle(
-                                        color: Color(0xFFB6CBFF)),
+                                    symptoms.symptom_description,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(height: 1.4),
                                   ),
-                                  const Spacer(),
-                                  Text(
-                                    DateDisplay(
-                                            date: symptoms.symptom_entry_date)
-                                        .getStringDate(),
-                                    style: const TextStyle(
-                                        color: Color(0xFFB6CBFF)),
+                                  const SizedBox(height: 20.0),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        symptoms.symptom_category,
+                                        style: const TextStyle(
+                                            color: Color(0xFFB6CBFF)),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        DateDisplay(
+                                                date:
+                                                    symptoms.symptom_entry_date)
+                                            .getStringDate(),
+                                        style: const TextStyle(
+                                            color: Color(0xFFB6CBFF)),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                if (index == _symptomsList.length - 1)
-                  const SizedBox(
-                      height: 77.0), // Add SizedBox after the last item
-              ],
-            );
-          },
+                    if (index == _symptomsList.length - 1)
+                      const SizedBox(
+                          height: 77.0), // Add SizedBox after the last item
+                  ],
+                );
+              },
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: const Color(0xFFC1D3FF), // Set background color here

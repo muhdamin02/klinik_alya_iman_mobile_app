@@ -18,19 +18,11 @@ class _MentalHealthResourcesState extends State<MentalHealthResources> {
   bool view3 = false;
   bool view4 = false;
   bool view5 = false;
-  bool view6 = false;
-  bool view7 = false;
-  bool view8 = false;
-  bool view9 = false;
-  bool view10 = false;
-  bool view11 = false;
 
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch $url';
+  Future<void> _launchURL(String urlString) async {
+    final Uri uri = Uri.parse(urlString);
+    if (!await launchUrl(uri)) {
+      throw 'Could not launch $urlString';
     }
   }
 
@@ -214,7 +206,7 @@ class _MentalHealthResourcesState extends State<MentalHealthResources> {
               ),
               content(
                 view2,
-                'imagepath',
+                'assets/mental_health_resources/mmha.png',
                 'The Malaysian Mental Health Association (MMHA) is a non-profit Non-Government Organisation registered under the Societies Act 1966 MMHA is managed by an elected committee of interested persons and professionals in the community, including caregivers of persons living with mental disorders.',
                 'https://www.mmha.org.my/',
               ),
@@ -274,7 +266,7 @@ class _MentalHealthResourcesState extends State<MentalHealthResources> {
               ),
               content(
                   view3,
-                  'imagepath',
+                  'assets/mental_health_resources/relate.png',
                   'Relate Mental Health Malaysia is an organization established to increase mental health literacy and awareness, promote prevention and early intervention, and encourage the establishment of community support and services for all who need them.',
                   'https://relate.com.my/'),
               //-----------------------------------//
@@ -333,7 +325,7 @@ class _MentalHealthResourcesState extends State<MentalHealthResources> {
               ),
               content(
                   view4,
-                  'imagepath',
+                  'assets/mental_health_resources/wao.png',
                   'Women\'s Aid Organisation (WAO) offers support services for women, including counseling and shelter. They address mental health issues related to domestic violence and other challenges.',
                   'https://wao.org.my/'),
               //-----------------------------------//
@@ -392,7 +384,7 @@ class _MentalHealthResourcesState extends State<MentalHealthResources> {
               ),
               content(
                   view5,
-                  'imagepath',
+                  'assets/mental_health_resources/ncemh.png',
                   'The National Centre of Excellence for Mental Health (NCEMH) is part of the plan to strengthen mental health programs, requiring a comprehensive and thorough platform to provide input and direction for national mental health program policies and guidelines.',
                   'https://sites.google.com/moh.gov.my/ncemh'),
               const SizedBox(height: 16)
@@ -471,21 +463,32 @@ class _MentalHealthResourcesState extends State<MentalHealthResources> {
                       ),
                       const SizedBox(height: 24),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => _launchURL(url),
-                              child: Text("Click here",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontStyle: FontStyle.italic,
+                          GestureDetector(
+                            onTap: () => _launchURL(url),
+                            child: const Row(
+                              children: [
+                                Text(
+                                  "Website",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
                                     fontSize: 16,
                                     color: Color(0xFFC5D6FF),
                                     height: 1.6,
+                                    letterSpacing: 1.5,
                                   ),
-                                  textAlign: TextAlign.left,
-                                  softWrap: true,
-                                  overflow: TextOverflow.visible),
+                                ),
+                                SizedBox(
+                                    width:
+                                        4), // Adds some space between text and icon
+                                Icon(
+                                  Icons.open_in_new,
+                                  size: 16,
+                                  color: Color(0xFF9CB4F0),
+                                ),
+                              ],
                             ),
                           ),
                         ],

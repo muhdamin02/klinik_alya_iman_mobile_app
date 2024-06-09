@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
@@ -307,7 +308,7 @@ class VitaminNutrition extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.book_outlined,
+                        Icons.dinner_dining,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -326,7 +327,7 @@ class VitaminNutrition extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.book_outlined,
+                        Icons.dinner_dining,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -366,7 +367,7 @@ class VitaminNutrition extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.question_mark_rounded,
+                        Icons.local_dining,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -385,7 +386,7 @@ class VitaminNutrition extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.question_mark_rounded,
+                        Icons.local_dining,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -504,7 +505,7 @@ class PrenatalCare extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.local_hospital,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -523,7 +524,7 @@ class PrenatalCare extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.local_hospital,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -562,7 +563,7 @@ class PrenatalCare extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.biotech,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -581,7 +582,7 @@ class PrenatalCare extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.biotech,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -598,6 +599,13 @@ class PrenatalCare extends StatelessWidget {
 
 class SymptomsChanges extends StatelessWidget {
   const SymptomsChanges({super.key});
+
+  Future<void> _launchURL(String urlString) async {
+    final Uri uri = Uri.parse(urlString);
+    if (!await launchUrl(uri)) {
+      throw 'Could not launch $urlString';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -699,7 +707,7 @@ class SymptomsChanges extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.pregnant_woman,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -718,7 +726,7 @@ class SymptomsChanges extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.pregnant_woman,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -733,12 +741,8 @@ class SymptomsChanges extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HealthyDiet(),
-                  ),
-                );
+                _launchURL(
+                    'https://www.webmd.com/baby/first-trimester-of-pregnancy');
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
@@ -757,14 +761,14 @@ class SymptomsChanges extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.open_in_new,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Additional Reading',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -776,7 +780,7 @@ class SymptomsChanges extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.open_in_new,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -793,6 +797,13 @@ class SymptomsChanges extends StatelessWidget {
 
 class Vaccinations extends StatelessWidget {
   const Vaccinations({super.key});
+
+  Future<void> _launchURL(String urlString) async {
+    final Uri uri = Uri.parse(urlString);
+    if (!await launchUrl(uri)) {
+      throw 'Could not launch $urlString';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -894,7 +905,7 @@ class Vaccinations extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.vaccines,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -913,7 +924,7 @@ class Vaccinations extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.vaccines,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -928,12 +939,8 @@ class Vaccinations extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HealthyDiet(),
-                  ),
-                );
+                _launchURL(
+                    'https://www.cdc.gov/vaccines/pregnancy/vacc-during-after.html');
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
@@ -952,14 +959,14 @@ class Vaccinations extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.open_in_new,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Additional Reading',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -971,7 +978,7 @@ class Vaccinations extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.open_in_new,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -988,6 +995,13 @@ class Vaccinations extends StatelessWidget {
 
 class MentalHealth extends StatelessWidget {
   const MentalHealth({super.key});
+
+  Future<void> _launchURL(String urlString) async {
+    final Uri uri = Uri.parse(urlString);
+    if (!await launchUrl(uri)) {
+      throw 'Could not launch $urlString';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1089,7 +1103,7 @@ class MentalHealth extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.psychology,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -1108,7 +1122,7 @@ class MentalHealth extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.psychology,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
@@ -1123,12 +1137,8 @@ class MentalHealth extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HealthyDiet(),
-                  ),
-                );
+                _launchURL(
+                    'https://www.nhs.uk/pregnancy/keeping-well/mental-health/');
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
@@ -1147,14 +1157,14 @@ class MentalHealth extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.open_in_new,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Additional Reading',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -1166,7 +1176,7 @@ class MentalHealth extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Icon(
-                      Icons.book_outlined,
+                      Icons.open_in_new,
                       color: Color(0xFF1F3299),
                       size: 28,
                     ),

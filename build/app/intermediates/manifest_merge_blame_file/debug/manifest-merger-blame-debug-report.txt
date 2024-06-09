@@ -136,19 +136,19 @@
 59-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
 60
 61    <permission
-61-->[androidx.core:core:1.9.0] C:\Users\aminy\.gradle\caches\transforms-3\c2aff38445ebad8ddeaa989ecf50f56e\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+61-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
 62        android:name="com.example.klinik_alya_iman_mobile_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-62-->[androidx.core:core:1.9.0] C:\Users\aminy\.gradle\caches\transforms-3\c2aff38445ebad8ddeaa989ecf50f56e\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+62-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
 63        android:protectionLevel="signature" />
-63-->[androidx.core:core:1.9.0] C:\Users\aminy\.gradle\caches\transforms-3\c2aff38445ebad8ddeaa989ecf50f56e\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+63-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
 64
 65    <uses-permission android:name="com.example.klinik_alya_iman_mobile_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
-65-->[androidx.core:core:1.9.0] C:\Users\aminy\.gradle\caches\transforms-3\c2aff38445ebad8ddeaa989ecf50f56e\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
-65-->[androidx.core:core:1.9.0] C:\Users\aminy\.gradle\caches\transforms-3\c2aff38445ebad8ddeaa989ecf50f56e\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+65-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+65-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
 66    <application
 67        android:name="android.app.Application"
 68        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-68-->[androidx.core:core:1.9.0] C:\Users\aminy\.gradle\caches\transforms-3\c2aff38445ebad8ddeaa989ecf50f56e\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+68-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
 69        android:debuggable="true"
 70        android:icon="@mipmap/ic_launcher"
 71        android:label="Alya Iman" >
@@ -232,40 +232,49 @@
 126            </intent-filter>
 127        </receiver>
 128
-129        <uses-library
-129-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-130            android:name="androidx.window.extensions"
-130-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-131            android:required="false" />
-131-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
-132        <uses-library
-132-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-133            android:name="androidx.window.sidecar"
-133-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
-134            android:required="false" />
-134-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-135
-136        <provider
-136-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-137            android:name="androidx.startup.InitializationProvider"
-137-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-138            android:authorities="com.example.klinik_alya_iman_mobile_app.androidx-startup"
-138-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
-139            android:exported="false" >
-139-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
-140            <meta-data
-140-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-141                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-141-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-142                android:value="androidx.startup" />
-142-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
-143            <meta-data
-143-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-144                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-144-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-145                android:value="androidx.startup" />
-145-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-146        </provider>
-147    </application>
-148
-149</manifest>
+129        <activity
+129-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
+130            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+130-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
+131            android:exported="false"
+131-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
+132            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+132-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
+133
+134        <uses-library
+134-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+135            android:name="androidx.window.extensions"
+135-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+136            android:required="false" />
+136-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+137        <uses-library
+137-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+138            android:name="androidx.window.sidecar"
+138-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+139            android:required="false" />
+139-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+140
+141        <provider
+141-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+142            android:name="androidx.startup.InitializationProvider"
+142-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+143            android:authorities="com.example.klinik_alya_iman_mobile_app.androidx-startup"
+143-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+144            android:exported="false" >
+144-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+145            <meta-data
+145-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+146                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+146-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+147                android:value="androidx.startup" />
+147-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+148            <meta-data
+148-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+149                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+149-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+150                android:value="androidx.startup" />
+150-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+151        </provider>
+152    </application>
+153
+154</manifest>
