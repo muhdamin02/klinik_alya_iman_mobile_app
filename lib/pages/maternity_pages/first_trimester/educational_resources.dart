@@ -7,7 +7,13 @@ import '../../medication_management/list_medication.dart';
 import '../../profile_management/profile_page.dart';
 import '../../startup/patient_homepage.dart';
 import '../first_trimester.dart';
+import 'educational_resources/mental_health/mental_health_resources.dart';
+import 'educational_resources/prenatal_care/prenatal_checkup.dart';
+import 'educational_resources/prenatal_care/screenings_tests.dart';
+import 'educational_resources/symptoms_changes/common_symptoms.dart';
 import 'educational_resources/vitamins_nutritions/essential_nutrients.dart';
+import 'educational_resources/vitamins_nutritions/healthy_diet.dart';
+import 'vaccinations/vaccinations_list.dart';
 
 class EducationalResources extends StatefulWidget {
   final User user;
@@ -165,14 +171,15 @@ class _EducationalResourcesState extends State<EducationalResources>
         ),
         body: Column(
           children: [
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 24.0),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               child: TabPageSelector(
                 controller: _tabController,
                 selectedColor: const Color(0xFFEDF2FF),
-                color: const Color(
-                    0xFF303E8F), // Adjust the color of unselected dots as needed
+                color: const Color(0xFF303E8F),
+                indicatorSize:
+                    10, // Adjust the color of unselected dots as needed
               ),
             ),
             Expanded(
@@ -226,14 +233,14 @@ class VitaminNutrition extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
                       image: AssetImage(
-                          'assets/vitaminnutrition.jpg'), // Replace with your image path
+                          'assets/educational_resources/vitaminnutrition.jpg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 24.0),
+            const SizedBox(height: 32.0),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 0),
               child: const Row(
@@ -278,7 +285,7 @@ class VitaminNutrition extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EssentialNutrients(),
+                      builder: (context) => const EssentialNutrients(),
                     ),
                   );
                 },
@@ -334,7 +341,12 @@ class VitaminNutrition extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  //
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HealthyDiet(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -420,14 +432,14 @@ class PrenatalCare extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                   image: const DecorationImage(
                     image: AssetImage(
-                        'assets/prenatalcare.jpg'), // Replace with your image path
+                        'assets/educational_resources/prenatalcare.jpg'), // Replace with your image path
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 24.0),
+          const SizedBox(height: 32.0),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 0),
             child: const Row(
@@ -457,7 +469,7 @@ class PrenatalCare extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 24.0),
           const Text(
             'Regular prenatal check-ups are crucial for monitoring the health of you and your baby. Understand the importance of these visits and get an overview of the screenings and tests you\'ll encounter.',
             style: TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
@@ -468,7 +480,12 @@ class PrenatalCare extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PrenatalCheckup(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFDBE5FF), // Set the fill color
@@ -494,7 +511,7 @@ class PrenatalCare extends StatelessWidget {
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Prenatal Check-ups',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -521,7 +538,12 @@ class PrenatalCare extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ScreeningsTests(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
@@ -547,7 +569,7 @@ class PrenatalCare extends StatelessWidget {
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Screenings and Tests',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -605,14 +627,14 @@ class SymptomsChanges extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                   image: const DecorationImage(
                     image: AssetImage(
-                        'assets/symptomschanges.jpg'), // Replace with your image path
+                        'assets/educational_resources/symptomschanges.jpg'), // Replace with your image path
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 24.0),
+          const SizedBox(height: 32.0),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 0),
             child: const Row(
@@ -653,7 +675,12 @@ class SymptomsChanges extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CommonSymptoms(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFDBE5FF), // Set the fill color
@@ -679,7 +706,7 @@ class SymptomsChanges extends StatelessWidget {
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Common Symptoms',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -706,7 +733,12 @@ class SymptomsChanges extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HealthyDiet(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
@@ -790,14 +822,14 @@ class Vaccinations extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                   image: const DecorationImage(
                     image: AssetImage(
-                        'assets/vaccination.jpg'), // Replace with your image path
+                        'assets/educational_resources/vaccination.jpg'), // Replace with your image path
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 24.0),
+          const SizedBox(height: 32.0),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 0),
             child: const Row(
@@ -838,7 +870,12 @@ class Vaccinations extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const VaccinationsList(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFDBE5FF), // Set the fill color
@@ -864,7 +901,7 @@ class Vaccinations extends StatelessWidget {
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Vaccines',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -891,7 +928,12 @@ class Vaccinations extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HealthyDiet(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
@@ -975,14 +1017,14 @@ class MentalHealth extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                   image: const DecorationImage(
                     image: AssetImage(
-                        'assets/mentalhealth.jpg'), // Replace with your image path
+                        'assets/educational_resources/mentalhealth.jpg'), // Replace with your image path
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 24.0),
+          const SizedBox(height: 32.0),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 0),
             child: const Row(
@@ -1023,7 +1065,12 @@ class MentalHealth extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MentalHealthResources(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFDBE5FF), // Set the fill color
@@ -1049,7 +1096,7 @@ class MentalHealth extends StatelessWidget {
                   ),
                   Spacer(), // Adjust the spacing between icon and text
                   Text(
-                    'Educational Resources',
+                    'Mental Health Resources',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -1076,7 +1123,12 @@ class MentalHealth extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                //
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HealthyDiet(),
+                  ),
+                );
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: const Color(0xFFC4D6FF), // Set the fill color

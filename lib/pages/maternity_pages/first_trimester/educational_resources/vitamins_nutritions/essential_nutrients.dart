@@ -38,11 +38,61 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8.0),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: Color(0xFFB6CBFF),
+                        height: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'Disclaimer',
+                        style: TextStyle(
+                            color: Color(0xFFEDF2FF),
+                            letterSpacing: 2,
+                            fontSize: 16),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Color(0xFFB6CBFF),
+                        height: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8,
+                ),
+                child: Text(
+                  'Any supplements and dietary changes should be discussed with your doctor first to ensure the best outcomes for you and your baby.',
+                  style: TextStyle(
+                      fontSize: 16, height: 2, color: Color(0xFFC5D6FF)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 24.0),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                child: const Divider(
+                  color: Color(0xFFB6CBFF),
+                  height: 1,
+                ),
+              ),
+              const SizedBox(height: 32.0),
               SizedBox(
                 width: double.infinity,
                 child: Padding(
@@ -94,8 +144,12 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                   ),
                 ),
               ),
-              content(viewFolicAcid, 'Prevents neural tube defects',
-                  '600 micrograms'),
+              content(
+                viewFolicAcid,
+                'Prevents neural tube defects',
+                'Leafy green vegetables (spinach, kale), citrus fruits (oranges, grapefruits), beans, lentils, fortified cereals, and bread.',
+                '600 micrograms',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -151,9 +205,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewIron,
-                  'Supports increased blood volume and prevents anemia',
-                  '27 milligrams'),
+                viewIron,
+                'Supports increased blood volume and prevents anemia',
+                'Red meat, poultry, fish, lentils, beans, spinach, fortified cereals, and quinoa.',
+                '27 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -208,8 +264,12 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                   ),
                 ),
               ),
-              content(viewCalcium, 'Builds baby\'s bones and teeth',
-                  '1000 milligrams'),
+              content(
+                viewCalcium,
+                'Builds baby\'s bones and teeth',
+                'Dairy products (milk, cheese, yogurt), fortified plant-based milks (almond, soy), leafy green vegetables (broccoli, kale), tofu, and almonds.',
+                '1000 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -265,9 +325,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewVitaminD,
-                  'Aids in calcium absorption and supports bone health',
-                  '600 IU (15 micrograms)'),
+                viewVitaminD,
+                'Aids in calcium absorption and supports bone health',
+                'Fatty fish (salmon, mackerel, sardines), fortified dairy and plant-based milks, fortified cereals, and exposure to sunlight.',
+                '600 IU (15 micrograms)',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -322,8 +384,12 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                   ),
                 ),
               ),
-              content(viewOmega3, 'Supports brain and eye development',
-                  '200-300 milligrams'),
+              content(
+                viewOmega3,
+                'Supports brain and eye development',
+                'Fatty fish (salmon, mackerel, sardines), flaxseeds, chia seeds, walnuts, and omega-3 fortified eggs.',
+                '200-300 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -379,9 +445,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewProtein,
-                  'Supports growth and development of fetal tissues',
-                  '71 grams'),
+                viewProtein,
+                'Supports growth and development of fetal tissues',
+                'Lean meats (chicken, turkey), fish, eggs, dairy products, beans, lentils, nuts, and seeds.',
+                '71 grams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -437,9 +505,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewIodine,
-                  'Supports thyroid function and brain development',
-                  '220 micrograms'),
+                viewIodine,
+                'Supports thyroid function and brain development',
+                'Iodized salt, seafood, dairy products, eggs, and seaweed.',
+                '220 micrograms',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -495,9 +565,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewVitaminB6,
-                  'Helps with the development of the baby\'s brain and nervous system',
-                  '1.9 milligrams'),
+                viewVitaminB6,
+                'Helps with the development of the baby\'s brain and nervous system',
+                'Poultry, fish, potatoes, bananas, chickpeas, and fortified cereals.',
+                '1.9 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -553,9 +625,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewVitaminB12,
-                  'Supports nerve and blood cell health, and helps make DNA',
-                  '2.6 micrograms'),
+                viewVitaminB12,
+                'Supports nerve and blood cell health, and helps make DNA',
+                'Meat, poultry, fish, eggs, dairy products, and fortified cereals.',
+                '2.6 micrograms',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -611,9 +685,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewVitaminC,
-                  'Promotes healthy skin, bones, and connective tissue; helps in iron absorption',
-                  '85 milligrams'),
+                viewVitaminC,
+                'Promotes healthy skin, bones, and connective tissue; helps in iron absorption',
+                'Citrus fruits (oranges, lemons), strawberries, bell peppers, broccoli, Brussels sprouts, and tomatoes.',
+                '85 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -669,9 +745,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewMagnesium,
-                  'Supports bone health and energy production',
-                  '350-400 milligrams'),
+                viewMagnesium,
+                'Supports bone health and energy production',
+                'Nuts (almonds, cashews), seeds (pumpkin, chia), whole grains, leafy green vegetables (spinach), and legumes.',
+                '350-400 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -726,8 +804,12 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                   ),
                 ),
               ),
-              content(viewZinc, 'Supports immune function and cell division',
-                  '11 milligrams'),
+              content(
+                viewZinc,
+                'Supports immune function and cell division',
+                'Meat, shellfish, legumes (chickpeas, lentils), seeds (pumpkin, sesame), nuts, dairy products, and whole grains.',
+                '11 milligrams',
+              ),
               //-----------------------------------//
               const SizedBox(height: 16),
               //-----------------------------------//
@@ -783,9 +865,11 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                 ),
               ),
               content(
-                  viewFiber,
-                  'Helps prevent constipation, a common issue during pregnancy',
-                  '28 grams'),
+                viewFiber,
+                'Helps prevent constipation, a common issue during pregnancy',
+                'Whole grains, fruits (apples, pears), vegetables (carrots, broccoli), legumes (beans, lentils), nuts, and seeds.',
+                '28 grams',
+              ),
               const SizedBox(height: 16)
             ],
           ),
@@ -794,7 +878,7 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
     );
   }
 
-  Widget content(bool view, String benefits, String recdaily) =>
+  Widget content(bool view, String benefits, String sources, String recdaily) =>
       AnimatedOpacity(
         opacity: view ? 1.0 : 0.0,
         duration:
@@ -827,6 +911,41 @@ class _EssentialNutrientsState extends State<EssentialNutrients> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 18,
                                   color: Color(0xFFC5D6FF),
+                                  height: 1.6,
+                                ),
+                                textAlign: TextAlign.left,
+                                softWrap: true,
+                                overflow: TextOverflow.visible),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      const Row(
+                        children: [
+                          Expanded(
+                            child: Text('Sources:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Color(0xFF9CB4F0),
+                                  height: 1.6,
+                                ),
+                                textAlign: TextAlign.left,
+                                softWrap: true,
+                                overflow: TextOverflow.visible),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(sources,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 16,
+                                  color: Color(0xFF9CB4F0),
                                   height: 1.6,
                                 ),
                                 textAlign: TextAlign.left,
