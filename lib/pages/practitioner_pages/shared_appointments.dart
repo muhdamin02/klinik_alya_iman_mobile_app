@@ -38,6 +38,7 @@ class SharedAppointments extends StatefulWidget {
 
 class _SharedAppointmentsState extends State<SharedAppointments> {
   List<Appointment> _appointmentList = [];
+  List<Profile> _patientInfo = [];
   String _searchQuery = '';
 
   @override
@@ -64,39 +65,43 @@ class _SharedAppointmentsState extends State<SharedAppointments> {
   }
   // ----------------------------------------------------------------------
 
+  Future<Profile> _getPatientInfo(int profileId) async {
+    List<Profile> patientInfo = await DatabaseService().profileInfo(profileId);
+    return patientInfo[0];
+  }
+
   // ----------------------------------------------------------------------
   // View Appointment
 
-  void _viewAppointment(Appointment appointment) {
-    final tempProfile = Profile(
-      name: 'unknown',
-      identification: 'unknown',
-      dob: 'unknown',
-      gender: 'unknown',
-      height: 0,
-      weight: 0,
-      body_fat_percentage: 0,
-      activity_level: 'unknown',
-      belly_size: 0,
-      maternity: 'No',
-      maternity_due: 'unknown',
-      ethnicity: 'unknown',
-      marital_status: 'unknown',
-      occupation: 'unknown',
-      medical_alert: 'unknown',
-      profile_pic: 'unknown',
-      creation_date: 'unknown',
-      user_id: widget.user.user_id!,
-    );
-    // Navigate to the view appointment details page with the selected appointment
+  void _viewAppointment(Appointment appointment, int profileId) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewAppointment(
-          appointment: appointment,
-          user: widget.user,
-          profile: tempProfile,
-          autoImplyLeading: false,
+        builder: (context) => FutureBuilder<Profile>(
+          future: _getPatientInfo(profileId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While the future is still executing, show a loading indicator
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              // If the future completed with an error, show an error message
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              // Once the future completes successfully, pass the Profile object
+              return ViewAppointment(
+                appointment: appointment,
+                actualUser: widget.user,
+                viewedUser: widget.user,
+                profile: snapshot.data!,
+                autoImplyLeading: false,
+                sharedAppointments: true,
+                appointmentByPractitioner: false,
+              );
+            } else {
+              // If for some reason the future completes but with no data, show a message
+              return const Center(child: Text('No data found'));
+            }
+          },
         ),
       ),
     );
@@ -414,7 +419,7 @@ class _SharedAppointmentsState extends State<SharedAppointments> {
 
 class TabBarAppointment extends StatefulWidget {
   final List<Appointment> appointmentList;
-  final Function(Appointment) onViewAppointment;
+  final Function(Appointment, int) onViewAppointment;
   final int initialTab;
   final Function(String) onSearchQueryChanged;
   final String searchQuery;
@@ -553,7 +558,8 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GestureDetector(
                   onTap: () {
-                    widget.onViewAppointment(appointment);
+                    widget.onViewAppointment(
+                        appointment, appointment.profile_id!);
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -594,7 +600,8 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                                     getIconColorForStatus(appointment.status),
                               ),
                               onPressed: () {
-                                widget.onViewAppointment(appointment);
+                                widget.onViewAppointment(
+                                    appointment, appointment.profile_id!);
                               },
                             ),
                           ],

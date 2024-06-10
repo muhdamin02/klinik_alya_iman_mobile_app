@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/medical_history/list_medical_history.dart';
 
-import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/misc_methods/get_color_maternity.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/maternity_pages/third_trimester/track_contractions.dart';
 
-import '../../../app_drawer/app_drawer_all_pages.dart';
 import '../../../models/contractions.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';

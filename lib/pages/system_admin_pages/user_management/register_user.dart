@@ -80,6 +80,13 @@ class _RegisterUserState extends State<RegisterUser> {
       ),
     );
 
+    int initialTab = 0;
+    if (role == 'patient'){
+      initialTab = 0;
+    } else {
+      initialTab = 1;
+    }
+
     // ignore: use_build_context_synchronously
     showDialog(
       context: context,
@@ -101,6 +108,7 @@ class _RegisterUserState extends State<RegisterUser> {
                     builder: (context) => ManageUser(
                       user: widget.user!,
                       autoImplyLeading: false,
+                      initialTab: initialTab,
                     ),
                   ),
                 );

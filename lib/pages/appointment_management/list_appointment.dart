@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import '../../app_drawer/app_drawer_profiles_logout_only.dart';
 import '../../models/appointment.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
@@ -116,10 +115,14 @@ class _ListAppointmentState extends State<ListAppointment> {
       context,
       MaterialPageRoute(
         builder: (context) => ViewAppointment(
-            appointment: appointment,
-            user: widget.user,
-            profile: widget.profile,
-            autoImplyLeading: false),
+          appointment: appointment,
+          actualUser: widget.user,
+          viewedUser: widget.user,
+          profile: widget.profile,
+          autoImplyLeading: false,
+          sharedAppointments: false,
+          appointmentByPractitioner: false,
+        ),
       ),
     );
   }

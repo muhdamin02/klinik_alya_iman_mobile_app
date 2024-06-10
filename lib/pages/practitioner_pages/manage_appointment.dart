@@ -172,9 +172,12 @@ class _ManageAppointmentState extends State<ManageAppointment> {
       MaterialPageRoute(
         builder: (context) => ViewAppointment(
           appointment: appointment,
-          user: widget.user,
+          actualUser: widget.user,
+          viewedUser: widget.user,
           profile: tempProfile,
           autoImplyLeading: false,
+          sharedAppointments: false,
+          appointmentByPractitioner: true,
         ),
       ),
     );

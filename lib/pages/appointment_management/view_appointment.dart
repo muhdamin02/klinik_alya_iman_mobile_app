@@ -10,6 +10,7 @@ import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/date_display.dart';
+import '../../services/misc_methods/get_first_two_words.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/misc_methods/show_hovering_message.dart';
 import '../../services/notification_service.dart';
@@ -19,29 +20,39 @@ import '../practitioner_pages/patient_pages/view_patient.dart';
 import '../practitioner_pages/patient_pages/view_patients_list.dart';
 import '../practitioner_pages/practitioner_home.dart';
 import '../practitioner_pages/practitioner_profile_page.dart';
+import '../practitioner_pages/shared_appointments.dart';
 import '../profile_management/profile_page.dart';
 import '../startup/login.dart';
 import '../startup/patient_homepage.dart';
 import '../system_admin_pages/admin_appt_management/admin_appt_management.dart';
+import '../system_admin_pages/admin_appt_management/appointment_by_practitioner.dart';
+import '../system_admin_pages/admin_appt_management/view_patient_admin.dart';
 import '../system_admin_pages/system_admin_home.dart';
 import '../system_admin_pages/user_management/manage_user.dart';
+import '../system_admin_pages/user_management/view_user.dart';
 import 'assign_practitioner.dart';
 import 'list_appointment.dart';
 import 'update_appointment.dart';
 
 class ViewAppointment extends StatefulWidget {
   final Appointment appointment;
-  final User user;
+  final User actualUser;
+  final User viewedUser;
   final Profile profile;
   final bool autoImplyLeading;
+  final bool sharedAppointments;
+  final bool appointmentByPractitioner;
 
-  const ViewAppointment(
-      {Key? key,
-      required this.appointment,
-      required this.user,
-      required this.profile,
-      required this.autoImplyLeading})
-      : super(key: key);
+  const ViewAppointment({
+    Key? key,
+    required this.appointment,
+    required this.viewedUser,
+    required this.actualUser,
+    required this.profile,
+    required this.autoImplyLeading,
+    required this.sharedAppointments,
+    required this.appointmentByPractitioner,
+  }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -83,32 +94,32 @@ class _ViewAppointmentState extends State<ViewAppointment> {
         _getPractitionerInfo(_appointmentInfo[0].practitioner_id);
         _getPatientInfo(_appointmentInfo[0].profile_id!);
         print(_appointmentInfo[0].appointment_time);
-        if (widget.user.role.toLowerCase() == 'systemadmin' &&
+        if (widget.actualUser.role.toLowerCase() == 'systemadmin' &&
             _appointmentInfo[0].practitioner_id != 0) {
           viewEditButtonForSystemAdmin = true;
         }
-        if (widget.user.role.toLowerCase() == 'practitioner' &&
+        if (widget.actualUser.role.toLowerCase() == 'practitioner' &&
             _appointmentInfo[0].status == 'Assigned') {
           viewConfirmButtonForPractitioner = true;
           viewEditButtonForPractitioner = true;
         }
-        if (widget.user.role.toLowerCase() == 'practitioner' &&
+        if (widget.actualUser.role.toLowerCase() == 'practitioner' &&
             _appointmentInfo[0].status == 'Updated') {
           viewConfirmButtonForPractitioner = true;
           viewEditButtonForPractitioner = true;
         }
-        if (widget.user.role.toLowerCase() == 'practitioner' &&
+        if (widget.actualUser.role.toLowerCase() == 'practitioner' &&
             _appointmentInfo[0].status == 'Confirmed' &&
             isAppointmentTodayOrPast(_appointmentInfo[0].appointment_date)) {
           viewAttendanceButtons = true;
           viewEditButtonForPractitioner = true;
           viewCancelButton = false;
         }
-        if (widget.user.role.toLowerCase() == 'patient' &&
+        if (widget.actualUser.role.toLowerCase() == 'patient' &&
             _appointmentInfo[0].status == 'Pending') {
           viewEditButtonForPatient = true;
         }
-        if (widget.user.role.toLowerCase() == 'patient' &&
+        if (widget.actualUser.role.toLowerCase() == 'patient' &&
             _appointmentInfo[0].status == 'Confirmed' &&
             isAppointmentTodayOrPast(_appointmentInfo[0].appointment_date)) {
           viewEditButtonForPatient = false;
@@ -232,7 +243,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   void _confirmAppointment(Appointment appointment) {
     String status = appointment.status;
     String remarks = appointment.system_remarks;
-    String practitionerName = widget.user.name;
+    String practitionerName = widget.actualUser.name;
 
     showDialog(
       context: context,
@@ -278,7 +289,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   void _attendAppointment(Appointment appointment) {
     String status = appointment.status;
     String remarks = appointment.system_remarks;
-    String practitionerName = widget.user.name;
+    String practitionerName = widget.actualUser.name;
 
     showDialog(
       context: context,
@@ -323,7 +334,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
   void _absentAppointment(Appointment appointment) {
     String status = appointment.status;
     String remarks = appointment.system_remarks;
-    String practitionerName = widget.user.name;
+    String practitionerName = widget.actualUser.name;
 
     showDialog(
       context: context,
@@ -413,11 +424,12 @@ class _ViewAppointmentState extends State<ViewAppointment> {
             TextButton(
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
-                  if (widget.user.role.toLowerCase() == 'patient') {
+                  if (widget.actualUser.role.toLowerCase() == 'patient') {
                     userRemarks = remarksController.text;
                     await DatabaseService()
                         .leaveRemarksAsPatient(appointmentId!, userRemarks);
-                  } else if (widget.user.role.toLowerCase() == 'practitioner') {
+                  } else if (widget.actualUser.role.toLowerCase() ==
+                      'practitioner') {
                     userRemarks = remarksController.text;
                     await DatabaseService().leaveRemarksAsPractitioner(
                         appointmentId!, userRemarks);
@@ -618,8 +630,10 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Login(
-                                  usernamePlaceholder: widget.user.username,
-                                  passwordPlaceholder: widget.user.password,
+                                  usernamePlaceholder:
+                                      widget.actualUser.username,
+                                  passwordPlaceholder:
+                                      widget.actualUser.password,
                                 ),
                               ),
                             );
@@ -653,26 +667,46 @@ class _ViewAppointmentState extends State<ViewAppointment> {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Row(
                 children: [
-                  if (widget.user.role == 'systemadmin') ...[
+                  if (widget.actualUser.role == 'systemadmin') ...[
                     const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.event),
-                      iconSize: 22,
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ManageAppointmentAdmin(
-                              user: widget.user,
-                              autoImplyLeading: false,
+                    if (widget.appointmentByPractitioner)
+                      IconButton(
+                        icon: const Icon(Icons.event),
+                        iconSize: 22,
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ManageAppointmentAdmin(
+                                user: widget.actualUser,
+                                autoImplyLeading: false,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      color: const Color(
-                        0xFFFFD271,
-                      ), // Set the color of the icon
-                    ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
+                    if (!widget.appointmentByPractitioner)
+                      IconButton(
+                        icon: const Icon(Icons.event),
+                        iconSize: 22,
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ManageAppointmentAdmin(
+                                user: widget.actualUser,
+                                autoImplyLeading: false,
+                              ),
+                            ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFFFD271,
+                        ), // Set the color of the icon
+                      ),
                     const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.home),
@@ -682,7 +716,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => SystemAdminHome(
-                              user: widget.user,
+                              user: widget.actualUser,
                             ),
                           ),
                         );
@@ -692,26 +726,48 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ), // Set the color of the icon
                     ),
                     const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.group),
-                      iconSize: 25,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ManageUser(
-                              user: widget.user,
-                              autoImplyLeading: false,
+                    if (widget.appointmentByPractitioner)
+                      IconButton(
+                        icon: const Icon(Icons.group),
+                        iconSize: 25,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewUser(
+                                viewedUser: widget.viewedUser,
+                                actualUser: widget.actualUser,
+                                autoImplyLeading: false,
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      color: const Color(
-                        0xFFEDF2FF,
-                      ), // Set the color of the icon
-                    ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFFFD271,
+                        ), // Set the color of the icon
+                      ),
+                    if (!widget.appointmentByPractitioner)
+                      IconButton(
+                        icon: const Icon(Icons.list),
+                        iconSize: 25,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AppointmentByPractitioner(
+                                viewedUser: widget.viewedUser,
+                                autoImplyLeading: false,
+                                actualUser: widget.actualUser,
+                              ),
+                            ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
                     const Spacer(),
-                  ] else if (widget.user.role == 'practitioner') ...[
+                  ] else if (widget.actualUser.role == 'practitioner') ...[
                     const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.person),
@@ -721,8 +777,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PractitionerProfilePage(
-                              actualUser: widget.user,
-                              practitionerUser: widget.user,
+                              actualUser: widget.actualUser,
+                              practitionerUser: widget.actualUser,
                               autoImplyLeading: false,
                             ),
                           ),
@@ -733,24 +789,46 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ), // Set the color of the icon
                     ),
                     const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.event),
-                      iconSize: 22,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ManageAppointment(
-                                user: widget.user,
-                                autoImplyLeading: false,
-                                initialTab: 1, profileId: 0),
-                          ),
-                        );
-                      },
-                      color: const Color(
-                        0xFFFFD271,
-                      ), // Set the color of the icon
-                    ),
+                    if (widget.sharedAppointments)
+                      IconButton(
+                        icon: const Icon(Icons.event),
+                        iconSize: 22,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ManageAppointment(
+                                  user: widget.actualUser,
+                                  autoImplyLeading: false,
+                                  initialTab: 1,
+                                  profileId: 0),
+                            ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
+                    if (!widget.sharedAppointments)
+                      IconButton(
+                        icon: const Icon(Icons.event),
+                        iconSize: 22,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ManageAppointment(
+                                  user: widget.actualUser,
+                                  autoImplyLeading: false,
+                                  initialTab: 1,
+                                  profileId: 0),
+                            ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFFFD271,
+                        ), // Set the color of the icon
+                      ),
                     const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.home),
@@ -760,7 +838,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PractitionerHome(
-                              user: widget.user,
+                              user: widget.actualUser,
                             ),
                           ),
                         );
@@ -770,24 +848,48 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ), // Set the color of the icon
                     ),
                     const Spacer(),
-                    IconButton(
-                      icon: const Icon(Icons.group),
-                      iconSize: 25,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PatientsList(
-                              user: widget.user,
-                              autoImplyLeading: false,
+                    if (widget.sharedAppointments)
+                      IconButton(
+                        icon: const Icon(Icons.list),
+                        iconSize: 25,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SharedAppointments(
+                                user: widget.actualUser,
+                                autoImplyLeading: false,
+                                initialTab: 0,
+                                profile: _patientInfo[0],
+                                patientName:
+                                    getFirstTwoWords(widget.profile.name),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      color: const Color(
-                        0xFFEDF2FF,
-                      ), // Set the color of the icon
-                    ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFFFD271,
+                        ), // Set the color of the icon
+                      ),
+                    if (!widget.sharedAppointments)
+                      IconButton(
+                        icon: const Icon(Icons.group),
+                        iconSize: 25,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PatientsList(
+                                user: widget.actualUser,
+                                autoImplyLeading: false,
+                              ),
+                            ),
+                          );
+                        },
+                        color: const Color(
+                          0xFFEDF2FF,
+                        ), // Set the color of the icon
+                      ),
                     const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.settings),
@@ -797,7 +899,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           const Color(0xFFEDF2FF), // Set the color of the icon
                     ),
                     const Spacer(),
-                  ] else if (widget.user.role == 'patient') ...[
+                  ] else if (widget.actualUser.role == 'patient') ...[
                     const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.person),
@@ -807,7 +909,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ProfilePage(
-                              user: widget.user,
+                              user: widget.actualUser,
                               profile: widget.profile,
                               autoImplyLeading: false,
                             ),
@@ -826,7 +928,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ListAppointment(
-                              user: widget.user,
+                              user: widget.actualUser,
                               profile: widget.profile,
                               autoImplyLeading: false,
                               initialTab: 1,
@@ -846,7 +948,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PatientHomepage(
-                              user: widget.user,
+                              user: widget.actualUser,
                               profile: widget.profile,
                               hasProfiles: true,
                               hasChosenProfile: true,
@@ -867,7 +969,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ListMedication(
-                              user: widget.user,
+                              user: widget.actualUser,
                               profile: widget.profile,
                               autoImplyLeading: false,
                             ),
@@ -920,8 +1022,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: Text(
                             'Reference Number',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF), letterSpacing: 2
-                            ),
+                                color: Color(0xFFEDF2FF), letterSpacing: 2),
                           ),
                         ),
                         Expanded(
@@ -990,8 +1091,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: Text(
                             'Appointment Details',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF), letterSpacing: 2
-                            ),
+                                color: Color(0xFFEDF2FF), letterSpacing: 2),
                           ),
                         ),
                         Expanded(
@@ -1010,39 +1110,39 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (widget.user.role == 'patient') {
+                          if (widget.actualUser.role == 'patient') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ProfilePage(
-                                  user: widget.user,
+                                  user: widget.actualUser,
                                   profile: widget.profile,
                                   autoImplyLeading: true,
                                 ),
                               ),
                             );
-                          } else if (widget.user.role == 'practitioner') {
+                          } else if (widget.actualUser.role == 'practitioner') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ViewPatient(
-                                  user: widget.user,
+                                  user: widget.actualUser,
                                   profile: _patientInfo[0],
                                   autoImplyLeading: true,
                                 ),
                               ),
                             );
                           } else {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => ViewPatient(
-                            //       user: widget.user,
-                            //       profile: widget.profile,
-                            //       autoImplyLeading: true,
-                            //     ),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewPatientAdmin(
+                                  user: widget.actualUser,
+                                  profile: _patientInfo[0],
+                                  autoImplyLeading: true,
+                                ),
+                              ),
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -1189,13 +1289,14 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (widget.user.role.toLowerCase() == 'systemadmin') {
+                          if (widget.actualUser.role.toLowerCase() ==
+                              'systemadmin') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AssignPractitioner(
                                   appointment: appointment,
-                                  user: widget.user,
+                                  user: widget.actualUser,
                                   practitionerId: appointment.practitioner_id,
                                 ),
                               ),
@@ -1257,7 +1358,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => PractitionerProfilePage(
-                                    actualUser: widget.user,
+                                    actualUser: widget.actualUser,
                                     practitionerUser: _practitionerInfo[0],
                                     autoImplyLeading: true,
                                   ),
@@ -1293,13 +1394,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                     ),
                                   ),
                                   Visibility(
-                                    visible: widget.user.role.toLowerCase() ==
-                                        'systemadmin',
+                                    visible:
+                                        widget.actualUser.role.toLowerCase() ==
+                                            'systemadmin',
                                     child: const SizedBox(width: 8.0),
                                   ),
                                   Visibility(
-                                    visible: widget.user.role.toLowerCase() ==
-                                        'systemadmin',
+                                    visible:
+                                        widget.actualUser.role.toLowerCase() ==
+                                            'systemadmin',
                                     child: const Icon(
                                       Icons.edit,
                                       color: Color(0xFFFFD271),
@@ -1609,8 +1712,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           child: Text(
                             'Actions',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF), letterSpacing: 2
-                            ),
+                                color: Color(0xFFEDF2FF), letterSpacing: 2),
                           ),
                         ),
                         Expanded(
@@ -1919,7 +2021,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               MaterialPageRoute(
                                 builder: (context) => UpdateAppointment(
                                   appointment: appointment,
-                                  rescheduler: widget.user.role,
+                                  rescheduler: widget.actualUser.role,
                                   appointmentBranch: branch,
                                 ),
                               ),
@@ -2017,7 +2119,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               MaterialPageRoute(
                                 builder: (context) => UpdateAppointment(
                                   appointment: appointment,
-                                  rescheduler: widget.user.role,
+                                  rescheduler: widget.actualUser.role,
                                   appointmentBranch: branch,
                                 ),
                               ),
@@ -2084,7 +2186,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                     visible: viewEditButtonForPatient,
                     child: const SizedBox(height: 10),
                   ),
-                  if (widget.user.role.toLowerCase() != 'systemadmin')
+                  if (widget.actualUser.role.toLowerCase() != 'systemadmin')
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
                       child: SizedBox(
@@ -2143,7 +2245,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         ),
                       ),
                     ),
-                  if (widget.user.role.toLowerCase() != 'systemadmin')
+                  if (widget.actualUser.role.toLowerCase() != 'systemadmin')
                     const SizedBox(height: 10),
                   Visibility(
                     visible: viewEditButtonForSystemAdmin,
@@ -2176,7 +2278,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                               MaterialPageRoute(
                                 builder: (context) => UpdateAppointment(
                                   appointment: appointment,
-                                  rescheduler: widget.user.role,
+                                  rescheduler: widget.actualUser.role,
                                   appointmentBranch: branch,
                                 ),
                               ),

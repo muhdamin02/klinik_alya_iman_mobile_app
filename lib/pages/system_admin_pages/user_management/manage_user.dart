@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/app_drawer/app_drawer_system_admin.dart';
 
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/get_first_two_words.dart';
 import '../../startup/login.dart';
 import '../admin_appt_management/admin_appt_management.dart';
 import '../system_admin_home.dart';
@@ -12,9 +12,13 @@ import 'view_user.dart';
 class ManageUser extends StatefulWidget {
   final User user;
   final bool autoImplyLeading;
+  final int initialTab;
 
   const ManageUser(
-      {super.key, required this.user, required this.autoImplyLeading});
+      {super.key,
+      required this.user,
+      required this.autoImplyLeading,
+      required this.initialTab});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -58,13 +62,15 @@ class _ManageUserState extends State<ManageUser> {
   // ----------------------------------------------------------------------
   // View user
 
-  void _viewUser(User user) {
+  void _viewUser(User viewedUser) {
     // Navigate to the view user details page with the selected user
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ViewUser(
-          user: user,
+          viewedUser: viewedUser,
+          actualUser: widget.user,
+          autoImplyLeading: true,
         ),
       ),
     );
@@ -177,6 +183,7 @@ class _ManageUserState extends State<ManageUser> {
                 });
               },
               searchQuery: _searchQuery,
+              initialTab: widget.initialTab,
             ),
             Positioned(
               bottom: 24.0,
@@ -230,6 +237,7 @@ class TabBarUser extends StatelessWidget {
   final Function(User) onViewUser;
   final Function(String) onSearchQueryChanged;
   final String searchQuery;
+  final int initialTab;
 
   const TabBarUser(
       {Key? key,
@@ -237,13 +245,14 @@ class TabBarUser extends StatelessWidget {
       required this.practitionerList,
       required this.onViewUser,
       required this.onSearchQueryChanged,
-      required this.searchQuery})
+      required this.searchQuery,
+      required this.initialTab})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 0,
+      initialIndex: initialTab,
       length: 2,
       child: Scaffold(
         body: Column(
@@ -348,7 +357,7 @@ class TabBarUser extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
                         title: Text(
-                          _getFirstTwoWords(user.name),
+                          getFirstTwoWords(user.name),
                           style: const TextStyle(
                               color: Color(0xFFEDF2FF), fontSize: 18),
                         ),
@@ -377,13 +386,4 @@ class TabBarUser extends StatelessWidget {
       },
     );
   }
-}
-
-// Function to get the first two words from a string
-String _getFirstTwoWords(String fullName) {
-  // Split the string into words
-  List<String> words = fullName.split(' ');
-
-  // Take the first two words and join them back into a string
-  return words.take(2).join(' ');
 }

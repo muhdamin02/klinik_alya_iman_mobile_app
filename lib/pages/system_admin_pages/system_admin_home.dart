@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../app_drawer/app_drawer_system_admin.dart';
 import '../../models/homefeed.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
@@ -147,6 +146,7 @@ class _SystemAdminHomeState extends State<SystemAdminHome> {
                             builder: (context) => ManageUser(
                               user: widget.user,
                               autoImplyLeading: false,
+                              initialTab: 0,
                             ),
                           ),
                         );

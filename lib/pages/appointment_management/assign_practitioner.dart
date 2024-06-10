@@ -171,10 +171,13 @@ class _AssignPractitionerState extends State<AssignPractitioner> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewAppointment(
-                        user: widget.user,
+                        actualUser: widget.user,
+                        viewedUser: widget.user,
                         appointment: widget.appointment,
                         profile: tempProfile,
                         autoImplyLeading: false,
+                        sharedAppointments: false,
+                        appointmentByPractitioner: false,
                       ),
                     ),
                   );
@@ -318,8 +321,8 @@ class _AssignPractitionerState extends State<AssignPractitioner> {
                                 child: Text(
                                   'Choose Practitioner',
                                   style: TextStyle(
-                                    color: Color(0xFFEDF2FF), letterSpacing: 2
-                                  ),
+                                      color: Color(0xFFEDF2FF),
+                                      letterSpacing: 2),
                                 ),
                               ),
                               Expanded(
@@ -447,8 +450,8 @@ class _AssignPractitionerState extends State<AssignPractitioner> {
                                 child: Text(
                                   'Availability for ${DateTimeDisplay(datetime: appointment.appointment_date).getStringDate()}',
                                   style: const TextStyle(
-                                    color: Color(0xFFEDF2FF), letterSpacing: 2
-                                  ),
+                                      color: Color(0xFFEDF2FF),
+                                      letterSpacing: 2),
                                 ),
                               ),
                               const Expanded(
@@ -552,10 +555,13 @@ class _AssignPractitionerState extends State<AssignPractitioner> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ViewAppointment(
-                            user: widget.user,
+                            actualUser: widget.user,
+                            viewedUser: widget.user,
                             appointment: widget.appointment,
                             profile: tempProfile,
                             autoImplyLeading: false,
+                            sharedAppointments: false,
+                            appointmentByPractitioner: false,
                           ),
                         ),
                       );

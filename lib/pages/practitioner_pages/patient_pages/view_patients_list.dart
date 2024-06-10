@@ -4,6 +4,7 @@ import '../../../models/appointment.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/get_first_two_words.dart';
 import '../../startup/login.dart';
 import '../manage_appointment.dart';
 import '../practitioner_home.dart';
@@ -351,7 +352,7 @@ class TabBarPatient extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
                         title: Text(
-                          _getFirstTwoWords(patient.name),
+                          getFirstTwoWords(patient.name),
                           style: const TextStyle(
                               color: Color(0xFFEDF2FF), fontSize: 18),
                         ),
@@ -380,13 +381,4 @@ class TabBarPatient extends StatelessWidget {
       },
     );
   }
-}
-
-// Function to get the first two words from a string
-String _getFirstTwoWords(String fullName) {
-  // Split the string into words
-  List<String> words = fullName.split(' ');
-
-  // Take the first two words and join them back into a string
-  return words.take(2).join(' ');
 }

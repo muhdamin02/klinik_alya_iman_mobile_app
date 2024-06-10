@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/medical_history/create_new_med_history_entry.dart';
 
-import '../../app_drawer/app_drawer_all_pages.dart';
 import '../../models/medical_history.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';

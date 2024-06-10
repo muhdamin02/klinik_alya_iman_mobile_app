@@ -6,6 +6,7 @@ import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
 import '../../services/misc_methods/datetime_display.dart';
+import '../../services/misc_methods/get_first_two_words.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../appointment_management/list_appointment.dart';
@@ -214,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_getFirstTwoWords(widget.profile.name)),
+          title: Text(getFirstTwoWords(widget.profile.name)),
           elevation: 0,
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
@@ -1288,13 +1289,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-}
-
-// Function to get the first two words from a string
-String _getFirstTwoWords(String fullName) {
-  // Split the string into words
-  List<String> words = fullName.split(' ');
-
-  // Take the first two words and join them back into a string
-  return words.take(2).join(' ');
 }

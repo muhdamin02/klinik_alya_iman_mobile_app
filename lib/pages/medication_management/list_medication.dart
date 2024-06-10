@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import '../../app_drawer/app_drawer_profiles_logout_only.dart';
 import '../../models/medication.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
@@ -596,12 +595,6 @@ class _ListMedicationState extends State<ListMedication> {
               ),
             ),
           ),
-        ),
-        drawer: AppDrawerProfilesLogout(
-          header: 'Medication List',
-          user: widget.user,
-          profile: widget.profile,
-          autoImplyLeading: widget.autoImplyLeading,
         ),
         body: Stack(
           children: [

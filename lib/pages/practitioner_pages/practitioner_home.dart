@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../../services/misc_methods/get_first_two_words.dart';
 import '../startup/login.dart';
 import 'manage_appointment.dart';
 import 'patient_pages/view_patients_list.dart';
@@ -656,7 +657,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              _getFirstTwoWords(widget.user.name),
+                              getFirstTwoWords(widget.user.name),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
@@ -676,13 +677,4 @@ class _PractitionerHomeState extends State<PractitionerHome> {
       ),
     );
   }
-}
-
-// Function to get the first two words from a string
-String _getFirstTwoWords(String fullName) {
-  // Split the string into words
-  List<String> words = fullName.split(' ');
-
-  // Take the first two words and join them back into a string
-  return words.take(2).join(' ');
 }

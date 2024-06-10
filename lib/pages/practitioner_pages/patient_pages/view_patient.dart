@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../../../services/misc_methods/get_first_two_words.dart';
 import '../manage_appointment.dart';
 import '../practitioner_home.dart';
 import '../practitioner_profile_page.dart';
@@ -103,7 +104,7 @@ class _ViewPatientState extends State<ViewPatient> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_getFirstTwoWords(widget.profile.name)),
+          title: Text(getFirstTwoWords(widget.profile.name)),
           elevation: 0,
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
@@ -866,7 +867,7 @@ class _ViewPatientState extends State<ViewPatient> {
                                 initialTab: 0,
                                 profile: widget.profile,
                                 patientName:
-                                    _getFirstTwoWords(widget.profile.name)),
+                                    getFirstTwoWords(widget.profile.name)),
                           ),
                         );
                       },
@@ -1030,13 +1031,4 @@ class _ViewPatientState extends State<ViewPatient> {
       ),
     );
   }
-}
-
-// Function to get the first two words from a string
-String _getFirstTwoWords(String fullName) {
-  // Split the string into words
-  List<String> words = fullName.split(' ');
-
-  // Take the first two words and join them back into a string
-  return words.take(2).join(' ');
 }

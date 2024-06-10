@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klinik_alya_iman_mobile_app/app_drawer/app_drawer_system_admin.dart';
 
 import '../../../models/appointment.dart';
 import '../../../models/profile.dart';
@@ -122,9 +121,12 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
       MaterialPageRoute(
         builder: (context) => ViewAppointment(
           appointment: appointment,
-          user: widget.user,
+          actualUser: widget.user,
+          viewedUser: widget.user,
           profile: tempProfile,
           autoImplyLeading: false,
+          sharedAppointments: false,
+          appointmentByPractitioner: false,
         ),
       ),
     );
@@ -219,6 +221,7 @@ class _ManageAppointmentAdminState extends State<ManageAppointmentAdmin> {
                           builder: (context) => ManageUser(
                             user: widget.user,
                             autoImplyLeading: false,
+                            initialTab: 0,
                           ),
                         ),
                       );

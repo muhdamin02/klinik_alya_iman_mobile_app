@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:klinik_alya_iman_mobile_app/pages/profile_management/first_profile.dart';
 
-import '../../app_drawer/app_drawer_logout.dart';
 import '../../models/profile.dart';
 import '../../models/user.dart';
 import '../../services/database_service.dart';
+import '../../services/misc_methods/get_first_two_words.dart';
 import '../../services/misc_methods/notification_singleton.dart';
 import '../../services/notification_service.dart';
 import '../startup/login.dart';
@@ -337,7 +337,7 @@ class _ListProfileState extends State<ListProfile> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      _getFirstTwoWords(profile.name),
+                                      getFirstTwoWords(profile.name),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
@@ -404,13 +404,4 @@ class _ListProfileState extends State<ListProfile> {
       ),
     );
   }
-}
-
-// Function to get the first two words from a string
-String _getFirstTwoWords(String fullName) {
-  // Split the string into words
-  List<String> words = fullName.split(' ');
-
-  // Take the first two words and join them back into a string
-  return words.take(2).join(' ');
 }
