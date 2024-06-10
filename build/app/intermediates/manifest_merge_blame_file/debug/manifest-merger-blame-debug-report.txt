@@ -13,8 +13,8 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\debug\AndroidManifest.xml:6:5-66
-15-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\debug\AndroidManifest.xml:6:22-64
+15-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:6:1-62
+15-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:6:18-60
 16    <uses-permission
 16-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:2:1-3:38
 17        android:name="android.permission.SCHEDULE_EXACT_ALARM"
@@ -24,257 +24,274 @@
 19    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 19-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:4:1-70
 19-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:4:18-67
-20    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+20    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
 20-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:5:1-76
 20-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:5:18-74
-21    <uses-permission
-21-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-12:38
-22        android:name="android.permission.READ_EXTERNAL_STORAGE"
-22-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-64
-23        android:maxSdkVersion="32" />
-23-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-35
-24    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-24-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-76
-24-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-73
-25    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-25-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:14:5-75
-25-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:14:22-72
-26    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-26-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-75
-26-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:15:22-72
-27
-28    <queries>
-28-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-35:15
-29        <package android:name="com.google.android.apps.maps" />
-29-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-64
-29-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-61
-30        <package android:name="com.google.android.apps.mapslite" />
-30-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-68
-30-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:11:18-65
-31        <package android:name="com.autonavi.minimap" />
-31-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-56
-31-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:12:18-53
-32        <package android:name="com.baidu.BaiduMap" />
-32-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-54
-32-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:13:18-51
-33        <package android:name="com.waze" />
-33-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-44
-33-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:14:18-41
-34        <package android:name="ru.yandex.yandexnavi" />
-34-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:15:9-56
-34-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:15:18-53
-35        <package android:name="ru.yandex.yandexmaps" />
-35-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-56
-35-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:16:18-53
-36        <package android:name="com.citymapper.app.release" />
-36-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-62
-36-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:17:18-59
-37        <package android:name="com.mapswithme.maps.pro" />
-37-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-59
-37-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:18:18-56
-38        <package android:name="net.osmand" />
-38-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:19:9-46
-38-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:19:18-43
-39        <package android:name="net.osmand.plus" />
-39-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-51
-39-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:20:18-48
-40        <package android:name="ru.dublgis.dgismobile" />
-40-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-57
-40-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:21:18-54
-41        <package android:name="com.tencent.map" />
-41-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:22:9-51
-41-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:22:18-48
-42        <package android:name="com.here.app.maps" />
-42-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-53
-42-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:23:18-50
-43        <package android:name="com.huawei.maps.app" />
-43-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:24:9-55
-43-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:24:18-52
-44        <package android:name="com.alk.copilot.mapviewer" />
-44-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:25:9-61
-44-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:25:18-58
-45        <package android:name="com.tomtom.gplay.navapp" />
-45-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-59
-45-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:26:18-56
-46        <package android:name="com.tomtom.gplay.navapp.gofleet" />
-46-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:27:9-67
-46-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:27:18-64
-47        <package android:name="com.sygic.truck" />
-47-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-51
-47-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:28:18-48
-48        <package android:name="nl.flitsmeister" />
-48-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:29:9-51
-48-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:29:18-48
-49        <package android:name="nl.flitsmeister.flux" />
-49-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:30:9-56
-49-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:30:18-53
-50        <package android:name="com.nhn.android.nmap" />
-50-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:31:9-56
-50-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:31:18-53
-51        <package android:name="net.daum.android.map" />
-51-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:32:9-56
-51-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:32:18-53
-52        <package android:name="com.skt.tmap.ku" />
-52-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:33:9-51
-52-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:33:18-48
-53        <package android:name="cz.seznam.mapy" />
-53-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:34:9-50
-53-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:34:18-47
-54    </queries>
-55
-56    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-56-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-81
-56-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-78
-57    <uses-permission android:name="android.permission.VIBRATE" />
-57-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-66
-57-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-63
-58    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-58-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-81
-58-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-78
-59    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-59-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-77
-59-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
-60
-61    <permission
-61-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
-62        android:name="com.example.klinik_alya_iman_mobile_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-62-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
-63        android:protectionLevel="signature" />
-63-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
-64
-65    <uses-permission android:name="com.example.klinik_alya_iman_mobile_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" /> <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
-65-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
-65-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
-66    <application
-67        android:name="android.app.Application"
-68        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-68-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
-69        android:debuggable="true"
-70        android:icon="@mipmap/ic_launcher"
-71        android:label="Alya Iman" >
-72        <activity
-73            android:name="com.example.klinik_alya_iman_mobile_app.MainActivity"
-74            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-75            android:exported="true"
-76            android:hardwareAccelerated="true"
-77            android:launchMode="singleTop"
-78            android:theme="@style/LaunchTheme"
-79            android:windowSoftInputMode="adjustResize" >
-80
-81            <!--
-82                 Specifies an Android theme to apply to this Activity as soon as
-83                 the Android process has started. This theme is visible to the user
-84                 while the Flutter UI initializes. After that, this theme continues
-85                 to determine the Window background behind the Flutter UI.
-86            -->
-87            <meta-data
-88                android:name="io.flutter.embedding.android.NormalTheme"
-89                android:resource="@style/NormalTheme" />
-90
-91            <intent-filter>
-92                <action android:name="android.intent.action.MAIN" />
-93
-94                <category android:name="android.intent.category.LAUNCHER" />
-95            </intent-filter>
-96        </activity>
-97        <!--
-98             Don't delete the meta-data below.
-99             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-100        -->
-101        <meta-data
-102            android:name="flutterEmbedding"
-103            android:value="2" />
-104
-105        <provider
-105-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-27:20
-106            android:name="com.crazecoder.openfile.FileProvider"
-106-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-64
-107            android:authorities="com.example.klinik_alya_iman_mobile_app.fileProvider.com.crazecoder.openfile"
-107-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:20:13-88
-108            android:exported="false"
-108-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-37
-109            android:grantUriPermissions="true" >
-109-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-47
-110            <meta-data
-110-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-26:53
-111                android:name="android.support.FILE_PROVIDER_PATHS"
-111-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:25:17-67
-112                android:resource="@xml/filepaths" />
-112-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:26:17-50
-113        </provider>
-114
-115        <receiver
-115-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-18:40
-116            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
-116-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-97
-117            android:exported="false" />
-117-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
-118        <receiver
-118-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:19:9-28:20
-119            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
-119-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:20:13-101
-120            android:exported="false" >
-120-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-37
-121            <intent-filter>
-121-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-27:29
-122                <action android:name="android.intent.action.BOOT_COMPLETED" />
-122-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:23:17-79
-122-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:23:25-76
-123                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-123-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-84
-123-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-81
-124                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-124-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:25:17-82
-124-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:25:25-79
-125                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-125-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:26:17-82
-125-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:26:25-79
-126            </intent-filter>
-127        </receiver>
-128
-129        <activity
-129-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
-130            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-130-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
-131            android:exported="false"
-131-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
-132            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-132-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
-133
-134        <uses-library
-134-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-135            android:name="androidx.window.extensions"
-135-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-136            android:required="false" />
-136-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
-137        <uses-library
-137-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-138            android:name="androidx.window.sidecar"
-138-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
-139            android:required="false" />
-139-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-140
-141        <provider
-141-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-142            android:name="androidx.startup.InitializationProvider"
-142-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-143            android:authorities="com.example.klinik_alya_iman_mobile_app.androidx-startup"
-143-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
-144            android:exported="false" >
-144-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
-145            <meta-data
-145-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-146                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-146-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-147                android:value="androidx.startup" />
-147-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
-148            <meta-data
-148-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-149                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-149-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-150                android:value="androidx.startup" />
-150-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-151        </provider>
-152    </application>
-153
-154</manifest>
+21    <queries>
+21-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:9:1-17:11
+22        <intent>
+22-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:10:5-13:14
+23            <action android:name="android.intent.action.VIEW" />
+23-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:11:9-61
+23-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:11:17-58
+24
+25            <data android:scheme="tel" />
+25-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:12:13-42
+25-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:12:19-39
+26        </intent>
+27        <intent>
+27-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:14:5-16:14
+28            <action android:name="android.support.customtabs.action.CustomTabsService" />
+28-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:15:9-86
+28-->C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\android\app\src\main\AndroidManifest.xml:15:17-83
+29        </intent>
+30
+31        <package android:name="com.google.android.apps.maps" />
+31-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-64
+31-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-61
+32        <package android:name="com.google.android.apps.mapslite" />
+32-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-68
+32-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:11:18-65
+33        <package android:name="com.autonavi.minimap" />
+33-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-56
+33-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:12:18-53
+34        <package android:name="com.baidu.BaiduMap" />
+34-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:13:9-54
+34-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:13:18-51
+35        <package android:name="com.waze" />
+35-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-44
+35-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:14:18-41
+36        <package android:name="ru.yandex.yandexnavi" />
+36-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:15:9-56
+36-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:15:18-53
+37        <package android:name="ru.yandex.yandexmaps" />
+37-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-56
+37-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:16:18-53
+38        <package android:name="com.citymapper.app.release" />
+38-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:17:9-62
+38-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:17:18-59
+39        <package android:name="com.mapswithme.maps.pro" />
+39-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-59
+39-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:18:18-56
+40        <package android:name="net.osmand" />
+40-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:19:9-46
+40-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:19:18-43
+41        <package android:name="net.osmand.plus" />
+41-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-51
+41-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:20:18-48
+42        <package android:name="ru.dublgis.dgismobile" />
+42-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:21:9-57
+42-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:21:18-54
+43        <package android:name="com.tencent.map" />
+43-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:22:9-51
+43-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:22:18-48
+44        <package android:name="com.here.app.maps" />
+44-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:23:9-53
+44-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:23:18-50
+45        <package android:name="com.huawei.maps.app" />
+45-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:24:9-55
+45-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:24:18-52
+46        <package android:name="com.alk.copilot.mapviewer" />
+46-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:25:9-61
+46-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:25:18-58
+47        <package android:name="com.tomtom.gplay.navapp" />
+47-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:26:9-59
+47-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:26:18-56
+48        <package android:name="com.tomtom.gplay.navapp.gofleet" />
+48-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:27:9-67
+48-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:27:18-64
+49        <package android:name="com.sygic.truck" />
+49-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-51
+49-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:28:18-48
+50        <package android:name="nl.flitsmeister" />
+50-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:29:9-51
+50-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:29:18-48
+51        <package android:name="nl.flitsmeister.flux" />
+51-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:30:9-56
+51-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:30:18-53
+52        <package android:name="com.nhn.android.nmap" />
+52-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:31:9-56
+52-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:31:18-53
+53        <package android:name="net.daum.android.map" />
+53-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:32:9-56
+53-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:32:18-53
+54        <package android:name="com.skt.tmap.ku" />
+54-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:33:9-51
+54-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:33:18-48
+55        <package android:name="cz.seznam.mapy" />
+55-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:34:9-50
+55-->[:map_launcher] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\map_launcher\intermediates\merged_manifest\debug\AndroidManifest.xml:34:18-47
+56    </queries>
+57
+58    <uses-permission
+58-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-12:38
+59        android:name="android.permission.READ_EXTERNAL_STORAGE"
+59-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-64
+60        android:maxSdkVersion="32" />
+60-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:12:9-35
+61    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+61-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-76
+61-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-73
+62    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+62-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:14:5-75
+62-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:14:22-72
+63    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+63-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:15:5-75
+63-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:15:22-72
+64    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+64-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-81
+64-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-78
+65    <uses-permission android:name="android.permission.VIBRATE" />
+65-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-66
+65-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-63
+66    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+66-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-81
+66-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-78
+67    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+67-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-77
+67-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
+68
+69    <permission
+69-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
+70        android:name="com.example.klinik_alya_iman_mobile_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+70-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
+71        android:protectionLevel="signature" />
+71-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
+72
+73    <uses-permission android:name="com.example.klinik_alya_iman_mobile_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+73-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+73-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
+74
+75    <application
+76        android:name="android.app.Application"
+77        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+77-->[androidx.core:core:1.10.1] C:\Users\aminy\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
+78        android:debuggable="true"
+79        android:icon="@mipmap/ic_launcher"
+80        android:label="Alya Iman" >
+81        <activity
+82            android:name="com.example.klinik_alya_iman_mobile_app.MainActivity"
+83            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+84            android:exported="true"
+85            android:hardwareAccelerated="true"
+86            android:launchMode="singleTop"
+87            android:theme="@style/LaunchTheme"
+88            android:windowSoftInputMode="adjustResize" >
+89
+90            <!--
+91                 Specifies an Android theme to apply to this Activity as soon as
+92                 the Android process has started. This theme is visible to the user
+93                 while the Flutter UI initializes. After that, this theme continues
+94                 to determine the Window background behind the Flutter UI.
+95            -->
+96            <meta-data
+97                android:name="io.flutter.embedding.android.NormalTheme"
+98                android:resource="@style/NormalTheme" />
+99
+100            <intent-filter>
+101                <action android:name="android.intent.action.MAIN" />
+102
+103                <category android:name="android.intent.category.LAUNCHER" />
+104            </intent-filter>
+105        </activity>
+106        <!--
+107             Don't delete the meta-data below.
+108             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+109        -->
+110        <meta-data
+111            android:name="flutterEmbedding"
+112            android:value="2" />
+113
+114        <provider
+114-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:18:9-27:20
+115            android:name="com.crazecoder.openfile.FileProvider"
+115-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-64
+116            android:authorities="com.example.klinik_alya_iman_mobile_app.fileProvider.com.crazecoder.openfile"
+116-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:20:13-88
+117            android:exported="false"
+117-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-37
+118            android:grantUriPermissions="true" >
+118-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-47
+119            <meta-data
+119-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:24:13-26:53
+120                android:name="android.support.FILE_PROVIDER_PATHS"
+120-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:25:17-67
+121                android:resource="@xml/filepaths" />
+121-->[:open_filex] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\open_filex\intermediates\merged_manifest\debug\AndroidManifest.xml:26:17-50
+122        </provider>
+123
+124        <receiver
+124-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-18:40
+125            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+125-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-97
+126            android:exported="false" />
+126-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
+127        <receiver
+127-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:19:9-28:20
+128            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+128-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:20:13-101
+129            android:exported="false" >
+129-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-37
+130            <intent-filter>
+130-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-27:29
+131                <action android:name="android.intent.action.BOOT_COMPLETED" />
+131-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:23:17-79
+131-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:23:25-76
+132                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+132-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-84
+132-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-81
+133                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+133-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:25:17-82
+133-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:25:25-79
+134                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+134-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:26:17-82
+134-->[:flutter_local_notifications] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:26:25-79
+135            </intent-filter>
+136        </receiver>
+137
+138        <activity
+138-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
+139            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+139-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
+140            android:exported="false"
+140-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
+141            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+141-->[:url_launcher_android] C:\Users\aminy\Amin\unikl-amin\sem-5\fyp 1\Project\Mobile App\Test 7\klinik_alya_iman_mobile_app\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
+142
+143        <uses-library
+143-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+144            android:name="androidx.window.extensions"
+144-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+145            android:required="false" />
+145-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+146        <uses-library
+146-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+147            android:name="androidx.window.sidecar"
+147-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+148            android:required="false" />
+148-->[androidx.window:window:1.0.0-beta04] C:\Users\aminy\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+149
+150        <provider
+150-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+151            android:name="androidx.startup.InitializationProvider"
+151-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+152            android:authorities="com.example.klinik_alya_iman_mobile_app.androidx-startup"
+152-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+153            android:exported="false" >
+153-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+154            <meta-data
+154-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+155                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+155-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+156                android:value="androidx.startup" />
+156-->[androidx.emoji2:emoji2:1.2.0] C:\Users\aminy\.gradle\caches\transforms-3\e04bc3769bedd8dd6f8ca688986b0355\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+157            <meta-data
+157-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+158                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+158-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+159                android:value="androidx.startup" />
+159-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\aminy\.gradle\caches\transforms-3\8c1e738388b632b23acecc5b0cf3e292\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+160        </provider>
+161    </application>
+162
+163</manifest>
