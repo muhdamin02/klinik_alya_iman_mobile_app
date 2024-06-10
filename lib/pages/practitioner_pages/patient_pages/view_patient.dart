@@ -4,6 +4,11 @@ import 'package:intl/intl.dart';
 import '../../../models/profile.dart';
 import '../../../models/user.dart';
 import '../../../services/database_service.dart';
+import '../manage_appointment.dart';
+import '../practitioner_home.dart';
+import '../practitioner_profile_page.dart';
+import '../shared_appointments.dart';
+import 'view_patients_list.dart';
 
 class ViewPatient extends StatefulWidget {
   final User user;
@@ -94,7 +99,7 @@ class _ViewPatientState extends State<ViewPatient> {
     return WillPopScope(
       onWillPop: () async {
         // Return false to prevent the user from navigating back
-        return true;
+        return widget.autoImplyLeading;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -103,7 +108,107 @@ class _ViewPatientState extends State<ViewPatient> {
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56.0, // Adjust the height as needed
+          child: BottomAppBar(
+            color: const Color(
+              0xFF0A0F2C,
+            ), // Set the background color of the BottomAppBar
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.person),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerProfilePage(
+                            actualUser: widget.user,
+                            practitionerUser: widget.user,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.event),
+                    iconSize: 22,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageAppointment(
+                              user: widget.user,
+                              autoImplyLeading: false,
+                              initialTab: 1,
+                              profileId: 0),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PractitionerHome(
+                            user: widget.user,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFEDF2FF,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.groups_3),
+                    iconSize: 25,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PatientsList(
+                            user: widget.user,
+                            autoImplyLeading: false,
+                          ),
+                        ),
+                      );
+                    },
+                    color: const Color(
+                      0xFFFFD271,
+                    ), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.settings),
+                    iconSize: 23,
+                    onPressed: () {},
+                    color: const Color(0xFFEDF2FF), // Set the color of the icon
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -127,8 +232,7 @@ class _ViewPatientState extends State<ViewPatient> {
                         child: Text(
                           'Profile',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF), letterSpacing: 2
-                          ),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2),
                         ),
                       ),
                       Expanded(
@@ -733,8 +837,7 @@ class _ViewPatientState extends State<ViewPatient> {
                         child: Text(
                           'Actions',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF), letterSpacing: 2
-                          ),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2),
                         ),
                       ),
                       Expanded(
@@ -754,7 +857,18 @@ class _ViewPatientState extends State<ViewPatient> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        //
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SharedAppointments(
+                                user: widget.user,
+                                autoImplyLeading: false,
+                                initialTab: 0,
+                                profile: widget.profile,
+                                patientName:
+                                    _getFirstTwoWords(widget.profile.name)),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor:

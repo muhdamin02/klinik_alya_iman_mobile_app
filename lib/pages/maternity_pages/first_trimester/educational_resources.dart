@@ -737,7 +737,7 @@ class SymptomsChanges extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 70.0,
+            height: 60.0,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -935,7 +935,7 @@ class Vaccinations extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 70.0,
+            height: 60.0,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
@@ -1133,7 +1133,7 @@ class MentalHealth extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 70.0,
+            height: 60.0,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {

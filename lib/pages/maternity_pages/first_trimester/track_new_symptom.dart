@@ -8,6 +8,7 @@ import '../../../services/database_service.dart';
 import '../../../services/misc_methods/global_symptom_category.dart';
 import '../../../services/misc_methods/global_symptom_names.dart';
 import '../first_trimester.dart';
+import 'symptoms_list.dart';
 
 class TrackNewSymptom extends StatefulWidget {
   final User user;
@@ -28,7 +29,6 @@ class _TrackNewSymptomState extends State<TrackNewSymptom> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  final List<String> _categories = globalSymptomCategory();
   final List<String> _names = globalSymptomNames();
   // bool _isDateSelected = false;
 
@@ -110,7 +110,7 @@ class _TrackNewSymptomState extends State<TrackNewSymptom> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FirstTrimester(
+                      builder: (context) => SymptomsList(
                         user: widget.user,
                         profile: widget.profile,
                         autoImplyLeading: false,
@@ -167,144 +167,6 @@ class _TrackNewSymptomState extends State<TrackNewSymptom> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // TextFormField(
-                          //   controller: _dateController,
-                          //   decoration: const InputDecoration(
-                          //     border: OutlineInputBorder(),
-                          //     labelText: 'Date',
-                          //   ),
-                          //   readOnly: true,
-                          //   onTap: () {
-                          //     _selectDate(context);
-                          //   },
-                          //   validator: _requiredValidator,
-                          // ),
-                          Autocomplete<String>(
-                            optionsBuilder:
-                                (TextEditingValue textEditingValue) {
-                              if (textEditingValue.text.isEmpty) {
-                                return const Iterable<String>.empty();
-                              }
-                              return _categories
-                                  .where((String option) => option
-                                      .toLowerCase()
-                                      .startsWith(
-                                          textEditingValue.text.toLowerCase()))
-                                  .take(5);
-                            },
-                            onSelected: (String selection) {
-                              _categoryController.text = selection;
-                            },
-                            fieldViewBuilder: (
-                              BuildContext context,
-                              TextEditingController fieldController,
-                              FocusNode focusNode,
-                              VoidCallback onFieldSubmitted,
-                            ) {
-                              return TextField(
-                                controller: fieldController,
-                                focusNode: focusNode,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: const Color(0xFF4D5FC0),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 20.0),
-                                  labelText: 'Symptom Category',
-                                  labelStyle:
-                                      const TextStyle(color: Color(0xFFB6CBFF)),
-                                  counterText:
-                                      '', // This hides the default counter text
-                                ),
-                                maxLength: 35,
-                                onChanged: (text) {
-                                  _categoryController.text = text;
-                                },
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(
-                                      35), // Set the maximum number of characters
-                                ],
-                                buildCounter: (
-                                  BuildContext context, {
-                                  required int currentLength,
-                                  required int? maxLength,
-                                  required bool isFocused,
-                                }) {
-                                  return Text(
-                                    '$currentLength / $maxLength',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: isFocused
-                                          ? const Color(0xFFB6CBFF)
-                                          : const Color(0x00FFFFFF),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            optionsViewBuilder: (
-                              BuildContext context,
-                              AutocompleteOnSelected<String> onSelected,
-                              Iterable<String> options,
-                            ) {
-                              int itemCount = options.length;
-                              double boxHeight = itemCount * 52.0;
-                              return Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 66),
-                                  child: Material(
-                                    elevation: 0,
-                                    color: Colors.transparent,
-                                    child: SizedBox(
-                                      height: boxHeight,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF303E8F),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: ListView.builder(
-                                          padding: EdgeInsets.zero,
-                                          itemCount: itemCount,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            final String option =
-                                                options.elementAt(index);
-                                            return InkWell(
-                                              onTap: () {
-                                                onSelected(option);
-                                              },
-                                              child: Container(
-                                                // Customize the color of each suggestion item here
-                                                padding:
-                                                    const EdgeInsets.all(16.0),
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xFF303E8F),
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                child: Text(
-                                                  option,
-                                                  style: const TextStyle(
-                                                      color: Color(
-                                                          0xFFB6CBFF)), // Customize the text color here
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 8.0),
                           Autocomplete<String>(
                             optionsBuilder:
                                 (TextEditingValue textEditingValue) {
@@ -327,7 +189,7 @@ class _TrackNewSymptomState extends State<TrackNewSymptom> {
                               FocusNode focusNode,
                               VoidCallback onFieldSubmitted,
                             ) {
-                              return TextField(
+                              return TextFormField(
                                 controller: fieldController,
                                 focusNode: focusNode,
                                 decoration: InputDecoration(
@@ -344,6 +206,14 @@ class _TrackNewSymptomState extends State<TrackNewSymptom> {
                                   counterText:
                                       '', // This hides the default counter text
                                 ),
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      value == '') {
+                                    return 'Enter a symptom';
+                                  }
+                                  return null;
+                                },
                                 maxLength: 35,
                                 onChanged: (text) {
                                   _nameController.text = text;

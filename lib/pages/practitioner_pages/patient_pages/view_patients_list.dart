@@ -134,7 +134,8 @@ class _PatientsListState extends State<PatientsList> {
                           builder: (context) => ManageAppointment(
                               user: widget.user,
                               autoImplyLeading: false,
-                              initialTab: 1),
+                              initialTab: 1,
+                              profileId: 0),
                         ),
                       );
                     },
@@ -162,7 +163,7 @@ class _PatientsListState extends State<PatientsList> {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: const Icon(Icons.group),
+                    icon: const Icon(Icons.groups_3),
                     iconSize: 30,
                     onPressed: () {},
                     color: const Color(

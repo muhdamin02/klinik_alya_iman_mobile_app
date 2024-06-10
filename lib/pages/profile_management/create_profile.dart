@@ -107,10 +107,10 @@ class _CreateProfileState extends State<CreateProfile> {
         maternity_due: 'Not set',
         ethnicity: selectedEthnicity,
         marital_status: selectedMaritalStatus,
-        occupation: 'Placeholder',
-        medical_alert: 'Placeholder',
-        profile_pic: 'Placeholder',
-        creation_date: 'Placeholder',
+        occupation: 'Not set',
+        medical_alert: 'Not set',
+        profile_pic: 'Not set',
+        creation_date: DateTime.now().toString(),
         user_id: widget.user.user_id!,
       );
 
@@ -255,8 +255,7 @@ class _CreateProfileState extends State<CreateProfile> {
                               child: Text(
                                 'Patient Information',
                                 style: TextStyle(
-                                  color: Color(0xFFEDF2FF), letterSpacing: 2
-                                ),
+                                    color: Color(0xFFEDF2FF), letterSpacing: 2),
                               ),
                             ),
                             Expanded(

@@ -743,7 +743,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                             builder: (context) => ManageAppointment(
                                 user: widget.user,
                                 autoImplyLeading: false,
-                                initialTab: 1),
+                                initialTab: 1, profileId: 0),
                           ),
                         );
                       },

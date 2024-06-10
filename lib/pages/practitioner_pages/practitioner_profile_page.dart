@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/practitioner_profile.dart';
 import '../../models/user.dart';
@@ -44,6 +45,36 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
     setState(() {
       _practitionerInfo = practitionerInfo;
     });
+  }
+
+  Future<void> _launchPhoneNumber(String phoneNumber) async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(phoneUri)) {
+      await launchUrl(phoneUri);
+    } else {
+      throw 'Could not launch $phoneUri';
+    }
+  }
+
+  Future<void> _launchEmail(String email) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: _encodeQueryParameters(<String, String>{
+        'subject': 'Query about Klinik Alya Iman',
+        'body': 'Hello, I want to ask about...'
+      }),
+    );
+    if (!await launchUrl(emailUri)) {
+      throw 'Could not launch $emailUri';
+    }
+  }
+
+  String _encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((MapEntry<String, String> e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
 
   @override
@@ -148,7 +179,8 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                                 builder: (context) => ManageAppointment(
                                     user: widget.actualUser,
                                     autoImplyLeading: false,
-                                    initialTab: 1),
+                                    initialTab: 1,
+                                    profileId: 0),
                               ),
                             );
                           },
@@ -176,7 +208,7 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                         ),
                         const Spacer(),
                         IconButton(
-                          icon: const Icon(Icons.group),
+                          icon: const Icon(Icons.groups_3),
                           iconSize: 25,
                           onPressed: () {
                             Navigator.push(
@@ -237,8 +269,7 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                           child: Text(
                             'Profile',
                             style: TextStyle(
-                              color: Color(0xFFEDF2FF), letterSpacing: 2
-                            ),
+                                color: Color(0xFFEDF2FF), letterSpacing: 2),
                           ),
                         ),
                         Expanded(
@@ -253,172 +284,200 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                   const SizedBox(height: 16.0),
                   SizedBox(
                     width: double.infinity, // Adjust padding as needed
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(30.0), // Adjust the radius
-                      ),
-                      elevation: 0, // Set the elevation for the card
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle onTap action here
-                              },
-                              child: const Row(
-                                children: [
-                                  Text(
-                                    "FULL NAME",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          backgroundColor: const Color(0xFF303E8F),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 28.0, horizontal: 12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle onTap action here
+                                },
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      "FULL NAME",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          8), // Add some spacing between text and icon
-                                  Icon(
-                                    Icons.lock,
-                                    color: Color(
-                                        0xFFB6CBFF), // Set the color of the icon
-                                    size:
-                                        16, // Adjust the size of the icon as needed
-                                  ),
-                                ],
+                                    if (widget.actualUser.role ==
+                                        'practitioner')
+                                      const SizedBox(
+                                          width:
+                                              8), // Add some spacing between text and icon
+                                    if (widget.actualUser.role ==
+                                        'practitioner')
+                                      const Icon(
+                                        Icons.lock,
+                                        color: Color(
+                                            0xFFB6CBFF), // Set the color of the icon
+                                        size:
+                                            16, // Adjust the size of the icon as needed
+                                      ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              practitioner.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFEDF2FF),
+                              const SizedBox(height: 8),
+                              Text(
+                                practitioner.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
                           width: double.infinity, // Adjust padding as needed
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30.0), // Adjust the radius
-                            ),
-                            elevation: 0, // Set the elevation for the card
-                            color: const Color(0xFF303E8F),
-                            child: Padding(
-                              padding: const EdgeInsets.all(28.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Handle onTap action here
-                                    },
-                                    child: const Row(
-                                      children: [
-                                        Text(
-                                          "BIRTH DATE",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            color: Color(0xFFB6CBFF),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                backgroundColor: const Color(0xFF303E8F),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0, horizontal: 12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Handle onTap action here
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "BIRTH DATE",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color(0xFFB6CBFF),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                8), // Add some spacing between text and icon
-                                        Icon(
-                                          Icons.lock,
-                                          color: Color(
-                                              0xFFB6CBFF), // Set the color of the icon
-                                          size:
-                                              16, // Adjust the size of the icon as needed
-                                        ),
-                                      ],
+                                          if (widget.actualUser.role ==
+                                              'practitioner')
+                                            const SizedBox(
+                                                width:
+                                                    8), // Add some spacing between text and icon
+                                          if (widget.actualUser.role ==
+                                              'practitioner')
+                                            const Icon(
+                                              Icons.lock,
+                                              color: Color(
+                                                  0xFFB6CBFF), // Set the color of the icon
+                                              size:
+                                                  16, // Adjust the size of the icon as needed
+                                            ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    practitioner.dob,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFEDF2FF),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      practitioner.dob,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 4),
                       Expanded(
                         child: SizedBox(
                           width: double.infinity, // Adjust padding as needed
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30.0), // Adjust the radius
-                            ),
-                            elevation: 0, // Set the elevation for the card
-                            color: const Color(0xFF303E8F),
-                            child: Padding(
-                              padding: const EdgeInsets.all(28.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Handle onTap action here
-                                    },
-                                    child: const Row(
-                                      children: [
-                                        Text(
-                                          "GENDER",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            color: Color(0xFFB6CBFF),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                backgroundColor: const Color(0xFF303E8F),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0, horizontal: 12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Handle onTap action here
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "GENDER",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color(0xFFB6CBFF),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                8), // Add some spacing between text and icon
-                                        Icon(
-                                          Icons.lock,
-                                          color: Color(
-                                              0xFFB6CBFF), // Set the color of the icon
-                                          size:
-                                              16, // Adjust the size of the icon as needed
-                                        ),
-                                      ],
+                                          if (widget.actualUser.role ==
+                                              'practitioner')
+                                            const SizedBox(
+                                                width:
+                                                    8), // Add some spacing between text and icon
+                                          if (widget.actualUser.role ==
+                                              'practitioner')
+                                            const Icon(
+                                              Icons.lock,
+                                              color: Color(
+                                                  0xFFB6CBFF), // Set the color of the icon
+                                              size:
+                                                  16, // Adjust the size of the icon as needed
+                                            ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    practitioner.gender!,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFEDF2FF),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      practitioner.gender!,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -426,28 +485,32 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity, // Adjust padding as needed
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(30.0), // Adjust the radius
-                      ),
-                      elevation: 0, // Set the elevation for the card
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle onTap action here
-                              },
-                              child: const Row(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (widget.actualUser.role != 'practitioner') {
+                            _launchEmail(practitioner.email);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          backgroundColor: const Color(0xFF303E8F),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 28.0, horizontal: 12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "EMAIL",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -455,58 +518,72 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                                       color: Color(0xFFB6CBFF),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                       width:
                                           8), // Add some spacing between text and icon
-                                  Icon(
-                                    Icons.edit,
-                                    color: Color(
-                                        0xFFFFD271), // Set the color of the icon
-                                    size:
-                                        16, // Adjust the size of the icon as needed
-                                  ),
+                                  if (widget.actualUser.role == 'practitioner')
+                                    const Icon(
+                                      Icons.edit,
+                                      color: Color(
+                                          0xFFFFD271), // Set the color of the icon
+                                      size:
+                                          16, // Adjust the size of the icon as needed
+                                    ),
+                                  if (widget.actualUser.role != 'practitioner')
+                                    const Icon(
+                                      Icons.mail_rounded,
+                                      color: Color(
+                                          0xFFB6CBFF), // Set the color of the icon
+                                      size:
+                                          16, // Adjust the size of the icon as needed
+                                    ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              practitioner.email,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFEDF2FF),
+                              const SizedBox(height: 8),
+                              Text(
+                                practitioner.email,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
                           width: double.infinity, // Adjust padding as needed
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30.0), // Adjust the radius
-                            ),
-                            elevation: 0, // Set the elevation for the card
-                            color: const Color(0xFF303E8F),
-                            child: Padding(
-                              padding: const EdgeInsets.all(28.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Handle onTap action here
-                                    },
-                                    child: const Row(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (widget.actualUser.role != 'practitioner') {
+                                  _launchPhoneNumber(practitioner.phone);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                backgroundColor: const Color(0xFF303E8F),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0, horizontal: 12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
                                       children: [
-                                        Text(
+                                        const Text(
                                           "PHONE",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
@@ -514,87 +591,107 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                                             color: Color(0xFFB6CBFF),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                             width:
                                                 8), // Add some spacing between text and icon
-                                        Icon(
-                                          Icons.edit,
-                                          color: Color(
-                                              0xFFFFD271), // Set the color of the icon
-                                          size:
-                                              16, // Adjust the size of the icon as needed
-                                        ),
+                                        if (widget.actualUser.role ==
+                                            'practitioner')
+                                          const Icon(
+                                            Icons.edit,
+                                            color: Color(
+                                                0xFFFFD271), // Set the color of the icon
+                                            size:
+                                                16, // Adjust the size of the icon as needed
+                                          ),
+                                        if (widget.actualUser.role !=
+                                            'practitioner')
+                                          const Icon(
+                                            Icons.phone,
+                                            color: Color(
+                                                0xFFB6CBFF), // Set the color of the icon
+                                            size:
+                                                16, // Adjust the size of the icon as needed
+                                          ),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    practitioner.phone,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFEDF2FF),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      practitioner.phone,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 4),
                       Expanded(
                         child: SizedBox(
                           width: double.infinity, // Adjust padding as needed
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30.0), // Adjust the radius
-                            ),
-                            elevation: 0, // Set the elevation for the card
-                            color: const Color(0xFF303E8F),
-                            child: Padding(
-                              padding: const EdgeInsets.all(28.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Handle onTap action here
-                                    },
-                                    child: const Row(
-                                      children: [
-                                        Text(
-                                          "BRANCH",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                            color: Color(0xFFB6CBFF),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                backgroundColor: const Color(0xFF303E8F),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 28.0, horizontal: 12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Handle onTap action here
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Text(
+                                            "BRANCH",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              color: Color(0xFFB6CBFF),
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                8), // Add some spacing between text and icon
-                                        Icon(
-                                          Icons.lock,
-                                          color: Color(
-                                              0xFFB6CBFF), // Set the color of the icon
-                                          size:
-                                              16, // Adjust the size of the icon as needed
-                                        ),
-                                      ],
+                                          if (widget.actualUser.role ==
+                                              'practitioner')
+                                            const SizedBox(
+                                                width:
+                                                    8), // Add some spacing between text and icon
+                                          if (widget.actualUser.role ==
+                                              'practitioner')
+                                            const Icon(
+                                              Icons.lock,
+                                              color: Color(
+                                                  0xFFB6CBFF), // Set the color of the icon
+                                              size:
+                                                  16, // Adjust the size of the icon as needed
+                                            ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    practitioner.branch,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFEDF2FF),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      practitioner.branch,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFEDF2FF),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -602,114 +699,67 @@ class _PractitionerProfilePageState extends State<PractitionerProfilePage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity, // Adjust padding as needed
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(30.0), // Adjust the radius
-                      ),
-                      elevation: 0, // Set the elevation for the card
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle onTap action here
-                              },
-                              child: const Row(
-                                children: [
-                                  Text(
-                                    "SPECIALIZATION",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          8), // Add some spacing between text and icon
-                                  Icon(
-                                    Icons.edit,
-                                    color: Color(
-                                        0xFFFFD271), // Set the color of the icon
-                                    size:
-                                        16, // Adjust the size of the icon as needed
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              practitioner.specialization,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFEDF2FF),
-                              ),
-                            ),
-                          ],
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          backgroundColor: const Color(0xFF303E8F),
                         ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  SizedBox(
-                    width: double.infinity, // Adjust padding as needed
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(30.0), // Adjust the radius
-                      ),
-                      elevation: 0, // Set the elevation for the card
-                      color: const Color(0xFF303E8F),
-                      child: Padding(
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle onTap action here
-                              },
-                              child: const Row(
-                                children: [
-                                  Text(
-                                    "QUALIFICATIONS",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      color: Color(0xFFB6CBFF),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 28.0, horizontal: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Handle onTap action here
+                                },
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      "SPECIALIZATION",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        color: Color(0xFFB6CBFF),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                      width:
-                                          8), // Add some spacing between text and icon
-                                  Icon(
-                                    Icons.edit,
-                                    color: Color(
-                                        0xFFFFD271), // Set the color of the icon
-                                    size:
-                                        16, // Adjust the size of the icon as needed
-                                  ),
-                                ],
+                                    if (widget.actualUser.role ==
+                                        'practitioner')
+                                      const SizedBox(
+                                          width:
+                                              8), // Add some spacing between text and icon
+                                    if (widget.actualUser.role ==
+                                        'practitioner')
+                                      const Icon(
+                                        Icons.edit,
+                                        color: Color(
+                                            0xFFFFD271), // Set the color of the icon
+                                        size:
+                                            16, // Adjust the size of the icon as needed
+                                      ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              practitioner.qualifications,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xFFEDF2FF),
+                              const SizedBox(height: 8),
+                              Text(
+                                practitioner.specialization,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Color(0xFFEDF2FF),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

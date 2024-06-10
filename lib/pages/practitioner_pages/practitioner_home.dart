@@ -175,7 +175,8 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                           builder: (context) => ManageAppointment(
                               user: widget.user,
                               autoImplyLeading: false,
-                              initialTab: 1),
+                              initialTab: 1,
+                              profileId: 0),
                         ),
                       );
                     },
@@ -196,7 +197,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: const Icon(Icons.group),
+                    icon: const Icon(Icons.groups_3),
                     iconSize: 25,
                     onPressed: () {
                       Navigator.push(
@@ -248,8 +249,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         child: Text(
                           'My Appointments',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF), letterSpacing: 2
-                          ),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2),
                         ),
                       ),
                       Expanded(
@@ -275,6 +275,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                               user: widget.user,
                               autoImplyLeading: true,
                               initialTab: 1,
+                              profileId: 0,
                             ),
                           ),
                         );
@@ -339,6 +340,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                                     user: widget.user,
                                     autoImplyLeading: true,
                                     initialTab: 0,
+                                    profileId: 0,
                                   ),
                                 ),
                               );
@@ -402,6 +404,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                                     user: widget.user,
                                     autoImplyLeading: true,
                                     initialTab: 2,
+                                    profileId: 0,
                                   ),
                                 ),
                               );
@@ -468,8 +471,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         child: Text(
                           'My Patients',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF), letterSpacing: 2
-                          ),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2),
                         ),
                       ),
                       Expanded(
@@ -605,8 +607,7 @@ class _PractitionerHomeState extends State<PractitionerHome> {
                         child: Text(
                           'My Profile',
                           style: TextStyle(
-                            color: Color(0xFFEDF2FF), letterSpacing: 2
-                          ),
+                              color: Color(0xFFEDF2FF), letterSpacing: 2),
                         ),
                       ),
                       Expanded(

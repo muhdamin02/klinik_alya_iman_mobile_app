@@ -10,136 +10,58 @@ import '../../services/misc_methods/get_icon_status_color.dart';
 import '../appointment_management/update_appointment.dart';
 import '../appointment_management/view_appointment.dart';
 import '../startup/login.dart';
+import 'manage_appointment.dart';
+import 'patient_pages/view_patient.dart';
 import 'patient_pages/view_patients_list.dart';
 import 'practitioner_home.dart';
 import 'practitioner_profile_page.dart';
 
-class ManageAppointment extends StatefulWidget {
+class SharedAppointments extends StatefulWidget {
   final User user;
   final bool autoImplyLeading;
   final int initialTab;
-  final int profileId;
+  final Profile profile;
+  final String patientName;
 
-  const ManageAppointment(
+  const SharedAppointments(
       {super.key,
       required this.user,
       required this.autoImplyLeading,
       required this.initialTab,
-      required this.profileId});
+      required this.profile,
+      required this.patientName});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ManageAppointmentState createState() => _ManageAppointmentState();
+  _SharedAppointmentsState createState() => _SharedAppointmentsState();
 }
 
-class _ManageAppointmentState extends State<ManageAppointment> {
-  List<Appointment> _appointmentUpcomingList = [];
-  List<Appointment> _appointmentTodayList = [];
-  List<Appointment> _appointmentPastList = [];
+class _SharedAppointmentsState extends State<SharedAppointments> {
+  List<Appointment> _appointmentList = [];
   String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchAppointmentUpcomingList();
-    _fetchAppointmentTodayList();
-    _fetchAppointmentPastList();
+    _fetchAppointmentList();
   }
 
   // ----------------------------------------------------------------------
-  // Get list of upcoming appointments
+  // Get list of all shared appointments
 
-  Future<void> _fetchAppointmentUpcomingList() async {
-    if (widget.profileId > 0) {
-      List<Appointment> appointmentUpcomingList = await DatabaseService()
-          .sharedAppointmentUpcomingPractitioner(
-              widget.user.user_id!, widget.profileId);
+  Future<void> _fetchAppointmentList() async {
+    List<Appointment> appointmentList = await DatabaseService()
+        .sharedAppointmentAllPractitioner(
+            widget.user.user_id!, widget.profile.profile_id!);
 
-      // Sort the list by appointment date in ascending order
-      appointmentUpcomingList
-          .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
+    // Sort the list by appointment date in ascending order
+    appointmentList
+        .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
 
-      setState(() {
-        _appointmentUpcomingList = appointmentUpcomingList;
-      });
-    } else {
-      List<Appointment> appointmentUpcomingList = await DatabaseService()
-          .appointmentUpcomingPractitioner(widget.user.user_id!);
-
-      // Sort the list by appointment date in ascending order
-      appointmentUpcomingList
-          .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
-
-      setState(() {
-        _appointmentUpcomingList = appointmentUpcomingList;
-      });
-    }
+    setState(() {
+      _appointmentList = appointmentList;
+    });
   }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Get list of today appointments
-
-  Future<void> _fetchAppointmentTodayList() async {
-    if (widget.profileId > 0) {
-      List<Appointment> appointmentTodayList = await DatabaseService()
-          .sharedAppointmentTodayPractitioner(
-              widget.user.user_id!, widget.profileId);
-
-      // Sort the list by appointment date in ascending order
-      appointmentTodayList
-          .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
-
-      setState(() {
-        _appointmentTodayList = appointmentTodayList;
-      });
-    } else {
-      List<Appointment> appointmentTodayList = await DatabaseService()
-          .appointmentTodayPractitioner(widget.user.user_id!);
-
-      // Sort the list by appointment date in ascending order
-      appointmentTodayList
-          .sort((a, b) => a.appointment_date.compareTo(b.appointment_date));
-
-      setState(() {
-        _appointmentTodayList = appointmentTodayList;
-      });
-    }
-  }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Get list of past appointments
-
-  Future<void> _fetchAppointmentPastList() async {
-    if (widget.profileId > 0) {
-      List<Appointment> appointmentPastList = await DatabaseService()
-          .sharedPastAppointmentsPractitioner(
-              widget.user.user_id!, widget.profileId);
-
-      // Sort the list by appointment date in descending order
-      appointmentPastList
-          .sort((a, b) => b.appointment_date.compareTo(a.appointment_date));
-
-      setState(() {
-        _appointmentPastList = appointmentPastList;
-      });
-    } else {
-      List<Appointment> appointmentPastList = await DatabaseService()
-          .pastAppointmentsPractitioner(widget.user.user_id!);
-
-      // Sort the list by appointment date in descending order
-      appointmentPastList
-          .sort((a, b) => b.appointment_date.compareTo(a.appointment_date));
-
-      setState(() {
-        _appointmentPastList = appointmentPastList;
-      });
-    }
-  }
-
   // ----------------------------------------------------------------------
 
   // ----------------------------------------------------------------------
@@ -181,93 +103,6 @@ class _ManageAppointmentState extends State<ManageAppointment> {
   }
 
   // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Update Appointment
-
-  void _updateAppointment(Appointment appointment) {
-    int branch;
-
-    switch (appointment.branch) {
-      case 'Karang Darat':
-        branch = 0;
-        break;
-      case 'Inderapura':
-        branch = 1;
-        break;
-      case 'Kemaman':
-        branch = 2;
-        break;
-      default:
-        branch = 0;
-    }
-
-    // Navigate to the update appointment page with the selected appointment
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => UpdateAppointment(
-          appointment: appointment,
-          rescheduler: widget.user.role,
-          appointmentBranch: branch,
-        ),
-      ),
-    ).then((result) {
-      if (result == true) {
-        // If the appointment was updated, refresh the appointment history
-        _fetchAppointmentUpcomingList();
-        _fetchAppointmentPastList();
-      }
-    });
-  }
-
-  // ----------------------------------------------------------------------
-
-  // ----------------------------------------------------------------------
-  // Confirm Appointment
-
-  void _confirmAppointment(Appointment appointment) {
-    String status = appointment.status;
-    String remarks = appointment.system_remarks;
-    String practitionerName = widget.user.name;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Confirm Appointment'),
-          content:
-              const Text('Are you sure you want to confirm this appointment?'),
-          actions: <Widget>[
-            ElevatedButton(
-              child:
-                  const Text('Confirm', style: TextStyle(color: Colors.white)),
-              onPressed: () async {
-                status = 'Confirmed';
-                remarks =
-                    'The appointment has been confirmed by $practitionerName.';
-                // Call the deleteAppointment method and pass the appointmentId
-                await DatabaseService().updateAppointmentStatus(
-                    appointment.appointment_id!, status, remarks);
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pop();
-                // Refresh the appointment history
-                _fetchAppointmentUpcomingList();
-                _fetchAppointmentPastList();
-              },
-            ),
-            ElevatedButton(
-              child:
-                  const Text('Cancel', style: TextStyle(color: Colors.white)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   // ----------------------------------------------------------------------
   // Cancel Appointment
@@ -393,7 +228,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('My Appointments'),
+          title: const Text('Shared Appointments'),
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
@@ -448,12 +283,21 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                   const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.event),
-                    iconSize: 27,
+                    iconSize: 22,
                     onPressed: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ManageAppointment(
+                              user: widget.user,
+                              autoImplyLeading: false,
+                              initialTab: 1,
+                              profileId: 0),
+                        ),
+                      );
                     },
                     color: const Color(
-                      0xFF5464BB,
+                      0xFFEDF2FF,
                     ), // Set the color of the icon
                   ),
                   const Spacer(),
@@ -476,21 +320,22 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                   ),
                   const Spacer(),
                   IconButton(
-                    icon: const Icon(Icons.groups_3),
+                    icon: const Icon(Icons.group),
                     iconSize: 25,
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PatientsList(
+                          builder: (context) => ViewPatient(
                             user: widget.user,
-                            autoImplyLeading: false,
+                            autoImplyLeading: true,
+                            profile: widget.profile,
                           ),
                         ),
                       );
                     },
                     color: const Color(
-                      0xFFEDF2FF,
+                      0xFFFFD271,
                     ), // Set the color of the icon
                   ),
                   const Spacer(),
@@ -509,9 +354,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
         body: Stack(
           children: [
             TabBarAppointment(
-              appointmentUpcomingList: _appointmentUpcomingList,
-              appointmentTodayList: _appointmentTodayList,
-              appointmentPastList: _appointmentPastList,
+              appointmentList: _appointmentList,
               onViewAppointment: _viewAppointment,
               initialTab: widget.initialTab,
               onSearchQueryChanged: (value) {
@@ -520,6 +363,7 @@ class _ManageAppointmentState extends State<ManageAppointment> {
                 });
               },
               searchQuery: _searchQuery,
+              patientName: widget.patientName,
             ),
             Positioned(
               bottom: 24.0,
@@ -569,23 +413,21 @@ class _ManageAppointmentState extends State<ManageAppointment> {
 }
 
 class TabBarAppointment extends StatefulWidget {
-  final List<Appointment> appointmentUpcomingList;
-  final List<Appointment> appointmentTodayList;
-  final List<Appointment> appointmentPastList;
+  final List<Appointment> appointmentList;
   final Function(Appointment) onViewAppointment;
   final int initialTab;
   final Function(String) onSearchQueryChanged;
   final String searchQuery;
+  final String patientName;
 
   const TabBarAppointment(
       {Key? key,
-      required this.appointmentUpcomingList,
-      required this.appointmentTodayList,
-      required this.appointmentPastList,
       required this.onViewAppointment,
       required this.initialTab,
       required this.onSearchQueryChanged,
-      required this.searchQuery})
+      required this.searchQuery,
+      required this.appointmentList,
+      required this.patientName})
       : super(key: key);
   @override
   // ignore: library_private_types_in_public_api
@@ -597,7 +439,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: widget.initialTab,
-      length: 3,
+      length: 1,
       child: Scaffold(
         body: Column(
           children: [
@@ -605,31 +447,25 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
               decoration: const BoxDecoration(
                 color: Color(0xFF0A0F2C),
               ),
-              child: const TabBar(
-                labelStyle: TextStyle(
+              child: TabBar(
+                labelStyle: const TextStyle(
                   // Set your desired text style for the selected (active) tab here
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                   fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
-                unselectedLabelStyle: TextStyle(
+                unselectedLabelStyle: const TextStyle(
                   // Set your desired text style for the unselected tabs here
                   fontSize: 16,
                   fontFamily: 'ProductSans',
                   // You can set other text style properties as needed
                 ),
-                indicatorColor: Color(0xFFB6CBFF),
+                indicatorColor: const Color(0xFFB6CBFF),
                 indicatorWeight: 6,
                 tabs: <Widget>[
                   Tab(
-                    text: 'Upcoming',
-                  ),
-                  Tab(
-                    text: 'Today',
-                  ),
-                  Tab(
-                    text: 'Past',
+                    text: 'Appointments with ${widget.patientName}',
                   ),
                 ],
               ),
@@ -671,9 +507,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  _buildAppointmentList(widget.appointmentUpcomingList, 1),
-                  _buildAppointmentList(widget.appointmentTodayList, 2),
-                  _buildAppointmentList(widget.appointmentPastList, 3),
+                  _buildAppointmentList(widget.appointmentList, 1),
                 ],
               ),
             ),
@@ -685,21 +519,6 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
 
   Widget _buildAppointmentList(List<Appointment> appointmentList, int tab) {
     if (appointmentList.isEmpty) {
-      String noAppointment = 'appointments.';
-      switch (tab) {
-        case 1:
-          noAppointment = 'upcoming appointments.';
-          break;
-        case 2:
-          noAppointment = 'appointments today.';
-          break;
-        case 3:
-          noAppointment = 'past appointments.';
-          break;
-        default:
-          noAppointment = 'appointments.';
-          break;
-      }
       return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
@@ -707,7 +526,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
               const Spacer(),
               Center(
                 child: Text(
-                  'You have no $noAppointment',
+                  'You have no appointments with ${widget.patientName}.',
                   style:
                       const TextStyle(fontSize: 18.0, color: Color(0xFFB6CBFF)),
                   textAlign: TextAlign.center,
