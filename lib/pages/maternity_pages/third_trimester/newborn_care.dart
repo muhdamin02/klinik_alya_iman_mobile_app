@@ -9,6 +9,11 @@ import '../../profile_management/profile_page.dart';
 import '../../startup/patient_homepage.dart';
 import '../first_trimester.dart';
 import '../third_trimester.dart';
+import 'newborn_care/basic_care_information/bathing.dart';
+import 'newborn_care/basic_care_information/clothing.dart';
+import 'newborn_care/basic_care_information/diapering.dart';
+import 'newborn_care/basic_care_information/feeding.dart';
+import 'newborn_care/basic_care_information/sleeping.dart';
 
 class NewbornCare extends StatefulWidget {
   final User user;
@@ -268,7 +273,7 @@ class BasicCareInformation extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and how to deal with food aversions.',
+              'This section provides essential guidance on caring for your newborn, covering key areas such as feeding, diapering, bathing, sleeping, and dressing. Learn breastfeeding techniques, formula feeding guidelines, safe diaper changing practices, and how to create a safe sleep environment.',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -278,12 +283,12 @@ class BasicCareInformation extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const EssentialNutrients(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Feeding(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -310,7 +315,7 @@ class BasicCareInformation extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Essential Nutrients',
+                      'Feeding',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -337,12 +342,12 @@ class BasicCareInformation extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const HealthyDiet(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Diapering(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -369,7 +374,184 @@ class BasicCareInformation extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Healthy Diet',
+                      'Diapering',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Bathing(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Bathing',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Sleeping(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Sleeping',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Clothing(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Clothing',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -450,7 +632,7 @@ class HealthAndSafety extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      'Basic Care Information',
+                      'Health and Safety',
                       style: TextStyle(
                           color: Color(0xFFEDF2FF),
                           letterSpacing: 2,
@@ -468,7 +650,7 @@ class HealthAndSafety extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and how to deal with food aversions.',
+              'Ensure your newborn\'s health and safety with information on vaccinations, recognizing common illnesses, and creating a safe home environment. Understand the importance of regular doctor visits and how to reduce the risk of SIDS.',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -650,7 +832,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      'Basic Care Information',
+                      'Developmental Milestones',
                       style: TextStyle(
                           color: Color(0xFFEDF2FF),
                           letterSpacing: 2,
@@ -668,7 +850,7 @@ class DevelopmentalMilestones extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and how to deal with food aversions.',
+              'Track your baby\'s growth and development with insights into physical, cognitive, social, emotional, and language milestones. Utilize tools and resources to monitor and support your baby\'s progress.',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -850,7 +1032,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      'Basic Care Information',
+                      'Practical Tips and Advice',
                       style: TextStyle(
                           color: Color(0xFFEDF2FF),
                           letterSpacing: 2,
@@ -868,7 +1050,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and how to deal with food aversions.',
+              'Get practical advice for everyday parenting challenges, including traveling with your newborn, calming a fussy baby, balancing work and parenting, and maintaining self-care.',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -1050,7 +1232,7 @@ class EmergencyPreparedness extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      'Basic Care Information',
+                      'Emergency Preparedness',
                       style: TextStyle(
                           color: Color(0xFFEDF2FF),
                           letterSpacing: 2,
@@ -1068,7 +1250,7 @@ class EmergencyPreparedness extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Pregnancy requires you to take extra care of your nutrition to support your baby\'s development and your well-being. Learn about essential nutrients, healthy eating plans, and how to deal with food aversions.',
+              'Be prepared for emergencies with essential information on emergency contacts, first aid, emergency supplies, and disaster preparedness. Learn what to pack for hospital visits and how to handle urgent situations.',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -1256,7 +1438,7 @@ class MiscellaneousResources extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    'Symptoms and Changes',
+                    'Miscellaneous Resources',
                     style: TextStyle(
                         color: Color(0xFFEDF2FF),
                         letterSpacing: 2,
@@ -1274,7 +1456,7 @@ class MiscellaneousResources extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           const Text(
-            'Pregnancy comes with various symptoms, some more challenging than others. Learn what to expect, how to cope with common discomforts, and when to seek medical advice.',
+            'Access a variety of additional resources to support your parenting journey, including educational videos, recommended books and articles, helpful apps, and information on local and online support communities.',
             style: TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
           ),
           const SizedBox(height: 42),
