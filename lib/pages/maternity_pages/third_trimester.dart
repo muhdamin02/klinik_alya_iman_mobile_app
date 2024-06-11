@@ -8,7 +8,7 @@ import '../profile_management/profile_page.dart';
 import '../startup/patient_homepage.dart';
 import 'maternity_overview.dart';
 import 'third_trimester/contractions_list.dart';
-import 'third_trimester/newborn_care_dashboard.dart';
+import 'third_trimester/newborn_care.dart';
 
 class ThirdTrimester extends StatefulWidget {
   final User user;
@@ -234,7 +234,7 @@ class _ThirdTrimesterState extends State<ThirdTrimester> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NewbornCareDashboard(
+                          builder: (context) => NewbornCare(
                             user: widget.user,
                             profile: widget.profile,
                             autoImplyLeading: true,

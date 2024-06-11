@@ -1,4 +1,3 @@
-import 'package:klinik_alya_iman_mobile_app/models/newborn_care.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -242,16 +241,6 @@ class DatabaseService {
     profile_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
     FOREIGN KEY (profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL
-  );
-''');
-
-    await db.execute('''
-  CREATE TABLE newborncare (
-    care_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    care_category INT NOT NULL,
-    care_title TEXT NOT NULL,
-    care_content TEXT NOT NULL,
-    last_edited TEXT NOT NULL
   );
 ''');
 
@@ -576,24 +565,6 @@ class DatabaseService {
       bodyChanges.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-  }
-
-  //////////////////////////////////////////////////////////////////////////
-//// ---------------------------------------------------------------- ////
-//// NEWBORN CARE ////////////////////////////////////////////
-//// ---------------------------------------------------------------- ////
-//////////////////////////////////////////////////////////////////////////
-
-  // Retrieve based on User and Profile
-  Future<List<NewbornCare>> retrieveNewbornCareContent(int category) async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'newborncare',
-      where: 'care_category = ?',
-      whereArgs: [category],
-    );
-    return List.generate(
-        maps.length, (index) => NewbornCare.fromMap(maps[index]));
   }
 
   //////////////////////////////////////////////////////////////////////////

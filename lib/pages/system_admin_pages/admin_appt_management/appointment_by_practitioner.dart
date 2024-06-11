@@ -159,8 +159,7 @@ class _AppointmentByPractitionerState extends State<AppointmentByPractitioner> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-              getFirstTwoWords(widget.viewedUser.name)),
+          title: Text(getFirstTwoWords(widget.viewedUser.name)),
           iconTheme: const IconThemeData(
             color: Color(0xFFEDF2FF),
           ),
@@ -296,8 +295,6 @@ class TabBarAppointment extends StatefulWidget {
 }
 
 class _TabBarAppointmentState extends State<TabBarAppointment> {
-  String _selectedFilter = 'All'; // default
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -344,11 +341,11 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 16.0, left: 19.0, right: 0.0, bottom: 0.0),
+                        top: 16.0, left: 19.0, right: 19.0, bottom: 0.0),
                     child: TextField(
                       onChanged: widget.onSearchQueryChanged,
                       decoration: const InputDecoration(
-                        hintText: 'Ref Number',
+                        hintText: 'Reference Number',
                         hintStyle: TextStyle(
                           color:
                               Color(0xFFB6CBFF), // Set the hint text color here
@@ -368,44 +365,6 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                           child: Icon(Icons.search, color: Color(0xFFB6CBFF)),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 25, top: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Icon(Icons.filter_list_rounded,
-                            color: Color(0xFFB6CBFF)),
-                        // const Text(
-                        //   'Filter by ',
-                        //   style: TextStyle(
-                        //     color: Color(0xFFB6CBFF),
-                        //     fontSize: 16, // Set your desired font size
-                        //   ),
-                        // ),
-                        const SizedBox(width: 10),
-                        DropdownButton<String>(
-                          value: _selectedFilter,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedFilter = value!;
-                            });
-                          },
-                          dropdownColor: const Color(0xFF303E8F),
-                          items: ['All', 'Assigned', 'Unassigned']
-                              .map<DropdownMenuItem<String>>(
-                            (String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            },
-                          ).toList(),
-                        ),
-                      ],
                     ),
                   ),
                 ),
@@ -465,22 +424,10 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
           ));
     }
 
-    if (_selectedFilter == 'Assigned') {
-      filteredList = appointmentList
-          .where((appointment) => appointment.practitioner_id != 0)
-          .toList();
-    } else if (_selectedFilter == 'Unassigned') {
-      filteredList = appointmentList
-          .where((appointment) => appointment.practitioner_id == 0)
-          .toList();
-    } else {
-      filteredList = appointmentList;
-    }
-
     return ListView.builder(
-      itemCount: filteredList.length,
+      itemCount: appointmentList.length,
       itemBuilder: (context, index) {
-        Appointment appointment = filteredList[index];
+        Appointment appointment = appointmentList[index];
         if (widget.searchQuery.isEmpty ||
             appointment.random_id.toLowerCase().contains(widget.searchQuery) ||
             appointment.random_id.toLowerCase().contains(widget.searchQuery)) {
@@ -542,7 +489,7 @@ class _TabBarAppointmentState extends State<TabBarAppointment> {
                   ),
                 ),
               ),
-              if (index == filteredList.length - 1)
+              if (index == appointmentList.length - 1)
                 const SizedBox(
                     height: 77.0), // Add SizedBox after the last item
             ],

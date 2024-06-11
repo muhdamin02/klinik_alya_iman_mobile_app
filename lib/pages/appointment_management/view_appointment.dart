@@ -726,7 +726,7 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                       ), // Set the color of the icon
                     ),
                     const Spacer(),
-                    if (widget.appointmentByPractitioner)
+                    if (!widget.appointmentByPractitioner)
                       IconButton(
                         icon: const Icon(Icons.group),
                         iconSize: 25,
@@ -743,10 +743,10 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           );
                         },
                         color: const Color(
-                          0xFFFFD271,
+                          0xFFEDF2FF,
                         ), // Set the color of the icon
                       ),
-                    if (!widget.appointmentByPractitioner)
+                    if (widget.appointmentByPractitioner)
                       IconButton(
                         icon: const Icon(Icons.list),
                         iconSize: 25,
@@ -763,8 +763,8 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                           );
                         },
                         color: const Color(
-                          0xFFEDF2FF,
-                        ), // Set the color of the icon
+                          0xFFFFD271,
+                        ),
                       ),
                     const Spacer(),
                   ] else if (widget.actualUser.role == 'practitioner') ...[
@@ -1291,16 +1291,18 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                         onPressed: () {
                           if (widget.actualUser.role.toLowerCase() ==
                               'systemadmin') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AssignPractitioner(
-                                  appointment: appointment,
-                                  user: widget.actualUser,
-                                  practitionerId: appointment.practitioner_id,
+                            if (!widget.appointmentByPractitioner) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AssignPractitioner(
+                                    appointment: appointment,
+                                    user: widget.actualUser,
+                                    practitionerId: appointment.practitioner_id,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                             // showDialog(
                             //   context: context,
                             //   builder: (BuildContext context) {
@@ -1396,13 +1398,15 @@ class _ViewAppointmentState extends State<ViewAppointment> {
                                   Visibility(
                                     visible:
                                         widget.actualUser.role.toLowerCase() ==
-                                            'systemadmin',
+                                                'systemadmin' &&
+                                            !widget.appointmentByPractitioner,
                                     child: const SizedBox(width: 8.0),
                                   ),
                                   Visibility(
                                     visible:
                                         widget.actualUser.role.toLowerCase() ==
-                                            'systemadmin',
+                                                'systemadmin' &&
+                                            !widget.appointmentByPractitioner,
                                     child: const Icon(
                                       Icons.edit,
                                       color: Color(0xFFFFD271),
