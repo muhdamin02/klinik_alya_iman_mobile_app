@@ -14,6 +14,21 @@ import 'newborn_care/basic_care_information/clothing.dart';
 import 'newborn_care/basic_care_information/diapering.dart';
 import 'newborn_care/basic_care_information/feeding.dart';
 import 'newborn_care/basic_care_information/sleeping.dart';
+import 'newborn_care/developmental_milestones/cognitive_dev.dart';
+import 'newborn_care/developmental_milestones/language_dev.dart';
+import 'newborn_care/developmental_milestones/physical_dev.dart';
+import 'newborn_care/developmental_milestones/socioemo_dev.dart';
+import 'newborn_care/developmental_milestones/track_milestones.dart';
+import 'newborn_care/health_and_safety/babyproofing.dart';
+import 'newborn_care/health_and_safety/common_illness.dart';
+import 'newborn_care/health_and_safety/doctor_visits.dart';
+import 'newborn_care/health_and_safety/sids.dart';
+import 'newborn_care/health_and_safety/vaccinations.dart';
+import 'newborn_care/practical_tips/parenting_support.dart';
+import 'newborn_care/practical_tips/self_care.dart';
+import 'newborn_care/practical_tips/soothing.dart';
+import 'newborn_care/practical_tips/traveling.dart';
+import 'newborn_care/practical_tips/work_life_balance.dart';
 
 class NewbornCare extends StatefulWidget {
   final User user;
@@ -572,6 +587,7 @@ class BasicCareInformation extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
           ],
         ),
       ),
@@ -650,7 +666,7 @@ class HealthAndSafety extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Ensure your newborn\'s health and safety with information on vaccinations, recognizing common illnesses, and creating a safe home environment. Understand the importance of regular doctor visits and how to reduce the risk of SIDS.',
+              'Ensure your newborn\'s health and safety with information on vaccinations, recognizing common illnesses, and creating a safe home environment. Understand the importance of regular doctor visits and how to reduce the risk of Sudden Infant Death Syndrome (SIDS).',
               style:
                   TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
             ),
@@ -660,12 +676,12 @@ class HealthAndSafety extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const EssentialNutrients(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Vaccination(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -692,7 +708,7 @@ class HealthAndSafety extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Essential Nutrients',
+                      'Vaccination',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -719,12 +735,12 @@ class HealthAndSafety extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const HealthyDiet(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CommonIllness(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -751,7 +767,7 @@ class HealthAndSafety extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Healthy Diet',
+                      'Common Illness',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -772,6 +788,184 @@ class HealthAndSafety extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SIDS(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'SIDS Prevention',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Babyproofing(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Babyproofing',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DoctorVisits(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Doctor Visits',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
           ],
         ),
       ),
@@ -860,12 +1054,12 @@ class DevelopmentalMilestones extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const EssentialNutrients(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PhysicalDev(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -892,7 +1086,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Essential Nutrients',
+                      'Physical Development',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -919,12 +1113,12 @@ class DevelopmentalMilestones extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const HealthyDiet(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CognitiveDev(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -951,7 +1145,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Healthy Diet',
+                      'Cognitive Development',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -972,6 +1166,185 @@ class DevelopmentalMilestones extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SocioEmoDev(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Social and Emotional\nDevelopment',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LanguageDev(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Language Development',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TrackMilestones(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Tracking Milestones',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
           ],
         ),
       ),
@@ -1060,12 +1433,12 @@ class PracticalTipsAndAdvice extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const EssentialNutrients(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Traveling(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -1092,7 +1465,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Essential Nutrients',
+                      'Traveling with Newborn',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1119,12 +1492,12 @@ class PracticalTipsAndAdvice extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const HealthyDiet(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Soothing(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -1151,7 +1524,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Healthy Diet',
+                      'Soothing Techniques',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1172,6 +1545,184 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ParentingSupport(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Parenting Support',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WorkLifeBalance(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Work-Life Balance',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SelfCare(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Self-Care',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_dining,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
           ],
         ),
       ),
@@ -1372,6 +1923,7 @@ class EmergencyPreparedness extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
           ],
         ),
       ),
@@ -1571,6 +2123,7 @@ class MiscellaneousResources extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 12),
         ],
       ),
     );
