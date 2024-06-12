@@ -127,7 +127,7 @@ class Content extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/technique.jpg'),
+                      image: AssetImage('assets/doctor_visit/checkup.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -249,7 +249,7 @@ class Content2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/formula.jpg'),
+                      image: AssetImage('assets/doctor_visit/when_call.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -280,7 +280,7 @@ class Content2 extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              'If the baby has a fever higher than 100.4°F (38°C).',
+              'If the baby has a fever higher than 38°C.',
               style: TextStyle(
                 fontSize: 16,
                 height: 1.6,

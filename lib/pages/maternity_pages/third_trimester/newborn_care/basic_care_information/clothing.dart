@@ -127,7 +127,7 @@ class ClothingContent extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/change.jpg'),
+                      image: AssetImage('assets/clothing/temperature.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -227,7 +227,7 @@ class ClothingContent2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/type.jpg'),
+                      image: AssetImage('assets/clothing/weather.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -127,7 +127,7 @@ class BathingContent extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/change.jpg'),
+                      image: AssetImage('assets/bathing/how_to_bathe.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -227,7 +227,7 @@ class BathingContent2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/type.jpg'),
+                      image: AssetImage('assets/bathing/frequency.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -305,7 +305,7 @@ class BathingContent3 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/rash.jpg'),
+                      image: AssetImage('assets/bathing/products.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),

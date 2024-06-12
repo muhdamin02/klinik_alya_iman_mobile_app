@@ -129,7 +129,7 @@ class Content extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/technique.jpg'),
+                      image: AssetImage('assets/tracking_milestones/milestone.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -229,7 +229,7 @@ class Content2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/formula.jpg'),
+                      image: AssetImage('assets/tracking_milestones/app.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -351,7 +351,7 @@ class Content3 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/schedule.jpg'),
+                      image: AssetImage('assets/tracking_milestones/visit.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -451,7 +451,7 @@ class Content4 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/schedule.jpg'),
+                      image: AssetImage('assets/tracking_milestones/screening.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),

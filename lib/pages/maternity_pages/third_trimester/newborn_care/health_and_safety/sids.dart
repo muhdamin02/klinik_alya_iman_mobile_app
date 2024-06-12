@@ -125,7 +125,7 @@ class Content extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/technique.jpg'),
+                      image: AssetImage('assets/sids/sids.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),

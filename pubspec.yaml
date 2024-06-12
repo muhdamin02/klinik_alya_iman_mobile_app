@@ -77,10 +77,48 @@ flutter:
       - assets/educational_resources/
       - assets/screenings_tests/
       - assets/mental_health_resources/
+      - assets/newborn_care/
+      
+      # basic care information
       - assets/feeding/
       - assets/diapering/
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+      - assets/bathing/
+      - assets/sleeping/
+      - assets/clothing/
+
+      # health and safety
+      - assets/vaccination/
+      - assets/common_illness/
+      - assets/sids/
+      - assets/babyproof/
+      - assets/doctor_visit/
+
+      # developmental milestones
+      - assets/physical/
+      - assets/cognitive/
+      - assets/socioemotion/
+      - assets/language/
+      - assets/tracking_milestones/
+
+      # developmental milestones
+      - assets/physical/
+      - assets/cognitive/
+      - assets/socioemotion/
+      - assets/language/
+      - assets/tracking_milestones/
+
+      # developmental milestones
+      - assets/travel/
+      - assets/soothing/
+      - assets/parenting/
+      - assets/work_life/
+      - assets/self_care/
+      
+      # emergency preparedness
+      - assets/contacts/
+      - assets/first_aid/
+      - assets/supplies/
+      - assets/visit/
 
   fonts:
     - family: Afacad

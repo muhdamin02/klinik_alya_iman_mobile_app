@@ -128,7 +128,7 @@ class Content extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/technique.jpg'),
+                      image: AssetImage('assets/language/coo.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -250,7 +250,7 @@ class Content2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/formula.jpg'),
+                      image: AssetImage('assets/language/babble.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -372,7 +372,7 @@ class Content3 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/feeding/schedule.jpg'),
+                      image: AssetImage('assets/language/respond.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),

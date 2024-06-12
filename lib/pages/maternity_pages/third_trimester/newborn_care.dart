@@ -7,7 +7,6 @@ import '../../appointment_management/list_appointment.dart';
 import '../../medication_management/list_medication.dart';
 import '../../profile_management/profile_page.dart';
 import '../../startup/patient_homepage.dart';
-import '../first_trimester.dart';
 import '../third_trimester.dart';
 import 'newborn_care/basic_care_information/bathing.dart';
 import 'newborn_care/basic_care_information/clothing.dart';
@@ -19,6 +18,10 @@ import 'newborn_care/developmental_milestones/language_dev.dart';
 import 'newborn_care/developmental_milestones/physical_dev.dart';
 import 'newborn_care/developmental_milestones/socioemo_dev.dart';
 import 'newborn_care/developmental_milestones/track_milestones.dart';
+import 'newborn_care/emergency_preparedness/emergency_contacts.dart';
+import 'newborn_care/emergency_preparedness/emergency_supplies.dart';
+import 'newborn_care/emergency_preparedness/first_aid.dart';
+import 'newborn_care/emergency_preparedness/hospital_visits.dart';
 import 'newborn_care/health_and_safety/babyproofing.dart';
 import 'newborn_care/health_and_safety/common_illness.dart';
 import 'newborn_care/health_and_safety/doctor_visits.dart';
@@ -54,7 +57,7 @@ class _NewbornCareState extends State<NewbornCare>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -206,7 +209,6 @@ class _NewbornCareState extends State<NewbornCare>
                   DevelopmentalMilestones(),
                   PracticalTipsAndAdvice(),
                   EmergencyPreparedness(),
-                  MiscellaneousResources(),
                 ],
               ),
             ),
@@ -231,7 +233,7 @@ class BasicCareInformation extends StatelessWidget {
             const SizedBox(height: 8.0),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 gradient: const LinearGradient(
@@ -249,7 +251,7 @@ class BasicCareInformation extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
                       image: AssetImage(
-                          'assets/educational_resources/vitaminnutrition.jpg'), // Replace with your image path
+                          'assets/newborn_care/basic_care.jpg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -323,7 +325,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.restaurant,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -342,7 +344,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.restaurant,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -382,7 +384,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.baby_changing_station,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -401,7 +403,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.baby_changing_station,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -425,7 +427,7 @@ class BasicCareInformation extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFB9CEFF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -441,7 +443,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.bathtub,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -460,7 +462,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.bathtub,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -500,7 +502,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.bedtime,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -519,7 +521,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.bedtime,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -543,7 +545,7 @@ class BasicCareInformation extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFDBE5FF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -559,7 +561,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.checkroom,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -578,7 +580,7 @@ class BasicCareInformation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.checkroom,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -609,7 +611,7 @@ class HealthAndSafety extends StatelessWidget {
             const SizedBox(height: 8.0),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 gradient: const LinearGradient(
@@ -627,7 +629,7 @@ class HealthAndSafety extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
                       image: AssetImage(
-                          'assets/educational_resources/vitaminnutrition.jpg'), // Replace with your image path
+                          'assets/newborn_care/health_safety.jpg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -701,7 +703,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.vaccines,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -720,7 +722,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.vaccines,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -760,7 +762,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.sick,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -779,7 +781,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.sick,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -803,7 +805,7 @@ class HealthAndSafety extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFB9CEFF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -819,7 +821,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.shield_outlined,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -838,7 +840,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.shield_outlined,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -878,7 +880,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.security,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -897,7 +899,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.security,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -921,7 +923,7 @@ class HealthAndSafety extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFDBE5FF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -937,7 +939,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.local_hospital,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -956,7 +958,7 @@ class HealthAndSafety extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.local_hospital,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -987,7 +989,7 @@ class DevelopmentalMilestones extends StatelessWidget {
             const SizedBox(height: 8.0),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 gradient: const LinearGradient(
@@ -1005,7 +1007,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
                       image: AssetImage(
-                          'assets/educational_resources/vitaminnutrition.jpg'), // Replace with your image path
+                          'assets/newborn_care/development.jpg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -1079,7 +1081,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.directions_run,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1098,7 +1100,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.directions_run,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1138,7 +1140,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.lightbulb_outline,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1157,7 +1159,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.lightbulb_outline,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1181,7 +1183,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFB9CEFF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -1197,7 +1199,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.sentiment_satisfied,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1217,7 +1219,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.sentiment_satisfied,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1257,7 +1259,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.record_voice_over,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1276,7 +1278,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.record_voice_over,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1300,7 +1302,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFDBE5FF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -1316,7 +1318,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.timeline,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1335,7 +1337,7 @@ class DevelopmentalMilestones extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.timeline,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1366,7 +1368,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
             const SizedBox(height: 8.0),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 gradient: const LinearGradient(
@@ -1384,7 +1386,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
                       image: AssetImage(
-                          'assets/educational_resources/vitaminnutrition.jpg'), // Replace with your image path
+                          'assets/newborn_care/tips.jpg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -1458,7 +1460,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.directions_car,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1477,7 +1479,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.directions_car,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1517,7 +1519,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.music_note,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1536,7 +1538,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.music_note,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1560,7 +1562,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFB9CEFF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -1576,7 +1578,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.group,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1595,7 +1597,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.group,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1635,7 +1637,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.balance,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1654,7 +1656,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.balance,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1678,7 +1680,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
-                      const Color(0xFFC4D6FF), // Set the fill color
+                      const Color(0xFFDBE5FF), // Set the fill color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         25.0), // Adjust the value as needed
@@ -1694,7 +1696,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.self_improvement,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1713,7 +1715,7 @@ class PracticalTipsAndAdvice extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.self_improvement,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1744,7 +1746,7 @@ class EmergencyPreparedness extends StatelessWidget {
             const SizedBox(height: 8.0),
             Container(
               width: double.infinity,
-              height: 100,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 gradient: const LinearGradient(
@@ -1762,7 +1764,7 @@ class EmergencyPreparedness extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
                       image: AssetImage(
-                          'assets/educational_resources/vitaminnutrition.jpg'), // Replace with your image path
+                          'assets/newborn_care/prepared.jpg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -1811,12 +1813,12 @@ class EmergencyPreparedness extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const EssentialNutrients(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EmergencyContacts(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -1836,14 +1838,14 @@ class EmergencyPreparedness extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.contact_phone,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Essential Nutrients',
+                      'Emergency Contacts',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1855,7 +1857,7 @@ class EmergencyPreparedness extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.dinner_dining,
+                        Icons.contact_phone,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1870,12 +1872,12 @@ class EmergencyPreparedness extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const HealthyDiet(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FirstAid(),
+                    ),
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor:
@@ -1895,14 +1897,14 @@ class EmergencyPreparedness extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.medical_services,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
                     ),
                     Spacer(), // Adjust the spacing between icon and text
                     Text(
-                      'Healthy Diet',
+                      'First Aid',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -1914,7 +1916,125 @@ class EmergencyPreparedness extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Icon(
-                        Icons.local_dining,
+                        Icons.medical_services,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EmergencySupplies(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFB9CEFF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.health_and_safety,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Emergency Supplies',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.health_and_safety,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 70.0,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HospitalVisits(),
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFFC4D6FF), // Set the fill color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        25.0), // Adjust the value as needed
+                  ),
+                  side: const BorderSide(
+                    color: Color(0xFF6086f6), // Set the outline color
+                    width: 2.5, // Set the outline width
+                  ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_hospital,
+                        color: Color(0xFF1F3299),
+                        size: 28,
+                      ),
+                    ),
+                    Spacer(), // Adjust the spacing between icon and text
+                    Text(
+                      'Hospital Visits',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF1F3299),
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.all(12.0),
+                      child: Icon(
+                        Icons.local_hospital,
                         color: Color(0xFF1F3299),
                         size: 28,
                       ),
@@ -1926,205 +2046,6 @@ class EmergencyPreparedness extends StatelessWidget {
             const SizedBox(height: 12),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MiscellaneousResources extends StatelessWidget {
-  const MiscellaneousResources({super.key});
-
-  Future<void> _launchURL(String urlString) async {
-    final Uri uri = Uri.parse(urlString);
-    if (!await launchUrl(uri)) {
-      throw 'Could not launch $urlString';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 8.0),
-          Container(
-            width: double.infinity,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              gradient: const LinearGradient(
-                colors: [Color(0xFFB6CBFF), Color(0xFF4D5FC0)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Container(
-                margin: const EdgeInsets.all(
-                    3.0), // The width of the gradient border
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  image: const DecorationImage(
-                    image: AssetImage(
-                        'assets/educational_resources/symptomschanges.jpg'), // Replace with your image path
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 32.0),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 0),
-            child: const Row(
-              children: [
-                Expanded(
-                  child: Divider(
-                    color: Color(0xFFB6CBFF),
-                    height: 1,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    'Miscellaneous Resources',
-                    style: TextStyle(
-                        color: Color(0xFFEDF2FF),
-                        letterSpacing: 2,
-                        fontSize: 18),
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    color: Color(0xFFB6CBFF),
-                    height: 1,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Access a variety of additional resources to support your parenting journey, including educational videos, recommended books and articles, helpful apps, and information on local and online support communities.',
-            style: TextStyle(fontSize: 18, height: 2, color: Color(0xFFC5D6FF)),
-          ),
-          const SizedBox(height: 42),
-          SizedBox(
-            height: 70.0,
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const CommonSymptoms(),
-                //   ),
-                // );
-              },
-              style: OutlinedButton.styleFrom(
-                backgroundColor: const Color(0xFFDBE5FF), // Set the fill color
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(25.0), // Adjust the value as needed
-                ),
-                side: const BorderSide(
-                  color: Color(0xFF6086f6), // Set the outline color
-                  width: 2.5, // Set the outline width
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Icon(
-                      Icons.pregnant_woman,
-                      color: Color(0xFF1F3299),
-                      size: 28,
-                    ),
-                  ),
-                  Spacer(), // Adjust the spacing between icon and text
-                  Text(
-                    'Common Symptoms',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1F3299),
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Icon(
-                      Icons.pregnant_woman,
-                      color: Color(0xFF1F3299),
-                      size: 28,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 60.0,
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                _launchURL(
-                    'https://www.webmd.com/baby/first-trimester-of-pregnancy');
-              },
-              style: OutlinedButton.styleFrom(
-                backgroundColor: const Color(0xFFC4D6FF), // Set the fill color
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(25.0), // Adjust the value as needed
-                ),
-                side: const BorderSide(
-                  color: Color(0xFF6086f6), // Set the outline color
-                  width: 2.5, // Set the outline width
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Icon(
-                      Icons.open_in_new,
-                      color: Color(0xFF1F3299),
-                      size: 28,
-                    ),
-                  ),
-                  Spacer(), // Adjust the spacing between icon and text
-                  Text(
-                    'Additional Reading',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF1F3299),
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Icon(
-                      Icons.open_in_new,
-                      color: Color(0xFF1F3299),
-                      size: 28,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-        ],
       ),
     );
   }

@@ -128,7 +128,7 @@ class SleepingContent extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/change.jpg'),
+                      image: AssetImage('assets/sleeping/sleep.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -250,7 +250,7 @@ class SleepingContent2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/type.jpg'),
+                      image: AssetImage('assets/sleeping/routine.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -350,7 +350,7 @@ class SleepingContent3 extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: const DecorationImage(
-                      image: AssetImage('assets/diapering/rash.jpg'),
+                      image: AssetImage('assets/sleeping/issue.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
